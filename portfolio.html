@@ -1,0 +1,1159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RanBerry.Cuts</title>
+<link rel="icon" href="Images/Favicon.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --c1: #B7E5BA;
+    --c2: #5CA87C;
+    --c3: #288760;
+    --c4: #1A5140;
+    --dark: #0f2e22;
+    --darker: #0a1f16;
+    --white: #ffffff;
+    --text-muted: rgba(183, 229, 186, 0.6);
+    --border: rgba(183, 229, 186, 0.1);
+    --grid-color: rgba(183, 229, 186, 0.06);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  
+  body {
+    background-color: var(--darker);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    color: var(--white);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+
+  body::-webkit-scrollbar {
+    display: none;
+  }
+
+  ::selection {
+    background: var(--c2);
+    color: var(--white);
+  }
+
+  .grid-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    background-image: 
+      linear-gradient(var(--grid-color) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+    background-size: 50px 50px;
+    mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+    pointer-events: none;
+  }
+
+  /* Glow Effects */
+  .glow {
+    position: fixed;
+    width: 800px;
+    height: 800px;
+    background: radial-gradient(circle, rgba(92,168,124,0.06) 0%, transparent 60%);
+    top: -300px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: -1;
+    pointer-events: none;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 5%;
+  }
+
+  /* Nav */
+  header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 100;
+    border-bottom: 1px solid var(--border);
+    background: rgba(10, 31, 22, 0.7);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 80px;
+  }
+
+  .logo {
+    font-weight: 700;
+    font-size: 1.25rem;
+    color: var(--c1);
+    text-decoration: none;
+    letter-spacing: -0.5px;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2.5rem;
+  }
+
+  .nav-links a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: color 0.3s ease;
+  }
+
+  .nav-links a:hover {
+    color: var(--c1);
+  }
+
+  .btn-primary {
+    background: var(--c1);
+    color: var(--darker);
+    padding: 0.7rem 1.75rem;
+    border-radius: 100px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+    display: inline-block;
+  }
+
+  .btn-primary:hover {
+    background: var(--white);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(183, 229, 186, 0.15);
+  }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--c1);
+    padding: 0.7rem 1.75rem;
+    border-radius: 100px;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    border: 1px solid var(--border);
+    cursor: pointer;
+    display: inline-block;
+  }
+
+  .btn-secondary:hover {
+    border-color: var(--c1);
+    background: rgba(183, 229, 186, 0.05);
+  }
+
+  /* Hero */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding-top: 80px;
+  }
+
+  .hero-content {
+    max-width: 800px;
+    margin-top: 2rem;
+  }
+
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px;
+    border-radius: 100px;
+    border: 1px solid var(--border);
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--c1);
+    margin-bottom: 2.5rem;
+    background: rgba(183, 229, 186, 0.05);
+  }
+
+  .tag-dot {
+    width: 6px;
+    height: 6px;
+    background: var(--c2);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(92,168,124,0.4); }
+    70% { box-shadow: 0 0 0 6px rgba(92,168,124,0); }
+    100% { box-shadow: 0 0 0 0 rgba(92,168,124,0); }
+  }
+
+  .hero h1 {
+    font-size: clamp(3rem, 6vw, 5.5rem);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    color: var(--white);
+    margin-bottom: 1.5rem;
+  }
+
+  .hero h1 span {
+    color: var(--c1);
+  }
+
+  .hero p {
+    font-size: clamp(1rem, 2vw, 1.25rem);
+    color: var(--text-muted);
+    line-height: 1.6;
+    max-width: 600px;
+    margin-bottom: 3.5rem;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 1rem;
+  }
+
+  /* Hero Side Elements */
+  .hero-side-left, .hero-side-right {
+    position: absolute;
+    top: 55%;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  .hero-side-left {
+    left: 3%;
+    flex-direction: column;
+    transform: translateY(-50%);
+  }
+
+  .hero-side-right {
+    right: 3%;
+    writing-mode: vertical-rl;
+    transform: translateY(-50%);
+    font-size: 0.9rem;
+    color: var(--c1);
+    text-shadow: 0 0 8px rgba(183, 229, 186, 0.6);
+    letter-spacing: 0.35em;
+  }
+
+  .hero-side-left a {
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+
+  .hero-side-left a:hover {
+    color: var(--c1);
+  }
+
+  .hero-icon {
+    filter: drop-shadow(0 0 6px rgba(183, 229, 186, 0.5));
+    animation: float-icon 6s ease-in-out infinite;
+  }
+
+  .hero-icon:nth-child(1) { animation-delay: 0s; }
+  .hero-icon:nth-child(2) { animation-delay: 2s; }
+  .hero-icon:nth-child(3) { animation-delay: 4s; }
+
+  @keyframes float-icon {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-8px); }
+  }
+
+  .hero-line {
+    width: 1px;
+    height: 80px;
+    background: var(--c2);
+    opacity: 0.3;
+  }
+
+  /* Work Section */
+  .work {
+    padding: 8rem 0;
+  }
+
+  .section-header {
+    margin-bottom: 4rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+
+  .section-title {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--white);
+  }
+
+  .section-title span {
+    color: var(--c2);
+  }
+
+  .work-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 2.5rem;
+  }
+
+  .work-card {
+    background: rgba(183, 229, 186, 0.02);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 1.5rem;
+    transition: all 0.4s ease;
+    text-decoration: none;
+    display: block;
+  }
+
+  .work-card:hover {
+    background: rgba(183, 229, 186, 0.04);
+    border-color: rgba(183, 229, 186, 0.2);
+    transform: translateY(-5px);
+  }
+
+  .work-img {
+    width: 100%;
+    aspect-ratio: 16/9;
+    border-radius: 12px;
+    background: var(--dark);
+    margin-bottom: 1.5rem;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--border);
+  }
+
+  .work-card.portrait .work-img {
+    aspect-ratio: 4/5;
+  }
+
+  .play-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: rgba(183, 229, 186, 0.1);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(183, 229, 186, 0.2);
+    transition: all 0.3s ease;
+    color: var(--c1);
+  }
+
+  .work-card:hover .play-icon {
+    background: var(--c1);
+    color: var(--darker);
+    transform: scale(1.1);
+  }
+
+  .work-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.75rem;
+  }
+
+  .work-tag {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--c2);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .work-duration {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+  }
+
+  .work-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--white);
+    margin-bottom: 0.5rem;
+  }
+
+  .work-desc {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+
+  /* Abstract shapes for placeholders */
+  .shape-1 { background: linear-gradient(135deg, rgba(92,168,124,0.1), rgba(40,135,96,0.2)); }
+  .shape-2 { background: linear-gradient(135deg, rgba(26,81,64,0.2), rgba(183,229,186,0.1)); }
+  .shape-3 { background: radial-gradient(circle at center, rgba(183,229,186,0.15), transparent); }
+
+  /* About */
+  .about {
+    padding: 8rem 0;
+    border-top: 1px solid var(--border);
+  }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 6rem;
+    align-items: center;
+  }
+
+  .about-text h2 {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+  }
+
+  .about-text p {
+    color: var(--text-muted);
+    font-size: 1.1rem;
+    line-height: 1.8;
+    margin-bottom: 2.5rem;
+  }
+
+  .stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+  }
+
+  .stat-item h3 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--c1);
+    margin-bottom: 0.25rem;
+  }
+
+  .stat-item p {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin: 0;
+  }
+
+  .about-visual {
+    position: relative;
+    aspect-ratio: 4/5;
+    border-radius: 24px;
+    border: 1px solid var(--border);
+    background: rgba(183, 229, 186, 0.02);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 0 0 rgba(92, 168, 124, 0);
+  }
+
+  .about-visual:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 40px rgba(92, 168, 124, 0.25), 0 0 20px rgba(183, 229, 186, 0.2);
+    border-color: rgba(183, 229, 186, 0.4);
+  }
+
+  .about-visual::before {
+    content: '';
+    position: absolute;
+    width: 60%;
+    height: 60%;
+    background: var(--c3);
+    filter: blur(80px);
+    opacity: 0.2;
+    transition: all 0.4s ease;
+  }
+
+  .about-visual:hover::before {
+    opacity: 0.5;
+    transform: scale(1.3);
+    filter: blur(60px);
+  }
+
+  .skills-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .skill-tag {
+    padding: 0.5rem 1.2rem;
+    border-radius: 100px;
+    background: rgba(183, 229, 186, 0.05);
+    border: 1px solid var(--border);
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--c1);
+  }
+
+  .avatar-placeholder {
+    width: 100%;
+    height: 100%;
+    border-radius: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    background-color: rgba(183, 229, 186, 0.05);
+    transition: transform 0.5s ease;
+  }
+
+  .about-visual:hover .avatar-placeholder {
+    transform: scale(1.05);
+  }
+
+  /* Footer */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 6rem 0 3rem;
+  }
+
+  .footer-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5rem;
+  }
+
+  .footer-cta h2 {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.02em;
+  }
+
+  .footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 2.5rem;
+    border-top: 1px solid rgba(183, 229, 186, 0.05);
+    color: var(--text-muted);
+    font-size: 0.9rem;
+  }
+
+  .social-links {
+    display: flex;
+    gap: 1.5rem;
+  }
+
+  .social-links a {
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+
+  .social-links a:hover {
+    color: var(--c1);
+  }
+
+  /* Modal */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(10, 31, 22, 0.85);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+
+  .modal-overlay.active {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  .modal-content {
+    background: var(--darker);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 3rem;
+    width: 90%;
+    max-width: 500px;
+    position: relative;
+    transform: translateY(20px);
+    transition: transform 0.3s ease;
+    max-height: 90vh;
+    overflow-y: auto;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+  }
+
+  .modal-content::-webkit-scrollbar {
+    display: none; /* Chrome, Safari and Opera */
+  }
+
+  .modal-overlay.active .modal-content {
+    transform: translateY(0);
+  }
+
+  .close-modal {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    font-size: 2rem;
+    cursor: pointer;
+    line-height: 1;
+    transition: color 0.3s ease;
+  }
+
+  .close-modal:hover {
+    color: var(--white);
+  }
+
+  .modal-content h2 {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .modal-content p {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    margin-bottom: 2rem;
+  }
+
+  .form-group {
+    margin-bottom: 1.5rem;
+  }
+
+  .form-group label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--c1);
+    margin-bottom: 0.5rem;
+  }
+
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    width: 100%;
+    background: rgba(183, 229, 186, 0.03);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 0.8rem 1rem;
+    color: var(--white);
+    font-family: inherit;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+  }
+
+  .form-group select option {
+    background: var(--darker);
+    color: var(--white);
+  }
+
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus {
+    outline: none;
+    border-color: var(--c2);
+    background: rgba(183, 229, 186, 0.08);
+  }
+
+  .w-100 {
+    width: 100%;
+  }
+
+  /* Utilities */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 1s ease, transform 1s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .nav-links { display: none; }
+    .hero { padding-top: 100px; }
+    .hero-side-left, .hero-side-right { display: none; }
+    .hero-actions { flex-direction: column; }
+    .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+    .footer-top { flex-direction: column; align-items: flex-start; gap: 2rem; }
+    .footer-bottom { flex-direction: column; gap: 1.5rem; text-align: center; }
+    .social-links { justify-content: center; width: 100%; }
+    .work-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="grid-bg"></div>
+<div class="glow"></div>
+
+<header>
+  <div class="container nav-wrapper">
+    <nav>
+      <a href="#" class="logo">@ranberry.cuts</a>
+      <div class="nav-links">
+        <a href="#work">Work</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+      </div>
+      <a href="#" class="btn-primary open-modal">Let's Talk</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero" style="position: relative;">
+  <!-- Minimal Side Elements -->
+  <div class="hero-side-left fade-in">
+    <!-- Camera -->
+    <svg class="hero-icon" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--c1)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+    <!-- Cut / Scissors -->
+    <svg class="hero-icon" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--c1)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><line x1="20" y1="4" x2="8.12" y2="15.88"/><line x1="14.47" y1="14.48" x2="20" y2="20"/><line x1="8.12" y1="8.12" x2="12" y2="12"/></svg>
+    <!-- Film Strip -->
+    <svg class="hero-icon" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--c1)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"/><line x1="7" y1="2" x2="7" y2="22"/><line x1="17" y1="2" x2="17" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="2" y1="7" x2="7" y2="7"/><line x1="2" y1="17" x2="7" y2="17"/><line x1="17" y1="17" x2="22" y2="17"/><line x1="17" y1="7" x2="22" y2="7"/></svg>
+    <div class="hero-line"></div>
+  </div>
+  <div class="hero-side-right fade-in">
+    <div class="hero-line"></div>
+    SCROLL
+  </div>
+
+  <div class="container">
+    <div class="hero-content fade-in">
+      <div class="tag">
+        <div class="tag-dot"></div>
+        Available for freelance
+      </div>
+      <h1>Editing with <span>Precision.</span><br>Crafting Content that Hits.</h1>
+      <p>I specialize in short-form and long-form video editing that stops thumbs, builds audiences, and drives real results.</p>
+      <div class="hero-actions">
+        <a href="#work" class="btn-primary">Explore Work</a>
+        <a href="#about" class="btn-secondary">About Me</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="work" id="work">
+  <div class="container">
+    <div class="section-header fade-in">
+      <h2 class="section-title">Client <span>Work</span></h2>
+    </div>
+
+    <div class="work-grid">
+      <!-- Portrait Card 1 -->
+      <a href="#" class="work-card portrait fade-in">
+        <div class="work-img shape-1">
+          <video src="Client Work/SriMandir.mp4" muted loop playsinline preload="metadata" style="position:absolute; width:100%; height:100%; object-fit:cover;"></video>
+          <div class="play-icon" style="z-index: 2;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+          </div>
+        </div>
+        <div class="work-meta">
+          <span class="work-tag">Instagram Reels</span>
+          <span class="work-duration">0:32</span>
+        </div>
+        <h3 class="work-title">SriMandir</h3>
+        <p class="work-desc">Sri Mandir is a popular devotional app and digital platform, owned by AppsForBharat. It serves over 30 million users. </p>
+      </a>
+
+      <!-- Portrait Card 2 -->
+      <a href="#" class="work-card portrait fade-in">
+        <div class="work-img shape-2">
+          <video src="Client Work/Deitician.mp4" muted loop playsinline preload="metadata" style="position:absolute; width:100%; height:100%; object-fit:cover;"></video>
+          <div class="play-icon" style="z-index: 2;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+          </div>
+        </div>
+        <div class="work-meta">
+          <span class="work-tag">Instagram Reel</span>
+          <span class="work-duration">1:33</span>
+        </div>
+        <h3 class="work-title">Dietitian Reel</h3>
+        <p class="work-desc">Dietitians are qualified healthcare professionals who provide Medical Nutrition Therapy (MNT) for weight management, chronic diseases, and digestive health.</p>
+      </a>
+
+      <!-- Portrait Card 3 -->
+      <a href="#" class="work-card portrait fade-in">
+        <div class="work-img shape-3">
+          <video src="Client Work/Zomato Education Reel.mp4" muted loop playsinline preload="metadata" style="position:absolute; width:100%; height:100%; object-fit:cover;"></video>
+          <div class="play-icon" style="z-index: 2;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+          </div>
+        </div>
+        <div class="work-meta">
+          <span class="work-tag">YouTube Shorts</span>
+          <span class="work-duration">0:43</span>
+        </div>
+        <h3 class="work-title">Zomato Educational Reel</h3>
+        <p class="work-desc">Educational reels are short-form, high-engagement videos (under 60 seconds) that deliver bite-sized knowledge, tips, or tutorials, often fostering community growth.</p>
+      </a>
+
+      <!-- Portrait Card 4 -->
+      <a href="#" class="work-card portrait fade-in">
+        <div class="work-img shape-1">
+          <video src="Client Work/Kaabil Kids.mp4" muted loop playsinline preload="metadata" style="position:absolute; width:100%; height:100%; object-fit:cover;"></video>
+          <div class="play-icon" style="z-index: 2;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+          </div>
+        </div>
+        <div class="work-meta">
+          <span class="work-tag">Instagram Reels</span>
+          <span class="work-duration">1:46</span>
+        </div>
+        <h3 class="work-title">Kaabil Kids</h3>
+        <p class="work-desc">Kaabil Kids is a premier online chess coaching platform in India, founded in 2019, focused on providing structured, affordable, and accessible chess training for children.</p>
+      </a>
+    </div>
+
+    <div class="section-header fade-in" style="margin-top: 6rem;">
+      <h2 class="section-title">Personal <span>Content</span></h2>
+    </div>
+
+    <div class="work-grid">
+      <!-- Personal Portrait Card 1 -->
+      <a href="#" class="work-card portrait fade-in">
+        <div class="work-img shape-2">
+          <video src="Personal Content/Cinematic Reel.mp4" muted loop playsinline preload="metadata" style="position:absolute; width:100%; height:100%; object-fit:cover;"></video>
+          <div class="play-icon" style="z-index: 2;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+          </div>
+        </div>
+        <div class="work-meta">
+          <span class="work-tag">Instagram Reels</span>
+          <span class="work-duration">0:20</span>
+        </div>
+        <h3 class="work-title">Cinematic Reel</h3>
+        <p class="work-desc">A highly visual and impactful reel showcasing creative flow.</p>
+      </a>
+
+      <!-- Personal Portrait Card 2 -->
+      <a href="#" class="work-card portrait fade-in">
+        <div class="work-img shape-3">
+          <video src="Personal Content/Ideology.mp4" muted loop playsinline preload="metadata" style="position:absolute; width:100%; height:100%; object-fit:cover;"></video>
+          <div class="play-icon" style="z-index: 2;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+          </div>
+        </div>
+        <div class="work-meta">
+          <span class="work-tag">TikTok Edit</span>
+          <span class="work-duration">0:40</span>
+        </div>
+        <h3 class="work-title">Idealogy</h3>
+        <p class="work-desc">A narrative exploration blending sound design and pacing.</p>
+      </a>
+
+      <!-- Personal Landscape Card 1 (16:9) -->
+      <a href="#" class="work-card fade-in">
+        <div class="work-img shape-1">
+          <video src="Personal Content/Dwarka.mp4" muted loop playsinline preload="metadata" style="position:absolute; width:100%; height:100%; object-fit:cover;"></video>
+          <div class="play-icon" style="z-index: 2;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+          </div>
+        </div>
+        <div class="work-meta">
+          <span class="work-tag">YouTube Video</span>
+          <span class="work-duration">8:20</span>
+        </div>
+        <h3 class="work-title">Dwarka</h3>
+        <p class="work-desc">A cinematic documentary-style journey through Dwarka.</p>
+      </a>
+
+      <!-- Personal Landscape Card 2 (16:9) -->
+      <a href="#" class="work-card fade-in">
+        <div class="work-img shape-2">
+          <video src="Personal Content/Repeat Fast Pace.mp4" muted loop playsinline preload="metadata" style="position:absolute; width:100%; height:100%; object-fit:cover;"></video>
+          <div class="play-icon" style="z-index: 2;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+          </div>
+        </div>
+        <div class="work-meta">
+          <span class="work-tag">YouTube Video</span>
+          <span class="work-duration">12:15</span>
+        </div>
+        <h3 class="work-title">Fast Pace Edit</h3>
+        <p class="work-desc">A rhythmic, high-energy cut focusing on fast transitions.</p>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="about" id="about">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-text fade-in">
+        <h2>More than just cutting clips.</h2>
+        <p>I approach editing as a form of storytelling. Every cut, sound effect, and color tweak is deliberately chosen to enhance the narrative and keep the viewer engaged from the first frame to the last. My focus is entirely on pacing, rhythm, and creating emotion through video.</p>
+        
+        <div class="skills-container">
+          <div class="skill-tag">Short-form Reels</div>
+          <div class="skill-tag">YouTube Documentaries</div>
+          <div class="skill-tag">Color Grading</div>
+          <div class="skill-tag">Sound Design</div>
+          <div class="skill-tag">Motion Graphics</div>
+        </div>
+
+        <div class="stats">
+          <div class="stat-item">
+            <h3>50+</h3>
+            <p>Projects Delivered</p>
+          </div>
+          <div class="stat-item">
+            <h3>85%</h3>
+            <p>Positive Response</p>
+          </div>
+        </div>
+      </div>
+      <div class="about-visual fade-in">
+        <div class="avatar-placeholder" style="background-image: url('Images/profile.png'); background-size: cover; background-position: center; border: none; color: transparent;">Photo</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer id="contact">
+  <div class="container">
+    <div class="footer-top fade-in">
+      <div class="footer-cta">
+        <h2>Let's build something great.</h2>
+        <a href="#" class="btn-primary open-modal">Get in Touch</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 RanBerry.Cuts. All rights reserved.</p>
+      <div class="social-links">
+        <a href="https://www.instagram.com/ranberry.cuts?igsh=MTQ3N3l4em0yMXJmZA==">Instagram</a>
+        <a href="#">Twitter</a>
+        <a href="https://www.linkedin.com/in/ranjeetmishra1720/">LinkedIn</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Simple intersection observer for fade-in animations
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, {
+    threshold: 0.1,
+    rootMargin: "0px 0px -50px 0px"
+  });
+
+  document.querySelectorAll('.fade-in').forEach((el) => {
+    observer.observe(el);
+  });
+
+  // Modal Logic
+  document.addEventListener('DOMContentLoaded', () => {
+    const modal = document.getElementById('contactModal');
+    const openBtns = document.querySelectorAll('.open-modal');
+    const closeBtn = document.querySelector('.close-modal');
+
+  openBtns.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      modal.classList.add('active');
+    });
+  });
+
+  closeBtn.addEventListener('click', () => {
+    modal.classList.remove('active');
+  });
+
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) {
+      modal.classList.remove('active');
+    }
+  });
+
+  // Contact Form Submission
+  const contactForm = document.getElementById('contactForm');
+  const submitBtn = contactForm.querySelector('button[type="submit"]');
+
+  contactForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const originalBtnText = submitBtn.innerText;
+    submitBtn.innerText = 'Sending...';
+    submitBtn.disabled = true;
+    submitBtn.style.opacity = '0.7';
+
+    const formData = new FormData(contactForm);
+    const data = Object.fromEntries(formData.entries());
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+
+      if (response.ok) {
+        submitBtn.innerText = 'Message Sent! ✓';
+        submitBtn.style.background = 'var(--c2)';
+        submitBtn.style.color = '#fff';
+        contactForm.reset();
+        
+        setTimeout(() => {
+          submitBtn.innerText = originalBtnText;
+          submitBtn.style.background = '';
+          submitBtn.style.color = '';
+          submitBtn.disabled = false;
+          submitBtn.style.opacity = '1';
+        }, 3000);
+      } else {
+        throw new Error('Server returned an error');
+      }
+    } catch (err) {
+      console.error(err);
+      submitBtn.innerText = 'Error. Try Again.';
+      submitBtn.style.background = '#ff6b6b';
+      submitBtn.style.color = '#fff';
+      
+      setTimeout(() => {
+        submitBtn.innerText = originalBtnText;
+        submitBtn.style.background = '';
+        submitBtn.style.color = '';
+        submitBtn.disabled = false;
+        submitBtn.style.opacity = '1';
+      }, 3000);
+    }
+  });
+  });
+</script>
+
+<!-- Contact Form Modal -->
+<div class="modal-overlay" id="contactModal">
+  <div class="modal-content">
+    <button class="close-modal">&times;</button>
+    <h2>Let's Talk.</h2>
+    <p>Fill out the form below and I'll get back to you shortly.</p>
+    
+    <!-- Backend handles form submission via fetch API in JavaScript -->
+    <form id="contactForm">
+      
+      <div class="form-group">
+        <label>Name</label>
+        <input type="text" name="name" required placeholder="John Doe">
+      </div>
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" name="email" required placeholder="john@example.com">
+      </div>
+      <div class="form-group">
+        <label>Phone Number (Optional)</label>
+        <input type="tel" name="phone" placeholder="+1 234 567 8900">
+      </div>
+      <div class="form-group">
+        <label>What kind of edit do you want?</label>
+        <select name="edit_type" required>
+           <option value="" disabled selected>Select an option</option>
+           <option value="Short-form Reels / TikToks">Short-form Reels / TikToks</option>
+           <option value="YouTube Long-form">YouTube Long-form</option>
+           <option value="Brand Story / Commercial">Brand Story / Commercial</option>
+           <option value="Other">Other</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Additional Details</label>
+        <textarea name="message" rows="3" placeholder="Tell me more about your project..."></textarea>
+      </div>
+      <button type="submit" class="btn-primary w-100" style="border: none;">Send Message</button>
+    </form>
+  </div>
+</div>
+<!-- Video Modal -->
+<div class="modal-overlay" id="videoModal">
+  <button class="close-modal" id="closeVideoModal" style="position: absolute; top: 2rem; right: 2rem; z-index: 1010; color: #fff; background: rgba(0,0,0,0.3); border-radius: 50%; width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(4px);">&times;</button>
+  <div class="modal-content" style="max-width: 1000px; width: 90%; padding: 0; background: transparent; border: none; box-shadow: none; overflow: visible;">
+    <video id="modalVideoPlayer" controls autoplay style="width: 100%; max-height: 85vh; border-radius: 12px; background: #000; box-shadow: 0 20px 60px rgba(0,0,0,0.5);"></video>
+  </div>
+</div>
+
+<script>
+  // Hover to play videos and click to preview with sound
+  const videoModal = document.getElementById('videoModal');
+  const modalVideoPlayer = document.getElementById('modalVideoPlayer');
+  const closeVideoModalBtn = document.getElementById('closeVideoModal');
+
+  document.querySelectorAll('.work-card').forEach(card => {
+    const video = card.querySelector('video');
+    const playIcon = card.querySelector('.play-icon');
+    
+    if (video) {
+      card.addEventListener('mouseenter', () => {
+        video.play().catch(err => console.log('Autoplay prevented:', err));
+        if (playIcon) playIcon.style.opacity = '0';
+      });
+      card.addEventListener('mouseleave', () => {
+        video.pause();
+        if (playIcon) playIcon.style.opacity = '1';
+      });
+
+      card.addEventListener('click', (e) => {
+        e.preventDefault();
+        const videoSrc = video.getAttribute('src');
+        if (videoSrc) {
+          modalVideoPlayer.src = videoSrc;
+          videoModal.classList.add('active');
+          modalVideoPlayer.play().catch(err => console.log('Autoplay prevented:', err));
+        }
+      });
+    }
+  });
+
+  // Close Video Modal
+  const closeVideoModal = () => {
+    videoModal.classList.remove('active');
+    modalVideoPlayer.pause();
+    modalVideoPlayer.src = ''; // Reset src
+  };
+
+  closeVideoModalBtn.addEventListener('click', closeVideoModal);
+
+  videoModal.addEventListener('click', (e) => {
+    if (e.target === videoModal) {
+      closeVideoModal();
+    }
+  });
+</script>
+
+</body>
+</html>

@@ -4,10 +4,18 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>RanBerry.Cuts</title>
+
+<!-- Open Graph / SEO Meta Tags -->
+<meta property="og:title" content="RanBerry.Cuts | Professional Video Editor">
+<meta property="og:description" content="I specialize in short-form and long-form video editing that stops thumbs, builds audiences, and drives real results.">
+<meta property="og:image" content="https://ranberrycuts.com/Images/social-preview.jpg">
+<meta property="og:url" content="https://ranberrycuts.com/">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="Images/Favicon.png" type="image/png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js" integrity="sha512-wC/g5368cx-Oa1Tj1x9vE2IGS1K1b4T1v0A0zDkL/Dof148D+H1H/aXbN00yT3R0IryU5B4/wB4Y2+Gtv8aN+g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <style>
   :root {
     --c1: #B7E5BA;
@@ -167,6 +175,7 @@
     display: flex;
     align-items: center;
     padding-top: 80px;
+    padding-bottom: 5rem;
   }
 
   .hero-content {
@@ -706,6 +715,179 @@
     width: 100%;
   }
 
+  /* Custom Cursor */
+  @media (hover: hover) and (pointer: fine) {
+    body, a, button, .filter-btn, input, select, textarea {
+      cursor: none;
+    }
+  }
+  
+  .cursor-dot {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 16px;
+    height: 16px;
+    background-color: var(--c1);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 9999;
+    mix-blend-mode: difference;
+    transition: width 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), height 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), background-color 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--darker);
+    font-weight: 700;
+    font-size: 0;
+  }
+  
+  .cursor-dot.active {
+    width: 80px;
+    height: 80px;
+    background-color: var(--white);
+    mix-blend-mode: normal;
+  }
+  
+  .cursor-dot.active::after {
+    content: "PLAY";
+    font-size: 1rem;
+    letter-spacing: 1px;
+  }
+
+  /* Marquee */
+  .marquee-section {
+    padding: 2.5rem 0;
+    background: var(--darker);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    overflow: hidden;
+    white-space: nowrap;
+    position: relative;
+    display: flex;
+  }
+  
+  .marquee-content {
+    display: inline-block;
+    animation: marquee 30s linear infinite;
+    font-size: 3rem;
+    font-weight: 800;
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(183, 229, 186, 0.2);
+    text-transform: uppercase;
+  }
+  
+  .marquee-content span {
+    margin: 0 3rem;
+    color: var(--c1);
+    -webkit-text-stroke: 0;
+  }
+  
+  @keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  /* Filter Buttons */
+  .filter-container {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 3rem;
+    flex-wrap: wrap;
+  }
+  
+  .filter-btn {
+    background: rgba(183, 229, 186, 0.05);
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    padding: 0.6rem 1.8rem;
+    border-radius: 100px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    font-family: inherit;
+  }
+  
+  .filter-btn:hover, .filter-btn.active {
+    background: var(--c1);
+    color: var(--darker);
+    border-color: var(--c1);
+  }
+
+  /* Filter Animations */
+  .work-card.hidden {
+    display: none !important;
+  }
+
+  /* Hero Background Video */
+  .hero-bg-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: -2;
+  }
+  
+  .hero-bg-video iframe {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100vw;
+    height: 56.25vw; /* 16:9 Aspect Ratio */
+    min-height: 100vh;
+    min-width: 177.77vh; /* 16:9 Aspect Ratio */
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    opacity: 0.15;
+    filter: grayscale(50%) contrast(1.2);
+  }
+  
+  .hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, rgba(10,31,22,0.6) 0%, rgba(10,31,22,0.8) 70%, var(--darker) 100%);
+    z-index: -1;
+  }
+
+  /* Preloader */
+  .preloader {
+    position: fixed;
+    inset: 0;
+    background-color: var(--darker);
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.8s cubic-bezier(0.8, 0, 0.1, 1), visibility 0.8s;
+  }
+  .preloader.hidden { opacity: 0; visibility: hidden; }
+  .preloader-content { width: 300px; display: flex; flex-direction: column; align-items: center; gap: 20px; }
+  .preloader-counter { font-size: 4rem; font-weight: 800; color: var(--white); font-variant-numeric: tabular-nums; }
+  .preloader-bar { width: 100%; height: 2px; background: var(--border); position: relative; overflow: hidden; }
+  .preloader-progress { position: absolute; top: 0; left: 0; height: 100%; width: 0%; background: var(--c1); transition: width 0.1s linear; }
+
+  /* Scroll Progress Bar */
+  .scroll-progress-container { position: fixed; top: 0; left: 0; width: 100%; height: 3px; z-index: 9998; background: transparent; }
+  .scroll-progress-bar { height: 100%; width: 0%; background: var(--c1); box-shadow: 0 0 10px var(--c1); transition: width 0.1s ease-out; }
+
+  /* Reveal Text Animation */
+  .reveal-text { overflow: hidden; display: inline-block; vertical-align: top; }
+  .reveal-text span { display: inline-block; transform: translateY(110%); transition: transform 1.2s cubic-bezier(0.19, 1, 0.22, 1); }
+  .reveal-text.visible span { transform: translateY(0); }
+
+  /* Spinning Badge & Ken Burns */
+  .spinning-badge { position: absolute; bottom: -30px; right: -30px; width: 140px; height: 140px; animation: spin 15s linear infinite; z-index: 10; pointer-events: none; }
+  .spinning-badge svg { width: 100%; height: 100%; fill: var(--c1); }
+  @keyframes spin { 100% { transform: rotate(360deg); } }
+  .ken-burns { animation: kenBurns 20s infinite alternate ease-in-out; }
+  @keyframes kenBurns { 0% { transform: scale(1); } 100% { transform: scale(1.15); } }
+
   /* Utilities */
   .fade-in {
     opacity: 0;
@@ -734,13 +916,31 @@
 </head>
 <body>
 
-<div class="grid-bg"></div>
-<div class="glow"></div>
+<!-- Preloader -->
+<div class="preloader" id="preloader">
+  <div class="preloader-content">
+    <div class="preloader-counter" id="preloaderCounter">0%</div>
+    <div class="preloader-bar">
+      <div class="preloader-progress" id="preloaderProgress"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Scroll Progress Bar -->
+<div class="scroll-progress-container">
+  <div class="scroll-progress-bar" id="scrollProgressBar"></div>
+</div>
+
+<!-- Custom Cursor -->
+<div class="cursor-dot" id="cursorDot"></div>
+
+<div class="grid-bg" id="parallaxBg"></div>
+<div class="glow" id="parallaxGlow"></div>
 
 <header>
   <div class="container nav-wrapper">
     <nav>
-      <a href="#" class="logo">@ranberry.cuts</a>
+      <a href="#" class="logo">@ranberrycuts</a>
       <div class="nav-links">
         <a href="#work">Work</a>
         <a href="#about">About</a>
@@ -751,9 +951,14 @@
   </div>
 </header>
 
-<section class="hero" style="position: relative;">
+<section class="hero" style="position: relative; overflow: hidden;" id="heroSection">
+  <div class="hero-bg-video" id="parallaxVideo">
+    <iframe src="https://www.youtube.com/embed/BxKaR7rcIbc?autoplay=1&mute=1&loop=1&playlist=BxKaR7rcIbc&controls=0&showinfo=0&rel=0" frameborder="0" allow="autoplay; encrypted-media"></iframe>
+  </div>
+  <div class="hero-overlay"></div>
+
   <!-- Minimal Side Elements -->
-  <div class="hero-side-left fade-in">
+  <div class="hero-side-left fade-in" id="parallaxLeft">
     <!-- Camera -->
     <svg class="hero-icon" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--c1)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
     <!-- Cut / Scissors -->
@@ -762,36 +967,55 @@
     <svg class="hero-icon" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--c1)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"/><line x1="7" y1="2" x2="7" y2="22"/><line x1="17" y1="2" x2="17" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="2" y1="7" x2="7" y2="7"/><line x1="2" y1="17" x2="7" y2="17"/><line x1="17" y1="17" x2="22" y2="17"/><line x1="17" y1="7" x2="22" y2="7"/></svg>
     <div class="hero-line"></div>
   </div>
-  <div class="hero-side-right fade-in">
+  <div class="hero-side-right fade-in" id="parallaxRight">
     <div class="hero-line"></div>
     SCROLL
   </div>
 
   <div class="container">
-    <div class="hero-content fade-in">
-      <div class="tag">
+    <div class="hero-content">
+      <div class="tag fade-in" style="opacity: 0;">
         <div class="tag-dot"></div>
         Available for freelance
       </div>
-      <h1>Editing with <span>Precision.</span><br>Crafting Content that Hits.</h1>
-      <p>I specialize in short-form and long-form video editing that stops thumbs, builds audiences, and drives real results.</p>
-      <div class="hero-actions">
-        <a href="#work" class="btn-primary">Explore Work</a>
-        <a href="#about" class="btn-secondary">About Me</a>
+      <h1 class="reveal-text" style="display: block;"><span>Editing with <span style="color: var(--c1);">Precision.</span></span></h1>
+      <h1 class="reveal-text" style="display: block; margin-bottom: 1.5rem;"><span>Crafting Content that Hits.</span></h1>
+      <p class="fade-in" style="opacity: 0;">I specialize in short-form and long-form video editing that stops thumbs, builds audiences, and drives real results.</p>
+      <div class="hero-actions fade-in" style="opacity: 0;">
+        <a href="#work" class="btn-primary magnetic-btn">Explore Work</a>
+        <a href="#about" class="btn-secondary magnetic-btn">About Me</a>
       </div>
     </div>
   </div>
 </section>
 
+<!-- Marquee Section -->
+<div class="marquee-section">
+  <div class="marquee-content">
+    PRECISION EDITING <span>•</span> SOUND DESIGN <span>•</span> COLOR GRADING <span>•</span> MOTION GRAPHICS <span>•</span> VISUAL EFFECTS <span>•</span> ENGAGING PACING <span>•</span> PRECISION EDITING <span>•</span> SOUND DESIGN <span>•</span> COLOR GRADING <span>•</span> MOTION GRAPHICS <span>•</span> VISUAL EFFECTS <span>•</span> ENGAGING PACING <span>•</span> 
+  </div>
+  <div class="marquee-content" aria-hidden="true">
+    PRECISION EDITING <span>•</span> SOUND DESIGN <span>•</span> COLOR GRADING <span>•</span> MOTION GRAPHICS <span>•</span> VISUAL EFFECTS <span>•</span> ENGAGING PACING <span>•</span> PRECISION EDITING <span>•</span> SOUND DESIGN <span>•</span> COLOR GRADING <span>•</span> MOTION GRAPHICS <span>•</span> VISUAL EFFECTS <span>•</span> ENGAGING PACING <span>•</span> 
+  </div>
+</div>
+
 <section class="work" id="work">
   <div class="container">
     <div class="section-header fade-in">
-      <h2 class="section-title">Client <span>Work</span></h2>
+      <h2 class="section-title reveal-text"><span>Client <span style="color: var(--c2);">Work</span></span></h2>
     </div>
 
-    <div class="work-grid">
+    <!-- Category Filters -->
+    <div class="filter-container fade-in" id="workFilters">
+      <button class="filter-btn active" data-filter="all">All</button>
+      <button class="filter-btn" data-filter="short-form">Short-form Reels</button>
+      <button class="filter-btn" data-filter="educational">Educational</button>
+      <button class="filter-btn" data-filter="commercial">Commercial</button>
+    </div>
+
+    <div class="work-grid" id="clientWorkGrid">
       <!-- Portrait Card 1 -->
-      <a href="https://youtube.com/shorts/ZtckZIcqIyU?feature=share" class="work-card portrait fade-in" data-youtube-id="ZtckZIcqIyU" data-is-portrait="true">
+      <a href="https://youtube.com/shorts/ZtckZIcqIyU?feature=share" class="work-card portrait fade-in tilt-card" data-youtube-id="ZtckZIcqIyU" data-is-portrait="true" data-category="commercial">
         <div class="work-img shape-1">
           <iframe src="https://www.youtube.com/embed/ZtckZIcqIyU?autoplay=1&mute=1&loop=1&playlist=ZtckZIcqIyU&controls=0&showinfo=0&rel=0" frameborder="0" allow="autoplay; encrypted-media" style="position:absolute; width:100%; height:100%; pointer-events:none;"></iframe>
           <div class="play-icon" style="z-index: 2;">
@@ -807,7 +1031,7 @@
       </a>
 
       <!-- Portrait Card 2 -->
-      <a href="https://youtube.com/shorts/ogqfqih37UY?feature=share" class="work-card portrait fade-in" data-youtube-id="ogqfqih37UY" data-is-portrait="true">
+      <a href="https://youtube.com/shorts/ogqfqih37UY?feature=share" class="work-card portrait fade-in tilt-card" data-youtube-id="ogqfqih37UY" data-is-portrait="true" data-category="educational">
         <div class="work-img shape-2">
           <iframe src="https://www.youtube.com/embed/ogqfqih37UY?autoplay=1&mute=1&loop=1&playlist=ogqfqih37UY&controls=0&showinfo=0&rel=0" frameborder="0" allow="autoplay; encrypted-media" style="position:absolute; width:100%; height:100%; pointer-events:none;"></iframe>
           <div class="play-icon" style="z-index: 2;">
@@ -823,7 +1047,7 @@
       </a>
 
       <!-- Portrait Card 3 -->
-      <a href="https://youtube.com/shorts/tM1GCaJQjlo?feature=share" class="work-card portrait fade-in" data-youtube-id="tM1GCaJQjlo" data-is-portrait="true">
+      <a href="https://youtube.com/shorts/tM1GCaJQjlo?feature=share" class="work-card portrait fade-in tilt-card" data-youtube-id="tM1GCaJQjlo" data-is-portrait="true" data-category="educational">
         <div class="work-img shape-3">
           <iframe src="https://www.youtube.com/embed/tM1GCaJQjlo?autoplay=1&mute=1&loop=1&playlist=tM1GCaJQjlo&controls=0&showinfo=0&rel=0" frameborder="0" allow="autoplay; encrypted-media" style="position:absolute; width:100%; height:100%; pointer-events:none;"></iframe>
           <div class="play-icon" style="z-index: 2;">
@@ -839,7 +1063,7 @@
       </a>
 
       <!-- Portrait Card 4 -->
-      <a href="https://youtube.com/shorts/MIwlRTKOxyU?feature=share" class="work-card portrait fade-in" data-youtube-id="MIwlRTKOxyU" data-is-portrait="true">
+      <a href="https://youtube.com/shorts/MIwlRTKOxyU?feature=share" class="work-card portrait fade-in tilt-card" data-youtube-id="MIwlRTKOxyU" data-is-portrait="true" data-category="educational">
         <div class="work-img shape-1">
           <iframe src="https://www.youtube.com/embed/MIwlRTKOxyU?autoplay=1&mute=1&loop=1&playlist=MIwlRTKOxyU&controls=0&showinfo=0&rel=0" frameborder="0" allow="autoplay; encrypted-media" style="position:absolute; width:100%; height:100%; pointer-events:none;"></iframe>
           <div class="play-icon" style="z-index: 2;">
@@ -856,12 +1080,18 @@
     </div>
 
     <div class="section-header fade-in" style="margin-top: 6rem;">
-      <h2 class="section-title">Personal <span>Content</span></h2>
+      <h2 class="section-title reveal-text"><span>Personal <span style="color: var(--c2);">Content</span></span></h2>
     </div>
 
-    <div class="work-grid">
+    <div class="filter-container fade-in" id="personalFilters">
+      <button class="filter-btn active" data-filter="all">All</button>
+      <button class="filter-btn" data-filter="short-form">Short-form</button>
+      <button class="filter-btn" data-filter="long-form">Long-form</button>
+    </div>
+
+    <div class="work-grid" id="personalWorkGrid">
       <!-- Personal Portrait Card 1 -->
-      <a href="https://youtube.com/shorts/QLO2o6r6WdY?feature=share" class="work-card portrait fade-in" data-youtube-id="QLO2o6r6WdY" data-is-portrait="true">
+      <a href="https://youtube.com/shorts/QLO2o6r6WdY?feature=share" class="work-card portrait fade-in tilt-card" data-youtube-id="QLO2o6r6WdY" data-is-portrait="true" data-category="short-form">
         <div class="work-img shape-2">
           <iframe src="https://www.youtube.com/embed/QLO2o6r6WdY?autoplay=1&mute=1&loop=1&playlist=QLO2o6r6WdY&controls=0&showinfo=0&rel=0" frameborder="0" allow="autoplay; encrypted-media" style="position:absolute; width:100%; height:100%; pointer-events:none;"></iframe>
           <div class="play-icon" style="z-index: 2;">
@@ -877,7 +1107,7 @@
       </a>
 
       <!-- Personal Portrait Card 2 -->
-      <a href="https://youtube.com/shorts/gQL188xq5Uk?feature=share" class="work-card portrait fade-in" data-youtube-id="gQL188xq5Uk" data-is-portrait="true">
+      <a href="https://youtube.com/shorts/gQL188xq5Uk?feature=share" class="work-card portrait fade-in tilt-card" data-youtube-id="gQL188xq5Uk" data-is-portrait="true" data-category="short-form">
         <div class="work-img shape-3">
           <iframe src="https://www.youtube.com/embed/gQL188xq5Uk?autoplay=1&mute=1&loop=1&playlist=gQL188xq5Uk&controls=0&showinfo=0&rel=0" frameborder="0" allow="autoplay; encrypted-media" style="position:absolute; width:100%; height:100%; pointer-events:none;"></iframe>
           <div class="play-icon" style="z-index: 2;">
@@ -893,7 +1123,7 @@
       </a>
 
       <!-- Personal Landscape Card 1 (16:9) -->
-      <a href="https://youtu.be/jFMs3-MgW3k" class="work-card fade-in" data-youtube-id="jFMs3-MgW3k" data-is-portrait="false">
+      <a href="https://youtu.be/jFMs3-MgW3k" class="work-card fade-in tilt-card" data-youtube-id="jFMs3-MgW3k" data-is-portrait="false" data-category="long-form">
         <div class="work-img shape-1">
           <iframe src="https://www.youtube.com/embed/jFMs3-MgW3k?autoplay=1&mute=1&loop=1&playlist=jFMs3-MgW3k&controls=0&showinfo=0&rel=0" frameborder="0" allow="autoplay; encrypted-media" style="position:absolute; width:100%; height:100%; pointer-events:none;"></iframe>
           <div class="play-icon" style="z-index: 2;">
@@ -909,7 +1139,7 @@
       </a>
 
       <!-- Personal Landscape Card 2 (16:9) -->
-      <a href="https://youtu.be/BxKaR7rcIbc" class="work-card fade-in" data-youtube-id="BxKaR7rcIbc" data-is-portrait="false">
+      <a href="https://youtu.be/BxKaR7rcIbc" class="work-card fade-in tilt-card" data-youtube-id="BxKaR7rcIbc" data-is-portrait="false" data-category="long-form">
         <div class="work-img shape-2">
           <iframe src="https://www.youtube.com/embed/BxKaR7rcIbc?autoplay=1&mute=1&loop=1&playlist=BxKaR7rcIbc&controls=0&showinfo=0&rel=0" frameborder="0" allow="autoplay; encrypted-media" style="position:absolute; width:100%; height:100%; pointer-events:none;"></iframe>
           <div class="play-icon" style="z-index: 2;">
@@ -931,7 +1161,7 @@
   <div class="container">
     <div class="about-grid">
       <div class="about-text fade-in">
-        <h2>More than just cutting clips.</h2>
+        <h2 class="reveal-text" style="display: block;"><span>More than just cutting clips.</span></h2>
         <p>I approach editing as a form of storytelling. Every cut, sound effect, and color tweak is deliberately chosen to enhance the narrative and keep the viewer engaged from the first frame to the last. My focus is entirely on pacing, rhythm, and creating emotion through video.</p>
         
         <div class="skills-container">
@@ -953,8 +1183,19 @@
           </div>
         </div>
       </div>
-      <div class="about-visual fade-in">
-        <div class="avatar-placeholder" style="background-image: url('Images/profile.png'); background-size: cover; background-position: center; border: none; color: transparent;">Photo</div>
+      <div class="about-visual fade-in" style="position: relative;">
+        <div class="avatar-placeholder ken-burns" style="background-image: url('Images/profile.png'); background-size: cover; background-position: center; border: none; color: transparent; width: 100%; height: 100%;">Photo</div>
+        
+        <div class="spinning-badge">
+          <svg viewBox="0 0 100 100">
+            <path id="circlePath" d="M 50, 50 m -35, 0 a 35,35 0 1,1 70,0 a 35,35 0 1,1 -70,0" fill="transparent"/>
+            <text font-size="11.5" font-weight="800" letter-spacing="2.8">
+              <textPath href="#circlePath" startOffset="0%">
+                AVAILABLE FOR HIRE • 2026 • 
+              </textPath>
+            </text>
+          </svg>
+        </div>
       </div>
     </div>
   </div>
@@ -964,8 +1205,8 @@
   <div class="container">
     <div class="footer-top fade-in">
       <div class="footer-cta">
-        <h2>Let's build something great.</h2>
-        <a href="#" class="btn-primary open-modal">Get in Touch</a>
+        <h2 class="reveal-text" style="display: block;"><span>Let's build something great.</span></h2>
+        <a href="#" class="btn-primary open-modal magnetic-btn" style="display: inline-block; margin-top: 1rem;">Get in Touch</a>
       </div>
     </div>
     <div class="footer-bottom">
@@ -992,8 +1233,10 @@
     rootMargin: "0px 0px -50px 0px"
   });
 
-  document.querySelectorAll('.fade-in').forEach((el) => {
-    observer.observe(el);
+  document.querySelectorAll('.fade-in, .reveal-text').forEach((el) => {
+    if (!el.closest('.hero')) {
+      observer.observe(el);
+    }
   });
 
   // Modal Logic
@@ -1155,6 +1398,157 @@
       closeVideoModal();
     }
   });
+
+  // --- Premium UI/UX Interactions ---
+
+  // Preloader Logic
+  document.body.style.overflow = 'hidden'; // Lock scroll
+  const preloader = document.getElementById('preloader');
+  const counter = document.getElementById('preloaderCounter');
+  const preloaderProgress = document.getElementById('preloaderProgress');
+  
+  let pLoaderProgress = 0;
+  const loadInterval = setInterval(() => {
+    pLoaderProgress += Math.floor(Math.random() * 10) + 1;
+    if (pLoaderProgress >= 100) {
+      pLoaderProgress = 100;
+      clearInterval(loadInterval);
+      
+      setTimeout(() => {
+        preloader.classList.add('hidden');
+        document.body.style.overflow = ''; // Unlock scroll
+        
+        // Trigger hero animations
+        setTimeout(() => {
+          document.querySelectorAll('.hero .reveal-text').forEach(el => el.classList.add('visible'));
+          document.querySelectorAll('.hero .fade-in').forEach(el => {
+            el.classList.add('visible');
+            el.style.opacity = '1';
+          });
+        }, 400);
+      }, 500);
+    }
+    counter.innerText = pLoaderProgress + '%';
+    preloaderProgress.style.width = pLoaderProgress + '%';
+  }, 35);
+
+  // Scroll Progress Bar
+  const scrollProgressBar = document.getElementById('scrollProgressBar');
+  window.addEventListener('scroll', () => {
+    const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const scrollPerc = (window.scrollY / totalHeight) * 100;
+    if (scrollProgressBar) {
+      scrollProgressBar.style.width = scrollPerc + '%';
+    }
+  });
+
+  // 1. Custom Cursor
+  const cursorDot = document.getElementById('cursorDot');
+  if (window.matchMedia("(hover: hover)").matches) {
+    window.addEventListener('mousemove', (e) => {
+      cursorDot.style.left = e.clientX + 'px';
+      cursorDot.style.top = e.clientY + 'px';
+    });
+
+    // Expand cursor on interactive elements
+    const interactiveElements = document.querySelectorAll('a, button, .work-card, .filter-btn');
+    interactiveElements.forEach(el => {
+      el.addEventListener('mouseenter', () => {
+        if (el.classList.contains('work-card')) {
+          cursorDot.classList.add('active');
+        } else {
+          cursorDot.style.transform = 'translate(-50%, -50%) scale(2.5)';
+          cursorDot.style.backgroundColor = 'rgba(183, 229, 186, 0.4)';
+        }
+      });
+      el.addEventListener('mouseleave', () => {
+        cursorDot.classList.remove('active');
+        cursorDot.style.transform = 'translate(-50%, -50%) scale(1)';
+        cursorDot.style.backgroundColor = 'var(--c1)';
+      });
+    });
+  }
+
+  // 2. Magnetic Buttons
+  const magneticBtns = document.querySelectorAll('.magnetic-btn');
+  magneticBtns.forEach(btn => {
+    btn.addEventListener('mousemove', (e) => {
+      const rect = btn.getBoundingClientRect();
+      const x = e.clientX - rect.left - rect.width / 2;
+      const y = e.clientY - rect.top - rect.height / 2;
+      btn.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
+    });
+    btn.addEventListener('mouseleave', () => {
+      btn.style.transform = 'translate(0px, 0px)';
+    });
+  });
+
+  // 3. Category Filtering
+  const setupFilters = (filterContainerId, gridId) => {
+    const container = document.getElementById(filterContainerId);
+    if (!container) return;
+    const buttons = container.querySelectorAll('.filter-btn');
+    const cards = document.getElementById(gridId).querySelectorAll('.work-card');
+
+    buttons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        // Update active button
+        buttons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        const filterValue = btn.getAttribute('data-filter');
+
+        cards.forEach(card => {
+          card.classList.remove('fade-out');
+          
+          if (filterValue === 'all' || card.getAttribute('data-category') === filterValue) {
+            card.classList.remove('hidden');
+            setTimeout(() => {
+              card.style.opacity = '1';
+              card.style.transform = 'scale(1)';
+            }, 50);
+          } else {
+            card.style.opacity = '0';
+            card.style.transform = 'scale(0.9)';
+            setTimeout(() => {
+              card.classList.add('hidden');
+            }, 300); // Wait for transition
+          }
+        });
+      });
+    });
+  };
+
+  setupFilters('workFilters', 'clientWorkGrid');
+  setupFilters('personalFilters', 'personalWorkGrid');
+
+  // 4. VanillaTilt Initialization
+  if (typeof VanillaTilt !== 'undefined') {
+    VanillaTilt.init(document.querySelectorAll(".tilt-card"), {
+      max: 5,
+      speed: 400,
+      glare: true,
+      "max-glare": 0.1,
+      scale: 1.02
+    });
+  }
+
+  // 5. Parallax Scrolling
+  const parallaxBg = document.getElementById('parallaxBg');
+  const parallaxGlow = document.getElementById('parallaxGlow');
+  const parallaxLeft = document.getElementById('parallaxLeft');
+  const parallaxRight = document.getElementById('parallaxRight');
+  const parallaxVideo = document.getElementById('parallaxVideo');
+
+  window.addEventListener('scroll', () => {
+    const scrolled = window.scrollY;
+    if (parallaxBg) parallaxBg.style.transform = `translateY(${scrolled * 0.15}px)`;
+    if (parallaxGlow) parallaxGlow.style.transform = `translate(-50%, ${scrolled * 0.25}px)`;
+    if (parallaxLeft) parallaxLeft.style.transform = `translateY(calc(-50% - ${scrolled * 0.3}px))`;
+    if (parallaxRight) parallaxRight.style.transform = `translateY(calc(-50% - ${scrolled * 0.1}px))`;
+    if (parallaxVideo) parallaxVideo.style.transform = `translateY(${scrolled * 0.4}px)`;
+  });
+
 </script>
 
 </body>

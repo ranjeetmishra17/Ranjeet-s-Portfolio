@@ -399,6 +399,7 @@
       .personal-bento > * {
         flex: 0 0 85%;
         scroll-snap-align: center;
+        scroll-snap-stop: always;
         max-width: 85%;
         transition: filter 0.4s ease, opacity 0.4s ease, transform 0.4s ease;
         filter: blur(5px);
@@ -465,7 +466,7 @@
     }
 
     .work-card.portrait .work-img {
-      aspect-ratio: 2/3;
+      aspect-ratio: 4/5;
     }
 
     .work-card.portrait .work-img iframe {
@@ -1997,6 +1998,44 @@
         
         setTimeout(() => bentoCards[0].classList.add('active-slide'), 100);
       }
+
+      function setupAutoScroll(container, cards) {
+        if (!container || cards.length <= 1) return;
+        let autoScrollInterval;
+        let isInteracting = false;
+        
+        const startAutoScroll = () => {
+          clearInterval(autoScrollInterval);
+          autoScrollInterval = setInterval(() => {
+            if (isInteracting) return;
+            let currentIndex = 0;
+            cards.forEach((c, i) => { if(c.classList.contains('active-slide')) currentIndex = i; });
+            
+            let nextIndex = currentIndex + 1;
+            if (nextIndex >= cards.length) nextIndex = 0;
+            
+            const nextCard = cards[nextIndex];
+            const scrollPos = nextCard.offsetLeft - (container.clientWidth / 2) + (nextCard.clientWidth / 2);
+            container.scrollTo({ left: scrollPos, behavior: 'smooth' });
+          }, 3000);
+        };
+
+        const stopAutoScroll = () => clearInterval(autoScrollInterval);
+
+        container.addEventListener('touchstart', () => { isInteracting = true; stopAutoScroll(); }, {passive: true});
+        container.addEventListener('touchend', () => { isInteracting = false; startAutoScroll(); }, {passive: true});
+        container.addEventListener('scroll', () => { 
+          isInteracting = true; 
+          stopAutoScroll(); 
+          clearTimeout(container.scrollTimeout);
+          container.scrollTimeout = setTimeout(() => { isInteracting = false; startAutoScroll(); }, 2000);
+        }, {passive: true});
+
+        startAutoScroll();
+      }
+
+      setupAutoScroll(workGrid, workCards);
+      setupAutoScroll(bentoGrid, bentoCards);
     }
 
   </script>

@@ -1,1555 +1,1933 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RanBerryCuts</title>
-
-<!-- Open Graph / SEO Meta Tags -->
-<meta property="og:title" content="RanBerry.Cuts | Professional Video Editor">
-<meta property="og:description" content="I specialize in short-form and long-form video editing that stops thumbs, builds audiences, and drives real results.">
-<meta property="og:image" content="https://ranberrycuts.com/Images/social-preview.jpg">
-<meta property="og:url" content="https://ranberrycuts.com/">
-<meta name="twitter:card" content="summary_large_image">
-<link rel="icon" href="Images/Favicon.png" type="image/png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js" integrity="sha512-wC/g5368cx-Oa1Tj1x9vE2IGS1K1b4T1v0A0zDkL/Dof148D+H1H/aXbN00yT3R0IryU5B4/wB4Y2+Gtv8aN+g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<style>
-  :root {
-    --c1: #B7E5BA;
-    --c2: #5CA87C;
-    --c3: #288760;
-    --c4: #1A5140;
-    --dark: #0f2e22;
-    --darker: #0a1f16;
-    --white: #ffffff;
-    --text-muted: rgba(183, 229, 186, 0.6);
-    --border: rgba(183, 229, 186, 0.1);
-    --grid-color: rgba(183, 229, 186, 0.06);
-  }
-
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  
-  body {
-    background-color: var(--darker);
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    color: var(--white);
-    -webkit-font-smoothing: antialiased;
-    overflow-x: hidden;
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
-  }
-
-  body::-webkit-scrollbar {
-    display: none;
-  }
-
-  ::selection {
-    background: var(--c2);
-    color: var(--white);
-  }
-
-  .grid-bg {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: -1;
-    background-image: 
-      linear-gradient(var(--grid-color) 1px, transparent 1px),
-      linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
-    background-size: 50px 50px;
-    mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
-    -webkit-mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
-    pointer-events: none;
-  }
-
-  /* Glow Effects */
-  .glow {
-    position: fixed;
-    width: 800px;
-    height: 800px;
-    background: radial-gradient(circle, rgba(92,168,124,0.06) 0%, transparent 60%);
-    top: -300px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: -1;
-    pointer-events: none;
-  }
-
-  .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 5%;
-  }
-
-  /* Nav */
-  header {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    z-index: 100;
-    border-bottom: 1px solid var(--border);
-    background: rgba(10, 31, 22, 0.7);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-  }
-
-  nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 80px;
-  }
-
-  .logo {
-    font-weight: 700;
-    font-size: 1.25rem;
-    color: var(--c1);
-    text-decoration: none;
-    letter-spacing: -0.5px;
-  }
-
-  .nav-links {
-    display: flex;
-    gap: 2.5rem;
-  }
-
-  .nav-links a {
-    color: var(--text-muted);
-    text-decoration: none;
-    font-size: 0.9rem;
-    font-weight: 500;
-    transition: color 0.3s ease;
-  }
-
-  .nav-links a:hover {
-    color: var(--c1);
-  }
-
-  .btn-primary {
-    background: var(--c1);
-    color: var(--darker);
-    padding: 0.7rem 1.75rem;
-    border-radius: 100px;
-    text-decoration: none;
-    font-weight: 600;
-    font-size: 0.9rem;
-    transition: all 0.3s ease;
-    border: none;
-    cursor: pointer;
-    display: inline-block;
-  }
-
-  .btn-primary:hover {
-    background: var(--white);
-    transform: translateY(-2px);
-    box-shadow: 0 10px 20px rgba(183, 229, 186, 0.15);
-  }
-
-  .btn-secondary {
-    background: transparent;
-    color: var(--c1);
-    padding: 0.7rem 1.75rem;
-    border-radius: 100px;
-    text-decoration: none;
-    font-weight: 500;
-    font-size: 0.9rem;
-    transition: all 0.3s ease;
-    border: 1px solid var(--border);
-    cursor: pointer;
-    display: inline-block;
-  }
-
-  .btn-secondary:hover {
-    border-color: var(--c1);
-    background: rgba(183, 229, 186, 0.05);
-  }
-
-  /* Hero */
-  .hero {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    padding-top: 80px;
-    padding-bottom: 5rem;
-  }
-
-  .hero-content {
-    max-width: 800px;
-    margin-top: 2rem;
-  }
-
-  .tag {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 6px 14px;
-    border-radius: 100px;
-    border: 1px solid var(--border);
-    font-size: 0.8rem;
-    font-weight: 600;
-    color: var(--c1);
-    margin-bottom: 2.5rem;
-    background: rgba(183, 229, 186, 0.05);
-  }
-
-  .tag-dot {
-    width: 6px;
-    height: 6px;
-    background: var(--c2);
-    border-radius: 50%;
-    animation: pulse 2s infinite;
-  }
-
-  @keyframes pulse {
-    0% { box-shadow: 0 0 0 0 rgba(92,168,124,0.4); }
-    70% { box-shadow: 0 0 0 6px rgba(92,168,124,0); }
-    100% { box-shadow: 0 0 0 0 rgba(92,168,124,0); }
-  }
-
-  .hero h1 {
-    font-size: clamp(3rem, 6vw, 5.5rem);
-    font-weight: 700;
-    line-height: 1.1;
-    letter-spacing: -0.03em;
-    color: var(--white);
-    margin-bottom: 1.5rem;
-  }
-
-  .hero h1 span {
-    color: var(--c1);
-  }
-
-  .hero p {
-    font-size: clamp(1rem, 2vw, 1.25rem);
-    color: var(--text-muted);
-    line-height: 1.6;
-    max-width: 600px;
-    margin-bottom: 3.5rem;
-  }
-
-  .hero-actions {
-    display: flex;
-    gap: 1rem;
-  }
-
-  /* Hero Side Elements */
-  .hero-side-left, .hero-side-right {
-    position: absolute;
-    top: 55%;
-    display: flex;
-    align-items: center;
-    gap: 1.5rem;
-    font-size: 0.7rem;
-    font-weight: 600;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    color: var(--text-muted);
-  }
-
-  .hero-side-left {
-    left: 3%;
-    flex-direction: column;
-    transform: translateY(-50%);
-  }
-
-  .hero-side-right {
-    right: 3%;
-    writing-mode: vertical-rl;
-    transform: translateY(-50%);
-    font-size: 0.9rem;
-    color: var(--c1);
-    text-shadow: 0 0 8px rgba(183, 229, 186, 0.6);
-    letter-spacing: 0.35em;
-  }
-
-  .hero-side-left a {
-    color: var(--text-muted);
-    text-decoration: none;
-    transition: color 0.3s ease;
-  }
-
-  .hero-side-left a:hover {
-    color: var(--c1);
-  }
-
-  .hero-icon {
-    filter: drop-shadow(0 0 6px rgba(183, 229, 186, 0.5));
-    animation: float-icon 6s ease-in-out infinite;
-  }
-
-  .hero-icon:nth-child(1) { animation-delay: 0s; }
-  .hero-icon:nth-child(2) { animation-delay: 2s; }
-  .hero-icon:nth-child(3) { animation-delay: 4s; }
-
-  @keyframes float-icon {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-8px); }
-  }
-
-  .hero-line {
-    width: 1px;
-    height: 80px;
-    background: var(--c2);
-    opacity: 0.3;
-  }
-
-  /* Work Section */
-  .work {
-    padding: 8rem 0;
-  }
-
-  .section-header {
-    margin-bottom: 4rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-  }
-
-  .section-title {
-    font-size: clamp(2rem, 4vw, 3rem);
-    font-weight: 700;
-    letter-spacing: -0.02em;
-    color: var(--white);
-  }
-
-  .section-title span {
-    color: var(--c2);
-  }
-
-  .work-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-    gap: 2.5rem;
-  }
-
-  .work-card {
-    background: rgba(183, 229, 186, 0.02);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 1.5rem;
-    transition: all 0.4s ease;
-    text-decoration: none;
-    display: block;
-  }
-
-  .work-card:hover {
-    background: rgba(183, 229, 186, 0.04);
-    border-color: rgba(183, 229, 186, 0.2);
-    transform: translateY(-5px);
-  }
-
-  .work-img {
-    width: 100%;
-    aspect-ratio: 16/9;
-    border-radius: 12px;
-    background: var(--dark);
-    margin-bottom: 1.5rem;
-    position: relative;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid var(--border);
-  }
-
-  .work-img iframe {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 100%;
-    height: 100%;
-    transform: translate(-50%, -50%) scale(1.25);
-    pointer-events: none;
-    border: none;
-  }
-
-  .work-card.portrait .work-img {
-    aspect-ratio: 4/5;
-  }
-
-  .work-card.portrait .work-img iframe {
-    transform: translate(-50%, -50%) scale(1.5);
-  }
-
-  .play-icon {
-    width: 56px;
-    height: 56px;
-    border-radius: 50%;
-    background: rgba(183, 229, 186, 0.1);
-    backdrop-filter: blur(4px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid rgba(183, 229, 186, 0.2);
-    transition: all 0.3s ease;
-    color: var(--c1);
-  }
-
-  .work-card:hover .play-icon {
-    background: var(--c1);
-    color: var(--darker);
-    transform: scale(1.1);
-  }
-
-  .work-meta {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 0.75rem;
-  }
-
-  .work-tag {
-    font-size: 0.75rem;
-    font-weight: 600;
-    color: var(--c2);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-  }
-
-  .work-duration {
-    font-size: 0.8rem;
-    color: var(--text-muted);
-  }
-
-  .work-title {
-    font-size: 1.25rem;
-    font-weight: 600;
-    color: var(--white);
-    margin-bottom: 0.5rem;
-  }
-
-  .work-desc {
-    font-size: 0.95rem;
-    color: var(--text-muted);
-    line-height: 1.6;
-  }
-
-  /* Abstract shapes for placeholders */
-  .shape-1 { background: linear-gradient(135deg, rgba(92,168,124,0.1), rgba(40,135,96,0.2)); }
-  .shape-2 { background: linear-gradient(135deg, rgba(26,81,64,0.2), rgba(183,229,186,0.1)); }
-  .shape-3 { background: radial-gradient(circle at center, rgba(183,229,186,0.15), transparent); }
-
-  /* About */
-  .about {
-    padding: 8rem 0;
-    border-top: 1px solid var(--border);
-  }
-
-  .about-grid {
-    display: grid;
-    grid-template-columns: 1.2fr 0.8fr;
-    gap: 6rem;
-    align-items: center;
-  }
-
-  .about-text h2 {
-    font-size: clamp(2rem, 4vw, 3rem);
-    font-weight: 700;
-    margin-bottom: 1.5rem;
-    line-height: 1.2;
-    letter-spacing: -0.02em;
-  }
-
-  .about-text p {
-    color: var(--text-muted);
-    font-size: 1.1rem;
-    line-height: 1.8;
-    margin-bottom: 2.5rem;
-  }
-
-  .stats {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2rem;
-  }
-
-  .stat-item h3 {
-    font-size: 2.5rem;
-    font-weight: 700;
-    color: var(--c1);
-    margin-bottom: 0.25rem;
-  }
-
-  .stat-item p {
-    font-size: 0.9rem;
-    color: var(--text-muted);
-    margin: 0;
-  }
-
-  .about-visual {
-    position: relative;
-    aspect-ratio: 4/5;
-    border-radius: 24px;
-    border: 1px solid var(--border);
-    background: rgba(183, 229, 186, 0.02);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    box-shadow: 0 0 0 rgba(92, 168, 124, 0);
-  }
-
-  .about-visual:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 15px 40px rgba(92, 168, 124, 0.25), 0 0 20px rgba(183, 229, 186, 0.2);
-    border-color: rgba(183, 229, 186, 0.4);
-  }
-
-  .about-visual::before {
-    content: '';
-    position: absolute;
-    width: 60%;
-    height: 60%;
-    background: var(--c3);
-    filter: blur(80px);
-    opacity: 0.2;
-    transition: all 0.4s ease;
-  }
-
-  .about-visual:hover::before {
-    opacity: 0.5;
-    transform: scale(1.3);
-    filter: blur(60px);
-  }
-
-  .skills-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.75rem;
-    margin-bottom: 2.5rem;
-  }
-
-  .skill-tag {
-    padding: 0.5rem 1.2rem;
-    border-radius: 100px;
-    background: rgba(183, 229, 186, 0.05);
-    border: 1px solid var(--border);
-    font-size: 0.85rem;
-    font-weight: 500;
-    color: var(--c1);
-  }
-
-  .avatar-placeholder {
-    width: 100%;
-    height: 100%;
-    border-radius: 24px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--text-muted);
-    font-size: 0.8rem;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    background-color: rgba(183, 229, 186, 0.05);
-    transition: transform 0.5s ease;
-  }
-
-  .about-visual:hover .avatar-placeholder {
-    transform: scale(1.05);
-  }
-
-  /* Footer */
-  footer {
-    border-top: 1px solid var(--border);
-    padding: 6rem 0 3rem;
-  }
-
-  .footer-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 5rem;
-  }
-
-  .footer-cta h2 {
-    font-size: clamp(2rem, 4vw, 3rem);
-    font-weight: 700;
-    margin-bottom: 1.5rem;
-    letter-spacing: -0.02em;
-  }
-
-  .footer-bottom {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-top: 2.5rem;
-    border-top: 1px solid rgba(183, 229, 186, 0.05);
-    color: var(--text-muted);
-    font-size: 0.9rem;
-  }
-
-  .social-links {
-    display: flex;
-    gap: 1.5rem;
-  }
-
-  .social-links a {
-    color: var(--text-muted);
-    text-decoration: none;
-    transition: color 0.3s ease;
-  }
-
-  .social-links a:hover {
-    color: var(--c1);
-  }
-
-  /* Modal */
-  .modal-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(10, 31, 22, 0.85);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    z-index: 1000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.3s ease;
-  }
-
-  .modal-overlay.active {
-    opacity: 1;
-    pointer-events: all;
-  }
-
-  .modal-content {
-    background: var(--darker);
-    border: 1px solid var(--border);
-    border-radius: 24px;
-    padding: 3rem;
-    width: 90%;
-    max-width: 500px;
-    position: relative;
-    transform: translateY(20px);
-    transition: transform 0.3s ease;
-    max-height: 90vh;
-    overflow-y: auto;
-    scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none; /* IE and Edge */
-  }
-
-  .modal-content::-webkit-scrollbar {
-    display: none; /* Chrome, Safari and Opera */
-  }
-
-  .modal-overlay.active .modal-content {
-    transform: translateY(0);
-  }
-
-  .close-modal {
-    position: absolute;
-    top: 1.5rem;
-    right: 1.5rem;
-    background: transparent;
-    border: none;
-    color: var(--text-muted);
-    font-size: 2rem;
-    cursor: pointer;
-    line-height: 1;
-    transition: color 0.3s ease;
-  }
-
-  .close-modal:hover {
-    color: var(--white);
-  }
-
-  .modal-content h2 {
-    font-size: 2rem;
-    margin-bottom: 0.5rem;
-  }
-
-  .modal-content p {
-    color: var(--text-muted);
-    font-size: 0.95rem;
-    margin-bottom: 2rem;
-  }
-
-  .form-group {
-    margin-bottom: 1.5rem;
-  }
-
-  .form-group label {
-    display: block;
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: var(--c1);
-    margin-bottom: 0.5rem;
-  }
-
-  .form-group input,
-  .form-group select,
-  .form-group textarea {
-    width: 100%;
-    background: rgba(183, 229, 186, 0.03);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 0.8rem 1rem;
-    color: var(--white);
-    font-family: inherit;
-    font-size: 0.95rem;
-    transition: all 0.3s ease;
-  }
-
-  .form-group select option {
-    background: var(--darker);
-    color: var(--white);
-  }
-
-  .form-group input:focus,
-  .form-group select:focus,
-  .form-group textarea:focus {
-    outline: none;
-    border-color: var(--c2);
-    background: rgba(183, 229, 186, 0.08);
-  }
-
-  .w-100 {
-    width: 100%;
-  }
-
-  /* Custom Cursor */
-  @media (hover: hover) and (pointer: fine) {
-    body, a, button, .filter-btn, input, select, textarea {
-      cursor: none;
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RanBerryCuts</title>
+
+  <!-- Open Graph / SEO Meta Tags -->
+  <meta property="og:title" content="RanBerry.Cuts | Professional Video Editor">
+  <meta property="og:description"
+    content="I specialize in short-form and long-form video editing that stops thumbs, builds audiences, and drives real results.">
+  <meta property="og:image" content="https://ranberrycuts.com/Images/social-preview.jpg">
+  <meta property="og:url" content="https://ranberrycuts.com/">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap"
+    rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js"
+    integrity="sha512-wC/g5368cx-Oa1Tj1x9vE2IGS1K1b4T1v0A0zDkL/Dof148D+H1H/aXbN00yT3R0IryU5B4/wB4Y2+Gtv8aN+g=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <style>
+    :root {
+      --c1: #B7E5BA;
+      --c2: #5CA87C;
+      --c3: #288760;
+      --c4: #1A5140;
+      --dark: #0f2e22;
+      --darker: #0a1f16;
+      --white: #ffffff;
+      --text-muted: rgba(183, 229, 186, 0.6);
+      --border: rgba(183, 229, 186, 0.1);
+      --grid-color: rgba(183, 229, 186, 0.06);
     }
-  }
-  
-  .cursor-dot {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 16px;
-    height: 16px;
-    background-color: var(--c1);
-    border-radius: 50%;
-    transform: translate(-50%, -50%);
-    pointer-events: none;
-    z-index: 9999;
-    mix-blend-mode: difference;
-    transition: width 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), height 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), background-color 0.3s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--darker);
-    font-weight: 700;
-    font-size: 0;
-  }
-  
-  .cursor-dot.active {
-    width: 80px;
-    height: 80px;
-    background-color: var(--white);
-    mix-blend-mode: normal;
-  }
-  
-  .cursor-dot.active::after {
-    content: "PLAY";
-    font-size: 1rem;
-    letter-spacing: 1px;
-  }
 
-  /* Marquee */
-  .marquee-section {
-    padding: 2.5rem 0;
-    background: var(--darker);
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-    overflow: hidden;
-    white-space: nowrap;
-    position: relative;
-    display: flex;
-  }
-  
-  .marquee-content {
-    display: inline-block;
-    animation: marquee 30s linear infinite;
-    font-size: 3rem;
-    font-weight: 800;
-    color: transparent;
-    -webkit-text-stroke: 1px rgba(183, 229, 186, 0.2);
-    text-transform: uppercase;
-  }
-  
-  .marquee-content span {
-    margin: 0 3rem;
-    color: var(--c1);
-    -webkit-text-stroke: 0;
-  }
-  
-  @keyframes marquee {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-50%); }
-  }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-  /* Filter Buttons */
-  .filter-container {
-    display: flex;
-    gap: 1rem;
-    margin-bottom: 3rem;
-    flex-wrap: wrap;
-  }
-  
-  .filter-btn {
-    background: rgba(183, 229, 186, 0.05);
-    border: 1px solid var(--border);
-    color: var(--text-muted);
-    padding: 0.6rem 1.8rem;
-    border-radius: 100px;
-    font-size: 0.9rem;
-    font-weight: 600;
-    transition: all 0.3s ease;
-    font-family: inherit;
-  }
-  
-  .filter-btn:hover, .filter-btn.active {
-    background: var(--c1);
-    color: var(--darker);
-    border-color: var(--c1);
-  }
+    body {
+      background-color: var(--darker);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      color: var(--white);
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+      -ms-overflow-style: none;
+      /* IE and Edge */
+      scrollbar-width: none;
+      /* Firefox */
+    }
 
-  /* Filter Animations */
-  .work-card.hidden {
-    display: none !important;
-  }
+    body::-webkit-scrollbar {
+      display: none;
+    }
 
-  /* Hero Background Video */
-  .hero-bg-video {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    z-index: -2;
-  }
-  
-  .hero-bg-video iframe {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 100vw;
-    height: 56.25vw; /* 16:9 Aspect Ratio */
-    min-height: 100vh;
-    min-width: 177.77vh; /* 16:9 Aspect Ratio */
-    transform: translate(-50%, -50%);
-    pointer-events: none;
-    opacity: 0.15;
-    filter: grayscale(50%) contrast(1.2);
-  }
-  
-  .hero-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(to bottom, rgba(10,31,22,0.6) 0%, rgba(10,31,22,0.8) 70%, var(--darker) 100%);
-    z-index: -1;
-  }
+    ::selection {
+      background: var(--c2);
+      color: var(--white);
+    }
 
-  /* Preloader */
-  .preloader {
-    position: fixed;
-    inset: 0;
-    background-color: var(--darker);
-    z-index: 10000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: opacity 0.8s cubic-bezier(0.8, 0, 0.1, 1), visibility 0.8s;
-  }
-  .preloader.hidden { opacity: 0; visibility: hidden; }
-  .preloader-content { width: 300px; display: flex; flex-direction: column; align-items: center; gap: 20px; }
-  .preloader-counter { font-size: 4rem; font-weight: 800; color: var(--white); font-variant-numeric: tabular-nums; }
-  .preloader-bar { width: 100%; height: 2px; background: var(--border); position: relative; overflow: hidden; }
-  .preloader-progress { position: absolute; top: 0; left: 0; height: 100%; width: 0%; background: var(--c1); transition: width 0.1s linear; }
+    .grid-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: -1;
+      background-image:
+        linear-gradient(var(--grid-color) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+      background-size: 50px 50px;
+      mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+      -webkit-mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+      pointer-events: none;
+    }
 
-  /* Scroll Progress Bar */
-  .scroll-progress-container { position: fixed; top: 0; left: 0; width: 100%; height: 3px; z-index: 9998; background: transparent; }
-  .scroll-progress-bar { height: 100%; width: 0%; background: var(--c1); box-shadow: 0 0 10px var(--c1); transition: width 0.1s ease-out; }
+    /* Glow Effects */
+    .glow {
+      position: fixed;
+      width: 800px;
+      height: 800px;
+      background: radial-gradient(circle, rgba(92, 168, 124, 0.06) 0%, transparent 60%);
+      top: -300px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: -1;
+      pointer-events: none;
+    }
 
-  /* Reveal Text Animation */
-  .reveal-text { overflow: hidden; display: inline-block; vertical-align: top; }
-  .reveal-text span { display: inline-block; transform: translateY(110%); transition: transform 1.2s cubic-bezier(0.19, 1, 0.22, 1); }
-  .reveal-text.visible span { transform: translateY(0); }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 5%;
+    }
 
-  /* Spinning Badge & Ken Burns */
-  .spinning-badge { position: absolute; bottom: -30px; right: -30px; width: 140px; height: 140px; animation: spin 15s linear infinite; z-index: 10; pointer-events: none; }
-  .spinning-badge svg { width: 100%; height: 100%; fill: var(--c1); }
-  @keyframes spin { 100% { transform: rotate(360deg); } }
-  .ken-burns { animation: kenBurns 20s infinite alternate ease-in-out; }
-  @keyframes kenBurns { 0% { transform: scale(1); } 100% { transform: scale(1.15); } }
+    /* Nav */
+    header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 100;
+      border-bottom: 1px solid var(--border);
+      background: rgba(10, 31, 22, 0.7);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
 
-  /* Utilities */
-  .fade-in {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 1s ease, transform 1s cubic-bezier(0.2, 0.8, 0.2, 1);
-  }
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 80px;
+    }
 
-  .fade-in.visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
+    .logo {
+      font-weight: 700;
+      font-size: 1.25rem;
+      color: var(--c1);
+      text-decoration: none;
+      letter-spacing: -0.5px;
+    }
 
-  /* Responsive */
-  @media (max-width: 768px) {
-    .nav-links { display: none; }
-    .hero { padding-top: 100px; }
-    .hero-side-left, .hero-side-right { display: none; }
-    .hero-actions { flex-direction: column; }
-    .about-grid { grid-template-columns: 1fr; gap: 3rem; }
-    .footer-top { flex-direction: column; align-items: flex-start; gap: 2rem; }
-    .footer-bottom { flex-direction: column; gap: 1.5rem; text-align: center; }
-    .social-links { justify-content: center; width: 100%; }
-    .work-grid { grid-template-columns: 1fr; }
-  }
-</style>
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+    }
+
+    .nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--c1);
+    }
+
+    .btn-primary {
+      background: var(--c1);
+      color: var(--darker);
+      padding: 0.7rem 1.75rem;
+      border-radius: 100px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+      border: none;
+      cursor: pointer;
+      display: inline-block;
+    }
+
+    .btn-primary:hover {
+      background: var(--white);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(183, 229, 186, 0.15);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--c1);
+      padding: 0.7rem 1.75rem;
+      border-radius: 100px;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+      border: 1px solid var(--border);
+      cursor: pointer;
+      display: inline-block;
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--c1);
+      background: rgba(183, 229, 186, 0.05);
+    }
+
+    /* Hero */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding-top: 80px;
+      padding-bottom: 5rem;
+    }
+
+    .hero-content {
+      max-width: 800px;
+      margin-top: 2rem;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      border-radius: 100px;
+      border: 1px solid var(--border);
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--c1);
+      margin-bottom: 2.5rem;
+      background: rgba(183, 229, 186, 0.05);
+    }
+
+    .tag-dot {
+      width: 6px;
+      height: 6px;
+      background: var(--c2);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% {
+        box-shadow: 0 0 0 0 rgba(92, 168, 124, 0.4);
+      }
+
+      70% {
+        box-shadow: 0 0 0 6px rgba(92, 168, 124, 0);
+      }
+
+      100% {
+        box-shadow: 0 0 0 0 rgba(92, 168, 124, 0);
+      }
+    }
+
+    .hero h1 {
+      font-size: clamp(3rem, 6vw, 5.5rem);
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+      color: var(--white);
+      margin-bottom: 1.5rem;
+    }
+
+    .hero h1 span {
+      color: var(--c1);
+    }
+
+    .hero p {
+      font-size: clamp(1rem, 2vw, 1.25rem);
+      color: var(--text-muted);
+      line-height: 1.6;
+      max-width: 600px;
+      margin-bottom: 3.5rem;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 1rem;
+    }
+
+    /* Hero Side Elements */
+    .hero-side-left,
+    .hero-side-right {
+      position: absolute;
+      top: 55%;
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .hero-side-left {
+      left: 3%;
+      flex-direction: column;
+      transform: translateY(-50%);
+    }
+
+    .hero-side-right {
+      right: 3%;
+      writing-mode: vertical-rl;
+      transform: translateY(-50%);
+      font-size: 0.9rem;
+      color: var(--c1);
+      text-shadow: 0 0 8px rgba(183, 229, 186, 0.6);
+      letter-spacing: 0.35em;
+    }
+
+    .hero-side-left a {
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .hero-side-left a:hover {
+      color: var(--c1);
+    }
+
+    .hero-icon {
+      filter: drop-shadow(0 0 6px rgba(183, 229, 186, 0.5));
+      animation: float-icon 6s ease-in-out infinite;
+    }
+
+    .hero-icon:nth-child(1) {
+      animation-delay: 0s;
+    }
+
+    .hero-icon:nth-child(2) {
+      animation-delay: 2s;
+    }
+
+    .hero-icon:nth-child(3) {
+      animation-delay: 4s;
+    }
+
+    @keyframes float-icon {
+
+      0%,
+      100% {
+        transform: translateY(0px);
+      }
+
+      50% {
+        transform: translateY(-8px);
+      }
+    }
+
+    .hero-line {
+      width: 1px;
+      height: 80px;
+      background: var(--c2);
+      opacity: 0.3;
+    }
+
+    /* Work Section */
+    .work {
+      padding: 8rem 0;
+    }
+
+    .section-header {
+      margin-bottom: 4rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+
+    .section-title {
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--c1);
+    }
+
+    .work-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(320px, 420px));
+      justify-content: center;
+      gap: 3rem;
+    }
+
+    @media (min-width: 769px) {
+      .personal-bento {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 3rem;
+        align-items: center;
+      }
+      .personal-bento .landscape-slide {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: 2.5rem;
+        max-width: 460px;
+        margin: 0 auto;
+        width: 100%;
+      }
+      .personal-bento .portrait {
+        margin: 0 auto;
+        width: 100%;
+        max-width: 420px;
+      }
+    }
+    @media (max-width: 768px) {
+      .personal-bento {
+        display: flex;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        overflow-y: hidden;
+        scroll-snap-type: x mandatory;
+        gap: 1rem;
+        padding-bottom: 1.5rem;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none; /* Firefox */
+      }
+      .personal-bento::-webkit-scrollbar {
+        display: none;
+      }
+      .personal-bento > * {
+        flex: 0 0 85%;
+        scroll-snap-align: center;
+        max-width: 85%;
+      }
+      .personal-bento .landscape-slide {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+      }
+    }
+
+    .work-card {
+      background: rgba(183, 229, 186, 0.02);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 1.5rem;
+      transition: all 0.4s ease;
+      text-decoration: none;
+      display: block;
+    }
+
+    .work-card:hover {
+      background: rgba(183, 229, 186, 0.04);
+      border-color: rgba(183, 229, 186, 0.2);
+      transform: translateY(-5px);
+    }
+
+    .work-img {
+      width: 100%;
+      aspect-ratio: 16/9;
+      border-radius: 12px;
+      background: var(--dark);
+      margin-bottom: 1.5rem;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--border);
+    }
+
+    .work-img iframe {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 100%;
+      height: 100%;
+      transform: translate(-50%, -50%) scale(1.25);
+      pointer-events: none;
+      border: none;
+    }
+
+    .work-card.portrait .work-img {
+      aspect-ratio: 2/3;
+    }
+
+    .work-card.portrait .work-img iframe {
+      transform: translate(-50%, -50%) scale(1.5);
+    }
+
+    .play-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: rgba(183, 229, 186, 0.1);
+      backdrop-filter: blur(4px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(183, 229, 186, 0.2);
+      transition: all 0.3s ease;
+      color: var(--c1);
+    }
+
+    .work-card:hover .play-icon {
+      background: var(--c1);
+      color: var(--darker);
+      transform: scale(1.1);
+    }
+
+    .work-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.75rem;
+    }
+
+    .work-tag {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--c2);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .work-duration {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .work-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--white);
+      margin-bottom: 0.5rem;
+    }
+
+    .work-desc {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    /* Abstract shapes for placeholders */
+    .shape-1 {
+      background: linear-gradient(135deg, rgba(92, 168, 124, 0.1), rgba(40, 135, 96, 0.2));
+    }
+
+    .shape-2 {
+      background: linear-gradient(135deg, rgba(26, 81, 64, 0.2), rgba(183, 229, 186, 0.1));
+    }
+
+    .shape-3 {
+      background: radial-gradient(circle at center, rgba(183, 229, 186, 0.15), transparent);
+    }
+
+    /* About */
+    .about {
+      padding: 8rem 0;
+      border-top: 1px solid var(--border);
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 6rem;
+      align-items: center;
+    }
+
+    .about-text h2 {
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+    }
+
+    .about-text p {
+      color: var(--text-muted);
+      font-size: 1.1rem;
+      line-height: 1.8;
+      margin-bottom: 2.5rem;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+
+    .stat-item h3 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--c1);
+      margin-bottom: 0.25rem;
+    }
+
+    .stat-item p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin: 0;
+    }
+
+    .about-visual {
+      position: relative;
+      aspect-ratio: 4/5;
+      border-radius: 24px;
+      border: 1px solid var(--border);
+      background: rgba(183, 229, 186, 0.02);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      box-shadow: 0 0 0 rgba(92, 168, 124, 0);
+    }
+
+    .about-visual:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 40px rgba(92, 168, 124, 0.25), 0 0 20px rgba(183, 229, 186, 0.2);
+      border-color: rgba(183, 229, 186, 0.4);
+    }
+
+    .about-visual::before {
+      content: '';
+      position: absolute;
+      width: 60%;
+      height: 60%;
+      background: var(--c3);
+      filter: blur(80px);
+      opacity: 0.2;
+      transition: all 0.4s ease;
+    }
+
+    .about-visual:hover::before {
+      opacity: 0.5;
+      transform: scale(1.3);
+      filter: blur(60px);
+    }
+
+    .skills-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .skill-tag {
+      padding: 0.5rem 1.2rem;
+      border-radius: 100px;
+      background: rgba(183, 229, 186, 0.05);
+      border: 1px solid var(--border);
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--c1);
+    }
+
+    .avatar-placeholder {
+      width: 100%;
+      height: 100%;
+      border-radius: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      background-color: rgba(183, 229, 186, 0.05);
+      transition: transform 0.5s ease;
+    }
+
+    .about-visual:hover .avatar-placeholder {
+      transform: scale(1.05);
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 6rem 0 3rem;
+    }
+
+    .footer-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 5rem;
+    }
+
+    .footer-cta h2 {
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      letter-spacing: -0.02em;
+    }
+
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 2.5rem;
+      border-top: 1px solid rgba(183, 229, 186, 0.05);
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    .social-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .social-links a:hover {
+      color: var(--c1);
+    }
+
+    /* Modal */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(10, 31, 22, 0.85);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .modal-content {
+      background: var(--darker);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 3rem;
+      width: 90%;
+      max-width: 500px;
+      position: relative;
+      transform: translateY(20px);
+      transition: transform 0.3s ease;
+      max-height: 90vh;
+      overflow-y: auto;
+      scrollbar-width: none;
+      /* Firefox */
+      -ms-overflow-style: none;
+      /* IE and Edge */
+    }
+
+    .modal-content::-webkit-scrollbar {
+      display: none;
+      /* Chrome, Safari and Opera */
+    }
+
+    .modal-overlay.active .modal-content {
+      transform: translateY(0);
+    }
+
+    .close-modal {
+      position: absolute;
+      top: 1.5rem;
+      right: 1.5rem;
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 2rem;
+      cursor: pointer;
+      line-height: 1;
+      transition: color 0.3s ease;
+    }
+
+    .close-modal:hover {
+      color: var(--white);
+    }
+
+    .modal-content h2 {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .modal-content p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      margin-bottom: 2rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--c1);
+      margin-bottom: 0.5rem;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      background: rgba(183, 229, 186, 0.03);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 0.8rem 1rem;
+      color: var(--white);
+      font-family: inherit;
+      font-size: 0.95rem;
+      transition: all 0.3s ease;
+    }
+
+    .form-group select option {
+      background: var(--darker);
+      color: var(--white);
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: var(--c2);
+      background: rgba(183, 229, 186, 0.08);
+    }
+
+    .w-100 {
+      width: 100%;
+    }
+
+    /* Custom Cursor */
+    @media (hover: hover) and (pointer: fine) {
+
+      body,
+      a,
+      button,
+      .filter-btn,
+      input,
+      select,
+      textarea {
+        cursor: none;
+      }
+    }
+
+    .cursor-dot {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 16px;
+      height: 16px;
+      background-color: var(--c1);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      z-index: 9999;
+      mix-blend-mode: difference;
+      transition: width 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), height 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), background-color 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--darker);
+      font-weight: 700;
+      font-size: 0;
+    }
+
+    .cursor-dot.active {
+      width: 80px;
+      height: 80px;
+      background-color: var(--white);
+      mix-blend-mode: normal;
+    }
+
+    .cursor-dot.active::after {
+      content: "PLAY";
+      font-size: 1rem;
+      letter-spacing: 1px;
+    }
+
+    /* Marquee */
+    .marquee-section {
+      padding: 2.5rem 0;
+      background: var(--darker);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      overflow: hidden;
+      white-space: nowrap;
+      position: relative;
+      display: flex;
+    }
+
+    .marquee-content {
+      display: inline-block;
+      animation: marquee 30s linear infinite;
+      font-size: 3rem;
+      font-weight: 800;
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(183, 229, 186, 0.2);
+      text-transform: uppercase;
+    }
+
+    .marquee-content span {
+      margin: 0 3rem;
+      color: var(--c1);
+      -webkit-text-stroke: 0;
+    }
+
+    @keyframes marquee {
+      0% {
+        transform: translateX(0);
+      }
+
+      100% {
+        transform: translateX(-50%);
+      }
+    }
+
+    /* Filter Buttons */
+    .filter-container {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 3rem;
+      flex-wrap: wrap;
+    }
+
+    .filter-btn {
+      background: rgba(183, 229, 186, 0.05);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      padding: 0.6rem 1.8rem;
+      border-radius: 100px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      font-family: inherit;
+    }
+
+    .filter-btn:hover,
+    .filter-btn.active {
+      background: var(--c1);
+      color: var(--darker);
+      border-color: var(--c1);
+    }
+
+    /* Filter Animations */
+    .work-card.hidden {
+      display: none !important;
+    }
+
+    /* Hero Background Video */
+    .hero-bg-video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: -2;
+    }
+
+    .hero-bg-video iframe {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 100vw;
+      height: 56.25vw;
+      /* 16:9 Aspect Ratio */
+      min-height: 100vh;
+      min-width: 177.77vh;
+      /* 16:9 Aspect Ratio */
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      opacity: 0.15;
+      filter: grayscale(50%) contrast(1.2);
+    }
+
+    .hero-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to bottom, rgba(10, 31, 22, 0.6) 0%, rgba(10, 31, 22, 0.8) 70%, var(--darker) 100%);
+      z-index: -1;
+    }
+
+    /* Preloader */
+    .preloader {
+      position: fixed;
+      inset: 0;
+      background-color: var(--darker);
+      z-index: 10000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.8s cubic-bezier(0.8, 0, 0.1, 1), visibility 0.8s;
+    }
+
+    .preloader.hidden {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .preloader-content {
+      width: 300px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .preloader-counter {
+      font-size: 4rem;
+      font-weight: 800;
+      color: var(--white);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .preloader-bar {
+      width: 100%;
+      height: 2px;
+      background: var(--border);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .preloader-progress {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 0%;
+      background: var(--c1);
+      transition: width 0.1s linear;
+    }
+
+    /* Scroll Progress Bar */
+    .scroll-progress-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      z-index: 9998;
+      background: transparent;
+    }
+
+    .scroll-progress-bar {
+      height: 100%;
+      width: 0%;
+      background: var(--c1);
+      box-shadow: 0 0 10px var(--c1);
+      transition: width 0.1s ease-out;
+    }
+
+    /* Reveal Text Animation */
+    .reveal-text {
+      overflow: hidden;
+      display: inline-block;
+      vertical-align: top;
+    }
+
+    .reveal-text span {
+      display: inline-block;
+      transform: translateY(110%);
+      transition: transform 1.2s cubic-bezier(0.19, 1, 0.22, 1);
+    }
+
+    .reveal-text.visible span {
+      transform: translateY(0);
+    }
+
+    /* Spinning Badge & Ken Burns */
+    .spinning-badge {
+      position: absolute;
+      bottom: -30px;
+      right: -30px;
+      width: 140px;
+      height: 140px;
+      animation: spin 15s linear infinite;
+      z-index: 10;
+      pointer-events: none;
+    }
+
+    .spinning-badge svg {
+      width: 100%;
+      height: 100%;
+      fill: var(--c1);
+    }
+
+    @keyframes spin {
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    .ken-burns {
+      animation: kenBurns 20s infinite alternate ease-in-out;
+    }
+
+    @keyframes kenBurns {
+      0% {
+        transform: scale(1);
+      }
+
+      100% {
+        transform: scale(1.15);
+      }
+    }
+
+    /* Instagram Dropdown */
+    .ig-dropdown {
+      position: relative;
+      display: inline-block;
+    }
+    .ig-dropdown-content {
+      opacity: 0;
+      visibility: hidden;
+      position: absolute;
+      bottom: 120%;
+      left: 50%;
+      transform: translateX(-50%) translateY(10px);
+      background: rgba(10, 31, 22, 0.95);
+      backdrop-filter: blur(8px);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 0.5rem;
+      min-width: 120px;
+      text-align: center;
+      z-index: 100;
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+    .ig-dropdown.active .ig-dropdown-content {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(-50%) translateY(0);
+    }
+    .ig-dropdown-content a {
+      display: block;
+      padding: 0.6rem !important;
+      color: var(--white) !important;
+      font-size: 0.85rem !important;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      border-radius: 8px;
+    }
+    .ig-dropdown-content a:hover {
+      background: rgba(183, 229, 186, 0.15) !important;
+      color: var(--c1) !important;
+    }
+
+    /* Utilities */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 1s ease, transform 1s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+
+      .hero {
+        padding-top: 100px;
+      }
+
+      .hero-side-left,
+      .hero-side-right {
+        display: none;
+      }
+
+      .hero-actions {
+        flex-direction: column;
+      }
+
+      .about-grid {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+      }
+
+      .footer-top {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 2rem;
+      }
+
+      .footer-bottom {
+        flex-direction: column;
+        gap: 1.5rem;
+        text-align: center;
+      }
+
+      .social-links {
+        justify-content: center;
+        width: 100%;
+      }
+
+      .work-grid {
+        display: flex;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        overflow-y: hidden;
+        scroll-snap-type: x mandatory;
+        gap: 1rem;
+        padding-bottom: 1.5rem;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none; /* Firefox */
+      }
+      .work-grid::-webkit-scrollbar {
+        display: none; /* Chrome/Safari/Edge */
+      }
+      .work-grid .work-card {
+        flex: 0 0 85%; /* Make cards take up 85% of width so the next one peeks out */
+        scroll-snap-align: center;
+        max-width: 85%;
+      }
+    }
+  </style>
 </head>
+
 <body>
 
-<!-- Preloader -->
-<div class="preloader" id="preloader">
-  <div class="preloader-content">
-    <div class="preloader-counter" id="preloaderCounter">0%</div>
-    <div class="preloader-bar">
-      <div class="preloader-progress" id="preloaderProgress"></div>
-    </div>
-  </div>
-</div>
-
-<!-- Scroll Progress Bar -->
-<div class="scroll-progress-container">
-  <div class="scroll-progress-bar" id="scrollProgressBar"></div>
-</div>
-
-<!-- Custom Cursor -->
-<div class="cursor-dot" id="cursorDot"></div>
-
-<div class="grid-bg" id="parallaxBg"></div>
-<div class="glow" id="parallaxGlow"></div>
-
-<header>
-  <div class="container nav-wrapper">
-    <nav>
-      <a href="#" class="logo">@ranberrycuts</a>
-      <div class="nav-links">
-        <a href="#work">Work</a>
-        <a href="#about">About</a>
-        <a href="#contact">Contact</a>
-      </div>
-      <a href="#" class="btn-primary open-modal">Let's Talk</a>
-    </nav>
-  </div>
-</header>
-
-<section class="hero" style="position: relative; overflow: hidden;" id="heroSection">
-  <div class="hero-bg-video" id="parallaxVideo">
-    <iframe src="https://www.youtube.com/embed/BxKaR7rcIbc?autoplay=1&mute=1&loop=1&playlist=BxKaR7rcIbc&controls=0&showinfo=0&rel=0" frameborder="0" allow="autoplay; encrypted-media"></iframe>
-  </div>
-  <div class="hero-overlay"></div>
-
-  <!-- Minimal Side Elements -->
-  <div class="hero-side-left fade-in" id="parallaxLeft">
-    <!-- Camera -->
-    <svg class="hero-icon" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--c1)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
-    <!-- Cut / Scissors -->
-    <svg class="hero-icon" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--c1)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><line x1="20" y1="4" x2="8.12" y2="15.88"/><line x1="14.47" y1="14.48" x2="20" y2="20"/><line x1="8.12" y1="8.12" x2="12" y2="12"/></svg>
-    <!-- Film Strip -->
-    <svg class="hero-icon" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--c1)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"/><line x1="7" y1="2" x2="7" y2="22"/><line x1="17" y1="2" x2="17" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="2" y1="7" x2="7" y2="7"/><line x1="2" y1="17" x2="7" y2="17"/><line x1="17" y1="17" x2="22" y2="17"/><line x1="17" y1="7" x2="22" y2="7"/></svg>
-    <div class="hero-line"></div>
-  </div>
-  <div class="hero-side-right fade-in" id="parallaxRight">
-    <div class="hero-line"></div>
-    SCROLL
-  </div>
-
-  <div class="container">
-    <div class="hero-content">
-      <div class="tag fade-in" style="opacity: 0;">
-        <div class="tag-dot"></div>
-        Available for freelance
-      </div>
-      <h1 class="reveal-text" style="display: block;"><span>Editing with <span style="color: var(--c1);">Precision.</span></span></h1>
-      <h1 class="reveal-text" style="display: block; margin-bottom: 1.5rem;"><span>Crafting Content that Hits.</span></h1>
-      <p class="fade-in" style="opacity: 0;">I specialize in short-form and long-form video editing that stops thumbs, builds audiences, and drives real results.</p>
-      <div class="hero-actions fade-in" style="opacity: 0;">
-        <a href="#work" class="btn-primary magnetic-btn">Explore Work</a>
-        <a href="#about" class="btn-secondary magnetic-btn">About Me</a>
+  <!-- Preloader -->
+  <div class="preloader" id="preloader">
+    <div class="preloader-content">
+      <div class="preloader-counter" id="preloaderCounter">0%</div>
+      <div class="preloader-bar">
+        <div class="preloader-progress" id="preloaderProgress"></div>
       </div>
     </div>
   </div>
-</section>
 
-<!-- Marquee Section -->
-<div class="marquee-section">
-  <div class="marquee-content">
-    PRECISION EDITING <span>•</span> SOUND DESIGN <span>•</span> COLOR GRADING <span>•</span> MOTION GRAPHICS <span>•</span> VISUAL EFFECTS <span>•</span> ENGAGING PACING <span>•</span> PRECISION EDITING <span>•</span> SOUND DESIGN <span>•</span> COLOR GRADING <span>•</span> MOTION GRAPHICS <span>•</span> VISUAL EFFECTS <span>•</span> ENGAGING PACING <span>•</span> 
+  <!-- Scroll Progress Bar -->
+  <div class="scroll-progress-container">
+    <div class="scroll-progress-bar" id="scrollProgressBar"></div>
   </div>
-  <div class="marquee-content" aria-hidden="true">
-    PRECISION EDITING <span>•</span> SOUND DESIGN <span>•</span> COLOR GRADING <span>•</span> MOTION GRAPHICS <span>•</span> VISUAL EFFECTS <span>•</span> ENGAGING PACING <span>•</span> PRECISION EDITING <span>•</span> SOUND DESIGN <span>•</span> COLOR GRADING <span>•</span> MOTION GRAPHICS <span>•</span> VISUAL EFFECTS <span>•</span> ENGAGING PACING <span>•</span> 
-  </div>
-</div>
 
-<section class="work" id="work">
-  <div class="container">
-    <div class="section-header fade-in">
-      <h2 class="section-title reveal-text"><span>Client <span style="color: var(--c2);">Work</span></span></h2>
+  <!-- Custom Cursor -->
+  <div class="cursor-dot" id="cursorDot"></div>
+
+  <div class="grid-bg" id="parallaxBg"></div>
+  <div class="glow" id="parallaxGlow"></div>
+
+  <header>
+    <div class="container nav-wrapper">
+      <nav>
+        <a href="#" class="logo">@ranberrycuts</a>
+        <div class="nav-links">
+          <a href="#work">Work</a>
+          <a href="#about">About</a>
+          <a href="#contact">Contact</a>
+        </div>
+        <a href="#" class="btn-primary open-modal">Let's Talk</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero" style="position: relative; overflow: hidden;" id="heroSection">
+    <!-- Minimal Side Elements -->
+    <div class="hero-side-left fade-in" id="parallaxLeft">
+      <!-- Camera -->
+      <svg class="hero-icon" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--c1)"
+        stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
+        <circle cx="12" cy="13" r="4" />
+      </svg>
+      <!-- Cut / Scissors -->
+      <svg class="hero-icon" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--c1)"
+        stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="6" cy="6" r="3" />
+        <circle cx="6" cy="18" r="3" />
+        <line x1="20" y1="4" x2="8.12" y2="15.88" />
+        <line x1="14.47" y1="14.48" x2="20" y2="20" />
+        <line x1="8.12" y1="8.12" x2="12" y2="12" />
+      </svg>
+      <!-- Film Strip -->
+      <svg class="hero-icon" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--c1)"
+        stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18" />
+        <line x1="7" y1="2" x2="7" y2="22" />
+        <line x1="17" y1="2" x2="17" y2="22" />
+        <line x1="2" y1="12" x2="22" y2="12" />
+        <line x1="2" y1="7" x2="7" y2="7" />
+        <line x1="2" y1="17" x2="7" y2="17" />
+        <line x1="17" y1="17" x2="22" y2="17" />
+        <line x1="17" y1="7" x2="22" y2="7" />
+      </svg>
+      <div class="hero-line"></div>
+    </div>
+    <div class="hero-side-right fade-in" id="parallaxRight">
+      <div class="hero-line"></div>
+      SCROLL
     </div>
 
-    <!-- Category Filters -->
-    <div class="filter-container fade-in" id="workFilters">
-      <button class="filter-btn active" data-filter="all">All</button>
-      <button class="filter-btn" data-filter="short-form">Short-form Reels</button>
-      <button class="filter-btn" data-filter="educational">Educational</button>
-      <button class="filter-btn" data-filter="commercial">Commercial</button>
+    <div class="container">
+      <div class="hero-content">
+        <div class="tag fade-in" style="opacity: 0;">
+          <div class="tag-dot"></div>
+          Available for freelance
+        </div>
+        <h1 class="reveal-text" style="display: block;"><span>Editing with <span
+              style="color: var(--c1);">Precision.</span></span></h1>
+        <h1 class="reveal-text" style="display: block; margin-bottom: 1.5rem;"><span>Crafting Content that Hits.</span>
+        </h1>
+        <p class="fade-in" style="opacity: 0;">I specialize in short-form video editing that stops thumbs,
+          builds audiences, and drives real results.</p>
+        <div class="hero-actions fade-in" style="opacity: 0;">
+          <a href="#work" class="btn-primary magnetic-btn">Explore Work</a>
+          <a href="#about" class="btn-secondary magnetic-btn">About Me</a>
+        </div>
+      </div>
     </div>
+  </section>
 
-    <div class="work-grid" id="clientWorkGrid">
-      <!-- Portrait Card 1 -->
-      <a href="https://youtube.com/shorts/ZtckZIcqIyU?feature=share" class="work-card portrait fade-in tilt-card" data-youtube-id="ZtckZIcqIyU" data-is-portrait="true" data-category="commercial">
-        <div class="work-img shape-1">
-          <iframe src="https://www.youtube.com/embed/ZtckZIcqIyU?autoplay=1&mute=1&loop=1&playlist=ZtckZIcqIyU&controls=0&showinfo=0&rel=0" frameborder="0" allow="autoplay; encrypted-media" style="position:absolute; width:100%; height:100%; pointer-events:none;"></iframe>
-          <div class="play-icon" style="z-index: 2;">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+  <!-- Marquee Section -->
+  <div class="marquee-section">
+    <div class="marquee-content">
+      PRECISION EDITING <span>•</span> SOUND DESIGN <span>•</span> COLOR GRADING <span>•</span> MOTION GRAPHICS
+      <span>•</span> VISUAL EFFECTS <span>•</span> ENGAGING PACING <span>•</span> PRECISION EDITING <span>•</span> SOUND
+      DESIGN <span>•</span> COLOR GRADING <span>•</span> MOTION GRAPHICS <span>•</span> VISUAL EFFECTS <span>•</span>
+      ENGAGING PACING <span>•</span>
+    </div>
+    <div class="marquee-content" aria-hidden="true">
+      PRECISION EDITING <span>•</span> SOUND DESIGN <span>•</span> COLOR GRADING <span>•</span> MOTION GRAPHICS
+      <span>•</span> VISUAL EFFECTS <span>•</span> ENGAGING PACING <span>•</span> PRECISION EDITING <span>•</span> SOUND
+      DESIGN <span>•</span> COLOR GRADING <span>•</span> MOTION GRAPHICS <span>•</span> VISUAL EFFECTS <span>•</span>
+      ENGAGING PACING <span>•</span>
+    </div>
+  </div>
+
+  <section class="work" id="work">
+    <div class="container">
+      <div class="section-header fade-in">
+        <h2 class="section-title reveal-text"><span>Client <span style="color: var(--c3);">Work</span></span></h2>
+      </div>
+
+      <!-- Category Filters -->
+      <div class="filter-container fade-in" id="workFilters">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="short-form">Short-form Content</button>
+      </div>
+
+      <div class="work-grid" id="clientWorkGrid">
+        <!-- Portrait Card 1 -->
+        <a href="https://vimeo.com/1189514327" class="work-card portrait fade-in tilt-card"
+          data-vimeo-id="1189514327" data-is-portrait="true" data-category="short-form">
+          <div class="work-img shape-1">
+            <iframe
+              src="https://player.vimeo.com/video/1189514327?autoplay=1&loop=1&muted=1&background=1"
+              frameborder="0" allow="autoplay; fullscreen; picture-in-picture"
+              style="position:absolute; width:100%; height:100%; pointer-events:none;"></iframe>
+            <div class="play-icon" style="z-index: 2;">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M8 5v14l11-7z" />
+              </svg>
+            </div>
+          </div>
+          <div class="work-meta">
+            <span class="work-tag">Instagram Reels</span>
+            <span class="work-duration">0:32</span>
+          </div>
+          <h3 class="work-title">SriMandir</h3>
+          <p class="work-desc">Sri Mandir is a popular devotional app and digital platform, owned by AppsForBharat. It
+            serves over 30 million users. </p>
+        </a>
+
+        <!-- Portrait Card 2 -->
+        <a href="https://vimeo.com/1189514162" class="work-card portrait fade-in tilt-card"
+          data-vimeo-id="1189514162" data-is-portrait="true" data-category="short-form">
+          <div class="work-img shape-2">
+            <iframe
+              src="https://player.vimeo.com/video/1189514162?autoplay=1&loop=1&muted=1&background=1"
+              frameborder="0" allow="autoplay; fullscreen; picture-in-picture"
+              style="position:absolute; width:100%; height:100%; pointer-events:none;"></iframe>
+            <div class="play-icon" style="z-index: 2;">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M8 5v14l11-7z" />
+              </svg>
+            </div>
+          </div>
+          <div class="work-meta">
+            <span class="work-tag">Instagram Reel</span>
+            <span class="work-duration">1:33</span>
+          </div>
+          <h3 class="work-title">Dietitian Reel</h3>
+          <p class="work-desc">Dietitians are qualified healthcare professionals who provide Medical Nutrition Therapy
+            (MNT) for weight management, chronic diseases, and digestive health.</p>
+        </a>
+
+        <!-- Portrait Card 3 -->
+        <a href="https://vimeo.com/1189514160" class="work-card portrait fade-in tilt-card"
+          data-vimeo-id="1189514160" data-is-portrait="true" data-category="short-form">
+          <div class="work-img shape-3">
+            <iframe
+              src="https://player.vimeo.com/video/1189514160?autoplay=1&loop=1&muted=1&background=1"
+              frameborder="0" allow="autoplay; fullscreen; picture-in-picture"
+              style="position:absolute; width:100%; height:100%; pointer-events:none;"></iframe>
+            <div class="play-icon" style="z-index: 2;">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M8 5v14l11-7z" />
+              </svg>
+            </div>
+          </div>
+          <div class="work-meta">
+            <span class="work-tag">YouTube Shorts</span>
+            <span class="work-duration">0:43</span>
+          </div>
+          <h3 class="work-title">Zomato Educational Reel</h3>
+          <p class="work-desc">Educational reels are short-form, high-engagement videos (under 60 seconds) that deliver
+            bite-sized knowledge, tips, or tutorials, often fostering community growth.</p>
+        </a>
+
+        <!-- Portrait Card 4 -->
+        <a href="https://vimeo.com/1189514158" class="work-card portrait fade-in tilt-card"
+          data-vimeo-id="1189514158" data-is-portrait="true" data-category="short-form">
+          <div class="work-img shape-1">
+            <iframe
+              src="https://player.vimeo.com/video/1189514158?autoplay=1&loop=1&muted=1&background=1"
+              frameborder="0" allow="autoplay; fullscreen; picture-in-picture"
+              style="position:absolute; width:100%; height:100%; pointer-events:none;"></iframe>
+            <div class="play-icon" style="z-index: 2;">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M8 5v14l11-7z" />
+              </svg>
+            </div>
+          </div>
+          <div class="work-meta">
+            <span class="work-tag">Instagram Reels</span>
+            <span class="work-duration">1:46</span>
+          </div>
+          <h3 class="work-title">Kaabil Kids</h3>
+          <p class="work-desc">Kaabil Kids is a premier online chess coaching platform in India, founded in 2019,
+            focused on providing structured, affordable, and accessible chess training for children.</p>
+        </a>
+      </div>
+
+      <div class="section-header fade-in" style="margin-top: 6rem;">
+        <h2 class="section-title reveal-text"><span>Personal <span style="color: var(--c3);">Content</span></span></h2>
+      </div>
+
+      <div class="filter-container fade-in" id="personalFilters">
+        <button class="filter-btn active" data-filter="all">All</button>
+      </div>
+
+      <div class="personal-bento" id="personalWorkGrid">
+        <div class="landscape-slide">
+          <!-- Personal Landscape Card 1 (Intro Video) -->
+          <a href="https://vimeo.com/1189515299" class="work-card fade-in tilt-card" data-vimeo-id="1189515299"
+            data-is-portrait="true" data-category="short-form">
+            <div class="work-img shape-1">
+              <iframe
+                src="https://player.vimeo.com/video/1189515299?autoplay=1&loop=1&muted=1&background=1"
+                frameborder="0" allow="autoplay; fullscreen; picture-in-picture"
+                style="position:absolute; width:100%; height:100%; pointer-events:none;"></iframe>
+              <div class="play-icon" style="z-index: 2;">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M8 5v14l11-7z" />
+                </svg>
+              </div>
+            </div>
+            <div class="work-meta">
+              <span class="work-tag">Instagram Reels</span>
+              <span class="work-duration">0:20</span>
+            </div>
+            <h3 class="work-title">Cinematic Reel</h3>
+            <p class="work-desc">A highly visual and impactful reel showcasing creative flow.</p>
+          </a>
+
+          <div class="fade-in" style="text-align: center; color: var(--white); font-size: 1.1rem; font-weight: 500; font-style: italic; letter-spacing: 0.5px;">
+            <span style="color: var(--c1);">"</span>I film stories, not just videos.<span style="color: var(--c1);">"</span>
+          </div>
+
+          <!-- Personal Landscape Card 2 (Ideology Video) -->
+          <a href="https://vimeo.com/1189515302?share=copy&fl=sv&fe=ci" class="work-card fade-in tilt-card" data-vimeo-id="1189515302"
+            data-is-portrait="false" data-category="long-form">
+            <div class="work-img shape-2">
+              <iframe
+                src="https://player.vimeo.com/video/1189515302?autoplay=1&loop=1&muted=1&background=1"
+                frameborder="0" allow="autoplay; fullscreen; picture-in-picture"
+                style="position:absolute; width:100%; height:100%; pointer-events:none;"></iframe>
+              <div class="play-icon" style="z-index: 2;">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M8 5v14l11-7z" />
+                </svg>
+              </div>
+            </div>
+            <div class="work-meta">
+              <span class="work-tag">Vimeo Video</span>
+              <span class="work-duration">8:20</span>
+            </div>
+            <h3 class="work-title">Ideology Video</h3>
+            <p class="work-desc">A cinematic documentary-style journey outlining my core ideology.</p>
+          </a>
+        </div>
+
+        <!-- Personal Portrait Card 1 (Fast Pace Edit) -->
+        <a href="https://vimeo.com/1189515296" class="work-card portrait fade-in tilt-card"
+          data-vimeo-id="1189515296" data-is-portrait="false" data-category="long-form">
+          <div class="work-img shape-2">
+            <iframe
+              src="https://player.vimeo.com/video/1189515296?autoplay=1&loop=1&muted=1&background=1"
+              frameborder="0" allow="autoplay; fullscreen; picture-in-picture"
+              style="position:absolute; width:100%; height:100%; pointer-events:none;"></iframe>
+            <div class="play-icon" style="z-index: 2;">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M8 5v14l11-7z" />
+              </svg>
+            </div>
+          </div>
+          <div class="work-meta">
+            <span class="work-tag">Vimeo Video</span>
+            <span class="work-duration">12:15</span>
+          </div>
+          <h3 class="work-title">Fast Pace Edit</h3>
+          <p class="work-desc">A rhythmic, high-energy cut focusing on fast transitions.</p>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="about" id="about">
+    <div class="container">
+      <div class="about-grid">
+        <div class="about-text fade-in">
+          <h2 class="reveal-text" style="display: block;"><span>More than just cutting clips.</span></h2>
+          <p>Hi, I am Ranjeet. I approach editing as a form of storytelling. Every cut, sound effect, and color tweak is deliberately
+            chosen to enhance the narrative and keep the viewer engaged from the first frame to the last. My focus is
+            entirely on pacing, rhythm, and creating emotion through video.</p>
+
+          <div class="skills-container">
+            <div class="skill-tag">Short-form Reels</div>
+            <!-- <div class="skill-tag">YouTube Documentaries</div> -->
+            <div class="skill-tag">Color Grading</div>
+            <div class="skill-tag">Sound Design</div>
+            <div class="skill-tag">Motion Graphics</div>
+          </div>
+
+          <div class="stats">
+            <div class="stat-item">
+              <h3>50+</h3>
+              <p>Projects Delivered</p>
+            </div>
+            <div class="stat-item">
+              <h3>85%</h3>
+              <p>Positive Response</p>
+            </div>
           </div>
         </div>
-        <div class="work-meta">
-          <span class="work-tag">Instagram Reels</span>
-          <span class="work-duration">0:32</span>
-        </div>
-        <h3 class="work-title">SriMandir</h3>
-        <p class="work-desc">Sri Mandir is a popular devotional app and digital platform, owned by AppsForBharat. It serves over 30 million users. </p>
-      </a>
+        <div class="about-visual fade-in" style="position: relative;">
+          <div class="avatar-placeholder ken-burns"
+            style="background-image: url('Images/profile.png'); background-size: cover; background-position: center; border: none; color: transparent; width: 100%; height: 100%;">
+            Photo</div>
 
-      <!-- Portrait Card 2 -->
-      <a href="https://youtube.com/shorts/ogqfqih37UY?feature=share" class="work-card portrait fade-in tilt-card" data-youtube-id="ogqfqih37UY" data-is-portrait="true" data-category="educational">
-        <div class="work-img shape-2">
-          <iframe src="https://www.youtube.com/embed/ogqfqih37UY?autoplay=1&mute=1&loop=1&playlist=ogqfqih37UY&controls=0&showinfo=0&rel=0" frameborder="0" allow="autoplay; encrypted-media" style="position:absolute; width:100%; height:100%; pointer-events:none;"></iframe>
-          <div class="play-icon" style="z-index: 2;">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+          <div class="spinning-badge">
+            <svg viewBox="0 0 100 100">
+              <path id="circlePath" d="M 50, 50 m -35, 0 a 35,35 0 1,1 70,0 a 35,35 0 1,1 -70,0" fill="transparent" />
+              <text font-size="11.5" font-weight="800" letter-spacing="2.8">
+                <textPath href="#circlePath" startOffset="0%">
+                  AVAILABLE FOR HIRE 
+                </textPath>
+              </text>
+            </svg>
           </div>
-        </div>
-        <div class="work-meta">
-          <span class="work-tag">Instagram Reel</span>
-          <span class="work-duration">1:33</span>
-        </div>
-        <h3 class="work-title">Dietitian Reel</h3>
-        <p class="work-desc">Dietitians are qualified healthcare professionals who provide Medical Nutrition Therapy (MNT) for weight management, chronic diseases, and digestive health.</p>
-      </a>
-
-      <!-- Portrait Card 3 -->
-      <a href="https://youtube.com/shorts/tM1GCaJQjlo?feature=share" class="work-card portrait fade-in tilt-card" data-youtube-id="tM1GCaJQjlo" data-is-portrait="true" data-category="educational">
-        <div class="work-img shape-3">
-          <iframe src="https://www.youtube.com/embed/tM1GCaJQjlo?autoplay=1&mute=1&loop=1&playlist=tM1GCaJQjlo&controls=0&showinfo=0&rel=0" frameborder="0" allow="autoplay; encrypted-media" style="position:absolute; width:100%; height:100%; pointer-events:none;"></iframe>
-          <div class="play-icon" style="z-index: 2;">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-          </div>
-        </div>
-        <div class="work-meta">
-          <span class="work-tag">YouTube Shorts</span>
-          <span class="work-duration">0:43</span>
-        </div>
-        <h3 class="work-title">Zomato Educational Reel</h3>
-        <p class="work-desc">Educational reels are short-form, high-engagement videos (under 60 seconds) that deliver bite-sized knowledge, tips, or tutorials, often fostering community growth.</p>
-      </a>
-
-      <!-- Portrait Card 4 -->
-      <a href="https://youtube.com/shorts/MIwlRTKOxyU?feature=share" class="work-card portrait fade-in tilt-card" data-youtube-id="MIwlRTKOxyU" data-is-portrait="true" data-category="educational">
-        <div class="work-img shape-1">
-          <iframe src="https://www.youtube.com/embed/MIwlRTKOxyU?autoplay=1&mute=1&loop=1&playlist=MIwlRTKOxyU&controls=0&showinfo=0&rel=0" frameborder="0" allow="autoplay; encrypted-media" style="position:absolute; width:100%; height:100%; pointer-events:none;"></iframe>
-          <div class="play-icon" style="z-index: 2;">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-          </div>
-        </div>
-        <div class="work-meta">
-          <span class="work-tag">Instagram Reels</span>
-          <span class="work-duration">1:46</span>
-        </div>
-        <h3 class="work-title">Kaabil Kids</h3>
-        <p class="work-desc">Kaabil Kids is a premier online chess coaching platform in India, founded in 2019, focused on providing structured, affordable, and accessible chess training for children.</p>
-      </a>
-    </div>
-
-    <div class="section-header fade-in" style="margin-top: 6rem;">
-      <h2 class="section-title reveal-text"><span>Personal <span style="color: var(--c2);">Content</span></span></h2>
-    </div>
-
-    <div class="filter-container fade-in" id="personalFilters">
-      <button class="filter-btn active" data-filter="all">All</button>
-      <button class="filter-btn" data-filter="short-form">Short-form</button>
-      <button class="filter-btn" data-filter="long-form">Long-form</button>
-    </div>
-
-    <div class="work-grid" id="personalWorkGrid">
-      <!-- Personal Portrait Card 1 -->
-      <a href="https://youtube.com/shorts/QLO2o6r6WdY?feature=share" class="work-card portrait fade-in tilt-card" data-youtube-id="QLO2o6r6WdY" data-is-portrait="true" data-category="short-form">
-        <div class="work-img shape-2">
-          <iframe src="https://www.youtube.com/embed/QLO2o6r6WdY?autoplay=1&mute=1&loop=1&playlist=QLO2o6r6WdY&controls=0&showinfo=0&rel=0" frameborder="0" allow="autoplay; encrypted-media" style="position:absolute; width:100%; height:100%; pointer-events:none;"></iframe>
-          <div class="play-icon" style="z-index: 2;">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-          </div>
-        </div>
-        <div class="work-meta">
-          <span class="work-tag">Instagram Reels</span>
-          <span class="work-duration">0:20</span>
-        </div>
-        <h3 class="work-title">Cinematic Reel</h3>
-        <p class="work-desc">A highly visual and impactful reel showcasing creative flow.</p>
-      </a>
-
-      <!-- Personal Portrait Card 2 -->
-      <a href="https://youtube.com/shorts/gQL188xq5Uk?feature=share" class="work-card portrait fade-in tilt-card" data-youtube-id="gQL188xq5Uk" data-is-portrait="true" data-category="short-form">
-        <div class="work-img shape-3">
-          <iframe src="https://www.youtube.com/embed/gQL188xq5Uk?autoplay=1&mute=1&loop=1&playlist=gQL188xq5Uk&controls=0&showinfo=0&rel=0" frameborder="0" allow="autoplay; encrypted-media" style="position:absolute; width:100%; height:100%; pointer-events:none;"></iframe>
-          <div class="play-icon" style="z-index: 2;">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-          </div>
-        </div>
-        <div class="work-meta">
-          <span class="work-tag">TikTok Edit</span>
-          <span class="work-duration">0:40</span>
-        </div>
-        <h3 class="work-title">Idealogy</h3>
-        <p class="work-desc">A narrative exploration blending sound design and pacing.</p>
-      </a>
-
-      <!-- Personal Landscape Card 1 (16:9) -->
-      <a href="https://youtu.be/jFMs3-MgW3k" class="work-card fade-in tilt-card" data-youtube-id="jFMs3-MgW3k" data-is-portrait="false" data-category="long-form">
-        <div class="work-img shape-1">
-          <iframe src="https://www.youtube.com/embed/jFMs3-MgW3k?autoplay=1&mute=1&loop=1&playlist=jFMs3-MgW3k&controls=0&showinfo=0&rel=0" frameborder="0" allow="autoplay; encrypted-media" style="position:absolute; width:100%; height:100%; pointer-events:none;"></iframe>
-          <div class="play-icon" style="z-index: 2;">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-          </div>
-        </div>
-        <div class="work-meta">
-          <span class="work-tag">YouTube Video</span>
-          <span class="work-duration">8:20</span>
-        </div>
-        <h3 class="work-title">Dwarka</h3>
-        <p class="work-desc">A cinematic documentary-style journey through Dwarka.</p>
-      </a>
-
-      <!-- Personal Landscape Card 2 (16:9) -->
-      <a href="https://youtu.be/BxKaR7rcIbc" class="work-card fade-in tilt-card" data-youtube-id="BxKaR7rcIbc" data-is-portrait="false" data-category="long-form">
-        <div class="work-img shape-2">
-          <iframe src="https://www.youtube.com/embed/BxKaR7rcIbc?autoplay=1&mute=1&loop=1&playlist=BxKaR7rcIbc&controls=0&showinfo=0&rel=0" frameborder="0" allow="autoplay; encrypted-media" style="position:absolute; width:100%; height:100%; pointer-events:none;"></iframe>
-          <div class="play-icon" style="z-index: 2;">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-          </div>
-        </div>
-        <div class="work-meta">
-          <span class="work-tag">YouTube Video</span>
-          <span class="work-duration">12:15</span>
-        </div>
-        <h3 class="work-title">Fast Pace Edit</h3>
-        <p class="work-desc">A rhythmic, high-energy cut focusing on fast transitions.</p>
-      </a>
-    </div>
-  </div>
-</section>
-
-<section class="about" id="about">
-  <div class="container">
-    <div class="about-grid">
-      <div class="about-text fade-in">
-        <h2 class="reveal-text" style="display: block;"><span>More than just cutting clips.</span></h2>
-        <p>I approach editing as a form of storytelling. Every cut, sound effect, and color tweak is deliberately chosen to enhance the narrative and keep the viewer engaged from the first frame to the last. My focus is entirely on pacing, rhythm, and creating emotion through video.</p>
-        
-        <div class="skills-container">
-          <div class="skill-tag">Short-form Reels</div>
-          <div class="skill-tag">YouTube Documentaries</div>
-          <div class="skill-tag">Color Grading</div>
-          <div class="skill-tag">Sound Design</div>
-          <div class="skill-tag">Motion Graphics</div>
-        </div>
-
-        <div class="stats">
-          <div class="stat-item">
-            <h3>50+</h3>
-            <p>Projects Delivered</p>
-          </div>
-          <div class="stat-item">
-            <h3>85%</h3>
-            <p>Positive Response</p>
-          </div>
-        </div>
-      </div>
-      <div class="about-visual fade-in" style="position: relative;">
-        <div class="avatar-placeholder ken-burns" style="background-image: url('Images/profile.png'); background-size: cover; background-position: center; border: none; color: transparent; width: 100%; height: 100%;">Photo</div>
-        
-        <div class="spinning-badge">
-          <svg viewBox="0 0 100 100">
-            <path id="circlePath" d="M 50, 50 m -35, 0 a 35,35 0 1,1 70,0 a 35,35 0 1,1 -70,0" fill="transparent"/>
-            <text font-size="11.5" font-weight="800" letter-spacing="2.8">
-              <textPath href="#circlePath" startOffset="0%">
-                AVAILABLE FOR HIRE • 2026 • 
-              </textPath>
-            </text>
-          </svg>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<footer id="contact">
-  <div class="container">
-    <div class="footer-top fade-in">
-      <div class="footer-cta">
-        <h2 class="reveal-text" style="display: block;"><span>Let's build something great.</span></h2>
-        <a href="#" class="btn-primary open-modal magnetic-btn" style="display: inline-block; margin-top: 1rem;">Get in Touch</a>
+  <footer id="contact">
+    <div class="container">
+      <div class="footer-top fade-in">
+        <div class="footer-cta">
+          <h2 class="reveal-text" style="display: block;"><span>Let's build something great.</span></h2>
+          <a href="#" class="btn-primary open-modal magnetic-btn" style="display: inline-block; margin-top: 1rem;">Get
+            in Touch</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 Ranjeet Mishra. All rights reserved.</p>
+        <div class="social-links">
+          <div class="ig-dropdown" id="igDropdown">
+            <a href="#" id="igDropdownBtn">Instagram</a>
+            <div class="ig-dropdown-content">
+              <a href="https://www.instagram.com/ranberrycuts?igsh=MTQ3N3l4em0yMXJmZA==" target="_blank" rel="noopener noreferrer">Editing</a>
+              <a href="https://www.instagram.com/ranjeeetmishra?igsh=MWY3N3E4bHhweHViYw==" target="_blank" rel="noopener noreferrer">Travel</a>
+            </div>
+          </div>
+          <a href="#">Twitter</a>
+          <a href="https://www.linkedin.com/in/ranjeetmishra1720/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        </div>
       </div>
     </div>
-    <div class="footer-bottom">
-      <p>&copy; 2026 RanBerry.Cuts. All rights reserved.</p>
-      <div class="social-links">
-        <a href="https://www.instagram.com/ranberry.cuts?igsh=MTQ3N3l4em0yMXJmZA==">Instagram</a>
-        <a href="#">Twitter</a>
-        <a href="https://www.linkedin.com/in/ranjeetmishra1720/">LinkedIn</a>
-      </div>
-    </div>
-  </div>
-</footer>
+  </footer>
 
-<script>
-  // Simple intersection observer for fade-in animations
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-      }
-    });
-  }, {
-    threshold: 0.1,
-    rootMargin: "0px 0px -50px 0px"
-  });
-
-  document.querySelectorAll('.fade-in, .reveal-text').forEach((el) => {
-    if (!el.closest('.hero')) {
-      observer.observe(el);
-    }
-  });
-
-  // Modal Logic
-  document.addEventListener('DOMContentLoaded', () => {
-    const modal = document.getElementById('contactModal');
-    const openBtns = document.querySelectorAll('.open-modal');
-    const closeBtn = document.querySelector('.close-modal');
-
-  openBtns.forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      e.preventDefault();
-      modal.classList.add('active');
-    });
-  });
-
-  closeBtn.addEventListener('click', () => {
-    modal.classList.remove('active');
-  });
-
-  modal.addEventListener('click', (e) => {
-    if (e.target === modal) {
-      modal.classList.remove('active');
-    }
-  });
-
-  // Contact Form Submission
-  const contactForm = document.getElementById('contactForm');
-  const submitBtn = contactForm.querySelector('button[type="submit"]');
-
-  contactForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const originalBtnText = submitBtn.innerText;
-    submitBtn.innerText = 'Sending...';
-    submitBtn.disabled = true;
-    submitBtn.style.opacity = '0.7';
-
-    const formData = new FormData(contactForm);
-    const data = Object.fromEntries(formData.entries());
-
-    try {
-      const response = await fetch('/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-      });
-
-      if (response.ok) {
-        submitBtn.innerText = 'Message Sent! ✓';
-        submitBtn.style.background = 'var(--c2)';
-        submitBtn.style.color = '#fff';
-        contactForm.reset();
-        
-        setTimeout(() => {
-          submitBtn.innerText = originalBtnText;
-          submitBtn.style.background = '';
-          submitBtn.style.color = '';
-          submitBtn.disabled = false;
-          submitBtn.style.opacity = '1';
-        }, 3000);
-      } else {
-        throw new Error('Server returned an error');
-      }
-    } catch (err) {
-      console.error(err);
-      submitBtn.innerText = 'Error. Try Again.';
-      submitBtn.style.background = '#ff6b6b';
-      submitBtn.style.color = '#fff';
-      
-      setTimeout(() => {
-        submitBtn.innerText = originalBtnText;
-        submitBtn.style.background = '';
-        submitBtn.style.color = '';
-        submitBtn.disabled = false;
-        submitBtn.style.opacity = '1';
-      }, 3000);
-    }
-  });
-  });
-</script>
-
-<!-- Contact Form Modal -->
-<div class="modal-overlay" id="contactModal">
-  <div class="modal-content">
-    <button class="close-modal">&times;</button>
-    <h2>Let's Talk.</h2>
-    <p>Fill out the form below and I'll get back to you shortly.</p>
-    
-    <!-- Backend handles form submission via fetch API in JavaScript -->
-    <form id="contactForm">
-      
-      <div class="form-group">
-        <label>Name</label>
-        <input type="text" name="name" required placeholder="John Doe">
-      </div>
-      <div class="form-group">
-        <label>Email</label>
-        <input type="email" name="email" required placeholder="john@example.com">
-      </div>
-      <div class="form-group">
-        <label>Phone Number (Optional)</label>
-        <input type="tel" name="phone" placeholder="+1 234 567 8900">
-      </div>
-      <div class="form-group">
-        <label>What kind of edit do you want?</label>
-        <select name="edit_type" required>
-           <option value="" disabled selected>Select an option</option>
-           <option value="Short-form Reels / TikToks">Short-form Reels / TikToks</option>
-           <option value="YouTube Long-form">YouTube Long-form</option>
-           <option value="Brand Story / Commercial">Brand Story / Commercial</option>
-           <option value="Other">Other</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label>Additional Details</label>
-        <textarea name="message" rows="3" placeholder="Tell me more about your project..."></textarea>
-      </div>
-      <button type="submit" class="btn-primary w-100" style="border: none;">Send Message</button>
-    </form>
-  </div>
-</div>
-<!-- Video Modal -->
-<div class="modal-overlay" id="videoModal">
-  <button class="close-modal" id="closeVideoModal" style="position: absolute; top: 2rem; right: 2rem; z-index: 1010; color: #fff; background: rgba(0,0,0,0.3); border-radius: 50%; width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(4px);">&times;</button>
-  <div class="modal-content video-modal-inner" style="max-width: 1000px; width: 90%; padding: 0; background: transparent; border: none; box-shadow: none; overflow: visible; height: 80vh;">
-    <iframe id="modalYoutubePlayer" src="" frameborder="0" allow="autoplay; fullscreen; encrypted-media" style="width: 100%; height: 100%; border-radius: 12px; background: #000; box-shadow: 0 20px 60px rgba(0,0,0,0.5);"></iframe>
-  </div>
-</div>
-
-<script>
-  // Click to preview with sound
-  const videoModal = document.getElementById('videoModal');
-  const modalYoutubePlayer = document.getElementById('modalYoutubePlayer');
-  const closeVideoModalBtn = document.getElementById('closeVideoModal');
-  const modalInner = videoModal.querySelector('.modal-content');
-
-  document.querySelectorAll('.work-card').forEach(card => {
-    card.addEventListener('click', (e) => {
-      e.preventDefault();
-      const ytId = card.getAttribute('data-youtube-id');
-      const isPortrait = card.getAttribute('data-is-portrait') === 'true';
-      if (ytId) {
-        modalInner.style.maxWidth = isPortrait ? '450px' : '1000px';
-        modalYoutubePlayer.src = `https://www.youtube.com/embed/${ytId}?autoplay=1`;
-        videoModal.classList.add('active');
-      }
-    });
-  });
-
-  // Close Video Modal
-  const closeVideoModal = () => {
-    videoModal.classList.remove('active');
-    modalYoutubePlayer.src = ''; // Stop video
-  };
-
-  closeVideoModalBtn.addEventListener('click', closeVideoModal);
-
-  videoModal.addEventListener('click', (e) => {
-    if (e.target === videoModal) {
-      closeVideoModal();
-    }
-  });
-
-  // --- Premium UI/UX Interactions ---
-
-  // Preloader Logic
-  document.body.style.overflow = 'hidden'; // Lock scroll
-  const preloader = document.getElementById('preloader');
-  const counter = document.getElementById('preloaderCounter');
-  const preloaderProgress = document.getElementById('preloaderProgress');
-  
-  let pLoaderProgress = 0;
-  const loadInterval = setInterval(() => {
-    pLoaderProgress += Math.floor(Math.random() * 10) + 1;
-    if (pLoaderProgress >= 100) {
-      pLoaderProgress = 100;
-      clearInterval(loadInterval);
-      
-      setTimeout(() => {
-        preloader.classList.add('hidden');
-        document.body.style.overflow = ''; // Unlock scroll
-        
-        // Trigger hero animations
-        setTimeout(() => {
-          document.querySelectorAll('.hero .reveal-text').forEach(el => el.classList.add('visible'));
-          document.querySelectorAll('.hero .fade-in').forEach(el => {
-            el.classList.add('visible');
-            el.style.opacity = '1';
-          });
-        }, 400);
-      }, 500);
-    }
-    counter.innerText = pLoaderProgress + '%';
-    preloaderProgress.style.width = pLoaderProgress + '%';
-  }, 35);
-
-  // Scroll Progress Bar
-  const scrollProgressBar = document.getElementById('scrollProgressBar');
-  window.addEventListener('scroll', () => {
-    const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
-    const scrollPerc = (window.scrollY / totalHeight) * 100;
-    if (scrollProgressBar) {
-      scrollProgressBar.style.width = scrollPerc + '%';
-    }
-  });
-
-  // 1. Custom Cursor
-  const cursorDot = document.getElementById('cursorDot');
-  if (window.matchMedia("(hover: hover)").matches) {
-    window.addEventListener('mousemove', (e) => {
-      cursorDot.style.left = e.clientX + 'px';
-      cursorDot.style.top = e.clientY + 'px';
-    });
-
-    // Expand cursor on interactive elements
-    const interactiveElements = document.querySelectorAll('a, button, .work-card, .filter-btn');
-    interactiveElements.forEach(el => {
-      el.addEventListener('mouseenter', () => {
-        if (el.classList.contains('work-card')) {
-          cursorDot.classList.add('active');
-        } else {
-          cursorDot.style.transform = 'translate(-50%, -50%) scale(2.5)';
-          cursorDot.style.backgroundColor = 'rgba(183, 229, 186, 0.4)';
+  <script>
+    // Simple intersection observer for fade-in animations
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
         }
       });
-      el.addEventListener('mouseleave', () => {
-        cursorDot.classList.remove('active');
-        cursorDot.style.transform = 'translate(-50%, -50%) scale(1)';
-        cursorDot.style.backgroundColor = 'var(--c1)';
-      });
+    }, {
+      threshold: 0.1,
+      rootMargin: "0px 0px -50px 0px"
     });
-  }
 
-  // 2. Magnetic Buttons
-  const magneticBtns = document.querySelectorAll('.magnetic-btn');
-  magneticBtns.forEach(btn => {
-    btn.addEventListener('mousemove', (e) => {
-      const rect = btn.getBoundingClientRect();
-      const x = e.clientX - rect.left - rect.width / 2;
-      const y = e.clientY - rect.top - rect.height / 2;
-      btn.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
+    document.querySelectorAll('.fade-in, .reveal-text').forEach((el) => {
+      if (!el.closest('.hero')) {
+        observer.observe(el);
+      }
     });
-    btn.addEventListener('mouseleave', () => {
-      btn.style.transform = 'translate(0px, 0px)';
-    });
-  });
 
-  // 3. Category Filtering
-  const setupFilters = (filterContainerId, gridId) => {
-    const container = document.getElementById(filterContainerId);
-    if (!container) return;
-    const buttons = container.querySelectorAll('.filter-btn');
-    const cards = document.getElementById(gridId).querySelectorAll('.work-card');
+    // Modal Logic
+    document.addEventListener('DOMContentLoaded', () => {
+      const modal = document.getElementById('contactModal');
+      const openBtns = document.querySelectorAll('.open-modal');
+      const closeBtn = document.querySelector('.close-modal');
 
-    buttons.forEach(btn => {
-      btn.addEventListener('click', () => {
-        // Update active button
-        buttons.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-
-        const filterValue = btn.getAttribute('data-filter');
-
-        cards.forEach(card => {
-          card.classList.remove('fade-out');
-          
-          if (filterValue === 'all' || card.getAttribute('data-category') === filterValue) {
-            card.classList.remove('hidden');
-            setTimeout(() => {
-              card.style.opacity = '1';
-              card.style.transform = 'scale(1)';
-            }, 50);
-          } else {
-            card.style.opacity = '0';
-            card.style.transform = 'scale(0.9)';
-            setTimeout(() => {
-              card.classList.add('hidden');
-            }, 300); // Wait for transition
-          }
+      openBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          modal.classList.add('active');
         });
       });
+
+      closeBtn.addEventListener('click', () => {
+        modal.classList.remove('active');
+      });
+
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          modal.classList.remove('active');
+        }
+      });
+
+      // Contact Form Submission
+      const contactForm = document.getElementById('contactForm');
+      const submitBtn = contactForm.querySelector('button[type="submit"]');
+
+      contactForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const originalBtnText = submitBtn.innerText;
+        submitBtn.innerText = 'Sending...';
+        submitBtn.disabled = true;
+        submitBtn.style.opacity = '0.7';
+
+        const formData = new FormData(contactForm);
+        const data = Object.fromEntries(formData.entries());
+
+        try {
+          const response = await fetch('/api/contact', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+          });
+
+          if (response.ok) {
+            submitBtn.innerText = 'Message Sent! ✓';
+            submitBtn.style.background = 'var(--c2)';
+            submitBtn.style.color = '#fff';
+            contactForm.reset();
+
+            setTimeout(() => {
+              submitBtn.innerText = originalBtnText;
+              submitBtn.style.background = '';
+              submitBtn.style.color = '';
+              submitBtn.disabled = false;
+              submitBtn.style.opacity = '1';
+            }, 3000);
+          } else {
+            throw new Error('Server returned an error');
+          }
+        } catch (err) {
+          console.error(err);
+          submitBtn.innerText = 'Error. Try Again.';
+          submitBtn.style.background = '#ff6b6b';
+          submitBtn.style.color = '#fff';
+
+          setTimeout(() => {
+            submitBtn.innerText = originalBtnText;
+            submitBtn.style.background = '';
+            submitBtn.style.color = '';
+            submitBtn.disabled = false;
+            submitBtn.style.opacity = '1';
+          }, 3000);
+        }
+      });
     });
-  };
+  </script>
 
-  setupFilters('workFilters', 'clientWorkGrid');
-  setupFilters('personalFilters', 'personalWorkGrid');
+  <!-- Contact Form Modal -->
+  <div class="modal-overlay" id="contactModal">
+    <div class="modal-content">
+      <button class="close-modal">&times;</button>
+      <h2>Let's Talk.</h2>
+      <p>Fill out the form below and I'll get back to you shortly.</p>
 
-  // 4. VanillaTilt Initialization
-  if (typeof VanillaTilt !== 'undefined') {
-    VanillaTilt.init(document.querySelectorAll(".tilt-card"), {
-      max: 5,
-      speed: 400,
-      glare: true,
-      "max-glare": 0.1,
-      scale: 1.02
+      <!-- Backend handles form submission via fetch API in JavaScript -->
+      <form id="contactForm">
+
+        <div class="form-group">
+          <label>Name</label>
+          <input type="text" name="name" required placeholder="John Doe">
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" name="email" required placeholder="john@example.com">
+        </div>
+        <div class="form-group">
+          <label>Phone Number (Optional)</label>
+          <input type="tel" name="phone" placeholder="+1 234 567 8900">
+        </div>
+        <div class="form-group">
+          <label>What kind of edit do you want?</label>
+          <select name="edit_type" required>
+            <option value="" disabled selected>Select an option</option>
+            <option value="Short-form Reels / TikToks">Short-form Reels / TikToks</option>
+            <option value="YouTube Long-form">YouTube Long-form</option>
+            <option value="Brand Story / Commercial">Brand Story / Commercial</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Additional Details</label>
+          <textarea name="message" rows="3" placeholder="Tell me more about your project..."></textarea>
+        </div>
+        <button type="submit" class="btn-primary w-100" style="border: none;">Send Message</button>
+      </form>
+    </div>
+  </div>
+  <!-- Video Modal -->
+  <div class="modal-overlay" id="videoModal">
+    <button class="close-modal" id="closeVideoModal"
+      style="position: absolute; top: 2rem; right: 2rem; z-index: 1010; color: #fff; background: rgba(0,0,0,0.3); border-radius: 50%; width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(4px);">&times;</button>
+    <div class="modal-content video-modal-inner"
+      style="max-width: 1000px; width: 90%; padding: 0; background: transparent; border: none; box-shadow: none; overflow: visible; height: 80vh;">
+      <iframe id="modalYoutubePlayer" src="" frameborder="0" allow="autoplay; fullscreen; encrypted-media"
+        style="width: 100%; height: 100%; border-radius: 12px; background: #000; box-shadow: 0 20px 60px rgba(0,0,0,0.5);"></iframe>
+    </div>
+  </div>
+
+  <script>
+    // Click to preview with sound
+    const videoModal = document.getElementById('videoModal');
+    const modalYoutubePlayer = document.getElementById('modalYoutubePlayer');
+    const closeVideoModalBtn = document.getElementById('closeVideoModal');
+    const modalInner = videoModal.querySelector('.modal-content');
+
+    document.querySelectorAll('.work-card').forEach(card => {
+      card.addEventListener('click', (e) => {
+        e.preventDefault();
+        const vimeoId = card.getAttribute('data-vimeo-id');
+        const isPortrait = card.getAttribute('data-is-portrait') === 'true';
+        if (vimeoId) {
+          modalInner.style.maxWidth = isPortrait ? '450px' : '1000px';
+          modalYoutubePlayer.src = `https://player.vimeo.com/video/${vimeoId}?autoplay=1&title=0&byline=0&portrait=0`;
+          videoModal.classList.add('active');
+        }
+      });
     });
-  }
 
-  // 5. Parallax Scrolling
-  const parallaxBg = document.getElementById('parallaxBg');
-  const parallaxGlow = document.getElementById('parallaxGlow');
-  const parallaxLeft = document.getElementById('parallaxLeft');
-  const parallaxRight = document.getElementById('parallaxRight');
-  const parallaxVideo = document.getElementById('parallaxVideo');
+    // Close Video Modal
+    const closeVideoModal = () => {
+      videoModal.classList.remove('active');
+      modalYoutubePlayer.src = ''; // Stop video
+    };
 
-  window.addEventListener('scroll', () => {
-    const scrolled = window.scrollY;
-    if (parallaxBg) parallaxBg.style.transform = `translateY(${scrolled * 0.15}px)`;
-    if (parallaxGlow) parallaxGlow.style.transform = `translate(-50%, ${scrolled * 0.25}px)`;
-    if (parallaxLeft) parallaxLeft.style.transform = `translateY(calc(-50% - ${scrolled * 0.3}px))`;
-    if (parallaxRight) parallaxRight.style.transform = `translateY(calc(-50% - ${scrolled * 0.1}px))`;
-    if (parallaxVideo) parallaxVideo.style.transform = `translateY(${scrolled * 0.4}px)`;
-  });
+    closeVideoModalBtn.addEventListener('click', closeVideoModal);
 
-</script>
+    videoModal.addEventListener('click', (e) => {
+      if (e.target === videoModal) {
+        closeVideoModal();
+      }
+    });
+
+    // --- Premium UI/UX Interactions ---
+
+    // Preloader Logic
+    document.body.style.overflow = 'hidden'; // Lock scroll
+    const preloader = document.getElementById('preloader');
+    const counter = document.getElementById('preloaderCounter');
+    const preloaderProgress = document.getElementById('preloaderProgress');
+
+    let pLoaderProgress = 0;
+    const loadInterval = setInterval(() => {
+      pLoaderProgress += Math.floor(Math.random() * 10) + 1;
+      if (pLoaderProgress >= 100) {
+        pLoaderProgress = 100;
+        clearInterval(loadInterval);
+
+        setTimeout(() => {
+          preloader.classList.add('hidden');
+          document.body.style.overflow = ''; // Unlock scroll
+
+          // Trigger hero animations
+          setTimeout(() => {
+            document.querySelectorAll('.hero .reveal-text').forEach(el => el.classList.add('visible'));
+            document.querySelectorAll('.hero .fade-in').forEach(el => {
+              el.classList.add('visible');
+              el.style.opacity = '1';
+            });
+          }, 400);
+        }, 500);
+      }
+      counter.innerText = pLoaderProgress + '%';
+      preloaderProgress.style.width = pLoaderProgress + '%';
+    }, 35);
+
+    // Scroll Progress Bar
+    const scrollProgressBar = document.getElementById('scrollProgressBar');
+    window.addEventListener('scroll', () => {
+      const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const scrollPerc = (window.scrollY / totalHeight) * 100;
+      if (scrollProgressBar) {
+        scrollProgressBar.style.width = scrollPerc + '%';
+      }
+    });
+
+    // 1. Custom Cursor
+    const cursorDot = document.getElementById('cursorDot');
+    if (window.matchMedia("(hover: hover)").matches) {
+      window.addEventListener('mousemove', (e) => {
+        cursorDot.style.left = e.clientX + 'px';
+        cursorDot.style.top = e.clientY + 'px';
+      });
+
+      // Expand cursor on interactive elements
+      const interactiveElements = document.querySelectorAll('a, button, .work-card, .filter-btn');
+      interactiveElements.forEach(el => {
+        el.addEventListener('mouseenter', () => {
+          if (el.classList.contains('work-card')) {
+            cursorDot.classList.add('active');
+          } else {
+            cursorDot.style.transform = 'translate(-50%, -50%) scale(2.5)';
+            cursorDot.style.backgroundColor = 'rgba(183, 229, 186, 0.4)';
+          }
+        });
+        el.addEventListener('mouseleave', () => {
+          cursorDot.classList.remove('active');
+          cursorDot.style.transform = 'translate(-50%, -50%) scale(1)';
+          cursorDot.style.backgroundColor = 'var(--c1)';
+        });
+      });
+    }
+
+    // 2. Magnetic Buttons
+    const magneticBtns = document.querySelectorAll('.magnetic-btn');
+    magneticBtns.forEach(btn => {
+      btn.addEventListener('mousemove', (e) => {
+        const rect = btn.getBoundingClientRect();
+        const x = e.clientX - rect.left - rect.width / 2;
+        const y = e.clientY - rect.top - rect.height / 2;
+        btn.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
+      });
+      btn.addEventListener('mouseleave', () => {
+        btn.style.transform = 'translate(0px, 0px)';
+      });
+    });
+
+    // 3. Category Filtering
+    const setupFilters = (filterContainerId, gridId) => {
+      const container = document.getElementById(filterContainerId);
+      if (!container) return;
+      const buttons = container.querySelectorAll('.filter-btn');
+      const cards = document.getElementById(gridId).querySelectorAll('.work-card');
+
+      buttons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          // Update active button
+          buttons.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+
+          const filterValue = btn.getAttribute('data-filter');
+
+          cards.forEach(card => {
+            card.classList.remove('fade-out');
+
+            if (filterValue === 'all' || card.getAttribute('data-category') === filterValue) {
+              card.classList.remove('hidden');
+              setTimeout(() => {
+                card.style.opacity = '1';
+                card.style.transform = 'scale(1)';
+              }, 50);
+            } else {
+              card.style.opacity = '0';
+              card.style.transform = 'scale(0.9)';
+              setTimeout(() => {
+                card.classList.add('hidden');
+              }, 300); // Wait for transition
+            }
+          });
+        });
+      });
+    };
+
+    setupFilters('workFilters', 'clientWorkGrid');
+    setupFilters('personalFilters', 'personalWorkGrid');
+
+    // 4. VanillaTilt Initialization
+    if (typeof VanillaTilt !== 'undefined') {
+      VanillaTilt.init(document.querySelectorAll(".tilt-card"), {
+        max: 5,
+        speed: 400,
+        glare: true,
+        "max-glare": 0.1,
+        scale: 1.02
+      });
+    }
+
+    // 5. Parallax Scrolling
+    const parallaxBg = document.getElementById('parallaxBg');
+    const parallaxGlow = document.getElementById('parallaxGlow');
+    const parallaxLeft = document.getElementById('parallaxLeft');
+    const parallaxRight = document.getElementById('parallaxRight');
+    const parallaxVideo = document.getElementById('parallaxVideo');
+
+    window.addEventListener('scroll', () => {
+      const scrolled = window.scrollY;
+      if (parallaxBg) parallaxBg.style.transform = `translateY(${scrolled * 0.15}px)`;
+      if (parallaxGlow) parallaxGlow.style.transform = `translate(-50%, ${scrolled * 0.25}px)`;
+      if (parallaxLeft) parallaxLeft.style.transform = `translateY(calc(-50% - ${scrolled * 0.3}px))`;
+      if (parallaxRight) parallaxRight.style.transform = `translateY(calc(-50% - ${scrolled * 0.1}px))`;
+      if (parallaxVideo) parallaxVideo.style.transform = `translateY(${scrolled * 0.4}px)`;
+    });
+
+    // 6. Instagram Dropdown
+    const igDropdown = document.getElementById('igDropdown');
+    const igDropdownBtn = document.getElementById('igDropdownBtn');
+    if (igDropdown && igDropdownBtn) {
+      igDropdownBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        igDropdown.classList.toggle('active');
+      });
+      // Close dropdown if clicked outside
+      document.addEventListener('click', (e) => {
+        if (!igDropdown.contains(e.target)) {
+          igDropdown.classList.remove('active');
+        }
+      });
+    }
+
+  </script>
 
 </body>
+
 </html>

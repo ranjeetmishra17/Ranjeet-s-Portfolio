@@ -389,7 +389,7 @@
         overflow-y: hidden;
         scroll-snap-type: x mandatory;
         gap: 1rem;
-        padding: 0 7.5% 1.5rem 7.5%;
+        padding-bottom: 1.5rem;
         -webkit-overflow-scrolling: touch;
         scrollbar-width: none; /* Firefox */
       }
@@ -404,6 +404,12 @@
         filter: blur(5px);
         opacity: 0.4;
         transform: scale(0.95);
+      }
+      .personal-bento > *:first-child {
+        margin-left: 7.5%;
+      }
+      .personal-bento > *:last-child {
+        margin-right: 7.5%;
       }
       .personal-bento > *.active-slide {
         filter: blur(0);
@@ -1197,7 +1203,7 @@
         overflow-y: hidden;
         scroll-snap-type: x mandatory;
         gap: 1rem;
-        padding: 0 7.5% 1.5rem 7.5%;
+        padding-bottom: 1.5rem;
         -webkit-overflow-scrolling: touch;
         scrollbar-width: none; /* Firefox */
       }
@@ -1212,6 +1218,12 @@
         filter: blur(5px);
         opacity: 0.4;
         transform: scale(0.95);
+      }
+      .work-grid .work-card:first-child {
+        margin-left: 7.5%;
+      }
+      .work-grid .work-card:last-child {
+        margin-right: 7.5%;
       }
       .work-grid .work-card.active-slide {
         filter: blur(0);

@@ -365,7 +365,7 @@
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: 3rem;
-        align-items: center;
+        align-items: stretch;
       }
 
       .personal-bento .landscape-slide {
@@ -382,6 +382,14 @@
         margin: 0 auto;
         width: 100%;
         max-width: 420px;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+      }
+
+      .personal-bento .portrait .work-img {
+        flex-grow: 1;
+        aspect-ratio: auto;
       }
     }
 

@@ -389,7 +389,7 @@
         overflow-y: hidden;
         scroll-snap-type: x mandatory;
         gap: 1rem;
-        padding-bottom: 1.5rem;
+        padding: 0 7.5vw 1.5rem 7.5vw;
         -webkit-overflow-scrolling: touch;
         scrollbar-width: none; /* Firefox */
       }
@@ -397,9 +397,18 @@
         display: none;
       }
       .personal-bento > * {
-        flex: 0 0 85%;
+        flex: 0 0 85vw;
         scroll-snap-align: center;
-        max-width: 85%;
+        max-width: 85vw;
+        transition: filter 0.4s ease, opacity 0.4s ease, transform 0.4s ease;
+        filter: blur(5px);
+        opacity: 0.4;
+        transform: scale(0.95);
+      }
+      .personal-bento > *.active-slide {
+        filter: blur(0);
+        opacity: 1;
+        transform: scale(1);
       }
       .personal-bento .landscape-slide {
         display: flex;
@@ -1188,7 +1197,7 @@
         overflow-y: hidden;
         scroll-snap-type: x mandatory;
         gap: 1rem;
-        padding-bottom: 1.5rem;
+        padding: 0 7.5vw 1.5rem 7.5vw;
         -webkit-overflow-scrolling: touch;
         scrollbar-width: none; /* Firefox */
       }
@@ -1196,9 +1205,18 @@
         display: none; /* Chrome/Safari/Edge */
       }
       .work-grid .work-card {
-        flex: 0 0 85%; /* Make cards take up 85% of width so the next one peeks out */
+        flex: 0 0 85vw;
         scroll-snap-align: center;
-        max-width: 85%;
+        max-width: 85vw;
+        transition: filter 0.4s ease, opacity 0.4s ease, transform 0.4s ease;
+        filter: blur(5px);
+        opacity: 0.4;
+        transform: scale(0.95);
+      }
+      .work-grid .work-card.active-slide {
+        filter: blur(0);
+        opacity: 1;
+        transform: scale(1);
       }
     }
   </style>
@@ -1924,6 +1942,48 @@
           igDropdown.classList.remove('active');
         }
       });
+    }
+
+    // 7. Mobile Slider Focus Effect
+    if (window.innerWidth <= 768) {
+      const workGrid = document.querySelector('.work-grid');
+      const workCards = document.querySelectorAll('.work-grid .work-card');
+      
+      if(workGrid && workCards.length > 0) {
+        const workObserver = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('active-slide');
+            } else {
+              entry.target.classList.remove('active-slide');
+            }
+          });
+        }, { root: workGrid, threshold: 0.6 });
+        
+        workCards.forEach(card => workObserver.observe(card));
+        
+        // Auto-focus first card on load if it doesn't trigger immediately
+        setTimeout(() => workCards[0].classList.add('active-slide'), 100);
+      }
+
+      const bentoGrid = document.querySelector('.personal-bento');
+      const bentoCards = document.querySelectorAll('.personal-bento > *');
+      
+      if(bentoGrid && bentoCards.length > 0) {
+        const bentoObserver = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('active-slide');
+            } else {
+              entry.target.classList.remove('active-slide');
+            }
+          });
+        }, { root: bentoGrid, threshold: 0.6 });
+        
+        bentoCards.forEach(card => bentoObserver.observe(card));
+        
+        setTimeout(() => bentoCards[0].classList.add('active-slide'), 100);
+      }
     }
 
   </script>

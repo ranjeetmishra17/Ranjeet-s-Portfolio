@@ -4,7 +4,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RanBerryCuts</title>
+  <title>RanberryCuts</title>
+  <link rel="icon" href="data:,">
 
   <!-- Open Graph / SEO Meta Tags -->
   <meta property="og:title" content="RanBerry.Cuts | Professional Video Editor">
@@ -366,6 +367,7 @@
         gap: 3rem;
         align-items: center;
       }
+
       .personal-bento .landscape-slide {
         display: flex;
         flex-direction: column;
@@ -375,12 +377,14 @@
         margin: 0 auto;
         width: 100%;
       }
+
       .personal-bento .portrait {
         margin: 0 auto;
         width: 100%;
         max-width: 420px;
       }
     }
+
     @media (max-width: 768px) {
       .personal-bento {
         display: flex;
@@ -391,12 +395,15 @@
         gap: 1rem;
         padding-bottom: 1.5rem;
         -webkit-overflow-scrolling: touch;
-        scrollbar-width: none; /* Firefox */
+        scrollbar-width: none;
+        /* Firefox */
       }
+
       .personal-bento::-webkit-scrollbar {
         display: none;
       }
-      .personal-bento > * {
+
+      .personal-bento>* {
         flex: 0 0 85%;
         scroll-snap-align: center;
         scroll-snap-stop: always;
@@ -406,17 +413,21 @@
         opacity: 0.4;
         transform: scale(0.95);
       }
-      .personal-bento > *:first-child {
+
+      .personal-bento>*:first-child {
         margin-left: 7.5%;
       }
-      .personal-bento > *:last-child {
+
+      .personal-bento>*:last-child {
         margin-right: 7.5%;
       }
-      .personal-bento > *.active-slide {
+
+      .personal-bento>*.active-slide {
         filter: blur(0);
         opacity: 1;
         transform: scale(1);
       }
+
       .personal-bento .landscape-slide {
         display: flex;
         flex-direction: column;
@@ -435,9 +446,12 @@
     }
 
     .work-card:hover {
-      background: rgba(183, 229, 186, 0.04);
-      border-color: rgba(183, 229, 186, 0.2);
-      transform: translateY(-5px);
+      background: rgba(183, 229, 186, 0.08);
+      border-color: rgba(183, 229, 186, 0.4);
+      transform: translateY(-8px);
+      box-shadow: 0 15px 35px rgba(92, 168, 124, 0.15), 0 0 15px rgba(183, 229, 186, 0.1);
+      z-index: 10;
+      position: relative;
     }
 
     .work-img {
@@ -454,23 +468,19 @@
       border: 1px solid var(--border);
     }
 
-    .work-img iframe {
+    .preview-video {
       position: absolute;
-      top: 50%;
-      left: 50%;
+      top: 0;
+      left: 0;
       width: 100%;
       height: 100%;
-      transform: translate(-50%, -50%) scale(1.25);
+      object-fit: cover;
       pointer-events: none;
       border: none;
     }
 
     .work-card.portrait .work-img {
       aspect-ratio: 4/5;
-    }
-
-    .work-card.portrait .work-img iframe {
-      transform: translate(-50%, -50%) scale(1.5);
     }
 
     .play-icon {
@@ -547,7 +557,7 @@
 
     .about-grid {
       display: grid;
-      grid-template-columns: 1.2fr 0.8fr;
+      grid-template-columns: 1.1fr 0.9fr;
       gap: 6rem;
       align-items: center;
     }
@@ -1107,6 +1117,7 @@
       position: relative;
       display: inline-block;
     }
+
     .ig-dropdown-content {
       opacity: 0;
       visibility: hidden;
@@ -1123,13 +1134,15 @@
       text-align: center;
       z-index: 100;
       transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     }
+
     .ig-dropdown.active .ig-dropdown-content {
       opacity: 1;
       visibility: visible;
       transform: translateX(-50%) translateY(0);
     }
+
     .ig-dropdown-content a {
       display: block;
       padding: 0.6rem !important;
@@ -1139,6 +1152,7 @@
       text-decoration: none;
       border-radius: 8px;
     }
+
     .ig-dropdown-content a:hover {
       background: rgba(183, 229, 186, 0.15) !important;
       color: var(--c1) !important;
@@ -1207,11 +1221,15 @@
         gap: 1rem;
         padding-bottom: 1.5rem;
         -webkit-overflow-scrolling: touch;
-        scrollbar-width: none; /* Firefox */
+        scrollbar-width: none;
+        /* Firefox */
       }
+
       .work-grid::-webkit-scrollbar {
-        display: none; /* Chrome/Safari/Edge */
+        display: none;
+        /* Chrome/Safari/Edge */
       }
+
       .work-grid .work-card {
         flex: 0 0 85%;
         scroll-snap-align: center;
@@ -1221,12 +1239,15 @@
         opacity: 0.4;
         transform: scale(0.95);
       }
+
       .work-grid .work-card:first-child {
         margin-left: 7.5%;
       }
+
       .work-grid .work-card:last-child {
         margin-right: 7.5%;
       }
+
       .work-grid .work-card.active-slide {
         filter: blur(0);
         opacity: 1;
@@ -1360,59 +1381,10 @@
 
       <div class="work-grid" id="clientWorkGrid">
         <!-- Portrait Card 1 -->
-        <a href="https://vimeo.com/1189514327" class="work-card portrait fade-in tilt-card"
-          data-vimeo-id="1189514327" data-is-portrait="true" data-category="short-form">
+        <a href="https://vimeo.com/1189514327" class="work-card portrait fade-in tilt-card" data-vimeo-id="1189514327"
+          data-is-portrait="true" data-category="short-form">
           <div class="work-img shape-1">
-            <iframe
-              src="https://player.vimeo.com/video/1189514327?autoplay=1&loop=1&muted=1&background=1"
-              frameborder="0" allow="autoplay; fullscreen; picture-in-picture"
-              style="position:absolute; width:100%; height:100%; pointer-events:none;"></iframe>
-            <div class="play-icon" style="z-index: 2;">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M8 5v14l11-7z" />
-              </svg>
-            </div>
-          </div>
-          <div class="work-meta">
-            <span class="work-tag">Instagram Reels</span>
-            <span class="work-duration">0:32</span>
-          </div>
-          <h3 class="work-title">SriMandir</h3>
-          <p class="work-desc">Sri Mandir is a popular devotional app and digital platform, owned by AppsForBharat. It
-            serves over 30 million users. </p>
-        </a>
-
-        <!-- Portrait Card 2 -->
-        <a href="https://vimeo.com/1189514160" class="work-card portrait fade-in tilt-card"
-          data-vimeo-id="1189514160" data-is-portrait="true" data-category="short-form">
-          <div class="work-img shape-3">
-            <iframe
-              src="https://player.vimeo.com/video/1189514160?autoplay=1&loop=1&muted=1&background=1"
-              frameborder="0" allow="autoplay; fullscreen; picture-in-picture"
-              style="position:absolute; width:100%; height:100%; pointer-events:none;"></iframe>
-            <div class="play-icon" style="z-index: 2;">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M8 5v14l11-7z" />
-              </svg>
-            </div>
-          </div>
-          <div class="work-meta">
-            <span class="work-tag">YouTube Shorts</span>
-            <span class="work-duration">0:43</span>
-          </div>
-          <h3 class="work-title">Zomato Educational Reel</h3>
-          <p class="work-desc">Educational reels are short-form, high-engagement videos (under 60 seconds) that deliver
-            bite-sized knowledge, tips, or tutorials, often fostering community growth.</p>
-        </a>
-
-        <!-- Portrait Card 3 -->
-        <a href="https://vimeo.com/1189541278?share=copy&fl=sv&fe=ci" class="work-card portrait fade-in tilt-card"
-          data-vimeo-id="1189541278" data-is-portrait="true" data-category="short-form">
-          <div class="work-img shape-2">
-            <iframe
-              src="https://player.vimeo.com/video/1189541278?autoplay=1&loop=1&muted=1&background=1"
-              frameborder="0" allow="autoplay; fullscreen; picture-in-picture"
-              style="position:absolute; width:100%; height:100%; pointer-events:none;"></iframe>
+            <video class="preview-video" src="Client Work/Raga Reel.mp4" autoplay loop muted playsinline></video>
             <div class="play-icon" style="z-index: 2;">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M8 5v14l11-7z" />
@@ -1421,21 +1393,55 @@
           </div>
           <div class="work-meta">
             <span class="work-tag">Instagram Reel</span>
-            <span class="work-duration">1:33</span>
+            <span class="work-duration">0:14</span>
           </div>
-          <h3 class="work-title">Dietitian Reel</h3>
-          <p class="work-desc">Dietitians are qualified healthcare professionals who provide Medical Nutrition Therapy
-            (MNT) for weight management, chronic diseases, and digestive health.</p>
+          <h3 class="work-title">RAGA Fit</h3>
+          <p class="work-desc">RAGA Fit is a clothing brand offering high-quality apparel for both men and women. This video is created for their Instagram Reels, showcasing their style, comfort, and modern fashion appeal. </p>
+        </a>
+
+        <!-- Portrait Card 2 -->
+        <a href="https://vimeo.com/1189514160" class="work-card portrait fade-in tilt-card" data-vimeo-id="1189514160"
+          data-is-portrait="true" data-category="short-form">
+          <div class="work-img shape-3">
+            <video class="preview-video" src="Client Work/Kaabil Reel.mp4" autoplay loop muted playsinline></video>
+            <div class="play-icon" style="z-index: 2;">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M8 5v14l11-7z" />
+              </svg>
+            </div>
+          </div>
+          <div class="work-meta">
+            <span class="work-tag">Instagram Reel</span>
+            <span class="work-duration">0:43</span>
+          </div>
+          <h3 class="work-title">Kaabil Kids</h3>
+          <p class="work-desc">Kaabil Kids is an online chess learning platform for children. This video is created for their Instagram Reels, showcasing their fun and engaging way of teaching chess. </p>
+        </a>
+
+        <!-- Portrait Card 3 -->
+        <a href="https://vimeo.com/1189541278?share=copy&fl=sv&fe=ci" class="work-card portrait fade-in tilt-card"
+          data-vimeo-id="1189541278" data-is-portrait="true" data-category="short-form">
+          <div class="work-img shape-2">
+            <video class="preview-video" src="Client Work/Ontraq reel.mp4" autoplay loop muted playsinline></video>
+            <div class="play-icon" style="z-index: 2;">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M8 5v14l11-7z" />
+              </svg>
+            </div>
+          </div>
+          <div class="work-meta">
+            <span class="work-tag">Instagram Reel</span>
+            <span class="work-duration">0:36</span>
+          </div>
+          <h3 class="work-title">Ontraq</h3>
+          <p class="work-desc">Ontraq is your AI-powered back office for contractors—organizing receipts, bills, and timesheets, tracking job costs in real time, and keeping QuickBooks automatically up to date.</p>
         </a>
 
         <!-- Portrait Card 4 -->
-        <a href="https://vimeo.com/1189514158" class="work-card portrait fade-in tilt-card"
-          data-vimeo-id="1189514158" data-is-portrait="true" data-category="short-form">
+        <a href="https://vimeo.com/1189514158" class="work-card portrait fade-in tilt-card" data-vimeo-id="1189514158"
+          data-is-portrait="true" data-category="short-form">
           <div class="work-img shape-1">
-            <iframe
-              src="https://player.vimeo.com/video/1189514158?autoplay=1&loop=1&muted=1&background=1"
-              frameborder="0" allow="autoplay; fullscreen; picture-in-picture"
-              style="position:absolute; width:100%; height:100%; pointer-events:none;"></iframe>
+            <video class="preview-video" src="Client Work/Naincy Reel.mp4" autoplay loop muted playsinline></video>
             <div class="play-icon" style="z-index: 2;">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M8 5v14l11-7z" />
@@ -1444,11 +1450,10 @@
           </div>
           <div class="work-meta">
             <span class="work-tag">Instagram Reels</span>
-            <span class="work-duration">1:46</span>
+            <span class="work-duration">1:33</span>
           </div>
-          <h3 class="work-title">Kaabil Kids</h3>
-          <p class="work-desc">Kaabil Kids is a premier online chess coaching platform in India, founded in 2019,
-            focused on providing structured, affordable, and accessible chess training for children.</p>
+          <h3 class="work-title">Naincy Dietitian</h3>
+          <p class="work-desc">Naincy is a registered dietitian and nutritionist helping people achieve their health goals through balanced nutrition and lifestyle changes. This video is for their Instagram Reels page.</p>
         </a>
       </div>
 
@@ -1466,10 +1471,8 @@
           <a href="https://vimeo.com/1189515299" class="work-card fade-in tilt-card" data-vimeo-id="1189515299"
             data-is-portrait="true" data-category="short-form">
             <div class="work-img shape-1">
-              <iframe
-                src="https://player.vimeo.com/video/1189515299?autoplay=1&loop=1&muted=1&background=1"
-                frameborder="0" allow="autoplay; fullscreen; picture-in-picture"
-                style="position:absolute; width:100%; height:100%; pointer-events:none;"></iframe>
+              <video class="preview-video" src="Personal Content/intro reel.mp4" autoplay loop muted
+                playsinline></video>
               <div class="play-icon" style="z-index: 2;">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M8 5v14l11-7z" />
@@ -1477,25 +1480,26 @@
               </div>
             </div>
             <div class="work-meta">
-              <span class="work-tag">Instagram Reels</span>
-              <span class="work-duration">0:20</span>
+              <span class="work-tag">Introduction</span>
+              <span class="work-duration">0:35</span>
             </div>
-            <h3 class="work-title">Cinematic Reel</h3>
-            <p class="work-desc">A highly visual and impactful reel showcasing creative flow.</p>
+            <h3 class="work-title">Introduction Video</h3>
+            <p class="work-desc">Video Editor & Motion Designer crafting visual stories frame by frame.
+              From concept to final cut turning ideas into cinematic experiences.</p>
           </a>
 
-          <div class="fade-in" style="text-align: center; color: var(--white); font-size: 1.1rem; font-weight: 500; font-style: italic; letter-spacing: 0.5px;">
-            <span style="color: var(--c1);">"</span>I film stories, not just videos.<span style="color: var(--c1);">"</span>
+          <div class="fade-in"
+            style="text-align: center; color: var(--white); font-size: 1.1rem; font-weight: 500; font-style: italic; letter-spacing: 0.5px;">
+            <span style="color: var(--c1);">"</span>I film stories, not just videos.<span
+              style="color: var(--c1);">"</span>
           </div>
 
           <!-- Personal Landscape Card 2 (Ideology Video) -->
-          <a href="https://vimeo.com/1189515302?share=copy&fl=sv&fe=ci" class="work-card fade-in tilt-card" data-vimeo-id="1189515302"
-            data-is-portrait="false" data-category="long-form">
+          <a href="https://vimeo.com/1189515302?share=copy&fl=sv&fe=ci" class="work-card fade-in tilt-card"
+            data-vimeo-id="1189515302" data-is-portrait="false" data-category="long-form">
             <div class="work-img shape-2">
-              <iframe
-                src="https://player.vimeo.com/video/1189515302?autoplay=1&loop=1&muted=1&background=1"
-                frameborder="0" allow="autoplay; fullscreen; picture-in-picture"
-                style="position:absolute; width:100%; height:100%; pointer-events:none;"></iframe>
+              <video class="preview-video" src="Personal Content/fast pace edit .mp4" autoplay loop muted
+                playsinline></video>
               <div class="play-icon" style="z-index: 2;">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M8 5v14l11-7z" />
@@ -1503,22 +1507,20 @@
               </div>
             </div>
             <div class="work-meta">
-              <span class="work-tag">Vimeo Video</span>
-              <span class="work-duration">8:20</span>
+              <span class="work-tag">Perosnal Content</span>
+              <span class="work-duration">0:35</span>
             </div>
-            <h3 class="work-title">Ideology Video</h3>
-            <p class="work-desc">A cinematic documentary-style journey outlining my core ideology.</p>
+            <h3 class="work-title">Fast - Pace Edit</h3>
+            <p class="work-desc">A rhythmic, high-energy edit driven by fast-paced sound design, telling the story of a college student balancing life as a freelancer.</p>
           </a>
         </div>
 
         <!-- Personal Portrait Card 1 (Fast Pace Edit) -->
-        <a href="https://vimeo.com/1189515296" class="work-card portrait fade-in tilt-card"
-          data-vimeo-id="1189515296" data-is-portrait="false" data-category="long-form">
+        <a href="https://vimeo.com/1189515296" class="work-card portrait fade-in tilt-card" data-vimeo-id="1189515296"
+          data-is-portrait="false" data-category="long-form">
           <div class="work-img shape-2">
-            <iframe
-              src="https://player.vimeo.com/video/1189515296?autoplay=1&loop=1&muted=1&background=1"
-              frameborder="0" allow="autoplay; fullscreen; picture-in-picture"
-              style="position:absolute; width:100%; height:100%; pointer-events:none;"></iframe>
+            <video class="preview-video" src="Personal Content/ideology reel.mp4" autoplay loop muted
+              playsinline></video>
             <div class="play-icon" style="z-index: 2;">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M8 5v14l11-7z" />
@@ -1526,11 +1528,11 @@
             </div>
           </div>
           <div class="work-meta">
-            <span class="work-tag">Vimeo Video</span>
-            <span class="work-duration">12:15</span>
+            <span class="work-tag">Instagram Reel</span>
+            <span class="work-duration">0:08</span>
           </div>
-          <h3 class="work-title">Fast Pace Edit</h3>
-          <p class="work-desc">A rhythmic, high-energy cut focusing on fast transitions.</p>
+          <h3 class="work-title">Ideology Video</h3>
+          <p class="work-desc">A cinematic, documentary-style journey exploring my core ideology—where creativity is often seen as useless until it proves itself.</p>
         </a>
       </div>
     </div>
@@ -1540,10 +1542,8 @@
     <div class="container">
       <div class="about-grid">
         <div class="about-text fade-in">
-          <h2 class="reveal-text" style="display: block;"><span>More than just cutting clips.</span></h2>
-          <p>Hi, I am Ranjeet. I approach editing as a form of storytelling. Every cut, sound effect, and color tweak is deliberately
-            chosen to enhance the narrative and keep the viewer engaged from the first frame to the last. My focus is
-            entirely on pacing, rhythm, and creating emotion through video.</p>
+          <h2 class="reveal-text" style="display: block;"><span>Every Frame Has a Purpose.</span></h2>
+          <p>I'm Ranjeet, and for me, editing is storytelling. Every cut, sound, and color choice is intentional — made to serve the story and keep the viewer engaged. It all comes down to pacing, rhythm, and emotion that stays with the audience from the first frame to the last.</p>
 
           <div class="skills-container">
             <div class="skill-tag">Short-form Reels</div>
@@ -1574,7 +1574,7 @@
               <path id="circlePath" d="M 50, 50 m -35, 0 a 35,35 0 1,1 70,0 a 35,35 0 1,1 -70,0" fill="transparent" />
               <text font-size="11.5" font-weight="800" letter-spacing="2.8">
                 <textPath href="#circlePath" startOffset="0%">
-                  AVAILABLE FOR HIRE 
+                  AVAILABLE FOR HIRE
                 </textPath>
               </text>
             </svg>
@@ -1599,12 +1599,15 @@
           <div class="ig-dropdown" id="igDropdown">
             <a href="#" id="igDropdownBtn">Instagram</a>
             <div class="ig-dropdown-content">
-              <a href="https://www.instagram.com/ranberrycuts?igsh=MTQ3N3l4em0yMXJmZA==" target="_blank" rel="noopener noreferrer">Editing</a>
-              <a href="https://www.instagram.com/ranjeeetmishra?igsh=MWY3N3E4bHhweHViYw==" target="_blank" rel="noopener noreferrer">Travel</a>
+              <a href="https://www.instagram.com/ranberrycuts?igsh=MTQ3N3l4em0yMXJmZA==" target="_blank"
+                rel="noopener noreferrer">Editing</a>
+              <a href="https://www.instagram.com/ranjeeetmishra?igsh=MWY3N3E4bHhweHViYw==" target="_blank"
+                rel="noopener noreferrer">Travel</a>
             </div>
           </div>
-          <a href="#">Twitter</a>
-          <a href="https://www.linkedin.com/in/ranjeetmishra1720/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+          <a href="https://x.com/RanjeetMishra_" target="_blank" rel="noopener noreferrer">Twitter</a>
+          <a href="https://www.linkedin.com/in/ranjeetmishra1720/" target="_blank"
+            rel="noopener noreferrer">LinkedIn</a>
         </div>
       </div>
     </div>
@@ -1962,8 +1965,8 @@
     if (window.innerWidth <= 768) {
       const workGrid = document.querySelector('.work-grid');
       const workCards = document.querySelectorAll('.work-grid .work-card');
-      
-      if(workGrid && workCards.length > 0) {
+
+      if (workGrid && workCards.length > 0) {
         const workObserver = new IntersectionObserver((entries) => {
           entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -1973,17 +1976,17 @@
             }
           });
         }, { root: workGrid, threshold: 0.6 });
-        
+
         workCards.forEach(card => workObserver.observe(card));
-        
+
         // Auto-focus first card on load if it doesn't trigger immediately
         setTimeout(() => workCards[0].classList.add('active-slide'), 100);
       }
 
       const bentoGrid = document.querySelector('.personal-bento');
       const bentoCards = document.querySelectorAll('.personal-bento > *');
-      
-      if(bentoGrid && bentoCards.length > 0) {
+
+      if (bentoGrid && bentoCards.length > 0) {
         const bentoObserver = new IntersectionObserver((entries) => {
           entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -1993,9 +1996,9 @@
             }
           });
         }, { root: bentoGrid, threshold: 0.6 });
-        
+
         bentoCards.forEach(card => bentoObserver.observe(card));
-        
+
         setTimeout(() => bentoCards[0].classList.add('active-slide'), 100);
       }
 
@@ -2003,17 +2006,17 @@
         if (!container || cards.length <= 1) return;
         let autoScrollInterval;
         let isInteracting = false;
-        
+
         const startAutoScroll = () => {
           clearInterval(autoScrollInterval);
           autoScrollInterval = setInterval(() => {
             if (isInteracting) return;
             let currentIndex = 0;
-            cards.forEach((c, i) => { if(c.classList.contains('active-slide')) currentIndex = i; });
-            
+            cards.forEach((c, i) => { if (c.classList.contains('active-slide')) currentIndex = i; });
+
             let nextIndex = currentIndex + 1;
             if (nextIndex >= cards.length) nextIndex = 0;
-            
+
             const nextCard = cards[nextIndex];
             const scrollPos = nextCard.offsetLeft - (container.clientWidth / 2) + (nextCard.clientWidth / 2);
             container.scrollTo({ left: scrollPos, behavior: 'smooth' });
@@ -2022,14 +2025,14 @@
 
         const stopAutoScroll = () => clearInterval(autoScrollInterval);
 
-        container.addEventListener('touchstart', () => { isInteracting = true; stopAutoScroll(); }, {passive: true});
-        container.addEventListener('touchend', () => { isInteracting = false; startAutoScroll(); }, {passive: true});
-        container.addEventListener('scroll', () => { 
-          isInteracting = true; 
-          stopAutoScroll(); 
+        container.addEventListener('touchstart', () => { isInteracting = true; stopAutoScroll(); }, { passive: true });
+        container.addEventListener('touchend', () => { isInteracting = false; startAutoScroll(); }, { passive: true });
+        container.addEventListener('scroll', () => {
+          isInteracting = true;
+          stopAutoScroll();
           clearTimeout(container.scrollTimeout);
           container.scrollTimeout = setTimeout(() => { isInteracting = false; startAutoScroll(); }, 2000);
-        }, {passive: true});
+        }, { passive: true });
 
         startAutoScroll();
       }

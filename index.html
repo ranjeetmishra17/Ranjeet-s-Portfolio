@@ -363,33 +363,9 @@
     @media (min-width: 769px) {
       .personal-bento {
         display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 3rem;
-        align-items: stretch;
-      }
-
-      .personal-bento .landscape-slide {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
+        grid-template-columns: repeat(3, 1fr);
         gap: 2.5rem;
-        max-width: 460px;
-        margin: 0 auto;
-        width: 100%;
-      }
-
-      .personal-bento .portrait {
-        margin: 0 auto;
-        width: 100%;
-        max-width: 420px;
-        display: flex;
-        flex-direction: column;
-        height: 100%;
-      }
-
-      .personal-bento .portrait .work-img {
-        flex-grow: 1;
-        aspect-ratio: auto;
+        align-items: stretch;
       }
     }
 
@@ -450,7 +426,9 @@
       padding: 1.5rem;
       transition: all 0.4s ease;
       text-decoration: none;
-      display: block;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
     }
 
     .work-card:hover {
@@ -1404,7 +1382,8 @@
             <span class="work-duration">0:14</span>
           </div>
           <h3 class="work-title">RAGA Fit</h3>
-          <p class="work-desc">RAGA Fit is a clothing brand offering high-quality apparel for both men and women. This video is created for their Instagram Reels, showcasing their style, comfort, and modern fashion appeal. </p>
+          <p class="work-desc">RAGA Fit is a clothing brand offering high-quality apparel for both men and women. This
+            video is created for their Instagram Reels, showcasing their style, comfort, and modern fashion appeal. </p>
         </a>
 
         <!-- Portrait Card 2 -->
@@ -1423,7 +1402,8 @@
             <span class="work-duration">0:43</span>
           </div>
           <h3 class="work-title">Kaabil Kids</h3>
-          <p class="work-desc">Kaabil Kids is an online chess learning platform for children. This video is created for their Instagram Reels, showcasing their fun and engaging way of teaching chess. </p>
+          <p class="work-desc">Kaabil Kids is an online chess learning platform for children. This video is created for
+            their Instagram Reels, showcasing their fun and engaging way of teaching chess. </p>
         </a>
 
         <!-- Portrait Card 3 -->
@@ -1442,7 +1422,8 @@
             <span class="work-duration">0:36</span>
           </div>
           <h3 class="work-title">Ontraq</h3>
-          <p class="work-desc">Ontraq is your AI-powered back office for contractors—organizing receipts, bills, and timesheets, tracking job costs in real time, and keeping QuickBooks automatically up to date.</p>
+          <p class="work-desc">Ontraq is your AI-powered back office for contractors—organizing receipts, bills, and
+            timesheets, tracking job costs in real time, and keeping QuickBooks automatically up to date.</p>
         </a>
 
         <!-- Portrait Card 4 -->
@@ -1461,12 +1442,16 @@
             <span class="work-duration">1:33</span>
           </div>
           <h3 class="work-title">Naincy Dietitian</h3>
-          <p class="work-desc">Naincy is a registered dietitian and nutritionist helping people achieve their health goals through balanced nutrition and lifestyle changes. This video is for their Instagram Reels page.</p>
+          <p class="work-desc">Naincy is a registered dietitian and nutritionist helping people achieve their health
+            goals through balanced nutrition and lifestyle changes. This video is for their Instagram Reels page.</p>
         </a>
       </div>
 
-      <div class="section-header fade-in" style="margin-top: 6rem;">
+      <div class="section-header fade-in" style="margin-top: 6rem; flex-direction: column; align-items: flex-start; gap: 1rem;">
         <h2 class="section-title reveal-text"><span>Personal <span style="color: var(--c3);">Content</span></span></h2>
+        <p class="fade-in" style="color: var(--text-muted); font-size: 1.1rem; font-weight: 500; font-style: italic; letter-spacing: 0.5px;">
+          <span style="color: var(--c1);">"</span>I film stories, not just videos.<span style="color: var(--c1);">"</span>
+        </p>
       </div>
 
       <div class="filter-container fade-in" id="personalFilters">
@@ -1474,58 +1459,51 @@
       </div>
 
       <div class="personal-bento" id="personalWorkGrid">
-        <div class="landscape-slide">
-          <!-- Personal Landscape Card 1 (Intro Video) -->
-          <a href="https://vimeo.com/1189515299" class="work-card fade-in tilt-card" data-vimeo-id="1189515299"
-            data-is-portrait="true" data-category="short-form">
-            <div class="work-img shape-1">
-              <video class="preview-video" src="Personal Content/intro reel.mp4" autoplay loop muted
-                playsinline></video>
-              <div class="play-icon" style="z-index: 2;">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M8 5v14l11-7z" />
-                </svg>
-              </div>
+        <!-- Personal Portrait Card 1 (Intro Video) -->
+        <a href="https://vimeo.com/1189515299" class="work-card portrait fade-in tilt-card" data-vimeo-id="1189515299"
+          data-is-portrait="true" data-category="short-form">
+          <div class="work-img shape-1">
+            <video class="preview-video" src="Personal Content/intro reel.mp4" autoplay loop muted
+              playsinline></video>
+            <div class="play-icon" style="z-index: 2;">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M8 5v14l11-7z" />
+              </svg>
             </div>
-            <div class="work-meta">
-              <span class="work-tag">Introduction</span>
-              <span class="work-duration">0:35</span>
-            </div>
-            <h3 class="work-title">Introduction Video</h3>
-            <p class="work-desc">Video Editor & Motion Designer crafting visual stories frame by frame.
-              From concept to final cut turning ideas into cinematic experiences.</p>
-          </a>
-
-          <div class="fade-in"
-            style="text-align: center; color: var(--white); font-size: 1.1rem; font-weight: 500; font-style: italic; letter-spacing: 0.5px;">
-            <span style="color: var(--c1);">"</span>I film stories, not just videos.<span
-              style="color: var(--c1);">"</span>
           </div>
+          <div class="work-meta">
+            <span class="work-tag">Introduction</span>
+            <span class="work-duration">0:35</span>
+          </div>
+          <h3 class="work-title">Introduction Video</h3>
+          <p class="work-desc">Video Editor & Motion Designer crafting visual stories frame by frame.
+            From concept to final cut turning ideas into cinematic experiences.</p>
+        </a>
 
-          <!-- Personal Landscape Card 2 (Ideology Video) -->
-          <a href="https://vimeo.com/1189515302?share=copy&fl=sv&fe=ci" class="work-card fade-in tilt-card"
-            data-vimeo-id="1189515302" data-is-portrait="false" data-category="long-form">
-            <div class="work-img shape-2">
-              <video class="preview-video" src="Personal Content/fast pace edit .mp4" autoplay loop muted
-                playsinline></video>
-              <div class="play-icon" style="z-index: 2;">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M8 5v14l11-7z" />
-                </svg>
-              </div>
+        <!-- Personal Portrait Card 2 (Fast Pace Edit) -->
+        <a href="https://vimeo.com/1189515302?share=copy&fl=sv&fe=ci" class="work-card portrait fade-in tilt-card"
+          data-vimeo-id="1189515302" data-is-portrait="true" data-category="short-form">
+          <div class="work-img shape-2">
+            <video class="preview-video" src="Personal Content/fast pace edit .mp4" autoplay loop muted
+              playsinline></video>
+            <div class="play-icon" style="z-index: 2;">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M8 5v14l11-7z" />
+              </svg>
             </div>
-            <div class="work-meta">
-              <span class="work-tag">Perosnal Content</span>
-              <span class="work-duration">0:35</span>
-            </div>
-            <h3 class="work-title">Fast - Pace Edit</h3>
-            <p class="work-desc">A rhythmic, high-energy edit driven by fast-paced sound design, telling the story of a college student balancing life as a freelancer.</p>
-          </a>
-        </div>
+          </div>
+          <div class="work-meta">
+            <span class="work-tag">Personal Content</span>
+            <span class="work-duration">0:35</span>
+          </div>
+          <h3 class="work-title">Fast - Pace Edit</h3>
+          <p class="work-desc">A rhythmic, high-energy edit driven by fast-paced sound design, telling the story of a
+            college student balancing life as a freelancer.</p>
+        </a>
 
-        <!-- Personal Portrait Card 1 (Fast Pace Edit) -->
+        <!-- Personal Portrait Card 3 (Ideology Video) -->
         <a href="https://vimeo.com/1189515296" class="work-card portrait fade-in tilt-card" data-vimeo-id="1189515296"
-          data-is-portrait="false" data-category="long-form">
+          data-is-portrait="true" data-category="short-form">
           <div class="work-img shape-2">
             <video class="preview-video" src="Personal Content/ideology reel.mp4" autoplay loop muted
               playsinline></video>
@@ -1540,7 +1518,8 @@
             <span class="work-duration">0:08</span>
           </div>
           <h3 class="work-title">Ideology Video</h3>
-          <p class="work-desc">A cinematic, documentary-style journey exploring my core ideology—where creativity is often seen as useless until it proves itself.</p>
+          <p class="work-desc">A cinematic, documentary-style journey exploring my core ideology—where creativity is
+            often seen as useless until it proves itself.</p>
         </a>
       </div>
     </div>
@@ -1551,7 +1530,9 @@
       <div class="about-grid">
         <div class="about-text fade-in">
           <h2 class="reveal-text" style="display: block;"><span>Every Frame Has a Purpose.</span></h2>
-          <p>I'm Ranjeet, and for me, editing is storytelling. Every cut, sound, and color choice is intentional — made to serve the story and keep the viewer engaged. It all comes down to pacing, rhythm, and emotion that stays with the audience from the first frame to the last.</p>
+          <p>I'm Ranjeet, and for me, editing is storytelling. Every cut, sound, and color choice is intentional — made
+            to serve the story and keep the viewer engaged. It all comes down to pacing, rhythm, and emotion that stays
+            with the audience from the first frame to the last.</p>
 
           <div class="skills-container">
             <div class="skill-tag">Short-form Reels</div>

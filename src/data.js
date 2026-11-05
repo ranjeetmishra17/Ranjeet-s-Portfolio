@@ -1,6 +1,6 @@
 export const PROFILE = {
   name: "Ranjeet Mishra",
-  avatar: "/avatar.jpg",
+  avatar: `${import.meta.env.BASE_URL}Ranjeet Vector.png`,
   title: "Video Editor",
   status: "Available for new projects",
   email: "ranjeetmishra.work@gmail.com",

@@ -95,11 +95,16 @@ export default function App() {
         <div className="mobile-nav-brand">
           <div className="mobile-nav-avatar">
             <img
-              src={PROFILE.avatar || "/avatar.jpg"}
+              src={PROFILE.avatar || `${import.meta.env.BASE_URL}Ranjeet Vector.png`}
               alt={`${PROFILE.name} portrait`}
               className="mobile-avatar-img"
               onError={(e) => {
-                e.currentTarget.style.display = "none";
+                const fallback = `${import.meta.env.BASE_URL}avatar.png`;
+                if (!e.currentTarget.src.includes("avatar.png")) {
+                  e.currentTarget.src = fallback;
+                } else {
+                  e.currentTarget.style.display = "none";
+                }
               }}
             />
           </div>
@@ -131,11 +136,16 @@ export default function App() {
             <div className="profile-identity-bar">
               <div className="avatar-frame" title={`${PROFILE.name} — Face Vector Art`}>
                 <img
-                  src={PROFILE.avatar || "/avatar.jpg"}
+                  src={PROFILE.avatar || `${import.meta.env.BASE_URL}Ranjeet Vector.png`}
                   alt={`${PROFILE.name} vector portrait`}
                   className="avatar-img"
                   onError={(e) => {
-                    e.currentTarget.style.display = "none";
+                    const fallback = `${import.meta.env.BASE_URL}avatar.png`;
+                    if (!e.currentTarget.src.includes("avatar.png")) {
+                      e.currentTarget.src = fallback;
+                    } else {
+                      e.currentTarget.style.display = "none";
+                    }
                   }}
                 />
               </div>
@@ -523,11 +533,16 @@ export default function App() {
               <div className="drawer-identity">
                 <div className="drawer-avatar">
                   <img
-                    src={PROFILE.avatar || "/avatar.jpg"}
+                    src={PROFILE.avatar || `${import.meta.env.BASE_URL}Ranjeet Vector.png`}
                     alt={PROFILE.name}
                     className="avatar-img"
                     onError={(e) => {
-                      e.currentTarget.style.display = "none";
+                      const fallback = `${import.meta.env.BASE_URL}avatar.png`;
+                      if (!e.currentTarget.src.includes("avatar.png")) {
+                        e.currentTarget.src = fallback;
+                      } else {
+                        e.currentTarget.style.display = "none";
+                      }
                     }}
                   />
                 </div>

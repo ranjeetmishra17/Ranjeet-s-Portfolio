@@ -25,6 +25,12 @@
   --olive-deep: #13180b;
   --olive-lime: #c5db80;
 
+  /* Subtle Architectural Grid Pattern */
+  --grid-pattern: 
+    linear-gradient(to right, rgba(28, 35, 17, 0.045) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(28, 35, 17, 0.045) 1px, transparent 1px);
+  --grid-size: 36px 36px;
+
   /* Hairlines & Lines */
   --border-subtle: rgba(28, 35, 17, 0.1);
   --border-medium: rgba(28, 35, 17, 0.2);
@@ -55,6 +61,8 @@ html {
 
 body {
   background-color: var(--beige-canvas);
+  background-image: var(--grid-pattern);
+  background-size: var(--grid-size);
   color: var(--olive-ink);
   font-family: var(--font-sans);
   line-height: 1.6;
@@ -107,6 +115,8 @@ a {
   grid-template-columns: 40% 60%;
   min-height: 100vh;
   background-color: var(--beige-canvas);
+  background-image: var(--grid-pattern);
+  background-size: var(--grid-size);
 }
 
 /* ========================================================
@@ -118,6 +128,8 @@ a {
   height: 100vh;
   overflow-y: auto;
   background-color: var(--beige-surface);
+  background-image: var(--grid-pattern);
+  background-size: var(--grid-size);
   border-right: 1px solid var(--border-subtle);
   display: flex;
   flex-direction: column;
@@ -126,10 +138,13 @@ a {
 
 .column-inner {
   padding: clamp(32px, 3.5vw, 56px);
-  padding-bottom: 48px;
+  padding-bottom: 28px;
+  min-height: 100%;
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   gap: 24px;
+  flex: 1;
 }
 
 /* Header & Profile Identity with Face Vector Art */
@@ -251,6 +266,7 @@ a {
   display: flex;
   flex-direction: column;
   gap: 24px;
+  flex: 1;
 }
 
 /* Minimalist Tabs Navigation (Desktop) */
@@ -286,6 +302,7 @@ a {
 /* Tab Panes */
 .tab-body-container {
   min-height: 180px;
+  flex: 1;
 }
 
 .tab-pane-content {
@@ -463,14 +480,20 @@ a {
 
 /* Left Column Footer (Desktop Only) */
 .column-footer {
-  margin-top: 16px;
-  padding-top: 18px;
-  border-top: 1px solid var(--border-subtle);
+  margin-top: auto;
+  height: 52px;
+  padding: 0;
+  border-top: 1px solid var(--border-medium);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-size: 0.76rem;
+  font-size: 0.8rem;
   color: var(--olive-sage);
+  box-sizing: border-box;
+}
+
+.footer-copyright {
+  color: var(--olive-moss);
 }
 
 /* ---------- Hidden Desktop Elements for Mobile View ---------- */
@@ -487,11 +510,15 @@ a {
    ======================================================== */
 .work-column {
   padding: clamp(28px, 3.2vw, 56px);
+  padding-bottom: 28px;
   background-color: var(--beige-canvas);
+  background-image: var(--grid-pattern);
+  background-size: var(--grid-size);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   gap: 24px;
+  box-sizing: border-box;
 }
 
 .gallery-container-wrapper {
@@ -504,7 +531,7 @@ a {
 .work-header {
   position: sticky;
   top: 0;
-  background-color: var(--beige-canvas);
+  background-color: rgba(245, 242, 235, 0.94);
   padding: 12px 0 16px;
   border-bottom: 1px solid var(--border-medium);
   display: flex;
@@ -513,8 +540,8 @@ a {
   gap: 16px;
   flex-wrap: nowrap;
   z-index: 5;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
 .header-title-box {
@@ -773,15 +800,16 @@ a {
 
 /* Grounded Gallery Bottom Footer */
 .work-footer {
-  margin-top: 48px;
-  padding-top: 24px;
+  margin-top: auto;
+  height: 52px;
+  padding: 0;
   border-top: 1px solid var(--border-medium);
   display: flex;
   align-items: center;
   justify-content: space-between;
   font-size: 0.8rem;
   color: var(--olive-sage);
-  flex-wrap: wrap;
+  box-sizing: border-box;
   gap: 12px;
 }
 
@@ -1230,7 +1258,9 @@ a {
     flex-direction: column;
     border-right: none;
     border-bottom: 1px solid var(--border-subtle);
-    background: var(--beige-base);
+    background-color: var(--beige-base);
+    background-image: var(--grid-pattern);
+    background-size: var(--grid-size);
   }
 
   .mobile-break {
@@ -1402,6 +1432,18 @@ a {
     display: none;
   }
 
+  .column-footer {
+    display: none !important;
+  }
+
+  .work-footer {
+    height: auto;
+    padding: 20px 0 0;
+    margin-top: 36px;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
   /* Right Column in Mobile Layout */
   .work-column {
     padding: 24px 20px 48px;
@@ -1448,7 +1490,9 @@ a {
     width: 100%;
     max-width: 420px;
     height: 100%;
-    background: #F8F6EF !important;
+    background-color: #F8F6EF !important;
+    background-image: var(--grid-pattern) !important;
+    background-size: var(--grid-size) !important;
     border-left: 1px solid rgba(28, 35, 17, 0.12);
     box-shadow: -10px 0 40px rgba(28, 35, 17, 0.25);
     display: flex;

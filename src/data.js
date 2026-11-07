@@ -8,8 +8,9 @@ export const PROFILE = {
   bio: "Specializing in short-form Reels, cinematic founder stories, and podcast video systems. I focus on frame economy, rhythmic pacing, and clean color grading to keep viewers watching to the end.",
   socials: [
     { label: "Instagram", url: "https://instagram.com" },
-    { label: "YouTube", url: "https://youtube.com" },
     { label: "LinkedIn", url: "https://linkedin.com" },
+    { label: "X", url: "https://x.com" },
+    { label: "YouTube", url: "https://youtube.com" },
   ],
   stats: [
     { value: "40+", label: "Projects Completed" },

@@ -86,6 +86,14 @@ export default function App() {
     return PROJECTS.filter((p) => p.category === selectedCategory);
   }, [selectedCategory]);
 
+  const categoryCounts = useMemo(() => {
+    const counts = { All: PROJECTS.length };
+    PROJECTS.forEach((p) => {
+      counts[p.category] = (counts[p.category] || 0) + 1;
+    });
+    return counts;
+  }, []);
+
   return (
     <div className="portfolio-wrapper">
       {/* ========================================================
@@ -93,25 +101,9 @@ export default function App() {
           ======================================================== */}
       <header className="mobile-top-navbar" aria-label="Mobile Navigation">
         <div className="mobile-nav-brand">
-          <div className="mobile-nav-avatar">
-            <img
-              src={PROFILE.avatar || `${import.meta.env.BASE_URL}Ranjeet Vector.png`}
-              alt={`${PROFILE.name} portrait`}
-              className="mobile-avatar-img"
-              onError={(e) => {
-                const fallback = `${import.meta.env.BASE_URL}avatar.png`;
-                if (!e.currentTarget.src.includes("avatar.png")) {
-                  e.currentTarget.src = fallback;
-                } else {
-                  e.currentTarget.style.display = "none";
-                }
-              }}
-            />
-          </div>
-          <div className="mobile-nav-meta">
-            <span className="mobile-nav-name">{PROFILE.name}</span>
-            <span className="mobile-nav-role">{PROFILE.title}</span>
-          </div>
+          <span className="mobile-nav-name">{PROFILE.name}</span>
+          <span className="mobile-nav-role-bullet">•</span>
+          <span className="mobile-nav-role">{PROFILE.title}</span>
         </div>
 
         <button
@@ -120,9 +112,11 @@ export default function App() {
           aria-label={mobileMenuOpen ? "Close menu" : "Open contact and menu"}
           aria-expanded={mobileMenuOpen}
         >
-          <span className="ham-line" />
-          <span className="ham-line" />
-          <span className="ham-line" />
+          <span className="ham-menu-text">Menu</span>
+          <span className="ham-equal-icon" aria-hidden="true">
+            <span className="ham-line" />
+            <span className="ham-line" />
+          </span>
         </button>
       </header>
 
@@ -131,8 +125,9 @@ export default function App() {
           ======================================================== */}
       <aside className="text-column" aria-label="Profile and information">
         <div className="column-inner">
-          {/* Brand Header */}
-          <header className="brand-header">
+          {/* Brand Header / Pure Hero Section */}
+          <header className="brand-header hero-section">
+            {/* Identity Bar with Vector Art Avatar */}
             <div className="profile-identity-bar">
               <div className="avatar-frame" title={`${PROFILE.name} — Face Vector Art`}>
                 <img
@@ -152,27 +147,29 @@ export default function App() {
 
               <div className="identity-text-col">
                 <span className="brand-name">{PROFILE.name}</span>
-                <p className="brand-role">{PROFILE.title}</p>
+                <span className="brand-role">{PROFILE.title}</span>
               </div>
             </div>
 
-            {/* Mobile green accent dash above headline */}
-            <div className="hero-accent-dash" aria-hidden="true" />
-
             <h1 className="hero-statement">
-              Editing with purpose.<br />
-              Exploring the <span className="hero-art-of">art of</span>{" "}
-              <br className="mobile-break" />
-              <span className="hero-highlight-pill">motion.</span>
+              <span className="hero-statement-line">Editing with</span>{" "}
+              <span className="hero-statement-line">purpose.</span>
+              <br className="desktop-break" />
+              <span className="hero-statement-line">
+                Exploring <span className="hero-art-of">art of</span>
+              </span>{" "}
+              <span className="hero-statement-line">
+                <span className="hero-highlight-pill">motion.</span>
+              </span>
             </h1>
 
             <p className="hero-intro">{PROFILE.bio}</p>
 
-            {/* Mobile-only hero quick action CTAs */}
+            {/* Dual Pill Call-to-Actions */}
             <div className="mobile-hero-actions">
               <a href="#work" className="mobile-hero-btn primary">
                 <span>View Selected Work</span>
-                <span className="action-arrow">↓</span>
+                <span className="hero-btn-arrow down" aria-hidden="true">↓</span>
               </a>
               <button
                 type="button"
@@ -180,13 +177,13 @@ export default function App() {
                 onClick={() => setMobileMenuOpen(true)}
               >
                 <span>Get in Touch</span>
-                <ArrowUpRight size={15} />
+                <span className="hero-btn-arrow up-right" aria-hidden="true">↗</span>
               </button>
             </div>
           </header>
 
-          {/* Stats Strip */}
-          <div className="stats-strip">
+          {/* Stats Strip - Desktop Only */}
+          <div className="stats-strip desktop-only-stats">
             {PROFILE.stats.map((s, idx) => (
               <div key={idx} className="stat-item">
                 <span className="stat-number">{s.value}</span>
@@ -373,7 +370,10 @@ export default function App() {
                   className={`filter-pill ${selectedCategory === cat ? "active" : ""}`}
                   onClick={() => setSelectedCategory(cat)}
                 >
-                  {cat}
+                  <span className="pill-text">{cat}</span>
+                  {categoryCounts[cat] !== undefined && (
+                    <span className="pill-count-badge">{categoryCounts[cat]}</span>
+                  )}
                 </button>
               ))}
             </div>
@@ -487,6 +487,63 @@ export default function App() {
             </p>
           </div>
         </div>
+
+        {/* Mobile Closing Call-to-Action Section */}
+        <section className="mobile-footer-cta-block" aria-label="Work with me">
+          <div className="mobile-cta-card">
+            <div className="mobile-cta-kicker-row">
+              <span className="live-status-dot-mini" aria-hidden="true" />
+              <span className="mobile-cta-kicker">Available for Q2 Commissions</span>
+            </div>
+            <h3 className="mobile-cta-heading">Have raw footage or an upcoming launch?</h3>
+            <p className="mobile-cta-desc">
+              Currently accepting commercial edits, founder stories, and podcast video retainers with 48h turnaround sprints.
+            </p>
+
+            <div className="mobile-cta-actions">
+              <button
+                type="button"
+                className="mobile-cta-copy-btn"
+                onClick={copyEmail}
+                aria-label="Copy email address"
+              >
+                <span className="cta-email-label">{PROFILE.email}</span>
+                <span className="cta-copy-badge">
+                  {copied ? (
+                    <>
+                      <CheckIcon /> Copied
+                    </>
+                  ) : (
+                    "Tap to Copy"
+                  )}
+                </span>
+              </button>
+
+              <a
+                href={`mailto:${PROFILE.email}`}
+                className="mobile-cta-send-btn"
+              >
+                <span>Send Email</span>
+                <ArrowUpRight size={14} />
+              </a>
+            </div>
+
+            <div className="mobile-footer-socials">
+              {PROFILE.socials.map((s) => (
+                <a
+                  key={s.label}
+                  href={s.url}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="mobile-footer-social-pill"
+                >
+                  <span>{s.label}</span>
+                  <ArrowUpRight size={11} />
+                </a>
+              ))}
+            </div>
+          </div>
+        </section>
 
         {/* Clean Grounded Footer */}
         <footer className="work-footer">
@@ -691,10 +748,49 @@ export default function App() {
   );
 }
 
-/* ---------- Project Card with Hover Video Preview ---------- */
+/* ---------- Project Card with Hover Video Preview & Mobile Auto-Play ---------- */
 function ProjectCard({ project, onClick }) {
+  const cardRef = useRef(null);
   const videoRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
+
+  // Auto-play preview when card is in view on mobile/touch screens
+  useEffect(() => {
+    if (!project.video || !cardRef.current) return;
+
+    // Detect mobile / touch devices
+    const isTouch = window.matchMedia("(hover: none) and (pointer: coarse)").matches;
+    if (!isTouch) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && entry.intersectionRatio >= 0.5) {
+            if (videoRef.current) {
+              const playPromise = videoRef.current.play();
+              if (playPromise !== undefined) {
+                playPromise
+                  .then(() => setIsPlaying(true))
+                  .catch(() => setIsPlaying(false));
+              }
+            }
+          } else {
+            if (videoRef.current) {
+              videoRef.current.pause();
+              videoRef.current.currentTime = 0;
+            }
+            setIsPlaying(false);
+          }
+        });
+      },
+      {
+        threshold: [0.1, 0.5, 0.8],
+      }
+    );
+
+    observer.observe(cardRef.current);
+    return () => observer.disconnect();
+  }, [project.video]);
 
   const handleMouseEnter = () => {
     if (project.video && videoRef.current) {
@@ -718,6 +814,7 @@ function ProjectCard({ project, onClick }) {
 
   return (
     <article
+      ref={cardRef}
       className={`gallery-card ${project.shape} ${isPlaying ? "is-playing" : ""}`}
       onClick={() => onClick(project)}
       onMouseEnter={handleMouseEnter}
@@ -755,12 +852,12 @@ function ProjectCard({ project, onClick }) {
           <span className="poster-pill length-pill">{project.length}</span>
         </div>
 
-        <div className="play-badge" aria-hidden="true">
+        <div className={`play-badge ${isPlaying ? "active-playing" : ""}`} aria-hidden="true">
           <PlayIcon size={20} />
         </div>
 
         <div className="poster-bottom-bar">
-          <span className="poster-metric">{project.metric}</span>
+          <span className="poster-metric">{project.client} • {project.metric}</span>
         </div>
       </div>
 
@@ -806,6 +903,7 @@ function CaseStudyModal({ project, allProjects, onClose, onNavigate }) {
         aria-label={project.title}
         onClick={(e) => e.stopPropagation()}
       >
+        <div className="modal-sheet-handle" aria-hidden="true" />
         <button
           ref={closeRef}
           className="modal-close-trigger"
@@ -875,23 +973,41 @@ function CaseStudyModal({ project, allProjects, onClose, onNavigate }) {
             <h4 className="solution-heading">Editorial Approach</h4>
             <p className="solution-text">{project.solution}</p>
           </div>
+        </div>
 
-          <a href={project.link} target="_blank" rel="noreferrer" className="case-video-link">
-            <span>Watch Video</span>
-            <ArrowUpRight size={15} />
-          </a>
-
-          <div className="modal-pager">
-            <button className="pager-btn" onClick={() => onNavigate(prevProject)}>
-              ← Previous
+        {/* Pinned Sticky Bottom Action Bar */}
+        <div className="modal-sticky-bottom-bar">
+          <div className="modal-pager-controls">
+            <button
+              type="button"
+              className="modal-pager-nav-btn"
+              onClick={() => onNavigate(prevProject)}
+              aria-label="Previous project"
+            >
+              ← Prev
             </button>
-            <span className="pager-counter">
-              {currentIndex + 1} of {allProjects.length}
+            <span className="modal-pager-counter">
+              {currentIndex + 1} / {allProjects.length}
             </span>
-            <button className="pager-btn" onClick={() => onNavigate(nextProject)}>
+            <button
+              type="button"
+              className="modal-pager-nav-btn"
+              onClick={() => onNavigate(nextProject)}
+              aria-label="Next project"
+            >
               Next →
             </button>
           </div>
+
+          <a
+            href={project.link}
+            target="_blank"
+            rel="noreferrer"
+            className="modal-sticky-watch-btn"
+          >
+            <span>Watch Full Video</span>
+            <ArrowUpRight size={14} />
+          </a>
         </div>
       </div>
     </div>

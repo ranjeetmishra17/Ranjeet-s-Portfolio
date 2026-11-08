@@ -74,7 +74,7 @@ export const TOOLS = [
   "Sound Design",
 ];
 
-export const CATEGORIES = ["All", "Reels", "Brand films"];
+export const CATEGORIES = ["All", "Reels", "Brand films", "Podcasts"];
 
 export const PROJECTS = [
   {
@@ -91,15 +91,15 @@ export const PROJECTS = [
   },
   {
     id: 2,
-    vimeoId: "1243506704",
-    vimeoHash: "52cd92c434",
-    vimeoUrl: "https://vimeo.com/1243506704",
+    vimeoId: "1243506702",
+    vimeoHash: "cb87fde1c2",
+    vimeoUrl: "https://vimeo.com/1243506702",
     category: "Brand films",
     shape: "wide",
-    length: "1:00",
+    length: "1:03",
     aspect: "16:9 Widescreen",
     image:
-      "https://i.vimeocdn.com/video/2222045740-0ba4144349cab2cf276e9a5f3c67b24af2d4fd0002bafb90d3fda788ae284a57-d_960?region=us",
+      "https://i.vimeocdn.com/video/2222045928-6628c1294e56a05c189136f6a1e85c9cd2fdb97efa90619e62fdc3dfa176b518-d_960?region=us",
   },
   {
     id: 3,
@@ -115,15 +115,15 @@ export const PROJECTS = [
   },
   {
     id: 4,
-    vimeoId: "1243506705",
-    vimeoHash: "39839546dc",
-    vimeoUrl: "https://vimeo.com/1243506705",
-    category: "Brand films",
+    vimeoId: "1243506704",
+    vimeoHash: "52cd92c434",
+    vimeoUrl: "https://vimeo.com/1243506704",
+    category: "Podcasts",
     shape: "wide",
-    length: "0:34",
+    length: "1:00",
     aspect: "16:9 Widescreen",
     image:
-      "https://i.vimeocdn.com/video/2222045851-8b6ae9a48f8f9bffa3d3a4e83b7c1db02e6d60f15e3df6cbbfcdd1f01ab823e8-d_960?region=us",
+      "https://i.vimeocdn.com/video/2222045740-0ba4144349cab2cf276e9a5f3c67b24af2d4fd0002bafb90d3fda788ae284a57-d_960?region=us",
   },
   {
     id: 5,

@@ -248,17 +248,28 @@ a {
 }
 
 .stat-number {
-  font-size: 1.35rem;
-  font-weight: 700;
-  letter-spacing: -0.02em;
+  font-size: 1.45rem;
+  font-weight: 800;
+  letter-spacing: -0.025em;
   color: var(--olive-ink);
+  font-feature-settings: "tnum";
+  font-variant-numeric: tabular-nums;
+  line-height: 1.15;
+  display: inline-block;
+}
+
+.stat-number.tabular-nums {
+  font-feature-settings: "tnum";
+  font-variant-numeric: tabular-nums;
 }
 
 .stat-label {
   font-size: 0.72rem;
-  font-weight: 500;
-  color: var(--olive-sage);
-  margin-top: 2px;
+  font-weight: 600;
+  color: var(--olive-moss);
+  letter-spacing: 0.015em;
+  margin-top: 3px;
+  line-height: 1.25;
 }
 
 /* ---------- Desktop Only Elements ---------- */

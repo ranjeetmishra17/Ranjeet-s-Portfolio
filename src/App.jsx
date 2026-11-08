@@ -34,6 +34,73 @@ const CheckIcon = () => (
   </svg>
 );
 
+/* ---------- Running Animated Stat Counter ---------- */
+function CountUpStat({ target, decimals = 0, suffix = "", fallback = "" }) {
+  const [displayValue, setDisplayValue] = useState(
+    (0).toFixed(decimals) + suffix
+  );
+  const ref = useRef(null);
+  const hasAnimated = useRef(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
+    const runCounter = () => {
+      if (hasAnimated.current) return;
+      hasAnimated.current = true;
+
+      const duration = 2000; // 2s smooth running animation
+      const startTime = performance.now();
+
+      const step = (currentTime) => {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+
+        // Ease-out expo for natural deceleration
+        const ease = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+        const currentVal = target * ease;
+
+        setDisplayValue(currentVal.toFixed(decimals) + suffix);
+
+        if (progress < 1) {
+          requestAnimationFrame(step);
+        } else {
+          setDisplayValue(target.toFixed(decimals) + suffix);
+        }
+      };
+
+      requestAnimationFrame(step);
+    };
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          runCounter();
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    observer.observe(el);
+
+    // Initial kick-off fallback
+    const timer = setTimeout(runCounter, 250);
+
+    return () => {
+      observer.disconnect();
+      clearTimeout(timer);
+    };
+  }, [target, decimals, suffix]);
+
+  return (
+    <span ref={ref} className="stat-number tabular-nums">
+      {displayValue}
+    </span>
+  );
+}
+
 /* ---------- Left Column: 40% Editorial Panel (Desktop) ---------- */
 const DESKTOP_TABS = [
   { id: "about", label: "About" },
@@ -186,7 +253,12 @@ export default function App() {
           <div className="stats-strip desktop-only-stats">
             {PROFILE.stats.map((s, idx) => (
               <div key={idx} className="stat-item">
-                <span className="stat-number">{s.value}</span>
+                <CountUpStat
+                  target={s.target}
+                  decimals={s.decimals}
+                  suffix={s.suffix}
+                  fallback={s.value}
+                />
                 <span className="stat-label">{s.label}</span>
               </div>
             ))}
@@ -483,7 +555,7 @@ export default function App() {
             </div>
 
             <p className="mobile-contact-sub">
-              Open for select commissions and worldwide remote projects with 48h turnaround options.
+              Open for select commissions and worldwide remote projects with 24h turnaround options.
             </p>
           </div>
         </div>
@@ -497,7 +569,7 @@ export default function App() {
             </div>
             <h3 className="mobile-cta-heading">Have raw footage or an upcoming launch?</h3>
             <p className="mobile-cta-desc">
-              Currently accepting commercial edits, founder stories, and podcast video retainers with 48h turnaround sprints.
+              Currently accepting commercial edits, founder stories, and podcast video retainers with 24h turnaround sprints.
             </p>
 
             <div className="mobile-cta-actions">
@@ -690,7 +762,7 @@ export default function App() {
                   <div className="drawer-meta-list">
                     <div className="drawer-meta-item">
                       <span className="meta-item-label">Turnaround</span>
-                      <span className="meta-item-value">48h Average First Cut</span>
+                      <span className="meta-item-value">24h Average First Cut</span>
                     </div>
                     <div className="drawer-meta-item">
                       <span className="meta-item-label">Location</span>
@@ -698,7 +770,7 @@ export default function App() {
                     </div>
                     <div className="drawer-meta-item">
                       <span className="meta-item-label">Projects</span>
-                      <span className="meta-item-value">40+ Completed (15M+ Views)</span>
+                      <span className="meta-item-value">100+ Completed (1.5M+ Views)</span>
                     </div>
                   </div>
                 </div>

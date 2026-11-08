@@ -748,78 +748,15 @@ export default function App() {
   );
 }
 
-/* ---------- Project Card with Hover Video Preview & Mobile Auto-Play ---------- */
+/* ---------- Project Card (Minimalist Video Slate, No Names) ---------- */
 function ProjectCard({ project, onClick }) {
-  const cardRef = useRef(null);
-  const videoRef = useRef(null);
-  const [isPlaying, setIsPlaying] = useState(false);
-
-  // Auto-play preview when card is in view on mobile/touch screens
-  useEffect(() => {
-    if (!project.video || !cardRef.current) return;
-
-    // Detect mobile / touch devices
-    const isTouch = window.matchMedia("(hover: none) and (pointer: coarse)").matches;
-    if (!isTouch) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting && entry.intersectionRatio >= 0.5) {
-            if (videoRef.current) {
-              const playPromise = videoRef.current.play();
-              if (playPromise !== undefined) {
-                playPromise
-                  .then(() => setIsPlaying(true))
-                  .catch(() => setIsPlaying(false));
-              }
-            }
-          } else {
-            if (videoRef.current) {
-              videoRef.current.pause();
-              videoRef.current.currentTime = 0;
-            }
-            setIsPlaying(false);
-          }
-        });
-      },
-      {
-        threshold: [0.1, 0.5, 0.8],
-      }
-    );
-
-    observer.observe(cardRef.current);
-    return () => observer.disconnect();
-  }, [project.video]);
-
-  const handleMouseEnter = () => {
-    if (project.video && videoRef.current) {
-      videoRef.current.currentTime = 0;
-      const playPromise = videoRef.current.play();
-      if (playPromise !== undefined) {
-        playPromise
-          .then(() => setIsPlaying(true))
-          .catch(() => setIsPlaying(false));
-      }
-    }
-  };
-
-  const handleMouseLeave = () => {
-    if (videoRef.current) {
-      videoRef.current.pause();
-      videoRef.current.currentTime = 0;
-    }
-    setIsPlaying(false);
-  };
-
   return (
     <article
-      ref={cardRef}
-      className={`gallery-card ${project.shape} ${isPlaying ? "is-playing" : ""}`}
+      className={`gallery-card ${project.shape}`}
       onClick={() => onClick(project)}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
       tabIndex={0}
+      role="button"
+      aria-label={`${project.category} video, duration ${project.length}`}
       onKeyDown={(e) => {
         if (e.key === "Enter" || e.key === " ") {
           e.preventDefault();
@@ -830,21 +767,10 @@ function ProjectCard({ project, onClick }) {
       <div className="card-poster">
         <img
           src={project.image}
-          alt={project.title}
+          alt={`${project.category} preview`}
           className="poster-img"
           loading="lazy"
         />
-        {project.video && (
-          <video
-            ref={videoRef}
-            src={project.video}
-            muted
-            loop
-            playsInline
-            preload="none"
-            className="poster-video-preview"
-          />
-        )}
         <div className="poster-scrim" />
 
         <div className="poster-top-bar">
@@ -852,27 +778,15 @@ function ProjectCard({ project, onClick }) {
           <span className="poster-pill length-pill">{project.length}</span>
         </div>
 
-        <div className={`play-badge ${isPlaying ? "active-playing" : ""}`} aria-hidden="true">
-          <PlayIcon size={20} />
+        <div className="play-badge" aria-hidden="true">
+          <PlayIcon size={22} />
         </div>
-
-        <div className="poster-bottom-bar">
-          <span className="poster-metric">{project.client} • {project.metric}</span>
-        </div>
-      </div>
-
-      <div className="card-caption">
-        <div className="caption-header">
-          <h3 className="caption-title">{project.title}</h3>
-          <span className="caption-arrow"><ArrowUpRight /></span>
-        </div>
-        <p className="caption-role">{project.client} • {project.role}</p>
       </div>
     </article>
   );
 }
 
-/* ---------- Case Study Modal Lightbox ---------- */
+/* ---------- Case Study Modal: Theater Video Player (No Names) ---------- */
 function CaseStudyModal({ project, allProjects, onClose, onNavigate }) {
   const currentIndex = allProjects.findIndex((p) => p.id === project.id);
   const prevProject = allProjects[(currentIndex - 1 + allProjects.length) % allProjects.length];
@@ -897,82 +811,42 @@ function CaseStudyModal({ project, allProjects, onClose, onNavigate }) {
   return (
     <div className="modal-backdrop" onClick={onClose} role="presentation">
       <div
-        className="modal-window"
+        className={`modal-window theater-mode ${project.shape}`}
         role="dialog"
         aria-modal="true"
-        aria-label={project.title}
+        aria-label={`${project.category} video`}
         onClick={(e) => e.stopPropagation()}
       >
         <div className="modal-sheet-handle" aria-hidden="true" />
-        <button
-          ref={closeRef}
-          className="modal-close-trigger"
-          onClick={onClose}
-          aria-label="Close modal"
-        >
-          <CloseIcon />
-        </button>
 
-        {/* Modal Left Preview Image or Video */}
-        <div className={`modal-preview-screen ${project.shape}`}>
-          {project.video ? (
-            <video
-              src={project.video}
-              poster={project.image}
-              controls
-              autoPlay
-              playsInline
-              className="modal-active-video"
-            />
-          ) : (
-            <>
-              <img src={project.image} alt={project.title} className="modal-bg-img" />
-              <div className="modal-screen-scrim" />
-
-              <div className="screen-center-play">
-                <PlayIcon size={32} />
-              </div>
-            </>
-          )}
-
-          <div className="screen-bottom-meta">
-            <span className="screen-tag">{project.category}</span>
-            <span className="screen-tag">{project.length}</span>
-            <span className="screen-tag">{project.aspect}</span>
+        {/* Modal Top Bar */}
+        <div className="modal-theater-header">
+          <div className="modal-theater-tags">
+            <span className="screen-tag category-tag">{project.category}</span>
+            <span className="screen-tag length-tag">{project.length}</span>
+            <span className="screen-tag aspect-tag">{project.aspect}</span>
           </div>
+
+          <button
+            ref={closeRef}
+            className="modal-close-trigger"
+            onClick={onClose}
+            aria-label="Close modal"
+          >
+            <CloseIcon />
+          </button>
         </div>
 
-        {/* Modal Right Case Details */}
-        <div className="modal-case-details">
-          <div className="case-header">
-            <span className="case-kicker">{project.category} • {project.length}</span>
-            <h2 className="case-title">{project.title}</h2>
-            <p className="case-about">{project.about}</p>
-          </div>
-
-          <div className="case-meta-table">
-            <div className="meta-item">
-              <span className="meta-label">Client</span>
-              <span className="meta-data">{project.client}</span>
-            </div>
-            <div className="meta-item">
-              <span className="meta-label">Role</span>
-              <span className="meta-data">{project.role}</span>
-            </div>
-            <div className="meta-item">
-              <span className="meta-label">Software</span>
-              <span className="meta-data">{project.tools}</span>
-            </div>
-            <div className="meta-item">
-              <span className="meta-label">Impact</span>
-              <span className="meta-data highlight">{project.metric}</span>
-            </div>
-          </div>
-
-          <div className="case-solution-box">
-            <h4 className="solution-heading">Editorial Approach</h4>
-            <p className="solution-text">{project.solution}</p>
-          </div>
+        {/* Video Player Stage */}
+        <div className={`modal-player-wrapper ${project.shape}`}>
+          <iframe
+            src={`https://player.vimeo.com/video/${project.vimeoId}?h=${project.vimeoHash}&autoplay=1&title=0&byline=0&portrait=0&badge=0&autopause=0`}
+            className="modal-vimeo-iframe"
+            frameBorder="0"
+            allow="autoplay; fullscreen; picture-in-picture"
+            allowFullScreen
+            title="Video player"
+          />
         </div>
 
         {/* Pinned Sticky Bottom Action Bar */}
@@ -982,7 +856,7 @@ function CaseStudyModal({ project, allProjects, onClose, onNavigate }) {
               type="button"
               className="modal-pager-nav-btn"
               onClick={() => onNavigate(prevProject)}
-              aria-label="Previous project"
+              aria-label="Previous video"
             >
               ← Prev
             </button>
@@ -993,19 +867,19 @@ function CaseStudyModal({ project, allProjects, onClose, onNavigate }) {
               type="button"
               className="modal-pager-nav-btn"
               onClick={() => onNavigate(nextProject)}
-              aria-label="Next project"
+              aria-label="Next video"
             >
               Next →
             </button>
           </div>
 
           <a
-            href={project.link}
+            href={project.vimeoUrl}
             target="_blank"
             rel="noreferrer"
             className="modal-sticky-watch-btn"
           >
-            <span>Watch Full Video</span>
+            <span>Watch on Vimeo</span>
             <ArrowUpRight size={14} />
           </a>
         </div>

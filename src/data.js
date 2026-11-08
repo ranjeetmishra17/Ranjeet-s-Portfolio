@@ -74,154 +74,91 @@ export const TOOLS = [
   "Sound Design",
 ];
 
-export const CATEGORIES = ["All", "Reels", "Brand films", "Podcasts", "Motion"];
+export const CATEGORIES = ["All", "Reels", "Brand films"];
 
 export const PROJECTS = [
   {
     id: 1,
-    title: "Glow Skincare Launch",
+    vimeoId: "1243506770",
+    vimeoHash: "51e654e4be",
+    vimeoUrl: "https://vimeo.com/1243506770",
     category: "Reels",
     shape: "tall",
-    length: "0:30",
-    role: "Lead Editor & Pacing",
-    tools: "Premiere Pro, CapCut",
-    metric: "320K+ Views",
-    client: "Glow Botanicals",
+    length: "0:54",
     aspect: "9:16 Vertical",
     image:
-      "https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&w=800&q=80",
-    video:
-      "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
-    about:
-      "A fast-paced commercial launch reel built around sensory macro-product textures, beat-matched cuts, and bold minimal captions designed to stop the scroll.",
-    solution:
-      "Engineered an arresting 0.6-second visual hook with dynamic cut cadence synchronizing product drops with tactile bass hits.",
-    link: "#",
+      "https://i.vimeocdn.com/video/2222045939-6356b79d6f44e4a7f240d23d402a5a80d7ada3f5296483045ed7b441baaef7bf-d_960?region=us",
   },
   {
     id: 2,
-    title: "Architectural Founder Story",
+    vimeoId: "1243506704",
+    vimeoHash: "52cd92c434",
+    vimeoUrl: "https://vimeo.com/1243506704",
     category: "Brand films",
     shape: "wide",
-    length: "2:10",
-    role: "Editor, Colorist & Audio",
-    tools: "DaVinci Resolve",
-    metric: "4.8m Watch Time",
-    client: "Studio Kanso Architecture",
+    length: "1:00",
     aspect: "16:9 Widescreen",
     image:
-      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80",
-    video:
-      "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4",
-    about:
-      "An intimate founder narrative balancing quiet reflective silences with dynamic montages of spatial design and architectural philosophy.",
-    solution:
-      "Applied custom warm analog color grading in DaVinci Resolve, creating an organic tone alongside balanced dialogue leveling.",
-    link: "#",
+      "https://i.vimeocdn.com/video/2222045740-0ba4144349cab2cf276e9a5f3c67b24af2d4fd0002bafb90d3fda788ae284a57-d_960?region=us",
   },
   {
     id: 3,
-    title: "Artisan Cafe Opening Teaser",
+    vimeoId: "1243506929",
+    vimeoHash: "d7bee15e62",
+    vimeoUrl: "https://vimeo.com/1243506929",
     category: "Reels",
     shape: "tall",
-    length: "0:15",
-    role: "Shooter & Editor",
-    tools: "Premiere Pro",
-    metric: "14.2% Engagement",
-    client: "Roast & Bloom Cafe",
+    length: "0:40",
     aspect: "9:16 Vertical",
     image:
-      "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=800&q=80",
-    video:
-      "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
-    about:
-      "Atmospheric opening campaign for an artisan espresso bar, highlighting roasted beans, steam, and ambient cafe jazz.",
-    solution:
-      "Speed ramps synchronized with espresso machine extraction sounds and warm golden-hour color grading.",
-    link: "#",
+      "https://i.vimeocdn.com/video/2222046065-7f7669fbd3ca100798a4c6baa05b5bb539813324c12e762cee83e1d593712501-d_960?region=us",
   },
   {
     id: 4,
-    title: "Minimal Logo Motion Kit",
-    category: "Motion",
+    vimeoId: "1243506705",
+    vimeoHash: "39839546dc",
+    vimeoUrl: "https://vimeo.com/1243506705",
+    category: "Brand films",
     shape: "wide",
-    length: "0:08",
-    role: "Motion Designer",
-    tools: "After Effects",
-    metric: "6 Bespoke Variants",
-    client: "Aura Creative Studio",
+    length: "0:34",
     aspect: "16:9 Widescreen",
     image:
-      "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1200&q=80",
-    video:
-      "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4",
-    about:
-      "A suite of restraint-focused logo reveals, utilizing smooth bezier curves, subtle blur falls, and clean typographic entrance vectors.",
-    solution:
-      "Built custom easing expressions and dynamic anchor-point animations focused on clean architectural geometry and zero visual clutter.",
-    link: "#",
+      "https://i.vimeocdn.com/video/2222045851-8b6ae9a48f8f9bffa3d3a4e83b7c1db02e6d60f15e3df6cbbfcdd1f01ab823e8-d_960?region=us",
   },
   {
     id: 5,
-    title: "Deep Tech Podcast Clips",
-    category: "Podcasts",
+    vimeoId: "1243506866",
+    vimeoHash: "74deba9ee0",
+    vimeoUrl: "https://vimeo.com/1243506866",
+    category: "Reels",
     shape: "tall",
-    length: "0:45",
-    role: "Editor & Audio Engineer",
-    tools: "Premiere Pro, Photoshop",
-    metric: "850K Impressions",
-    client: "The Frontier Tech Cast",
+    length: "0:34",
     aspect: "9:16 Vertical",
     image:
-      "https://images.unsplash.com/photo-1590602847861-f357a9332bbc?auto=format&fit=crop&w=800&q=80",
-    video:
-      "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyBlazes.mp4",
-    about:
-      "Extracted high-density intellectual moments from a 2-hour engineering podcast into viral, highly shareable social capsules.",
-    solution:
-      "Automated speaker isolation, added subtle zoom cuts to emphasize key thesis moments, and integrated branded kinetic subtitles.",
-    link: "#",
+      "https://i.vimeocdn.com/video/2222046079-c1cd7611b9caddcfd7813ad48914748e8561531363db5a0d056309cb1e613654-d_960?region=us",
   },
   {
     id: 6,
-    title: "Summer Runway Shoot Recap",
-    category: "Reels",
-    shape: "tall",
-    length: "0:25",
-    role: "Lead Editor & Sound",
-    tools: "CapCut, Premiere",
-    metric: "210K Impressions",
-    client: "Linen & Thread Runway",
-    aspect: "9:16 Vertical",
+    vimeoId: "1243506703",
+    vimeoHash: "c6bc575a79",
+    vimeoUrl: "https://vimeo.com/1243506703",
+    category: "Brand films",
+    shape: "wide",
+    length: "0:44",
+    aspect: "16:9 Widescreen",
     image:
-      "https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=800&q=80",
-    video:
-      "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4",
-    about:
-      "Behind-the-scenes recap that captures the kinetic electricity of an editorial runway shoot without relying on clunky generic transitions.",
-    solution:
-      "Cut strictly on camera motion vectors with custom match cuts, stitching 38 short takes into an uninterrupted stream of energy.",
-    link: "#",
+      "https://i.vimeocdn.com/video/2222045923-865f446eec5d824ef57693af47531d486b155e53696112d5c160a4024d9ca179-d_960?region=us",
   },
   {
     id: 7,
-    title: "Kinetic Typography Study",
-    category: "Motion",
+    vimeoId: "1243506894",
+    vimeoHash: "a2a1f0a72f",
+    vimeoUrl: "https://vimeo.com/1243506894",
+    category: "Reels",
     shape: "tall",
-    length: "0:12",
-    role: "Motion Designer",
-    tools: "After Effects",
-    metric: "Open Design Study",
-    client: "Self-Initiated Exploration",
+    length: "0:45",
     aspect: "9:16 Vertical",
     image:
-      "https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=800&q=80",
-    video:
-      "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4",
-    about:
-      "An exploration of typographic tension and variable font weights synchronized to spoken cadence and atmospheric ambient synth drones.",
-    solution:
-      "Tested optical character tracking, physics-based damping expressions, and minimalist Swiss design layout principles on mobile viewports.",
-    link: "#",
+      "https://i.vimeocdn.com/video/2222046074-139b322aa4c153ca90e4ebe7d3fb6c9b04c9ee22f85f11957bb65405f5ac0a0f-d_960?region=us",
   },
 ];

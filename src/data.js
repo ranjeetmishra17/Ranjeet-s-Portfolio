@@ -161,4 +161,16 @@ export const PROJECTS = [
     image:
       "https://i.vimeocdn.com/video/2222046074-139b322aa4c153ca90e4ebe7d3fb6c9b04c9ee22f85f11957bb65405f5ac0a0f-d_960?region=us",
   },
+  {
+    id: 8,
+    vimeoId: "1244866216",
+    vimeoHash: "cc7547c3ca",
+    vimeoUrl: "https://vimeo.com/1244866216",
+    category: "Reels",
+    shape: "tall",
+    length: "0:43",
+    aspect: "9:16 Vertical",
+    image:
+      "https://i.vimeocdn.com/video/2223771997-0f0df27102a500ff8f4a026ee501a99d8ad2a95faa6ecb6134bf10f25a1584ce-d_960?region=us",
+  },
 ];

@@ -154,50 +154,6 @@ a {
   gap: 16px;
 }
 
-/* Live Availability Beacon Badge */
-.hero-availability-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  padding: 5px 13px 5px 9px;
-  border-radius: 9999px;
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(82, 99, 77, 0.2);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-  width: fit-content;
-  margin-bottom: 2px;
-}
-
-.beacon-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: #16a34a;
-  box-shadow: 0 0 0 0 rgba(22, 163, 74, 0.7);
-  animation: beaconPulse 2.2s infinite;
-}
-
-@keyframes beaconPulse {
-  0% {
-    box-shadow: 0 0 0 0 rgba(22, 163, 74, 0.7);
-  }
-  70% {
-    box-shadow: 0 0 0 6px rgba(22, 163, 74, 0);
-  }
-  100% {
-    box-shadow: 0 0 0 0 rgba(22, 163, 74, 0);
-  }
-}
-
-.beacon-text {
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  color: #3b4d36;
-}
 
 .profile-identity-bar {
   display: flex;
@@ -1542,30 +1498,14 @@ a {
   .column-inner {
     position: relative;
     z-index: 1;
-    min-height: calc(100vh - 52px);
-    min-height: calc(100dvh - 52px);
-    padding: clamp(24px, 4.5vh, 40px) 20px;
+    min-height: auto;
+    padding: clamp(20px, 3.2vh, 30px) 20px 28px;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     gap: 0;
-  }
-
-  /* Live Availability Badge */
-  .hero-availability-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 7px;
-    padding: 5px 13px 5px 9px;
-    border-radius: 9999px;
-    background: rgba(255, 255, 255, 0.9);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(82, 99, 77, 0.2);
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
-    margin: 0 auto 16px;
   }
 
   /* Profile Identity Lockup */
@@ -1574,7 +1514,7 @@ a {
     align-items: center;
     justify-content: center;
     gap: 13px;
-    margin: 0 auto 18px;
+    margin: 0 auto 16px;
   }
 
   .avatar-frame {
@@ -1636,7 +1576,7 @@ a {
     text-align: center;
     width: 100%;
     max-width: 440px;
-    margin: auto 0;
+    margin: 0 auto;
     gap: 0;
   }
 
@@ -2583,16 +2523,15 @@ a {
   }
 
   .column-inner {
-    min-height: calc(100vh - 52px);
-    min-height: calc(100dvh - 52px);
-    padding: clamp(20px, 4vh, 36px) 20px;
-    justify-content: center;
+    min-height: auto;
+    padding: 20px 20px 28px;
+    justify-content: flex-start;
     align-items: center;
   }
 
   .profile-identity-bar {
-    gap: 14px;
-    margin: 0 auto 20px;
+    gap: 13px;
+    margin: 0 auto 16px;
     justify-content: center;
   }
 

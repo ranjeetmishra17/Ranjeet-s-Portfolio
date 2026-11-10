@@ -194,12 +194,6 @@ export default function App() {
         <div className="column-inner">
           {/* Brand Header / Pure Hero Section */}
           <header className="brand-header hero-section">
-            {/* Live Availability Badge */}
-            <div className="hero-availability-badge">
-              <span className="beacon-dot" aria-hidden="true" />
-              <span className="beacon-text">Available for Q2 Projects</span>
-            </div>
-
             {/* Identity Bar with Vector Art Avatar */}
             <div className="profile-identity-bar">
               <div className="avatar-frame" title={`${PROFILE.name} — Face Vector Art`}>

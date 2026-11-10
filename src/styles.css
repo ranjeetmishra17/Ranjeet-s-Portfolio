@@ -1503,16 +1503,17 @@ a {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: stretch;
+    align-items: center;
     gap: 0;
   }
 
   /* Profile Identity Lockup */
   .profile-identity-bar {
-    display: flex !important;
+    display: inline-flex !important;
     align-items: center;
+    justify-content: center;
     gap: 14px;
-    margin-bottom: 22px;
+    margin: 0 auto 22px;
   }
 
   .avatar-frame {
@@ -1542,6 +1543,8 @@ a {
   .identity-text-col {
     display: flex;
     flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
     gap: 2px;
   }
 
@@ -1568,15 +1571,17 @@ a {
   .brand-header {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    text-align: left;
+    align-items: center;
+    text-align: center;
     width: 100%;
+    max-width: 460px;
+    margin: auto 0;
     gap: 0;
   }
 
   .hero-statement {
-    text-align: left;
-    margin: 0 0 16px;
+    text-align: center;
+    margin: 0 auto 16px;
     width: 100%;
     font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, sans-serif;
     font-size: clamp(33px, 9vw, 38px);
@@ -1588,6 +1593,7 @@ a {
 
   .hero-statement-line {
     display: block;
+    text-align: center;
   }
 
   .desktop-break {
@@ -1615,8 +1621,8 @@ a {
   }
 
   .hero-intro {
-    text-align: left;
-    margin: 0 0 24px;
+    text-align: center;
+    margin: 0 auto 24px;
     width: 100%;
     max-width: 440px;
     font-size: 15px;
@@ -1629,7 +1635,10 @@ a {
     display: flex;
     gap: 10px;
     width: 100%;
+    max-width: 380px;
+    margin: 0 auto;
     align-items: center;
+    justify-content: center;
   }
 
   .mobile-hero-btn {
@@ -2450,11 +2459,13 @@ a {
     min-height: calc(100dvh - 52px);
     padding: clamp(20px, 4vh, 36px) 20px;
     justify-content: center;
+    align-items: center;
   }
 
   .profile-identity-bar {
     gap: 14px;
-    margin-bottom: 22px;
+    margin: 0 auto 20px;
+    justify-content: center;
   }
 
   .avatar-frame {
@@ -2474,19 +2485,24 @@ a {
   .hero-statement {
     font-size: clamp(32px, 8.8vw, 38px);
     line-height: 1.15;
-    margin-bottom: 16px;
+    margin: 0 auto 16px;
+    text-align: center;
   }
 
   .hero-intro {
     font-size: 15px;
     line-height: 1.6;
-    margin-bottom: 24px;
+    margin: 0 auto 24px;
+    text-align: center;
   }
 
   .mobile-hero-actions {
     display: flex;
     gap: 10px;
     width: 100%;
+    max-width: 380px;
+    margin: 0 auto;
+    justify-content: center;
   }
 
   .mobile-hero-btn {

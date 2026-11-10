@@ -13,9 +13,9 @@ export const PROFILE = {
     { label: "YouTube", url: "https://youtube.com" },
   ],
   stats: [
-    { target: 100, decimals: 0, suffix: "+", label: "Projects Completed", value: "100+" },
-    { target: 1.5, decimals: 1, suffix: "M+", label: "Views Generated", value: "1.5M+" },
-    { target: 24, decimals: 0, suffix: " hrs", label: "Average First Cut", value: "24 hrs" },
+    { target: 40, decimals: 0, suffix: "+", label: "Projects Completed", value: "40+" },
+    { target: 15, decimals: 0, suffix: "M+", label: "Views Generated", value: "15M+" },
+    { target: 48, decimals: 0, suffix: "h", label: "Average First Cut", value: "48h" },
   ],
 };
 

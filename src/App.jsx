@@ -194,6 +194,12 @@ export default function App() {
         <div className="column-inner">
           {/* Brand Header / Pure Hero Section */}
           <header className="brand-header hero-section">
+            {/* Live Availability Badge */}
+            <div className="hero-availability-badge">
+              <span className="beacon-dot" aria-hidden="true" />
+              <span className="beacon-text">Available for Q2 Projects</span>
+            </div>
+
             {/* Identity Bar with Vector Art Avatar */}
             <div className="profile-identity-bar">
               <div className="avatar-frame" title={`${PROFILE.name} — Face Vector Art`}>
@@ -219,18 +225,31 @@ export default function App() {
             </div>
 
             <h1 className="hero-statement">
-              <span className="hero-statement-line">Editing with</span>{" "}
-              <span className="hero-statement-line">purpose.</span>
-              <br className="desktop-break" />
+              <span className="hero-statement-line">Editing with purpose.</span>
               <span className="hero-statement-line">
-                Exploring <span className="hero-art-of">art of</span>
-              </span>{" "}
-              <span className="hero-statement-line">
-                <span className="hero-highlight-pill">motion.</span>
+                Exploring <span className="hero-art-of">art of</span>{" "}
+                <span className="hero-highlight-pill">
+                  <span className="pill-dot" aria-hidden="true">✦</span> motion.
+                </span>
               </span>
             </h1>
 
             <p className="hero-intro">{PROFILE.bio}</p>
+
+            {/* Stats Strip with Running Numbers */}
+            <div className="stats-strip">
+              {PROFILE.stats.map((s, idx) => (
+                <div key={idx} className="stat-item">
+                  <CountUpStat
+                    target={s.target}
+                    decimals={s.decimals}
+                    suffix={s.suffix}
+                    fallback={s.value}
+                  />
+                  <span className="stat-label">{s.label}</span>
+                </div>
+              ))}
+            </div>
 
             {/* Dual Pill Call-to-Actions */}
             <div className="mobile-hero-actions">
@@ -248,21 +267,6 @@ export default function App() {
               </button>
             </div>
           </header>
-
-          {/* Stats Strip - Desktop Only */}
-          <div className="stats-strip desktop-only-stats">
-            {PROFILE.stats.map((s, idx) => (
-              <div key={idx} className="stat-item">
-                <CountUpStat
-                  target={s.target}
-                  decimals={s.decimals}
-                  suffix={s.suffix}
-                  fallback={s.value}
-                />
-                <span className="stat-label">{s.label}</span>
-              </div>
-            ))}
-          </div>
 
           {/* ---------- DESKTOP ONLY: Navigation Tabs & Panes ---------- */}
           <div className="desktop-only-content">

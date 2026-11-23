@@ -1,13 +1,10 @@
 import { useState, useEffect, useRef, useMemo } from "react";
 import {
   PROFILE,
-  SERVICES,
-  WORKFLOW,
   TOOLS,
   CATEGORIES,
   PROJECTS,
   MARQUEE_ITEMS,
-  FAQS,
 } from "./data.js";
 
 /* ---------- SVG Icons ---------- */
@@ -49,7 +46,7 @@ const CopyIcon = ({ size = 14 }) => (
   </svg>
 );
 
-const FilmIcon = ({ size = 16 }) => (
+const FilmIcon = ({ size = 15 }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
     <rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18" />
     <line x1="7" y1="2" x2="7" y2="22" />
@@ -59,13 +56,6 @@ const FilmIcon = ({ size = 16 }) => (
     <line x1="2" y1="17" x2="7" y2="17" />
     <line x1="17" y1="17" x2="22" y2="17" />
     <line x1="17" y1="7" x2="22" y2="7" />
-  </svg>
-);
-
-const PlusIcon = ({ size = 18 }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <line x1="12" y1="5" x2="12" y2="19" />
-    <line x1="5" y1="12" x2="19" y2="12" />
   </svg>
 );
 
@@ -115,7 +105,7 @@ function CountUpStat({ target, decimals = 0, suffix = "" }) {
     );
 
     obs.observe(el);
-    const fallback = setTimeout(startCounter, 350);
+    const fallback = setTimeout(startCounter, 300);
 
     return () => {
       obs.disconnect();
@@ -127,24 +117,6 @@ function CountUpStat({ target, decimals = 0, suffix = "" }) {
     <span ref={ref} className="stat-number tabular-nums">
       {val}
     </span>
-  );
-}
-
-/* ---------- Audio Equalizer Visualizer Decoration ---------- */
-function AudioEqualizer() {
-  return (
-    <div className="audio-equalizer" aria-hidden="true" title="Audio Design Visualizer">
-      {[45, 80, 30, 95, 60, 100, 70, 40, 85, 55, 90, 50, 75, 35].map((h, i) => (
-        <span
-          key={i}
-          className="eq-bar"
-          style={{
-            "--base-h": `${h}%`,
-            animationDelay: `${(i * 0.12).toFixed(2)}s`,
-          }}
-        />
-      ))}
-    </div>
   );
 }
 
@@ -186,7 +158,7 @@ function VideoCard({ project, onOpenTheater }) {
               allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
               allowFullScreen
               referrerPolicy="strict-origin-when-cross-origin"
-              title={`Video ${project.id}`}
+              title={`Video player ${project.id}`}
               onLoad={() => setIsLoading(false)}
             />
             {/* Top Bar inside active player */}
@@ -204,7 +176,7 @@ function VideoCard({ project, onOpenTheater }) {
                   title="Expand to Full Cinema"
                   aria-label="Expand to full cinema"
                 >
-                  <ExpandIcon size={16} />
+                  <ExpandIcon size={15} />
                 </button>
                 <button
                   type="button"
@@ -213,7 +185,7 @@ function VideoCard({ project, onOpenTheater }) {
                   title="Close Video"
                   aria-label="Close video player"
                 >
-                  <CloseIcon size={16} />
+                  <CloseIcon size={15} />
                 </button>
               </div>
             </div>
@@ -249,7 +221,7 @@ function VideoCard({ project, onOpenTheater }) {
             {/* Bottom Meta Bar */}
             <div className="card-bottom-bar">
               <span className="duration-tag">
-                <FilmIcon size={13} />
+                <FilmIcon size={12} />
                 <span>{project.duration}</span>
               </span>
               <button
@@ -378,8 +350,7 @@ export default function App() {
   const [activeTheaterProject, setActiveTheaterProject] = useState(null);
   const [copiedEmail, setCopiedEmail] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [expandedFaq, setExpandedFaq] = useState(0); // first open by default
-  const [mousePos, setMousePos] = useState({ x: 50, y: 25 });
+  const [mousePos, setMousePos] = useState({ x: 50, y: 20 });
 
   // Mouse spotlight coordinates tracking
   useEffect(() => {
@@ -462,10 +433,8 @@ export default function App() {
 
           {/* Desktop Links */}
           <nav className="nav-links-desktop" aria-label="Main Navigation">
-            <a href="#work" className="nav-link">Work</a>
-            <a href="#services" className="nav-link">Services</a>
-            <a href="#workflow" className="nav-link">Process</a>
-            <a href="#faq" className="nav-link">FAQ</a>
+            <a href="#work" className="nav-link">Selected Work</a>
+            <a href="#stack" className="nav-link">Stack & Deliverables</a>
             <a href="#contact" className="nav-cta-pill">
               <span>Let's Talk</span>
               <span className="cta-arrow-dot">↗</span>
@@ -488,10 +457,8 @@ export default function App() {
         {/* Mobile Dropdown Menu */}
         {mobileMenuOpen && (
           <nav className="mobile-dropdown-menu" aria-label="Mobile Navigation">
-            <a href="#work" onClick={() => setMobileMenuOpen(false)}>Featured Work</a>
-            <a href="#services" onClick={() => setMobileMenuOpen(false)}>Services & Stack</a>
-            <a href="#workflow" onClick={() => setMobileMenuOpen(false)}>Editing Process</a>
-            <a href="#faq" onClick={() => setMobileMenuOpen(false)}>Frequently Asked Questions</a>
+            <a href="#work" onClick={() => setMobileMenuOpen(false)}>Selected Work</a>
+            <a href="#stack" onClick={() => setMobileMenuOpen(false)}>Stack & Deliverables</a>
             <a href="#contact" className="mobile-dropdown-cta" onClick={() => setMobileMenuOpen(false)}>
               Start a Project ↗
             </a>
@@ -500,31 +467,28 @@ export default function App() {
       </header>
 
       {/* ========================================================
-          HERO SECTION: Bold Cinematic Typography & Kinetic Visuals
+          HERO SECTION: Pure, Minimalist, Cinematic Impact
           ======================================================== */}
       <section className="hero-cinema-section">
         <div className="hero-content-wrapper">
-          {/* Sparkle Badge */}
+          {/* Sparkle Pill */}
           <div className="hero-badge-pill">
             <span className="beacon-sparkle">✦</span>
-            <span>Commercial • Social • Podcast Video Systems</span>
+            <span>Commercial • Short-Form • Multi-Cam Systems</span>
           </div>
 
-          {/* Audio Equalizer Animated Rhythm Strip */}
-          <AudioEqualizer />
-
           <h1 className="hero-main-headline">
-            <span className="headline-row">EDITING WITH PURPOSE.</span>
+            <span className="headline-row">CRAFTING VISUAL RHYTHM.</span>
             <span className="headline-row">
-              EXPLORING THE <span className="headline-gradient">ART OF MOTION.</span>
+              TURNING FOOTAGE INTO <span className="headline-gradient">ENGAGING STORIES.</span>
             </span>
           </h1>
 
           <p className="hero-subtext">
-            Specializing in high-retention short-form Reels, cinematic founder stories, and podcast video workflows. Designed for rhythmic pacing, emotional resonance, and frame economy.
+            Specializing in high-retention short-form Reels, documentary brand stories, and podcast video workflows. Calibrated for frame economy, pacing, and clean grade.
           </p>
 
-          {/* Running Metric Counters with Glowing Glass Cards */}
+          {/* Running Metric Counters with Frosted Glass Strip */}
           <div className="hero-stats-strip">
             {PROFILE.stats.map((s, idx) => (
               <div key={idx} className="hero-stat-card">
@@ -541,7 +505,7 @@ export default function App() {
           {/* Primary Action Buttons */}
           <div className="hero-action-buttons">
             <a href="#work" className="btn-primary-action">
-              <span>Explore Selected Work</span>
+              <span>View Selected Work</span>
               <span className="btn-icon-circle">↓</span>
             </a>
             <a href="#contact" className="btn-secondary-action">
@@ -577,7 +541,7 @@ export default function App() {
       </div>
 
       {/* ========================================================
-          SELECTED WORK SECTION: Interactive Video Grid
+          SELECTED WORK SECTION: High-Definition Video Grid
           ======================================================== */}
       <section className="work-cinema-section" id="work">
         <div className="section-header-row">
@@ -588,7 +552,7 @@ export default function App() {
             </div>
             <h2 className="section-heading">Selected Work</h2>
             <p className="section-subheading">
-              Tap any video to play directly with sound, or expand to full cinema theater.
+              Tap any video to play directly with sound, or expand to cinema theater.
             </p>
           </div>
 
@@ -623,77 +587,15 @@ export default function App() {
       </section>
 
       {/* ========================================================
-          SERVICES & DISCIPLINES SECTION
+          STACK & PRODUCTION STANDARDS SECTION
           ======================================================== */}
-      <section className="services-cinema-section" id="services">
-        <div className="section-title-lockup centered">
-          <span className="section-eyebrow">Creative Capabilities</span>
-          <h2 className="section-heading">Editing Disciplines</h2>
-          <p className="section-subheading">
-            Tailored visual storytelling built for viewer retention, platform algorithms, and brand authority.
-          </p>
-        </div>
-
-        <div className="services-cards-grid">
-          {SERVICES.map((s) => (
-            <div key={s.num} className="service-cinema-card">
-              <div className="service-card-glow" />
-              <div className="service-card-top">
-                <span className="service-number-badge">{s.num}</span>
-                <span className="service-chip">Production Grade</span>
-              </div>
-              <h3 className="service-title">{s.title}</h3>
-              <p className="service-desc">{s.desc}</p>
+      <section className="stack-standards-section" id="stack">
+        <div className="stack-card-container">
+          <div className="stack-column">
+            <div className="stack-header-box">
+              <span className="section-eyebrow">Software Suite</span>
+              <h3 className="stack-column-title">Production Tools</h3>
             </div>
-          ))}
-        </div>
-      </section>
-
-      {/* ========================================================
-          WORKFLOW & PRODUCTION PROCESS
-          ======================================================== */}
-      <section className="process-cinema-section" id="workflow">
-        <div className="section-title-lockup centered">
-          <span className="section-eyebrow">Production Flow</span>
-          <h2 className="section-heading">How We Work Together</h2>
-          <p className="section-subheading">
-            A reliable 4-stage pipeline calibrated for fast turnaround without compromising narrative detail.
-          </p>
-        </div>
-
-        <div className="workflow-timeline-grid">
-          {WORKFLOW.map((w) => (
-            <div key={w.step} className="workflow-step-card">
-              <div className="step-glow-accent" />
-              <div className="workflow-header-row">
-                <span className="step-num">STAGE {w.step}</span>
-                <span className="step-accent-dot" />
-              </div>
-              <h3 className="step-title">{w.title}</h3>
-              <p className="step-desc">{w.desc}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* ========================================================
-          ABOUT & TOOLKIT SECTION
-          ======================================================== */}
-      <section className="about-cinema-section" id="about">
-        <div className="about-grid-container">
-          <div className="about-bio-column">
-            <span className="section-eyebrow">The Editor Behind The Cuts</span>
-            <h2 className="section-heading">Obsessed With The Details That Keep Viewers Watching.</h2>
-            <p className="about-p">
-              I edit videos with a relentless focus on pacing, frame economy, and emotional rhythm. Whether cutting a 45-second high-energy vertical reel or a 60-minute multi-cam podcast, my priority is ensuring every single frame serves a clear narrative purpose.
-            </p>
-            <p className="about-p">
-              Every project receives calibrated audio sweetening, rhythmic sound design hits, natural skin-tone color grading in DaVinci Resolve, and custom kinetic typography.
-            </p>
-          </div>
-
-          <div className="about-tools-column">
-            <span className="tools-card-title">Production Software Suite</span>
             <div className="tools-badge-cloud">
               {TOOLS.map((t) => (
                 <div key={t} className="tool-chip">
@@ -702,55 +604,37 @@ export default function App() {
                 </div>
               ))}
             </div>
+          </div>
 
-            <div className="turnaround-guarantee-card">
-              <div className="guarantee-header">
-                <span className="guarantee-icon">⚡</span>
-                <span className="guarantee-title">48-Hour First Cut Turnaround</span>
+          <div className="standards-column">
+            <div className="stack-header-box">
+              <span className="section-eyebrow">Delivery Standards</span>
+              <h3 className="stack-column-title">What Every Project Includes</h3>
+            </div>
+            <div className="standards-list">
+              <div className="standard-item">
+                <span className="standard-check">✓</span>
+                <div className="standard-info">
+                  <strong>48-Hour First Cut Turnaround</strong>
+                  <span>Fast rough cuts so your production schedule never stalls.</span>
+                </div>
               </div>
-              <p className="guarantee-desc">
-                Fast, dependable delivery cycles with structured revision rounds so your content calendar stays on track.
-              </p>
+              <div className="standard-item">
+                <span className="standard-check">✓</span>
+                <div className="standard-info">
+                  <strong>Multi-Format Master Deliveries</strong>
+                  <span>Full 4K ProRes & H.264 exports formatted for 9:16 and 16:9.</span>
+                </div>
+              </div>
+              <div className="standard-item">
+                <span className="standard-check">✓</span>
+                <div className="standard-info">
+                  <strong>DaVinci Resolve Color & Sound Polish</strong>
+                  <span>Natural skin tones, film emulation, and layered SFX sound design.</span>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </section>
-
-      {/* ========================================================
-          FREQUENTLY ASKED QUESTIONS (FAQ)
-          ======================================================== */}
-      <section className="faq-cinema-section" id="faq">
-        <div className="section-title-lockup centered">
-          <span className="section-eyebrow">Client Assurance</span>
-          <h2 className="section-heading">Frequently Asked Questions</h2>
-          <p className="section-subheading">
-            Everything you need to know about starting an editing collaboration.
-          </p>
-        </div>
-
-        <div className="faq-accordion-container">
-          {FAQS.map((faq, idx) => {
-            const isOpen = expandedFaq === idx;
-            return (
-              <div
-                key={idx}
-                className={`faq-item-card ${isOpen ? "open" : ""}`}
-                onClick={() => setExpandedFaq(isOpen ? -1 : idx)}
-              >
-                <div className="faq-question-row">
-                  <h3 className="faq-question-text">{faq.q}</h3>
-                  <span className={`faq-toggle-icon ${isOpen ? "rotated" : ""}`}>
-                    <PlusIcon size={18} />
-                  </span>
-                </div>
-                {isOpen && (
-                  <div className="faq-answer-block">
-                    <p>{faq.a}</p>
-                  </div>
-                )}
-              </div>
-            );
-          })}
         </div>
       </section>
 
@@ -762,10 +646,10 @@ export default function App() {
           <div className="contact-ambient-shimmer" />
 
           <div className="contact-header-text">
-            <span className="section-eyebrow">Let's Create</span>
-            <h2 className="contact-main-heading">Ready To Bring Your Footage To Life?</h2>
+            <span className="section-eyebrow">Work Together</span>
+            <h2 className="contact-main-heading">Ready To Elevate Your Content?</h2>
             <p className="contact-lead-text">
-              Have an upcoming video campaign, YouTube series, or founder story? Let's discuss scope, references, and delivery timelines.
+              Have raw footage or an upcoming product campaign? Let's discuss scope, references, and delivery timelines.
             </p>
           </div>
 
@@ -832,7 +716,7 @@ export default function App() {
             <span className="footer-sub">{PROFILE.title}</span>
           </div>
           <div className="footer-right">
-            <span>© {new Date().getFullYear()} • Crafted for High-Retention Storytelling</span>
+            <span>© {new Date().getFullYear()} • High-Retention Video Editing</span>
           </div>
         </div>
       </footer>

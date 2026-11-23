@@ -506,7 +506,8 @@ export default function App() {
               onClick={handleRecentWorksClick}
             >
               <FilmReelIcon size={14} />
-              <span>Recent Works</span>
+              <span className="nav-pill-text-desktop">Recent Works</span>
+              <span className="nav-pill-text-mobile">Works</span>
               <span className="nav-count-dot">{PROJECTS.length}</span>
             </button>
             <a href="#contact" className="minimal-contact-link">

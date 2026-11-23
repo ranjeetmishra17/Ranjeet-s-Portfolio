@@ -526,24 +526,7 @@ export default function App() {
             <div className="creative-hero-grid">
               {/* Left Column: Directorial Narrative & Actions */}
               <div className="hero-editorial-column">
-                <div className="hero-director-badge">
-                  <div className="director-avatar-wrap">
-                    <img
-                      src={PROFILE.avatar || "/avatar.png"}
-                      alt={PROFILE.name}
-                      className="director-avatar-img"
-                    />
-                    <span className="director-rec-pulse" />
-                  </div>
-                  <div className="director-badge-info">
-                    <span className="director-badge-name">{PROFILE.name}</span>
-                    <span className="director-badge-craft">Post-Production Editor • Mumbai [IST]</span>
-                  </div>
-                  <span className="director-status-chip">
-                    <span className="chip-live-dot" />
-                    COMMISSIONS OPEN
-                  </span>
-                </div>
+                <span className="hero-eyebrow-tag">[ FILM & VIDEO POST-PRODUCTION // MUMBAI ]</span>
 
                 <h1 className="hero-editorial-title">
                   <span className="title-bold">Crafting rhythm.</span>

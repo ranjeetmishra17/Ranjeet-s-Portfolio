@@ -156,10 +156,26 @@ button {
 }
 
 /* ========================================================
-   CIRCULAR PORTAL SCALE TRANSITION (Awwwards-Tier)
-   Originates from the button center coordinates (--circle-cx, --circle-cy)
-   and scales an authentic glowing olive circle smoothly outward!
+   HARDWARE-COMPOSITED VIEW TRANSITIONS (Native W3C Standard)
+   Creates an organic, continuous circular iris expansion without
+   any abruptness, layout flashing, or sudden state jumps.
    ======================================================== */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+  display: block;
+}
+
+::view-transition-old(root) {
+  z-index: 1;
+}
+
+::view-transition-new(root) {
+  z-index: 9999;
+}
+
+/* Fallback circle overlay for older browsers */
 .circle-scaling-overlay-portal {
   position: fixed;
   inset: 0;
@@ -176,24 +192,15 @@ button {
   height: 280vmax;
   border-radius: 50%;
   border: 3px solid var(--olive-champagne);
-  box-shadow: 0 0 50px var(--olive-primary), 0 0 100px rgba(178, 201, 116, 0.4);
+  box-shadow: 0 0 50px var(--olive-primary);
   transform: translate(-50%, -50%) scale(0);
-  animation: shockwavePulse 0.82s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: shockwavePulse 0.65s cubic-bezier(0.22, 1, 0.36, 1) forwards;
   will-change: transform, opacity;
 }
 
 @keyframes shockwavePulse {
-  0% {
-    transform: translate(-50%, -50%) scale(0);
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.95;
-  }
-  100% {
-    transform: translate(-50%, -50%) scale(1.15);
-    opacity: 0;
-  }
+  0% { transform: translate(-50%, -50%) scale(0); opacity: 1; }
+  100% { transform: translate(-50%, -50%) scale(1.15); opacity: 0; }
 }
 
 .scaling-olive-circle-disc {
@@ -203,55 +210,18 @@ button {
   width: 260vmax;
   height: 260vmax;
   border-radius: 50%;
-  background: radial-gradient(circle at center, #1b2416 0%, #12180e 40%, #090b08 75%);
-  border: 4px solid var(--olive-champagne);
-  box-shadow: 0 0 70px 10px var(--olive-primary), 0 0 150px 30px rgba(178, 201, 116, 0.45), inset 0 0 100px rgba(141, 167, 80, 0.35);
+  background: radial-gradient(circle at center, #1b2416 0%, #12180e 45%, #090b08 80%);
+  border: 3px solid var(--olive-champagne);
+  box-shadow: 0 0 60px 10px var(--olive-primary);
   transform: translate(-50%, -50%) scale(0);
-  animation: circleDiscBloom 0.82s cubic-bezier(0.2, 0.85, 0.25, 1) forwards;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  animation: circleDiscBloom 0.65s cubic-bezier(0.22, 1, 0.36, 1) forwards;
   will-change: transform, opacity;
 }
 
 @keyframes circleDiscBloom {
-  0% {
-    transform: translate(-50%, -50%) scale(0);
-    opacity: 1;
-  }
-  55% {
-    transform: translate(-50%, -50%) scale(0.6);
-    opacity: 1;
-  }
-  80% {
-    transform: translate(-50%, -50%) scale(1.02);
-    opacity: 1;
-  }
-  100% {
-    transform: translate(-50%, -50%) scale(1.12);
-    opacity: 0;
-  }
-}
-
-.scaling-circle-center-label {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 12px;
-  color: var(--olive-champagne);
-  font-family: var(--font-mono);
-  font-size: 0.86rem;
-  letter-spacing: 0.22em;
-  font-weight: 700;
-  text-shadow: 0 0 20px rgba(178, 201, 116, 0.8);
-  animation: centerLabelFade 0.75s ease-out forwards;
-}
-
-@keyframes centerLabelFade {
-  0% { opacity: 0; transform: scale(0.6); }
-  25% { opacity: 1; transform: scale(1); }
-  65% { opacity: 0.85; transform: scale(1.05); }
-  100% { opacity: 0; transform: scale(1.2); }
+  0% { transform: translate(-50%, -50%) scale(0); opacity: 1; }
+  70% { transform: translate(-50%, -50%) scale(0.9); opacity: 1; }
+  100% { transform: translate(-50%, -50%) scale(1.12); opacity: 0; }
 }
 
 /* View Layers */

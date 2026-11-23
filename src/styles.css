@@ -4,45 +4,45 @@
    Atmosphere: 35mm Celluloid, Deep Olive Obsidian, Golden Olive Highlights
    ======================================================== */
 
-@import url("https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500;1,6..72,600;1,6..72,700&family=Playfair+Display:ital,wght@0,600;0,700;1,400;1,600;1,700&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap");
 
 :root {
-  /* Olive Green Color Matrix */
-  --bg-cinema: #090b08;
-  --bg-espresso: #0e120c;
-  --bg-card: #151b12;
-  --bg-card-hover: #1c2418;
-  --bg-glass-warm: rgba(17, 22, 15, 0.78);
-  --bg-glass-heavy: rgba(11, 15, 10, 0.92);
+  /* Ultra-Premium Obsidian Cinema Matrix */
+  --bg-cinema: #060805;
+  --bg-espresso: #0b0e09;
+  --bg-card: #0f140d;
+  --bg-card-hover: #151c12;
+  --bg-glass-warm: rgba(15, 20, 13, 0.82);
+  --bg-glass-heavy: rgba(9, 12, 8, 0.94);
 
-  /* Olive Green Accents & Glow */
-  --olive-primary: #8da750;
-  --olive-champagne: #b2c974;
-  --olive-light: #d8e5a6;
-  --olive-deep: #475825;
-  --olive-halo: rgba(141, 167, 80, 0.22);
-  --olive-halo-strong: rgba(178, 201, 116, 0.45);
+  /* Luxury Olive & Antique Champagne Gold Accents */
+  --olive-primary: #9bb857;
+  --olive-champagne: #d2e49c;
+  --olive-light: #eaf2cb;
+  --olive-gold: #c9b46e;
+  --olive-deep: #435422;
+  --olive-halo: rgba(155, 184, 87, 0.18);
+  --olive-halo-strong: rgba(210, 228, 156, 0.42);
 
-  /* Borders & Dividers */
-  --border-olive-hairline: rgba(141, 167, 80, 0.14);
-  --border-olive-subtle: rgba(141, 167, 80, 0.25);
-  --border-olive-focus: rgba(178, 201, 116, 0.5);
-  --border-parchment: rgba(248, 250, 245, 0.08);
+  /* Refined Metallic Hairlines & Borders */
+  --border-olive-hairline: rgba(155, 184, 87, 0.16);
+  --border-olive-subtle: rgba(210, 228, 156, 0.26);
+  --border-olive-focus: rgba(210, 228, 156, 0.55);
+  --border-parchment: rgba(250, 251, 247, 0.08);
 
-  /* Film Text Hierarchy (Warm Ivory, Olive Sage & Moss Dust) */
-  --text-ivory: #f8faf5;
-  --text-parchment: #e0e6d6;
-  --text-sand: #96a389;
-  --text-dust: #5e6954;
+  /* Film Text Hierarchy (Silky Ivory, Warm Parchment & Moss Sage) */
+  --text-ivory: #fafbf7;
+  --text-parchment: #e2e8da;
+  --text-sand: #9ba890;
+  --text-dust: #606d56;
 
   /* Classic Camera Recording Red */
   --film-rec-red: #e11d48;
   --film-rec-glow: rgba(225, 29, 72, 0.6);
 
-  /* Fonts: Syne for Monumental Editorial Headings, Plus Jakarta Sans for Body, JetBrains Mono for Code/Slates */
-  --font-display: "Syne", -apple-system, sans-serif;
-  --font-heading: "Syne", -apple-system, sans-serif;
-  --font-serif: "Syne", -apple-system, sans-serif;
+  /* Beloved Editorial Font Combination: Playfair Display + Newsreader Italic + Plus Jakarta Sans + JetBrains Mono */
+  --font-display: "Playfair Display", "Newsreader", Georgia, serif;
+  --font-serif: "Newsreader", "Playfair Display", Georgia, serif;
   --font-body: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 
@@ -115,29 +115,29 @@ button {
 }
 
 .ambient-olive-glow.olive-top {
-  width: 750px;
-  height: 520px;
-  top: -140px;
+  width: 820px;
+  height: 560px;
+  top: -160px;
   left: 50%;
   transform: translateX(-50%);
-  background: radial-gradient(circle, rgba(141, 167, 80, 0.22) 0%, rgba(71, 88, 37, 0.12) 60%, transparent 80%);
+  background: radial-gradient(circle, rgba(155, 184, 87, 0.18) 0%, rgba(67, 84, 34, 0.08) 55%, transparent 80%);
 }
 
 .ambient-olive-glow.sage-center {
-  width: 600px;
-  height: 600px;
-  top: 45%;
-  right: -120px;
-  background: radial-gradient(circle, rgba(178, 201, 116, 0.14) 0%, rgba(94, 105, 84, 0.08) 60%, transparent 75%);
+  width: 640px;
+  height: 640px;
+  top: 42%;
+  right: -100px;
+  background: radial-gradient(circle, rgba(210, 228, 156, 0.12) 0%, rgba(45, 58, 24, 0.05) 60%, transparent 75%);
   animation-duration: 22s;
 }
 
 .ambient-olive-glow.moss-bottom {
-  width: 850px;
-  height: 550px;
-  bottom: -150px;
-  left: 30%;
-  background: radial-gradient(circle, rgba(141, 167, 80, 0.12) 0%, rgba(71, 88, 37, 0.08) 60%, transparent 80%);
+  width: 880px;
+  height: 580px;
+  bottom: -160px;
+  left: 28%;
+  background: radial-gradient(circle, rgba(155, 184, 87, 0.12) 0%, rgba(45, 58, 24, 0.06) 60%, transparent 80%);
   animation-duration: 26s;
 }
 
@@ -576,11 +576,11 @@ button {
 
 /* Monumental Cinematic Headline */
 .hero-cinema-heading {
-  font-family: var(--font-body);
-  font-size: clamp(2.6rem, 6.5vw, 5.2rem);
-  font-weight: 800;
-  line-height: 1.05;
-  letter-spacing: -0.04em;
+  font-family: var(--font-display);
+  font-size: clamp(2.8rem, 6.4vw, 5rem);
+  font-weight: 700;
+  line-height: 1.08;
+  letter-spacing: -0.025em;
   color: var(--text-ivory);
   margin-bottom: 28px;
   text-wrap: balance;
@@ -592,17 +592,17 @@ button {
 
 .heading-line.bold-display {
   font-family: var(--font-display);
-  font-weight: 800;
-  letter-spacing: -0.035em;
-  color: #ffffff;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text-ivory);
 }
 
 .heading-line.serif-italic {
-  font-family: var(--font-display);
-  font-style: normal;
-  font-weight: 700;
-  letter-spacing: -0.025em;
-  background: linear-gradient(180deg, var(--olive-champagne) 20%, var(--olive-primary) 70%, #475825 100%);
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  background: linear-gradient(135deg, #f7f9f2 10%, var(--olive-champagne) 48%, var(--olive-primary) 85%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   padding-top: 4px;
@@ -634,11 +634,11 @@ button {
   position: relative;
   display: inline-flex;
   align-items: center;
-  padding: 4px;
+  padding: 3px;
   border-radius: 9999px;
-  background: linear-gradient(135deg, rgba(178, 201, 116, 0.45) 0%, rgba(141, 167, 80, 0.65) 50%, rgba(71, 88, 37, 0.35) 100%);
-  box-shadow: 0 10px 34px var(--olive-halo), 0 0 0 1px rgba(178, 201, 116, 0.18);
-  transition: all 0.3s var(--ease-spring);
+  background: linear-gradient(135deg, rgba(234, 242, 203, 0.7) 0%, rgba(210, 228, 156, 0.9) 30%, rgba(155, 184, 87, 0.6) 70%, rgba(67, 84, 34, 0.3) 100%);
+  box-shadow: 0 12px 38px var(--olive-halo-strong), 0 0 0 1px rgba(210, 228, 156, 0.25);
+  transition: all 0.35s var(--ease-spring);
   cursor: pointer;
 }
 
@@ -650,7 +650,7 @@ button {
   position: absolute;
   inset: -2px;
   border-radius: 9999px;
-  background: linear-gradient(90deg, transparent, rgba(178, 201, 116, 0.4), transparent);
+  background: linear-gradient(90deg, transparent, rgba(210, 228, 156, 0.45), transparent);
   filter: blur(10px);
   opacity: 0.6;
   pointer-events: none;
@@ -668,9 +668,9 @@ button {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 13px 22px 13px 20px;
+  padding: 13px 24px 13px 20px;
   border-radius: 9999px;
-  background: var(--bg-cinema);
+  background: #090c07;
   transition: background 0.25s ease;
 }
 
@@ -850,22 +850,21 @@ button {
 }
 
 .discipline-cinema-card {
-  padding: 34px 32px;
-  border-radius: 20px;
-  background: var(--bg-card);
-  border: 1px solid var(--border-olive-hairline);
-  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.5);
-  transition: all 0.3s var(--ease-spring);
+  padding: 36px 34px;
+  border-radius: 22px;
+  background: linear-gradient(155deg, rgba(20, 27, 18, 0.85) 0%, rgba(12, 16, 10, 0.96) 100%);
+  border: 1px solid rgba(210, 228, 156, 0.16);
+  box-shadow: inset 0 1px 0 rgba(210, 228, 156, 0.12), 0 16px 40px rgba(0, 0, 0, 0.7);
+  transition: all 0.35s var(--ease-spring);
   display: flex;
   flex-direction: column;
   text-align: left;
 }
 
 .discipline-cinema-card:hover {
-  transform: translateY(-4px);
-  border-color: var(--border-olive-subtle);
-  background: var(--bg-card-hover);
-  box-shadow: 0 22px 48px rgba(0, 0, 0, 0.7);
+  transform: translateY(-5px);
+  border-color: rgba(210, 228, 156, 0.35);
+  box-shadow: inset 0 1px 0 rgba(210, 228, 156, 0.22), 0 24px 55px rgba(0, 0, 0, 0.85), 0 0 25px rgba(155, 184, 87, 0.14);
 }
 
 .card-top-take {
@@ -879,7 +878,7 @@ button {
   font-family: var(--font-mono);
   font-size: 0.78rem;
   font-weight: 700;
-  color: var(--olive-primary);
+  color: var(--olive-champagne);
 }
 
 .take-olive-line {
@@ -889,10 +888,10 @@ button {
 }
 
 .card-craft-title {
-  font-family: var(--font-body);
+  font-family: var(--font-display);
   font-size: 1.35rem;
-  font-weight: 800;
-  letter-spacing: -0.02em;
+  font-weight: 700;
+  letter-spacing: -0.015em;
   color: var(--text-ivory);
   margin-bottom: 12px;
 }
@@ -916,9 +915,9 @@ button {
 .suite-vintage-container {
   padding: clamp(38px, 5vw, 58px);
   border-radius: 24px;
-  background: var(--bg-card);
-  border: 1px solid var(--border-olive-hairline);
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+  background: linear-gradient(155deg, rgba(19, 25, 17, 0.9) 0%, rgba(11, 15, 9, 0.98) 100%);
+  border: 1px solid rgba(210, 228, 156, 0.18);
+  box-shadow: inset 0 1px 0 rgba(210, 228, 156, 0.14), 0 22px 55px rgba(0, 0, 0, 0.75);
 }
 
 .suite-header {
@@ -1037,23 +1036,33 @@ button {
 .contact-velvet-frame {
   padding: clamp(48px, 6vw, 84px) clamp(24px, 4vw, 60px);
   border-radius: 26px;
-  background: linear-gradient(135deg, rgba(21, 27, 18, 0.96) 0%, rgba(11, 15, 10, 0.98) 100%);
-  border: 1px solid var(--border-olive-subtle);
+  background: linear-gradient(155deg, rgba(20, 27, 18, 0.92) 0%, rgba(10, 14, 9, 0.98) 100%);
+  border: 1px solid rgba(210, 228, 156, 0.2);
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.75);
+  box-shadow: inset 0 1px 0 rgba(210, 228, 156, 0.14), 0 26px 65px rgba(0, 0, 0, 0.8), 0 0 35px var(--olive-halo);
 }
 
 .contact-heroic-title {
   font-family: var(--font-display);
   font-size: clamp(2.1rem, 4.4vw, 3.4rem);
   font-weight: 700;
-  letter-spacing: -0.025em;
+  letter-spacing: -0.02em;
   color: var(--text-ivory);
   margin: 12px 0 34px;
   line-height: 1.2;
+}
+
+.contact-heroic-title .serif-italic {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  background: linear-gradient(135deg, #f7f9f2 10%, var(--olive-champagne) 48%, var(--olive-primary) 85%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .contact-interaction-bar {
@@ -1253,11 +1262,10 @@ button {
 .screening-main-heading {
   font-family: var(--font-display);
   font-size: clamp(2.4rem, 4.4vw, 3.8rem);
-  font-weight: 800;
-  letter-spacing: -0.03em;
-  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: -0.02em;
   color: var(--text-ivory);
-  line-height: 1.05;
+  line-height: 1.08;
 }
 
 .screening-sub-desc {
@@ -1742,11 +1750,11 @@ button {
 /* Screening Bottom Card */
 .screening-bottom-slate {
   margin-top: 64px;
-  padding: 34px 40px;
+  padding: 36px 42px;
   border-radius: 24px;
-  background: linear-gradient(135deg, rgba(21, 27, 18, 0.8) 0%, rgba(14, 18, 12, 0.95) 100%);
-  border: 1px solid var(--border-olive-subtle);
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 30px var(--olive-halo);
+  background: linear-gradient(155deg, rgba(20, 27, 18, 0.9) 0%, rgba(10, 14, 9, 0.98) 100%);
+  border: 1px solid rgba(210, 228, 156, 0.2);
+  box-shadow: inset 0 1px 0 rgba(210, 228, 156, 0.14), 0 24px 60px rgba(0, 0, 0, 0.75), 0 0 35px var(--olive-halo);
   display: flex;
   align-items: center;
   justify-content: space-between;

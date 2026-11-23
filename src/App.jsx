@@ -62,18 +62,6 @@ const FilmReelIcon = ({ size = 16 }) => (
   </svg>
 );
 
-const ApertureIcon = ({ size = 18 }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-    <circle cx="12" cy="12" r="10" />
-    <line x1="14.31" y1="8" x2="20.05" y2="17.94" />
-    <line x1="9.69" y1="8" x2="21.17" y2="8" />
-    <line x1="7.38" y1="12" x2="13.12" y2="2.06" />
-    <line x1="9.69" y1="16" x2="3.95" y2="6.06" />
-    <line x1="14.31" y1="16" x2="2.83" y2="16" />
-    <line x1="16.62" y1="12" x2="10.88" y2="21.94" />
-  </svg>
-);
-
 const CheckIcon = ({ size = 13 }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
     <polyline points="20 6 9 17 4 12" />
@@ -142,7 +130,7 @@ function CountUpStat({ target, decimals = 0, suffix = "" }) {
   }, [target, decimals, suffix]);
 
   return (
-    <span ref={ref} className="stat-emerald-val">
+    <span ref={ref} className="stat-olive-val">
       {val}
     </span>
   );
@@ -178,8 +166,8 @@ function VideoCard({ project, index, onOpenTheater }) {
         {isPlaying ? (
           <div className="player-viewport">
             {isLoading && (
-              <div className="player-emerald-loader" aria-hidden="true">
-                <span className="loader-emerald-reel">
+              <div className="player-olive-loader" aria-hidden="true">
+                <span className="loader-olive-reel">
                   <FilmReelIcon size={24} />
                 </span>
                 <span className="loader-slate-label">ROLLING REEL...</span>
@@ -230,8 +218,8 @@ function VideoCard({ project, index, onOpenTheater }) {
               className="poster-media-img"
               loading="lazy"
             />
-            {/* Emerald/Celluloid Vignette */}
-            <div className="poster-emerald-vignette" />
+            {/* Olive Celluloid Vignette */}
+            <div className="poster-olive-vignette" />
 
             {/* Top Slates: Numbered Slate & Format (Strictly No Client Names) */}
             <div className="poster-top-slate">
@@ -240,9 +228,9 @@ function VideoCard({ project, index, onOpenTheater }) {
               <span className="slate-pill format">{project.aspect}</span>
             </div>
 
-            {/* Centered Emerald Play Reel Trigger */}
+            {/* Centered Olive Play Reel Trigger */}
             <div className="poster-center-play">
-              <div className="play-emerald-disc">
+              <div className="play-olive-disc">
                 <PlayIcon size={22} />
               </div>
               <span className="play-cinematic-label">PLAY REEL</span>
@@ -371,8 +359,9 @@ function CinemaModal({ project, allProjects, onClose, onNavigate }) {
 /* ---------- Main Portfolio Application ---------- */
 export default function App() {
   const [currentView, setCurrentView] = useState("studio"); // 'studio' | 'works'
-  const [isTransitioning, setIsTransitioning] = useState(false);
-  const [transitionSlate, setTransitionSlate] = useState("SCREENING ROOM // SCENE 01");
+  const [circleOrigin, setCircleOrigin] = useState({ x: 0, y: 0 });
+  const [isCircleExpanding, setIsCircleExpanding] = useState(false);
+  const [isCircleClosing, setIsCircleClosing] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("All Work");
   const [activeTheaterProject, setActiveTheaterProject] = useState(null);
   const [copiedEmail, setCopiedEmail] = useState(false);
@@ -393,26 +382,71 @@ export default function App() {
     return () => window.removeEventListener("hashchange", handleHash);
   }, []);
 
-  // Optical Aperture Focus Transition Handler
-  const navigateToView = (nextView, slateText = "FOCUSING REPERTOIRE") => {
-    if (nextView === currentView || isTransitioning) return;
-    setTransitionSlate(slateText);
-    setIsTransitioning(true);
+  /* 
+   * THE REQUESTED ANIMATION:
+   * "when someone clicks on the button of recent works, circle should start scaling the moment button is clicked"
+   * Instantly grabs the click (or center of button) and scales an expanding circle outwards across the entire screen!
+   */
+  const handleRecentWorksClick = (e) => {
+    e?.preventDefault?.();
+    if (isCircleExpanding) return;
+
+    // Calculate exact button center coordinates for origin
+    let originX = window.innerWidth / 2;
+    let originY = window.innerHeight / 2;
+
+    if (e && e.currentTarget) {
+      const rect = e.currentTarget.getBoundingClientRect();
+      originX = rect.left + rect.width / 2;
+      originY = rect.top + rect.height / 2;
+    }
+
+    setCircleOrigin({ x: originX, y: originY });
+    setIsCircleExpanding(true);
     setMobileMenuOpen(false);
 
+    // After circle scales over the entire viewport (~400ms), switch the view seamlessly
     setTimeout(() => {
-      setCurrentView(nextView);
-      if (nextView === "works") {
-        window.history.pushState(null, "", "#works");
-      } else {
-        window.history.pushState(null, "", "#studio");
-      }
+      setCurrentView("works");
+      window.history.pushState(null, "", "#works");
       window.scrollTo({ top: 0, behavior: "instant" });
 
+      // Cleanly dissolve the circle to reveal the screening room
+      setIsCircleClosing(true);
       setTimeout(() => {
-        setIsTransitioning(false);
-      }, 380);
+        setIsCircleExpanding(false);
+        setIsCircleClosing(false);
+      }, 350);
     }, 420);
+  };
+
+  const handleReturnToStudio = (e) => {
+    e?.preventDefault?.();
+    if (isCircleExpanding) return;
+
+    let originX = window.innerWidth / 2;
+    let originY = window.innerHeight / 2;
+
+    if (e && e.currentTarget) {
+      const rect = e.currentTarget.getBoundingClientRect();
+      originX = rect.left + rect.width / 2;
+      originY = rect.top + rect.height / 2;
+    }
+
+    setCircleOrigin({ x: originX, y: originY });
+    setIsCircleExpanding(true);
+
+    setTimeout(() => {
+      setCurrentView("studio");
+      window.history.pushState(null, "", "#studio");
+      window.scrollTo({ top: 0, behavior: "instant" });
+
+      setIsCircleClosing(true);
+      setTimeout(() => {
+        setIsCircleExpanding(false);
+        setIsCircleClosing(false);
+      }, 350);
+    }, 400);
   };
 
   const filteredProjects = useMemo(() => {
@@ -437,41 +471,44 @@ export default function App() {
 
   return (
     <div className={`cinema-portfolio-root ${currentView}-active`}>
-      {/* Background Emerald Celluloid Atmosphere */}
+      {/* Background Olive Celluloid Atmosphere */}
       <div className="cinema-atmosphere-canvas" aria-hidden="true">
-        <div className="ambient-emerald-glow emerald-top" />
-        <div className="ambient-emerald-glow sage-center" />
-        <div className="ambient-emerald-glow jade-bottom" />
+        <div className="ambient-olive-glow olive-top" />
+        <div className="ambient-olive-glow sage-center" />
+        <div className="ambient-olive-glow moss-bottom" />
         <div className="film-celluloid-grain" />
       </div>
 
-      {/* NEW: Camera Aperture & Optical Lens Focus Pull Transition */}
-      <div
-        className={`cinematic-aperture-overlay ${isTransitioning ? "active" : ""}`}
-        aria-hidden={!isTransitioning}
-      >
-        <div className="aperture-iris-ring">
-          <div className="iris-crosshair-h" />
-          <div className="iris-crosshair-v" />
-          <div className="iris-glow-bloom" />
-        </div>
-        <div className="aperture-center-slate">
-          <div className="slate-pill-indicator">
-            <ApertureIcon size={16} />
-            <span className="slate-indicator-text">{transitionSlate}</span>
+      {/* ========================================================
+          SCALING CIRCLE TRANSITION PORTAL
+          Starts scaling the instant the Recent Works button is clicked!
+          ======================================================== */}
+      {isCircleExpanding && (
+        <div className={`circle-scaling-portal ${isCircleClosing ? "fade-reveal" : "scaling-active"}`}>
+          <div
+            className="scaling-circle-disc"
+            style={{
+              left: `${circleOrigin.x}px`,
+              top: `${circleOrigin.y}px`,
+            }}
+          >
+            <div className="circle-inner-halo" />
+            <div className="circle-center-marker">
+              <span className="circle-rec-dot" />
+              <span className="circle-slate-txt">OPENING SCREENING ROOM</span>
+            </div>
           </div>
-          <div className="slate-camera-data">F/1.4 • 24 FPS • SOUND DESIGN READY</div>
         </div>
-      </div>
+      )}
 
-      {/* Floating Emerald Glass Navigation Header */}
+      {/* Floating Olive Glass Navigation Header */}
       <header className="cinema-nav-header">
         <div className="nav-inner-bar">
           {/* Director Signature */}
           <button
             type="button"
             className="nav-signature-btn"
-            onClick={() => navigateToView("studio", "STUDIO // SCENE 01")}
+            onClick={handleReturnToStudio}
           >
             <div className="avatar-portrait-wrap">
               <img
@@ -501,14 +538,14 @@ export default function App() {
             <button
               type="button"
               className={`nav-tab-pill ${currentView === "studio" ? "active" : ""}`}
-              onClick={() => navigateToView("studio", "STUDIO OVERVIEW")}
+              onClick={handleReturnToStudio}
             >
               Director
             </button>
             <button
               type="button"
               className={`nav-tab-pill works-pill ${currentView === "works" ? "active" : ""}`}
-              onClick={() => navigateToView("works", "SCREENING REPERTOIRE")}
+              onClick={handleRecentWorksClick}
             >
               <FilmReelIcon size={14} />
               <span>Recent Works</span>
@@ -539,7 +576,7 @@ export default function App() {
             <button
               type="button"
               className={`mobile-nav-row ${currentView === "studio" ? "active" : ""}`}
-              onClick={() => navigateToView("studio", "STUDIO // HOME")}
+              onClick={handleReturnToStudio}
             >
               <span>Director Studio</span>
               <ArrowRight size={14} />
@@ -547,7 +584,7 @@ export default function App() {
             <button
               type="button"
               className={`mobile-nav-row works-accent ${currentView === "works" ? "active" : ""}`}
-              onClick={() => navigateToView("works", "SCREENING ROOM")}
+              onClick={handleRecentWorksClick}
             >
               <span>Recent Works ({PROJECTS.length})</span>
               <FilmReelIcon size={15} />
@@ -557,7 +594,7 @@ export default function App() {
               className="mobile-nav-row"
               onClick={() => {
                 setMobileMenuOpen(false);
-                if (currentView === "works") navigateToView("studio", "CONTACT");
+                if (currentView === "works") handleReturnToStudio();
               }}
             >
               <span>Initiate Collaboration</span>
@@ -598,13 +635,13 @@ export default function App() {
                 Specializing in high-retention short-form Reels, documentary founder films, and multi-cam podcast workflows. Frame-by-frame pacing, custom sound architecture, and organic DaVinci color grading.
               </p>
 
-              {/* CENTERPIECE HERO ACTION: "RECENT WORKS" CINEMA PASS */}
+              {/* CENTERPIECE HERO ACTION: "RECENT WORKS" CIRCLE SCALING TRIGGER */}
               <div className="hero-centerpiece-actions">
                 <button
                   type="button"
                   className="cinema-works-pass-btn"
-                  onClick={() => navigateToView("works", "SCREENING ROOM // 09 CUTS")}
-                  title="Step into the Screening Room to watch recent cuts"
+                  onClick={handleRecentWorksClick}
+                  title="Click to expand into the Screening Room"
                 >
                   <div className="btn-ambient-halo" />
                   <div className="pass-btn-body">
@@ -647,7 +684,7 @@ export default function App() {
           <section className="cinema-disciplines-section">
             <div className="section-frame-wrap">
               <div className="section-header-slate">
-                <span className="section-eyebrow-emerald">THE CRAFT</span>
+                <span className="section-eyebrow-olive">THE CRAFT</span>
                 <h2 className="section-display-serif">Post-Production Disciplines</h2>
               </div>
 
@@ -656,7 +693,7 @@ export default function App() {
                   <div key={srv.num} className="discipline-cinema-card">
                     <div className="card-top-take">
                       <span className="take-number">SCENE /{srv.num}</span>
-                      <span className="take-emerald-line" />
+                      <span className="take-olive-line" />
                     </div>
                     <h3 className="card-craft-title">{srv.title}</h3>
                     <p className="card-craft-desc">{srv.desc}</p>
@@ -670,7 +707,7 @@ export default function App() {
           <section className="cinema-suite-section" id="stack">
             <div className="suite-vintage-container">
               <div className="suite-header">
-                <span className="section-eyebrow-emerald">THE CUTTING ROOM</span>
+                <span className="section-eyebrow-olive">THE CUTTING ROOM</span>
                 <h3 className="suite-display-title">Post Suite & Turnaround Standards</h3>
               </div>
 
@@ -679,7 +716,7 @@ export default function App() {
                   <span className="suite-col-label">NLE & FINISHING SUITE</span>
                   <div className="suite-tool-tags">
                     {TOOLS.map((tool) => (
-                      <span key={tool} className="emerald-tool-tag">
+                      <span key={tool} className="olive-tool-tag">
                         <span className="tag-sparkle">✦</span>
                         {tool}
                       </span>
@@ -708,7 +745,7 @@ export default function App() {
                       <span className="standard-num">03</span>
                       <div className="standard-info">
                         <strong>DaVinci Color Science & Sound Mix</strong>
-                        <p>Preserved film emulations, clean skin tones, and rich spatial audio sound design.</p>
+                        <p>Natural olive/earth grading curves, clean skin tones, and rich spatial audio sound design.</p>
                       </div>
                     </li>
                   </ul>
@@ -720,7 +757,7 @@ export default function App() {
           {/* CONTACT & INQUIRY */}
           <section className="cinema-contact-section" id="contact">
             <div className="contact-velvet-frame">
-              <span className="section-eyebrow-emerald">COLLABORATE</span>
+              <span className="section-eyebrow-olive">COLLABORATE</span>
               <h2 className="contact-heroic-title">
                 Have raw footage waiting to be cut? <br />
                 <span className="serif-italic">Let’s shape something unforgettable.</span>
@@ -730,7 +767,7 @@ export default function App() {
                 {/* 1-Click Copy Email */}
                 <button
                   type="button"
-                  className="copy-email-emerald-btn"
+                  className="copy-email-olive-btn"
                   onClick={copyEmailToClipboard}
                   title="Copy email address"
                 >
@@ -753,7 +790,7 @@ export default function App() {
                 {/* Direct Mail */}
                 <a
                   href={`mailto:${PROFILE.email}?subject=Editing%20Project%20Inquiry%20%E2%80%94%20Ranjeet%20Mishra`}
-                  className="direct-mail-emerald-btn"
+                  className="direct-mail-olive-btn"
                 >
                   <span>Compose Email</span>
                   <ArrowUpRight size={14} />
@@ -768,7 +805,7 @@ export default function App() {
                     href={s.url}
                     target="_blank"
                     rel="noreferrer"
-                    className="social-emerald-link"
+                    className="social-olive-link"
                   >
                     <span>{s.label}</span>
                     <ArrowUpRight size={11} />
@@ -791,7 +828,7 @@ export default function App() {
               <button
                 type="button"
                 className="return-studio-btn"
-                onClick={() => navigateToView("studio", "STUDIO // TAKE 01")}
+                onClick={handleReturnToStudio}
               >
                 <ArrowLeft size={14} />
                 <span>Return to Studio</span>
@@ -808,7 +845,7 @@ export default function App() {
             {/* Works Header & Filters */}
             <div className="screening-title-row">
               <div className="title-lead-box">
-                <span className="section-eyebrow-emerald">CURATED REPERTOIRE (2024—2025)</span>
+                <span className="section-eyebrow-olive">CURATED REPERTOIRE (2024—2025)</span>
                 <h2 className="screening-main-heading">Selected Cuts</h2>
               </div>
 
@@ -852,7 +889,7 @@ export default function App() {
                 <button
                   type="button"
                   className="slate-return-btn"
-                  onClick={() => navigateToView("studio", "STUDIO OVERVIEW")}
+                  onClick={handleReturnToStudio}
                 >
                   <ArrowLeft size={13} />
                   <span>Studio Details</span>

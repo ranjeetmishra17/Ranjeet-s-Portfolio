@@ -384,14 +384,12 @@ export default function App() {
 
   /* 
    * THE REQUESTED ANIMATION:
-   * "when someone clicks on the button of recent works, circle should start scaling the moment button is clicked"
-   * Instantly grabs the click (or center of button) and scales an expanding circle outwards across the entire screen!
+   * "circle should start scaling the moment button is clicked"
+   * Instantly grabs the click/button center and triggers keyframe circle expansion!
    */
   const handleRecentWorksClick = (e) => {
-    e?.preventDefault?.();
     if (isCircleExpanding) return;
 
-    // Calculate exact button center coordinates for origin
     let originX = window.innerWidth / 2;
     let originY = window.innerHeight / 2;
 
@@ -399,13 +397,17 @@ export default function App() {
       const rect = e.currentTarget.getBoundingClientRect();
       originX = rect.left + rect.width / 2;
       originY = rect.top + rect.height / 2;
+    } else if (e && e.clientX && e.clientY) {
+      originX = e.clientX;
+      originY = e.clientY;
     }
 
     setCircleOrigin({ x: originX, y: originY });
+    setIsCircleClosing(false);
     setIsCircleExpanding(true);
     setMobileMenuOpen(false);
 
-    // After circle scales over the entire viewport (~400ms), switch the view seamlessly
+    // After circle scales over the entire viewport (560ms), switch the view
     setTimeout(() => {
       setCurrentView("works");
       window.history.pushState(null, "", "#works");
@@ -416,12 +418,11 @@ export default function App() {
       setTimeout(() => {
         setIsCircleExpanding(false);
         setIsCircleClosing(false);
-      }, 350);
-    }, 420);
+      }, 400);
+    }, 560);
   };
 
   const handleReturnToStudio = (e) => {
-    e?.preventDefault?.();
     if (isCircleExpanding) return;
 
     let originX = window.innerWidth / 2;
@@ -431,9 +432,13 @@ export default function App() {
       const rect = e.currentTarget.getBoundingClientRect();
       originX = rect.left + rect.width / 2;
       originY = rect.top + rect.height / 2;
+    } else if (e && e.clientX && e.clientY) {
+      originX = e.clientX;
+      originY = e.clientY;
     }
 
     setCircleOrigin({ x: originX, y: originY });
+    setIsCircleClosing(false);
     setIsCircleExpanding(true);
 
     setTimeout(() => {
@@ -445,8 +450,8 @@ export default function App() {
       setTimeout(() => {
         setIsCircleExpanding(false);
         setIsCircleClosing(false);
-      }, 350);
-    }, 400);
+      }, 400);
+    }, 560);
   };
 
   const filteredProjects = useMemo(() => {

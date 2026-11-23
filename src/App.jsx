@@ -38,28 +38,16 @@ const ArrowUpRight = ({ size = 14 }) => (
 );
 
 const ArrowRight = ({ size = 15 }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
     <line x1="5" y1="12" x2="19" y2="12" />
     <polyline points="12 5 19 12 12 19" />
   </svg>
 );
 
 const ArrowLeft = ({ size = 15 }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
     <line x1="19" y1="12" x2="5" y2="12" />
     <polyline points="12 19 5 12 12 5" />
-  </svg>
-);
-
-/* Clapperboard Icon */
-const ClapperIcon = ({ size = 16 }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M20.2 6 3 11l-.9-2.4c-.3-.8.2-1.8 1.1-2.1l12.7-4.6c.9-.3 1.8.2 2.1 1.1l2.2 3z" />
-    <path d="m4 11 16.5-6" />
-    <path d="m7.8 9.6 1.7-4.6" />
-    <path d="m11.8 8.1 1.7-4.6" />
-    <path d="m15.8 6.7 1.7-4.6" />
-    <rect x="2" y="11" width="20" height="11" rx="2" />
   </svg>
 );
 
@@ -71,6 +59,18 @@ const FilmReelIcon = ({ size = 16 }) => (
     <circle cx="12" cy="18" r="1.5" fill="currentColor" />
     <circle cx="6" cy="12" r="1.5" fill="currentColor" />
     <circle cx="18" cy="12" r="1.5" fill="currentColor" />
+  </svg>
+);
+
+const ApertureIcon = ({ size = 18 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <circle cx="12" cy="12" r="10" />
+    <line x1="14.31" y1="8" x2="20.05" y2="17.94" />
+    <line x1="9.69" y1="8" x2="21.17" y2="8" />
+    <line x1="7.38" y1="12" x2="13.12" y2="2.06" />
+    <line x1="9.69" y1="16" x2="3.95" y2="6.06" />
+    <line x1="14.31" y1="16" x2="2.83" y2="16" />
+    <line x1="16.62" y1="12" x2="10.88" y2="21.94" />
   </svg>
 );
 
@@ -142,7 +142,7 @@ function CountUpStat({ target, decimals = 0, suffix = "" }) {
   }, [target, decimals, suffix]);
 
   return (
-    <span ref={ref} className="stat-amber-val">
+    <span ref={ref} className="stat-emerald-val">
       {val}
     </span>
   );
@@ -178,8 +178,8 @@ function VideoCard({ project, index, onOpenTheater }) {
         {isPlaying ? (
           <div className="player-viewport">
             {isLoading && (
-              <div className="player-amber-loader" aria-hidden="true">
-                <span className="loader-golden-reel">
+              <div className="player-emerald-loader" aria-hidden="true">
+                <span className="loader-emerald-reel">
                   <FilmReelIcon size={24} />
                 </span>
                 <span className="loader-slate-label">ROLLING REEL...</span>
@@ -230,8 +230,8 @@ function VideoCard({ project, index, onOpenTheater }) {
               className="poster-media-img"
               loading="lazy"
             />
-            {/* Warm Kodak/Celluloid Vignette */}
-            <div className="poster-warm-vignette" />
+            {/* Emerald/Celluloid Vignette */}
+            <div className="poster-emerald-vignette" />
 
             {/* Top Slates: Numbered Slate & Format (Strictly No Client Names) */}
             <div className="poster-top-slate">
@@ -240,9 +240,9 @@ function VideoCard({ project, index, onOpenTheater }) {
               <span className="slate-pill format">{project.aspect}</span>
             </div>
 
-            {/* Centered Golden Play Reel Trigger */}
+            {/* Centered Emerald Play Reel Trigger */}
             <div className="poster-center-play">
-              <div className="play-golden-disc">
+              <div className="play-emerald-disc">
                 <PlayIcon size={22} />
               </div>
               <span className="play-cinematic-label">PLAY REEL</span>
@@ -393,8 +393,8 @@ export default function App() {
     return () => window.removeEventListener("hashchange", handleHash);
   }, []);
 
-  // Cinema Curtain Transition Handler
-  const navigateToView = (nextView, slateText = "TRANSITION") => {
+  // Optical Aperture Focus Transition Handler
+  const navigateToView = (nextView, slateText = "FOCUSING REPERTOIRE") => {
     if (nextView === currentView || isTransitioning) return;
     setTransitionSlate(slateText);
     setIsTransitioning(true);
@@ -411,8 +411,8 @@ export default function App() {
 
       setTimeout(() => {
         setIsTransitioning(false);
-      }, 420);
-    }, 450);
+      }, 380);
+    }, 420);
   };
 
   const filteredProjects = useMemo(() => {
@@ -437,43 +437,41 @@ export default function App() {
 
   return (
     <div className={`cinema-portfolio-root ${currentView}-active`}>
-      {/* Background Warm Celluloid Atmosphere */}
+      {/* Background Emerald Celluloid Atmosphere */}
       <div className="cinema-atmosphere-canvas" aria-hidden="true">
-        <div className="ambient-warm-glow amber-top" />
-        <div className="ambient-warm-glow golden-center" />
-        <div className="ambient-warm-glow terracotta-bottom" />
+        <div className="ambient-emerald-glow emerald-top" />
+        <div className="ambient-emerald-glow sage-center" />
+        <div className="ambient-emerald-glow jade-bottom" />
         <div className="film-celluloid-grain" />
       </div>
 
-      {/* Cinematic Curtain Transition Shutter */}
+      {/* NEW: Camera Aperture & Optical Lens Focus Pull Transition */}
       <div
-        className={`cinematic-curtain-shutter ${isTransitioning ? "active" : ""}`}
+        className={`cinematic-aperture-overlay ${isTransitioning ? "active" : ""}`}
         aria-hidden={!isTransitioning}
       >
-        <div className="curtain-blade top-blade">
-          <div className="curtain-golden-seam" />
+        <div className="aperture-iris-ring">
+          <div className="iris-crosshair-h" />
+          <div className="iris-crosshair-v" />
+          <div className="iris-glow-bloom" />
         </div>
-        <div className="curtain-center-slate">
-          <div className="slate-clapper-header">
-            <span className="clapper-stripes" />
-            <ClapperIcon size={18} />
-            <span className="slate-title-text">{transitionSlate}</span>
+        <div className="aperture-center-slate">
+          <div className="slate-pill-indicator">
+            <ApertureIcon size={16} />
+            <span className="slate-indicator-text">{transitionSlate}</span>
           </div>
-          <div className="slate-subtext">35MM KODAK GRAIN • 24 FPS • SOUND ON</div>
-        </div>
-        <div className="curtain-blade bottom-blade">
-          <div className="curtain-golden-seam" />
+          <div className="slate-camera-data">F/1.4 • 24 FPS • SOUND DESIGN READY</div>
         </div>
       </div>
 
-      {/* Floating Warm Glass Navigation Header */}
+      {/* Floating Emerald Glass Navigation Header */}
       <header className="cinema-nav-header">
         <div className="nav-inner-bar">
           {/* Director Signature */}
           <button
             type="button"
             className="nav-signature-btn"
-            onClick={() => navigateToView("studio", "STUDIO // TAKE 01")}
+            onClick={() => navigateToView("studio", "STUDIO // SCENE 01")}
           >
             <div className="avatar-portrait-wrap">
               <img
@@ -649,7 +647,7 @@ export default function App() {
           <section className="cinema-disciplines-section">
             <div className="section-frame-wrap">
               <div className="section-header-slate">
-                <span className="section-eyebrow-gold">THE CRAFT</span>
+                <span className="section-eyebrow-emerald">THE CRAFT</span>
                 <h2 className="section-display-serif">Post-Production Disciplines</h2>
               </div>
 
@@ -658,7 +656,7 @@ export default function App() {
                   <div key={srv.num} className="discipline-cinema-card">
                     <div className="card-top-take">
                       <span className="take-number">SCENE /{srv.num}</span>
-                      <span className="take-gold-line" />
+                      <span className="take-emerald-line" />
                     </div>
                     <h3 className="card-craft-title">{srv.title}</h3>
                     <p className="card-craft-desc">{srv.desc}</p>
@@ -672,7 +670,7 @@ export default function App() {
           <section className="cinema-suite-section" id="stack">
             <div className="suite-vintage-container">
               <div className="suite-header">
-                <span className="section-eyebrow-gold">THE CUTTING ROOM</span>
+                <span className="section-eyebrow-emerald">THE CUTTING ROOM</span>
                 <h3 className="suite-display-title">Post Suite & Turnaround Standards</h3>
               </div>
 
@@ -681,7 +679,7 @@ export default function App() {
                   <span className="suite-col-label">NLE & FINISHING SUITE</span>
                   <div className="suite-tool-tags">
                     {TOOLS.map((tool) => (
-                      <span key={tool} className="amber-tool-tag">
+                      <span key={tool} className="emerald-tool-tag">
                         <span className="tag-sparkle">✦</span>
                         {tool}
                       </span>
@@ -709,8 +707,8 @@ export default function App() {
                     <li>
                       <span className="standard-num">03</span>
                       <div className="standard-info">
-                        <strong>DaVinci Film Emulation & Audio Mix</strong>
-                        <p>Natural film grain, authentic skin tones, and rich spatial audio sound design.</p>
+                        <strong>DaVinci Color Science & Sound Mix</strong>
+                        <p>Preserved film emulations, clean skin tones, and rich spatial audio sound design.</p>
                       </div>
                     </li>
                   </ul>
@@ -722,7 +720,7 @@ export default function App() {
           {/* CONTACT & INQUIRY */}
           <section className="cinema-contact-section" id="contact">
             <div className="contact-velvet-frame">
-              <span className="section-eyebrow-gold">COLLABORATE</span>
+              <span className="section-eyebrow-emerald">COLLABORATE</span>
               <h2 className="contact-heroic-title">
                 Have raw footage waiting to be cut? <br />
                 <span className="serif-italic">Let’s shape something unforgettable.</span>
@@ -732,7 +730,7 @@ export default function App() {
                 {/* 1-Click Copy Email */}
                 <button
                   type="button"
-                  className="copy-email-amber-btn"
+                  className="copy-email-emerald-btn"
                   onClick={copyEmailToClipboard}
                   title="Copy email address"
                 >
@@ -755,7 +753,7 @@ export default function App() {
                 {/* Direct Mail */}
                 <a
                   href={`mailto:${PROFILE.email}?subject=Editing%20Project%20Inquiry%20%E2%80%94%20Ranjeet%20Mishra`}
-                  className="direct-mail-amber-btn"
+                  className="direct-mail-emerald-btn"
                 >
                   <span>Compose Email</span>
                   <ArrowUpRight size={14} />
@@ -770,7 +768,7 @@ export default function App() {
                     href={s.url}
                     target="_blank"
                     rel="noreferrer"
-                    className="social-amber-link"
+                    className="social-emerald-link"
                   >
                     <span>{s.label}</span>
                     <ArrowUpRight size={11} />
@@ -810,7 +808,7 @@ export default function App() {
             {/* Works Header & Filters */}
             <div className="screening-title-row">
               <div className="title-lead-box">
-                <span className="section-eyebrow-gold">CURATED REPERTOIRE (2024—2025)</span>
+                <span className="section-eyebrow-emerald">CURATED REPERTOIRE (2024—2025)</span>
                 <h2 className="screening-main-heading">Selected Cuts</h2>
               </div>
 

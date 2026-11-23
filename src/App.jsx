@@ -15,6 +15,13 @@ const PlayIcon = ({ size = 20 }) => (
   </svg>
 );
 
+const PauseIcon = ({ size = 18 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+    <rect x="6" y="4" width="4" height="16" rx="1" />
+    <rect x="14" y="4" width="4" height="16" rx="1" />
+  </svg>
+);
+
 const CloseIcon = ({ size = 18 }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
     <line x1="18" y1="6" x2="6" y2="18" />
@@ -63,6 +70,29 @@ const FilmReelIcon = ({ size = 16 }) => (
   </svg>
 );
 
+const StepBackIcon = ({ size = 15 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor">
+    <polygon points="19 20 9 12 19 4 19 20" />
+    <line x1="5" y1="19" x2="5" y2="5" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
+  </svg>
+);
+
+const StepForwardIcon = ({ size = 15 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor">
+    <polygon points="5 4 15 12 5 20 5 4" />
+    <line x1="19" y1="5" x2="19" y2="19" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
+  </svg>
+);
+
+const LoopIcon = ({ size = 14 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <polyline points="17 1 21 5 17 9" />
+    <path d="M3 11V9a4 4 0 0 1 4-4h14" />
+    <polyline points="7 23 3 19 7 15" />
+    <path d="M21 13v2a4 4 0 0 1-4 4H3" />
+  </svg>
+);
+
 const CheckIcon = ({ size = 13 }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
     <polyline points="20 6 9 17 4 12" />
@@ -75,6 +105,57 @@ const CopyIcon = ({ size = 13 }) => (
     <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
   </svg>
 );
+
+/* ---------- Dual-Channel Audio VU Decibel Meter ---------- */
+function AudioVUMeter({ isPlaying = false }) {
+  return (
+    <div className="audio-vu-console" aria-label="Audio level meters">
+      <div className="vu-channel">
+        <span className="vu-label">L</span>
+        <div className="vu-meter-track">
+          <div className={`vu-meter-bar left-bar ${isPlaying ? "active-rolling" : "active-idle"}`} />
+        </div>
+      </div>
+      <div className="vu-channel">
+        <span className="vu-label">R</span>
+        <div className="vu-meter-track">
+          <div className={`vu-meter-bar right-bar ${isPlaying ? "active-rolling" : "active-idle"}`} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ---------- Running SMPTE Digital Timecode Component ---------- */
+function SMPTETimecode({ isPlaying = false, offset = 0 }) {
+  const [frame, setFrame] = useState(offset);
+
+  useEffect(() => {
+    let interval = null;
+    if (isPlaying) {
+      interval = setInterval(() => {
+        setFrame((prev) => (prev + 1) % (24 * 60 * 60));
+      }, 1000 / 24);
+    }
+    return () => {
+      if (interval) clearInterval(interval);
+    };
+  }, [isPlaying]);
+
+  const totalSeconds = Math.floor(frame / 24);
+  const frames = frame % 24;
+  const hours = Math.floor(totalSeconds / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const seconds = totalSeconds % 60;
+
+  const pad = (n) => String(n).padStart(2, "0");
+
+  return (
+    <span className="smpte-digits">
+      {pad(hours)}:{pad(minutes)}:{pad(seconds)}:{pad(frames)}
+    </span>
+  );
+}
 
 /* ---------- Animated Running Stat Counter ---------- */
 function CountUpStat({ target, decimals = 0, suffix = "" }) {
@@ -137,7 +218,7 @@ function CountUpStat({ target, decimals = 0, suffix = "" }) {
   );
 }
 
-/* ---------- 35mm Celluloid Video Card ---------- */
+/* ---------- 35mm Celluloid Video Card (Screening Room) ---------- */
 function VideoCard({ project, index, onOpenTheater }) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -159,10 +240,21 @@ function VideoCard({ project, index, onOpenTheater }) {
   return (
     <article
       className={`cinema-frame-card ${project.shape} ${isPlaying ? "playing" : ""}`}
-      style={{ animationDelay: `${index * 60}ms` }}
+      style={{ animationDelay: `${index * 55}ms` }}
       tabIndex={0}
       aria-label={`${project.category} reel #${padNum}, duration ${project.duration}`}
     >
+      {/* 35mm Sprocket Rails (Top & Bottom) */}
+      <div className="sprocket-track-rail top-rail" aria-hidden="true">
+        <span className="sprocket-hole" />
+        <span className="sprocket-hole" />
+        <span className="sprocket-hole" />
+        <span className="sprocket-hole" />
+        <span className="sprocket-hole" />
+        <span className="sprocket-hole" />
+        <span className="sprocket-hole" />
+      </div>
+
       <div className="card-celluloid-ratio">
         {isPlaying ? (
           <div className="player-viewport">
@@ -171,7 +263,7 @@ function VideoCard({ project, index, onOpenTheater }) {
                 <span className="loader-olive-reel">
                   <FilmReelIcon size={24} />
                 </span>
-                <span className="loader-slate-label">BUFFERING MASTER REEL...</span>
+                <span className="loader-slate-label">BUFFERING MASTER CUT...</span>
               </div>
             )}
             <iframe
@@ -187,7 +279,7 @@ function VideoCard({ project, index, onOpenTheater }) {
             <div className="player-overlay-bar">
               <div className="overlay-left-meta">
                 <span className="camera-rec-dot" />
-                <span className="meta-slate-tag">ROLLING • REEL #{padNum}</span>
+                <span className="meta-slate-tag">ROLLING • CUT #{padNum}</span>
               </div>
               <div className="overlay-right-actions">
                 <button
@@ -215,16 +307,22 @@ function VideoCard({ project, index, onOpenTheater }) {
           <div className="poster-viewport" onClick={startPlayback}>
             <img
               src={project.image}
-              alt={`${project.category} still`}
+              alt={`${project.category} frame still`}
               className="poster-media-img"
               loading="lazy"
             />
+
             {/* Viewfinder Optical Framing Reticle */}
             <div className="viewfinder-corners" aria-hidden="true">
               <span className="vf-corner vf-tl" />
               <span className="vf-corner vf-tr" />
               <span className="vf-corner vf-bl" />
               <span className="vf-corner vf-br" />
+            </div>
+
+            {/* Film Negative Edge Code */}
+            <div className="film-edge-code-tag" aria-hidden="true">
+              <span>EASTMAN KODAK 5219 // CUT #{padNum}</span>
             </div>
 
             {/* Olive Celluloid Vignette */}
@@ -247,7 +345,7 @@ function VideoCard({ project, index, onOpenTheater }) {
               <div className="play-olive-disc">
                 <PlayIcon size={24} />
               </div>
-              <span className="play-cinematic-label">PLAY REEL</span>
+              <span className="play-cinematic-label">PREVIEW CUT</span>
               <span className="play-runtime-chip">{project.duration}</span>
             </div>
 
@@ -261,7 +359,7 @@ function VideoCard({ project, index, onOpenTheater }) {
                   e.stopPropagation();
                   onOpenTheater(project);
                 }}
-                title="Open in Cinema Theater"
+                title="Open in Full Screening Room"
               >
                 <ExpandIcon size={12} />
                 <span>EXPAND</span>
@@ -269,6 +367,16 @@ function VideoCard({ project, index, onOpenTheater }) {
             </div>
           </div>
         )}
+      </div>
+
+      <div className="sprocket-track-rail bottom-rail" aria-hidden="true">
+        <span className="sprocket-hole" />
+        <span className="sprocket-hole" />
+        <span className="sprocket-hole" />
+        <span className="sprocket-hole" />
+        <span className="sprocket-hole" />
+        <span className="sprocket-hole" />
+        <span className="sprocket-hole" />
       </div>
     </article>
   );
@@ -302,7 +410,7 @@ function CinemaModal({ project, allProjects, onClose, onNavigate }) {
         className={`cinema-overlay-box ${project.shape}`}
         role="dialog"
         aria-modal="true"
-        aria-label={`${project.category} Theater`}
+        aria-label={`${project.category} Screening Theater`}
         onClick={(e) => e.stopPropagation()}
       >
         <div className="theater-top-bar">
@@ -310,6 +418,7 @@ function CinemaModal({ project, allProjects, onClose, onNavigate }) {
             <span className="theater-slate-tag take">CUT #{String(currentIndex + 1).padStart(2, "0")}</span>
             <span className="theater-slate-tag category">{project.category}</span>
             <span className="theater-slate-tag duration">TRT {project.duration}</span>
+            <span className="theater-slate-tag codec">PRORES 422 HQ</span>
           </div>
 
           <button
@@ -382,6 +491,14 @@ export default function App() {
   const [copiedEmail, setCopiedEmail] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
+  // NLE Timeline & Master Monitor States
+  const [activeClipIndex, setActiveClipIndex] = useState(0);
+  const [isPlayingMonitor, setIsPlayingMonitor] = useState(false);
+  const [playheadPercent, setPlayheadPercent] = useState(12);
+  const timelineRulerRef = useRef(null);
+
+  const activeProject = PROJECTS[activeClipIndex] || PROJECTS[0];
+
   // URL Hash Sync for Back/Forward Navigation
   useEffect(() => {
     const handleHash = () => {
@@ -399,9 +516,8 @@ export default function App() {
 
   /* 
    * THE ULTIMATE HARDWARE-COMPOSITED CIRCULAR TRANSITION:
-   * Uses the native W3C View Transitions API to smoothly expand the destination
+   * Uses native W3C View Transitions API to smoothly expand the destination
    * view as an organic circular iris directly from the button click coordinates.
-   * Completely fluid, 120 FPS, with zero layout flash or abruptness.
    */
   const navigateWithCircleTransition = (targetViewName, e) => {
     if (currentView === targetViewName) return;
@@ -448,7 +564,6 @@ export default function App() {
         );
       });
     } else {
-      // Smooth fallback for older browsers
       setCircleOrigin({ x, y });
       setTargetView(targetViewName);
       setIsCircleTransitioning(true);
@@ -467,6 +582,31 @@ export default function App() {
 
   const handleRecentWorksClick = (e) => navigateWithCircleTransition("works", e);
   const handleReturnToStudio = (e) => navigateWithCircleTransition("studio", e);
+
+  // Select a clip from the NLE timeline
+  const handleSelectTimelineClip = (index) => {
+    setActiveClipIndex(index);
+    setIsPlayingMonitor(false);
+    // Position playhead roughly over the clip in the timeline
+    const clipPercent = Math.min(Math.max((index / PROJECTS.length) * 88 + 6, 4), 94);
+    setPlayheadPercent(clipPercent);
+  };
+
+  // Scrub timeline by clicking ruler
+  const handleTimelineScrub = (e) => {
+    if (!timelineRulerRef.current) return;
+    const rect = timelineRulerRef.current.getBoundingClientRect();
+    const clickX = e.clientX - rect.left;
+    const pct = Math.min(Math.max((clickX / rect.width) * 100, 2), 98);
+    setPlayheadPercent(pct);
+
+    // Map percentage to clip
+    const mappedIndex = Math.min(
+      Math.floor((pct / 100) * PROJECTS.length),
+      PROJECTS.length - 1
+    );
+    setActiveClipIndex(mappedIndex);
+  };
 
   const filteredProjects = useMemo(() => {
     if (selectedCategory === "All Work") return PROJECTS;
@@ -513,10 +653,10 @@ export default function App() {
         </div>
       )}
 
-      {/* Floating Olive Glass Navigation Header */}
-      <header className="cinema-nav-header">
+      {/* NLE STUDIO CONSOLE TRANSPORT HEADER */}
+      <header className="cinema-nav-header nle-console-header">
         <div className="nav-inner-bar">
-          {/* Director Signature */}
+          {/* Director Signature & Suite ID */}
           <button
             type="button"
             className="nav-signature-btn"
@@ -535,24 +675,68 @@ export default function App() {
             </div>
             <div className="signature-titles">
               <span className="signature-name">{PROFILE.name}</span>
-              <span className="signature-craft">Film & Video Editor</span>
+              <span className="signature-craft">NLE Editorial & Color Suite</span>
             </div>
           </button>
 
-          {/* Central Editorial Badge (Desktop) */}
-          <div className="nav-center-badge">
-            <span className="badge-film-dot" />
-            <span className="badge-text">INDEPENDENT POST-PRODUCTION</span>
+          {/* Central NLE Master Timecode & Transport Deck */}
+          <div className="nle-header-transport-deck">
+            <div className="transport-timecode-box">
+              <span className="tc-prefix">TC</span>
+              <SMPTETimecode isPlaying={isPlayingMonitor} offset={activeClipIndex * 24 * 35} />
+            </div>
+
+            <div className="transport-keys-cluster" aria-label="Timeline Transport Controls">
+              <button
+                type="button"
+                className="transport-key-btn"
+                onClick={() => handleSelectTimelineClip((activeClipIndex - 1 + PROJECTS.length) % PROJECTS.length)}
+                title="Step to Previous Cut (Q)"
+                aria-label="Previous Cut"
+              >
+                <StepBackIcon size={13} />
+              </button>
+              <button
+                type="button"
+                className={`transport-key-btn play-key ${isPlayingMonitor ? "playing" : ""}`}
+                onClick={() => setIsPlayingMonitor(!isPlayingMonitor)}
+                title={isPlayingMonitor ? "Pause Sequence (Space)" : "Play Sequence (Space)"}
+                aria-label={isPlayingMonitor ? "Pause" : "Play"}
+              >
+                {isPlayingMonitor ? <PauseIcon size={14} /> : <PlayIcon size={14} />}
+              </button>
+              <button
+                type="button"
+                className="transport-key-btn"
+                onClick={() => handleSelectTimelineClip((activeClipIndex + 1) % PROJECTS.length)}
+                title="Step to Next Cut (W)"
+                aria-label="Next Cut"
+              >
+                <StepForwardIcon size={13} />
+              </button>
+              <button
+                type="button"
+                className="transport-key-btn loop-key active"
+                title="Loop Active Sequence"
+                aria-label="Loop"
+              >
+                <LoopIcon size={13} />
+              </button>
+            </div>
+
+            <div className="transport-format-badge">
+              <span>24.00 FPS • PRORES 422</span>
+            </div>
           </div>
 
-          {/* View Navigation Switcher */}
+          {/* View Switcher & Action Pills */}
           <nav className="nav-view-pills" aria-label="Portfolio Sections">
             <button
               type="button"
               className={`nav-tab-pill ${currentView === "studio" ? "active" : ""}`}
               onClick={handleReturnToStudio}
             >
-              Director
+              Timeline Suite
             </button>
             <button
               type="button"
@@ -590,7 +774,7 @@ export default function App() {
               className={`mobile-nav-row ${currentView === "studio" ? "active" : ""}`}
               onClick={handleReturnToStudio}
             >
-              <span>Director Studio</span>
+              <span>Timeline Suite</span>
               <ArrowRight size={14} />
             </button>
             <button
@@ -617,90 +801,385 @@ export default function App() {
       </header>
 
       {/* ========================================================
-          VIEW LAYER: STUDIO (When on Director Studio)
+          VIEW LAYER: STUDIO (The NLE Timeline Experience)
           ======================================================== */}
       {currentView === "studio" && (
         <div className="view-layer-studio view-enter-reveal">
-          {/* HERO SECTION */}
-          <section className="cinema-hero-section">
-            <div className="hero-editorial-center">
-              {/* Studio Status Slate */}
-              <div className="hero-vintage-slate">
-                <span className="slate-pill-location">MUMBAI [IST]</span>
-                <span className="slate-sep">/</span>
-                <span className="slate-avail">
+          {/* HERO SECTION: PROGRAM MONITOR & MASTER KINETIC STATEMENT */}
+          <section className="nle-hero-stage-section">
+            <div className="nle-stage-grid">
+              {/* Left Column: Directorial Manifesto & Centerpiece Action */}
+              <div className="nle-manifesto-column">
+                <div className="nle-status-slate">
                   <span className="camera-live-pulse" />
-                  AVAILABLE FOR COMMISSIONS
-                </span>
+                  <span className="slate-label">EDITORIAL SUITE // MUMBAI [IST]</span>
+                  <span className="slate-divider">/</span>
+                  <span className="slate-avail">COMMISSIONS OPEN</span>
+                </div>
+
+                <h1 className="hero-cinema-heading">
+                  <span className="hero-kicker-tag">[ TIMELINE CRAFT & COLOR ]</span>
+                  <span className="heading-line bold-display">THE TIMELINE NEVER LIES.</span>
+                  <span className="heading-line serif-italic">
+                    Every cut shaped with rhythm, tension & intention.
+                  </span>
+                </h1>
+
+                <p className="hero-editorial-summary">
+                  Crafting high-retention short-form Reels, documentary founder films, and multi-cam podcast workflows. Frame-by-frame pacing, bespoke sound architecture, and organic DaVinci color grading that elevates storytelling.
+                </p>
+
+                {/* THE ICONIC RECENT WORKS CENTERPIECE PASS */}
+                <div className="hero-centerpiece-actions">
+                  <button
+                    type="button"
+                    className="cinema-works-pass-btn"
+                    onClick={handleRecentWorksClick}
+                    title="Click to view all recent works with circular scaling animation"
+                  >
+                    <div className="btn-ambient-halo" />
+                    <div className="pass-btn-body">
+                      <span className="pass-reel-icon">
+                        <FilmReelIcon size={18} />
+                      </span>
+                      <span className="pass-main-title">Recent Works</span>
+                      <span className="pass-count-chip">{PROJECTS.length} CUTS</span>
+                      <span className="pass-arrow-disc">
+                        <ArrowRight size={14} />
+                      </span>
+                    </div>
+                  </button>
+
+                  <a href="#contact" className="cinema-secondary-btn">
+                    <span>Book a Project</span>
+                    <ArrowUpRight size={13} />
+                  </a>
+                </div>
+
+                {/* Digital Cut Monitor Slate */}
+                <div className="hero-stats-panel">
+                  <div className="stats-monitor-header" aria-hidden="true">
+                    <div className="monitor-left">
+                      <span className="camera-rec-dot" />
+                      <span className="monitor-title">DIGITAL CUT MONITOR // 24.000 FPS</span>
+                    </div>
+                    <div className="monitor-right">
+                      <span className="monitor-tag">PRORES 422 HQ</span>
+                      <span className="monitor-sep">•</span>
+                      <span className="monitor-tag">DAVINCI WIDE GAMUT</span>
+                    </div>
+                  </div>
+
+                  <div className="hero-stats-celluloid">
+                    {PROFILE.stats.map((s, idx) => (
+                      <div key={idx} className="stat-slate-cell">
+                        <span className="stat-label-vintage">{s.label}</span>
+                        <div className="stat-val-row">
+                          <CountUpStat
+                            target={s.target}
+                            decimals={s.decimals}
+                            suffix={s.suffix}
+                          />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
               </div>
 
-              {/* Monumental Cinematic Headline */}
-              <h1 className="hero-cinema-heading">
-                <span className="heading-line bold-display">CRAFTING RHYTHM.</span>
-                <span className="heading-line serif-italic">
-                  Stories that leave an impression.
-                </span>
-              </h1>
+              {/* Right Column: Master Program Monitor (With 35mm Celluloid Frame) */}
+              <div className="nle-program-monitor-column">
+                <div className="program-monitor-enclosure">
+                  {/* Top Monitor Header Slate */}
+                  <div className="monitor-header-bar">
+                    <div className="header-meta-left">
+                      <span className="monitor-badge-live">PROGRAM VIEWER</span>
+                      <span className="monitor-clip-name">
+                        CLIP_{String(activeClipIndex + 1).padStart(2, "0")} [{activeProject.category}]
+                      </span>
+                    </div>
+                    <div className="header-meta-right">
+                      <span className="monitor-tc-stamp">{activeProject.aspect}</span>
+                      <button
+                        type="button"
+                        className="monitor-expand-btn"
+                        onClick={() => setActiveTheaterProject(activeProject)}
+                        title="Expand to Full Screening Room"
+                      >
+                        <ExpandIcon size={13} />
+                      </button>
+                    </div>
+                  </div>
 
-              {/* Editorial Bio */}
-              <p className="hero-editorial-summary">
-                Specializing in high-retention short-form Reels, documentary founder films, and multi-cam podcast workflows. Frame-by-frame pacing, custom sound architecture, and organic DaVinci color grading.
-              </p>
+                  {/* 35mm Celluloid Sprockets Top Rail */}
+                  <div className="sprocket-track-rail top-rail" aria-hidden="true">
+                    <span className="sprocket-hole" />
+                    <span className="sprocket-hole" />
+                    <span className="sprocket-hole" />
+                    <span className="sprocket-hole" />
+                    <span className="sprocket-hole" />
+                    <span className="sprocket-hole" />
+                    <span className="sprocket-hole" />
+                    <span className="sprocket-hole" />
+                  </div>
 
-              {/* CENTERPIECE HERO ACTION: "RECENT WORKS" BUTTON */}
-              <div className="hero-centerpiece-actions">
-                <button
-                  type="button"
-                  className="cinema-works-pass-btn"
-                  onClick={handleRecentWorksClick}
-                  title="Click to view recent works with circle animation"
+                  {/* Active Program Viewport */}
+                  <div className={`monitor-screen-viewport ${activeProject.shape}`}>
+                    {isPlayingMonitor ? (
+                      <div className="monitor-inline-player">
+                        <iframe
+                          src={`https://player.vimeo.com/video/${activeProject.vimeoId}?autoplay=1&muted=0&playsinline=1&title=0&byline=0&portrait=0&badge=0&autopause=1&dnt=1`}
+                          className="monitor-vimeo-iframe"
+                          allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media"
+                          allowFullScreen
+                          referrerPolicy="strict-origin-when-cross-origin"
+                          title={`Program monitor clip ${activeProject.id}`}
+                        />
+                        <button
+                          type="button"
+                          className="monitor-stop-btn"
+                          onClick={() => setIsPlayingMonitor(false)}
+                          title="Stop playback"
+                        >
+                          <CloseIcon size={14} />
+                          <span>STOP</span>
+                        </button>
+                      </div>
+                    ) : (
+                      <div
+                        className="monitor-poster-card"
+                        onClick={() => setIsPlayingMonitor(true)}
+                        title="Click to play active clip in Program Monitor"
+                      >
+                        <img
+                          src={activeProject.image}
+                          alt="Program frame still"
+                          className="monitor-frame-img"
+                        />
+
+                        {/* Optical Safe Area Framing Reticle */}
+                        <div className="safe-area-overlay" aria-hidden="true">
+                          <div className="safe-box-action" />
+                          <div className="safe-box-title" />
+                          <div className="center-crosshair">
+                            <span className="ch-line-h" />
+                            <span className="ch-line-v" />
+                          </div>
+                        </div>
+
+                        {/* Centered Play Reel Disc */}
+                        <div className="monitor-center-trigger">
+                          <div className="monitor-play-disc">
+                            <PlayIcon size={26} />
+                          </div>
+                          <span className="trigger-label">PLAY IN MONITOR</span>
+                          <span className="trigger-runtime">{activeProject.duration}</span>
+                        </div>
+
+                        {/* Audio VU Meters floating on viewport side */}
+                        <AudioVUMeter isPlaying={isPlayingMonitor} />
+                      </div>
+                    )}
+                  </div>
+
+                  {/* 35mm Celluloid Sprockets Bottom Rail */}
+                  <div className="sprocket-track-rail bottom-rail" aria-hidden="true">
+                    <span className="sprocket-hole" />
+                    <span className="sprocket-hole" />
+                    <span className="sprocket-hole" />
+                    <span className="sprocket-hole" />
+                    <span className="sprocket-hole" />
+                    <span className="sprocket-hole" />
+                    <span className="sprocket-hole" />
+                    <span className="sprocket-hole" />
+                  </div>
+
+                  {/* Monitor Footer Controls */}
+                  <div className="monitor-footer-bar">
+                    <div className="footer-playback-toggles">
+                      <button
+                        type="button"
+                        className="monitor-foot-btn"
+                        onClick={() => handleSelectTimelineClip((activeClipIndex - 1 + PROJECTS.length) % PROJECTS.length)}
+                      >
+                        <StepBackIcon size={12} />
+                        <span>PREV CUT</span>
+                      </button>
+                      <button
+                        type="button"
+                        className="monitor-foot-btn play-foot"
+                        onClick={() => setIsPlayingMonitor(!isPlayingMonitor)}
+                      >
+                        {isPlayingMonitor ? <PauseIcon size={12} /> : <PlayIcon size={12} />}
+                        <span>{isPlayingMonitor ? "PAUSE" : "PLAY"}</span>
+                      </button>
+                      <button
+                        type="button"
+                        className="monitor-foot-btn"
+                        onClick={() => handleSelectTimelineClip((activeClipIndex + 1) % PROJECTS.length)}
+                      >
+                        <span>NEXT CUT</span>
+                        <StepForwardIcon size={12} />
+                      </button>
+                    </div>
+
+                    <div className="footer-cut-counter">
+                      <span>CUT {String(activeClipIndex + 1).padStart(2, "0")} / {String(PROJECTS.length).padStart(2, "0")}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* ========================================================
+              THE CENTERPIECE: INTERACTIVE MULTI-TRACK NLE TIMELINE
+              ======================================================== */}
+          <section className="nle-interactive-timeline-section" id="timeline">
+            <div className="timeline-console-container">
+              {/* Timeline Master Header & Track Tools */}
+              <div className="timeline-master-bar">
+                <div className="timeline-title-cluster">
+                  <span className="timeline-indicator-dot" />
+                  <span className="timeline-title-main">MASTER SEQUENCE TIMELINE</span>
+                  <span className="timeline-mode-pill">MAGNETIC CUT MODE</span>
+                </div>
+
+                <div className="timeline-hints">
+                  <span className="hint-chip">CLICK ANY CLIP TO SCRUB & PREVIEW</span>
+                  <button
+                    type="button"
+                    className="timeline-explore-all-btn"
+                    onClick={handleRecentWorksClick}
+                  >
+                    <span>OPEN ALL CUTS ({PROJECTS.length})</span>
+                    <FilmReelIcon size={13} />
+                  </button>
+                </div>
+              </div>
+
+              {/* Multi-Track Board */}
+              <div className="timeline-board-frame">
+                {/* Ruler Bar with Timecode Graduations */}
+                <div
+                  ref={timelineRulerRef}
+                  className="timeline-ruler-track"
+                  onClick={handleTimelineScrub}
+                  title="Click to scrub playhead anywhere on timeline"
                 >
-                  <div className="btn-ambient-halo" />
-                  <div className="pass-btn-body">
-                    <span className="pass-reel-icon">
-                      <FilmReelIcon size={18} />
-                    </span>
-                    <span className="pass-main-title">Recent Works</span>
-                    <span className="pass-count-chip">{PROJECTS.length} CUTS</span>
-                    <span className="pass-arrow-disc">
-                      <ArrowRight size={14} />
-                    </span>
+                  <div className="ruler-ticks">
+                    <span>00:00:00</span>
+                    <span>00:00:30</span>
+                    <span>00:01:00</span>
+                    <span>00:01:30</span>
+                    <span>00:02:00</span>
+                    <span>00:02:30</span>
+                    <span>00:03:00</span>
+                    <span>00:03:30</span>
+                    <span>00:04:00</span>
                   </div>
-                </button>
 
-                <a href="#contact" className="cinema-secondary-btn">
-                  <span>Start a Project</span>
-                  <ArrowUpRight size={13} />
-                </a>
-              </div>
-
-              {/* Cinematic Stat Slates & Digital Monitor */}
-              <div className="hero-stats-panel">
-                <div className="stats-monitor-header" aria-hidden="true">
-                  <div className="monitor-left">
-                    <span className="camera-rec-dot" />
-                    <span className="monitor-title">DIGITAL CUT MONITOR // 24.000 FPS</span>
-                  </div>
-                  <div className="monitor-right">
-                    <span className="monitor-tag">PRORES 422 HQ</span>
-                    <span className="monitor-sep">•</span>
-                    <span className="monitor-tag">DAVINCI WIDE GAMUT</span>
+                  {/* Active Playhead with Vertical Needle */}
+                  <div
+                    className="timeline-playhead-needle"
+                    style={{ left: `${playheadPercent}%` }}
+                  >
+                    <div className="playhead-head">
+                      <span>🔻</span>
+                    </div>
+                    <div className="playhead-laser-line" />
                   </div>
                 </div>
 
-                <div className="hero-stats-celluloid">
-                  {PROFILE.stats.map((s, idx) => (
-                    <div key={idx} className="stat-slate-cell">
-                      <span className="stat-label-vintage">{s.label}</span>
-                      <div className="stat-val-row">
-                        <CountUpStat
-                          target={s.target}
-                          decimals={s.decimals}
-                          suffix={s.suffix}
-                        />
-                      </div>
+                {/* TRACK V2: Kinetic Motion & Retention Hooks */}
+                <div className="timeline-track-lane track-v2">
+                  <div className="track-header-cell">
+                    <span className="track-tag">V2</span>
+                    <span className="track-name">HOOKS & TITLES</span>
+                  </div>
+                  <div className="track-content-area">
+                    <div className="hook-block-item" style={{ left: "2%", width: "12%" }}>
+                      <span className="hook-label">0-3s Hook Arc</span>
                     </div>
-                  ))}
+                    <div className="hook-block-item pattern-int" style={{ left: "24%", width: "14%" }}>
+                      <span className="hook-label">Pattern Interrupt</span>
+                    </div>
+                    <div className="hook-block-item kinetic-title" style={{ left: "48%", width: "16%" }}>
+                      <span className="hook-label">Kinetic Kinetic Text</span>
+                    </div>
+                    <div className="hook-block-item color-shift" style={{ left: "74%", width: "18%" }}>
+                      <span className="hook-label">Retention Climax</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* TRACK V1: The Master Video Cuts (9 Interactive Clips) */}
+                <div className="timeline-track-lane track-v1">
+                  <div className="track-header-cell video-cell">
+                    <span className="track-tag">V1</span>
+                    <span className="track-name">VIDEO REEL</span>
+                  </div>
+                  <div className="track-content-area clips-track">
+                    {PROJECTS.map((proj, idx) => {
+                      const isActive = idx === activeClipIndex;
+                      const widthPercent = (100 / PROJECTS.length) - 0.8;
+                      return (
+                        <div
+                          key={proj.id}
+                          className={`timeline-clip-block ${proj.shape} ${isActive ? "active-cut" : ""}`}
+                          style={{ width: `${widthPercent}%` }}
+                          onClick={() => handleSelectTimelineClip(idx)}
+                          title={`Cut #${idx + 1} • ${proj.category} (${proj.duration}) — Click to preview`}
+                        >
+                          <div className="clip-thumb-preview">
+                            <img src={proj.image} alt="" className="clip-mini-thumb" />
+                          </div>
+                          <div className="clip-info-text">
+                            <span className="clip-num">CUT_{String(idx + 1).padStart(2, "0")}</span>
+                            <span className="clip-cat-tag">{proj.category}</span>
+                            <span className="clip-dur">{proj.duration}</span>
+                          </div>
+                          {isActive && <div className="clip-active-border-glow" />}
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* TRACK A1: Narrative Voice & Dialogue Waveform */}
+                <div className="timeline-track-lane track-a1">
+                  <div className="track-header-cell audio-cell">
+                    <span className="track-tag">A1</span>
+                    <span className="track-name">DIALOGUE & VOICE</span>
+                  </div>
+                  <div className="track-content-area audio-wave-area">
+                    <div className="svg-waveform-strip" aria-hidden="true">
+                      {Array.from({ length: 48 }).map((_, i) => {
+                        const h = 4 + Math.sin(i * 0.7) * 8 + Math.cos(i * 1.3) * 6;
+                        return (
+                          <span
+                            key={i}
+                            className="wave-bar"
+                            style={{ height: `${Math.max(h, 3)}px` }}
+                          />
+                        );
+                      })}
+                    </div>
+                  </div>
+                </div>
+
+                {/* TRACK A2: Sound Design, Impacts & Atmos */}
+                <div className="timeline-track-lane track-a2">
+                  <div className="track-header-cell audio-cell">
+                    <span className="track-tag">A2</span>
+                    <span className="track-name">SFX & TRANSIENTS</span>
+                  </div>
+                  <div className="track-content-area sfx-transient-area">
+                    <span className="transient-spike-marker" style={{ left: "8%" }}>HIT</span>
+                    <span className="transient-spike-marker whoosh" style={{ left: "26%" }}>WHOOSH</span>
+                    <span className="transient-spike-marker riser" style={{ left: "54%" }}>RISER</span>
+                    <span className="transient-spike-marker hit" style={{ left: "78%" }}>DROP</span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -710,8 +1189,8 @@ export default function App() {
           <section className="cinema-disciplines-section">
             <div className="section-frame-wrap">
               <div className="section-header-slate">
-                <span className="section-eyebrow-olive">THE CRAFT</span>
-                <h2 className="section-display-serif">Post-Production Disciplines</h2>
+                <span className="section-eyebrow-olive">STUDIO DISCIPLINES</span>
+                <h2 className="section-display-serif">Post-Production Craft Channels</h2>
               </div>
 
               <div className="disciplines-art-grid">
@@ -725,7 +1204,7 @@ export default function App() {
                       <span className="vf-corner vf-br" />
                     </div>
                     <div className="card-top-take">
-                      <span className="take-number">SCENE /{srv.num}</span>
+                      <span className="take-number">CHANNEL /{srv.num}</span>
                       <span className="take-olive-line" />
                     </div>
                     <h3 className="card-craft-title">{srv.title}</h3>
@@ -736,17 +1215,17 @@ export default function App() {
             </div>
           </section>
 
-          {/* THE SUITE & TECHNICAL CRAFT */}
+          {/* THE CUTTING SUITE HARDWARE & TURNAROUND */}
           <section className="cinema-suite-section" id="stack">
             <div className="suite-vintage-container">
               <div className="suite-header">
-                <span className="section-eyebrow-olive">THE CUTTING ROOM</span>
-                <h3 className="suite-display-title">Post Suite & Turnaround Standards</h3>
+                <span className="section-eyebrow-olive">THE NLE SUITE</span>
+                <h3 className="suite-display-title">Grading Hardware & Turnaround Standards</h3>
               </div>
 
               <div className="suite-columns-grid">
                 <div className="suite-tools-col">
-                  <span className="suite-col-label">NLE & FINISHING SUITE</span>
+                  <span className="suite-col-label">FINISHING SUITE</span>
                   <div className="suite-tool-tags">
                     {TOOLS.map((tool) => (
                       <span key={tool} className="olive-tool-tag">
@@ -758,27 +1237,27 @@ export default function App() {
                 </div>
 
                 <div className="suite-standards-col">
-                  <span className="suite-col-label">DELIVERY STANDARDS</span>
+                  <span className="suite-col-label">TURNAROUND PROTOCOL</span>
                   <ul className="suite-standards-list">
                     <li>
                       <span className="standard-num">01</span>
                       <div className="standard-info">
-                        <strong>48-Hour Assembly & First Cut</strong>
-                        <p>Rapid narrative locking and beat assembly so your release calendar never stalls.</p>
+                        <strong>24-48 Hour Assembly Locking</strong>
+                        <p>Fast narrative structuring and hook retention locking so your release momentum never slows.</p>
                       </div>
                     </li>
                     <li>
                       <span className="standard-num">02</span>
                       <div className="standard-info">
-                        <strong>Master Quality Multi-Format Exports</strong>
-                        <p>Lossless 4K ProRes 422 masters and calibrated H.264 files formatted for 9:16 and 16:9.</p>
+                        <strong>Lossless 4K Master Deliveries</strong>
+                        <p>Exported in Apple ProRes 422 HQ and calibrated H.264 masters formatted for 9:16 and 16:9.</p>
                       </div>
                     </li>
                     <li>
                       <span className="standard-num">03</span>
                       <div className="standard-info">
-                        <strong>DaVinci Color Science & Sound Mix</strong>
-                        <p>Natural olive/earth grading curves, clean skin tones, and rich spatial audio sound design.</p>
+                        <strong>DaVinci Wide Gamut Color Science</strong>
+                        <p>True natural skin-tones, subtle 35mm film grain, and custom spatial audio mastering.</p>
                       </div>
                     </li>
                   </ul>
@@ -787,13 +1266,13 @@ export default function App() {
             </div>
           </section>
 
-          {/* CONTACT & INQUIRY */}
+          {/* CONTACT / RENDER QUEUE EXPORT DOCK */}
           <section className="cinema-contact-section" id="contact">
             <div className="contact-velvet-frame">
-              <span className="section-eyebrow-olive">COLLABORATE</span>
+              <span className="section-eyebrow-olive">RENDER QUEUE // DISPATCH</span>
               <h2 className="contact-heroic-title">
-                Have raw footage waiting to be cut? <br />
-                <span className="serif-italic">Let’s shape something unforgettable.</span>
+                Have raw footage ready to be assembled? <br />
+                <span className="serif-italic">Let’s cut something that stands out.</span>
               </h2>
 
               <div className="contact-interaction-bar">
@@ -825,7 +1304,7 @@ export default function App() {
                   href={`mailto:${PROFILE.email}?subject=Editing%20Project%20Inquiry%20%E2%80%94%20Ranjeet%20Mishra`}
                   className="direct-mail-olive-btn"
                 >
-                  <span>Compose Email</span>
+                  <span>Dispatch Email</span>
                   <ArrowUpRight size={14} />
                 </a>
               </div>
@@ -851,7 +1330,7 @@ export default function App() {
       )}
 
       {/* ========================================================
-          VIEW LAYER: WORKS (Screening Room / Selected Cuts)
+          VIEW LAYER: WORKS (35mm Celluloid Repertoire Screening Room)
           ======================================================== */}
       {currentView === "works" && (
         <div className="view-layer-works view-enter-reveal">
@@ -864,12 +1343,12 @@ export default function App() {
                 onClick={handleReturnToStudio}
               >
                 <ArrowLeft size={14} />
-                <span>Return to Studio</span>
+                <span>Return to Timeline Suite</span>
               </button>
 
               <div className="screening-film-status">
                 <span className="camera-rec-dot" />
-                <span>MASTER ARCHIVE // PRORES 422 HQ // {PROJECTS.length} SELECTED CUTS</span>
+                <span>MASTER ARCHIVE // PRORES 422 HQ // {PROJECTS.length} CELLULOID CUTS</span>
               </div>
 
               <a
@@ -884,7 +1363,7 @@ export default function App() {
             {/* Works Header & Filters */}
             <div className="screening-title-row">
               <div className="title-lead-box">
-                <span className="section-eyebrow-olive">[ CURATED REPERTOIRE // 2024—2025 ]</span>
+                <span className="section-eyebrow-olive">[ MASTER FILM VAULT // 2024—2025 ]</span>
                 <h2 className="screening-main-heading">Selected Cuts</h2>
                 <p className="screening-sub-desc">
                   Frame-by-frame narrative pacing, rhythmic sound architecture, and organic DaVinci color grading across social Reels, commercial brand films, and multi-cam podcast workflows.
@@ -935,7 +1414,7 @@ export default function App() {
                   onClick={handleReturnToStudio}
                 >
                   <ArrowLeft size={13} />
-                  <span>Studio Details</span>
+                  <span>Timeline Suite</span>
                 </button>
                 <a
                   href={`mailto:${PROFILE.email}?subject=Project%20Inquiry%20from%20Portfolio`}

@@ -158,7 +158,7 @@ function VideoCard({ project, index, onOpenTheater }) {
   return (
     <article
       className={`cinema-frame-card ${project.shape} ${isPlaying ? "playing" : ""}`}
-      style={{ animationDelay: `${index * 80}ms` }}
+      style={{ animationDelay: `${index * 75}ms` }}
       tabIndex={0}
       aria-label={`${project.category} film cut, duration ${project.duration}`}
     >
@@ -221,7 +221,7 @@ function VideoCard({ project, index, onOpenTheater }) {
             {/* Olive Celluloid Vignette */}
             <div className="poster-olive-vignette" />
 
-            {/* Top Slates: Numbered Slate & Format (Strictly No Client Names) */}
+            {/* Top Slates: Numbered Slate & Format */}
             <div className="poster-top-slate">
               <span className="slate-take-num">REEL #{padNum}</span>
               <span className="slate-pill category">{project.category}</span>
@@ -359,9 +359,9 @@ function CinemaModal({ project, allProjects, onClose, onNavigate }) {
 /* ---------- Main Portfolio Application ---------- */
 export default function App() {
   const [currentView, setCurrentView] = useState("studio"); // 'studio' | 'works'
+  const [targetView, setTargetView] = useState("works");
+  const [isCircleTransitioning, setIsCircleTransitioning] = useState(false);
   const [circleOrigin, setCircleOrigin] = useState({ x: 0, y: 0 });
-  const [isCircleExpanding, setIsCircleExpanding] = useState(false);
-  const [isCircleClosing, setIsCircleClosing] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("All Work");
   const [activeTheaterProject, setActiveTheaterProject] = useState(null);
   const [copiedEmail, setCopiedEmail] = useState(false);
@@ -383,75 +383,73 @@ export default function App() {
   }, []);
 
   /* 
-   * THE REQUESTED ANIMATION:
-   * "circle should start scaling the moment button is clicked"
-   * Instantly grabs the click/button center and triggers keyframe circle expansion!
+   * THE FLAWLESS EXPANDING CIRCLE PORTAL:
+   * Starts scaling the EXACT millisecond "Recent Works" is clicked,
+   * expanding out from the button's center with a glowing olive perimeter!
    */
   const handleRecentWorksClick = (e) => {
-    if (isCircleExpanding) return;
+    if (isCircleTransitioning) return;
 
-    let originX = window.innerWidth / 2;
-    let originY = window.innerHeight / 2;
+    let clickX = window.innerWidth / 2;
+    let clickY = window.innerHeight / 2;
 
     if (e && e.currentTarget) {
       const rect = e.currentTarget.getBoundingClientRect();
-      originX = rect.left + rect.width / 2;
-      originY = rect.top + rect.height / 2;
+      clickX = rect.left + rect.width / 2;
+      clickY = rect.top + rect.height / 2;
     } else if (e && e.clientX && e.clientY) {
-      originX = e.clientX;
-      originY = e.clientY;
+      clickX = e.clientX;
+      clickY = e.clientY;
     }
 
-    setCircleOrigin({ x: originX, y: originY });
-    setIsCircleClosing(false);
-    setIsCircleExpanding(true);
+    setCircleOrigin({ x: clickX, y: clickY });
+    setTargetView("works");
+    setIsCircleTransitioning(true);
     setMobileMenuOpen(false);
 
-    // After circle scales over the entire viewport (560ms), switch the view
+    // At midpoint (380ms), when expanding circle covers the screen, switch to works
     setTimeout(() => {
       setCurrentView("works");
-      window.history.pushState(null, "", "#works");
       window.scrollTo({ top: 0, behavior: "instant" });
+      window.history.pushState(null, "", "#works");
+    }, 380);
 
-      // Cleanly dissolve the circle to reveal the screening room
-      setIsCircleClosing(true);
-      setTimeout(() => {
-        setIsCircleExpanding(false);
-        setIsCircleClosing(false);
-      }, 400);
-    }, 560);
+    // End of circle transition
+    setTimeout(() => {
+      setIsCircleTransitioning(false);
+    }, 820);
   };
 
   const handleReturnToStudio = (e) => {
-    if (isCircleExpanding) return;
+    if (isCircleTransitioning) return;
 
-    let originX = window.innerWidth / 2;
-    let originY = window.innerHeight / 2;
+    let clickX = window.innerWidth / 2;
+    let clickY = window.innerHeight / 2;
 
     if (e && e.currentTarget) {
       const rect = e.currentTarget.getBoundingClientRect();
-      originX = rect.left + rect.width / 2;
-      originY = rect.top + rect.height / 2;
+      clickX = rect.left + rect.width / 2;
+      clickY = rect.top + rect.height / 2;
     } else if (e && e.clientX && e.clientY) {
-      originX = e.clientX;
-      originY = e.clientY;
+      clickX = e.clientX;
+      clickY = e.clientY;
     }
 
-    setCircleOrigin({ x: originX, y: originY });
-    setIsCircleClosing(false);
-    setIsCircleExpanding(true);
+    setCircleOrigin({ x: clickX, y: clickY });
+    setTargetView("studio");
+    setIsCircleTransitioning(true);
+    setMobileMenuOpen(false);
 
+    // Switch back to studio at midpoint
     setTimeout(() => {
       setCurrentView("studio");
-      window.history.pushState(null, "", "#studio");
       window.scrollTo({ top: 0, behavior: "instant" });
+      window.history.pushState(null, "", "#studio");
+    }, 380);
 
-      setIsCircleClosing(true);
-      setTimeout(() => {
-        setIsCircleExpanding(false);
-        setIsCircleClosing(false);
-      }, 400);
-    }, 560);
+    setTimeout(() => {
+      setIsCircleTransitioning(false);
+    }, 820);
   };
 
   const filteredProjects = useMemo(() => {
@@ -484,23 +482,23 @@ export default function App() {
         <div className="film-celluloid-grain" />
       </div>
 
-      {/* ========================================================
-          SCALING CIRCLE TRANSITION PORTAL
-          Starts scaling the instant the Recent Works button is clicked!
-          ======================================================== */}
-      {isCircleExpanding && (
-        <div className={`circle-scaling-portal ${isCircleClosing ? "fade-reveal" : "scaling-active"}`}>
-          <div
-            className="scaling-circle-disc"
-            style={{
-              left: `${circleOrigin.x}px`,
-              top: `${circleOrigin.y}px`,
-            }}
-          >
-            <div className="circle-inner-halo" />
-            <div className="circle-center-marker">
-              <span className="circle-rec-dot" />
-              <span className="circle-slate-txt">OPENING SCREENING ROOM</span>
+      {/* THE PROMINENT EXPANDING CIRCLE PORTAL */}
+      {isCircleTransitioning && (
+        <div
+          className="circle-scaling-overlay-portal"
+          style={{
+            "--circle-cx": `${circleOrigin.x}px`,
+            "--circle-cy": `${circleOrigin.y}px`,
+          }}
+          aria-hidden="true"
+        >
+          {/* Luminous shockwave pulse ring */}
+          <div className="scaling-shockwave-ring" />
+          {/* The scaling olive cinema disc */}
+          <div className="scaling-olive-circle-disc">
+            <div className="scaling-circle-center-label">
+              <FilmReelIcon size={36} />
+              <span>{targetView === "works" ? "ENTERING SCREENING ROOM" : "RETURNING TO STUDIO"}</span>
             </div>
           </div>
         </div>
@@ -610,10 +608,10 @@ export default function App() {
       </header>
 
       {/* ========================================================
-          VIEW A: STUDIO (Creative Director & Craft Overview)
+          VIEW LAYER: STUDIO (When on Director Studio)
           ======================================================== */}
       {currentView === "studio" && (
-        <main className="view-container studio-page">
+        <div className="view-layer-studio view-enter-reveal">
           {/* HERO SECTION */}
           <section className="cinema-hero-section">
             <div className="hero-editorial-center">
@@ -640,13 +638,13 @@ export default function App() {
                 Specializing in high-retention short-form Reels, documentary founder films, and multi-cam podcast workflows. Frame-by-frame pacing, custom sound architecture, and organic DaVinci color grading.
               </p>
 
-              {/* CENTERPIECE HERO ACTION: "RECENT WORKS" CIRCLE SCALING TRIGGER */}
+              {/* CENTERPIECE HERO ACTION: "RECENT WORKS" BUTTON */}
               <div className="hero-centerpiece-actions">
                 <button
                   type="button"
                   className="cinema-works-pass-btn"
                   onClick={handleRecentWorksClick}
-                  title="Click to expand into the Screening Room"
+                  title="Click to view recent works with circle animation"
                 >
                   <div className="btn-ambient-halo" />
                   <div className="pass-btn-body">
@@ -819,14 +817,14 @@ export default function App() {
               </div>
             </div>
           </section>
-        </main>
+        </div>
       )}
 
       {/* ========================================================
-          VIEW B: WORKS (The Repertoire Screening Room)
+          VIEW LAYER: WORKS (Screening Room / Selected Cuts)
           ======================================================== */}
       {currentView === "works" && (
-        <main className="view-container works-page">
+        <div className="view-layer-works view-enter-reveal">
           <section className="cinema-screening-section">
             {/* Screening Room Breadcrumb Bar */}
             <div className="screening-top-header">
@@ -909,7 +907,7 @@ export default function App() {
               </div>
             </div>
           </section>
-        </main>
+        </div>
       )}
 
       {/* ========================================================

@@ -88,6 +88,12 @@ button {
   cursor: pointer;
 }
 
+.cinema-portfolio-root {
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+}
+
 /* ========================================================
    ATMOSPHERE CANVAS (Olive Celluloid & Film Grain)
    ======================================================== */
@@ -150,110 +156,125 @@ button {
 }
 
 /* ========================================================
-   THE REQUESTED ANIMATION: SCALING CIRCLE REVEAL
-   Circle starts scaling the moment the button is clicked!
+   CIRCULAR PORTAL SCALE TRANSITION (Awwwards-Tier)
+   Originates from the button center coordinates (--circle-cx, --circle-cy)
+   and scales an authentic glowing olive circle smoothly outward!
    ======================================================== */
-.circle-scaling-portal {
+.circle-scaling-overlay-portal {
   position: fixed;
   inset: 0;
   z-index: 99999;
-  pointer-events: all;
+  pointer-events: none;
   overflow: hidden;
 }
 
-.scaling-circle-disc {
+.scaling-shockwave-ring {
   position: absolute;
-  width: 300vmax;
-  height: 300vmax;
+  left: var(--circle-cx);
+  top: var(--circle-cy);
+  width: 280vmax;
+  height: 280vmax;
   border-radius: 50%;
-  background: #090b08;
-  border: 5px solid var(--olive-champagne);
-  box-shadow: 
-    0 0 45px var(--olive-primary),
-    0 0 130px var(--olive-halo-strong),
-    inset 0 0 160px rgba(141, 167, 80, 0.35);
+  border: 3px solid var(--olive-champagne);
+  box-shadow: 0 0 50px var(--olive-primary), 0 0 100px rgba(178, 201, 116, 0.4);
   transform: translate(-50%, -50%) scale(0);
-  animation: circleScaleExpand 0.58s cubic-bezier(0.18, 0.88, 0.26, 1) forwards;
+  animation: shockwavePulse 0.82s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   will-change: transform, opacity;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
-@keyframes circleScaleExpand {
+@keyframes shockwavePulse {
   0% {
     transform: translate(-50%, -50%) scale(0);
     opacity: 1;
   }
-  85% {
-    transform: translate(-50%, -50%) scale(1);
-    opacity: 1;
+  50% {
+    opacity: 0.95;
   }
   100% {
-    transform: translate(-50%, -50%) scale(1);
-    opacity: 1;
-  }
-}
-
-.circle-scaling-portal.fade-reveal .scaling-circle-disc {
-  animation: circleFadeOut 0.4s ease-out forwards;
-}
-
-@keyframes circleFadeOut {
-  from {
-    transform: translate(-50%, -50%) scale(1);
-    opacity: 1;
-  }
-  to {
-    transform: translate(-50%, -50%) scale(1.05);
+    transform: translate(-50%, -50%) scale(1.15);
     opacity: 0;
   }
 }
 
-.circle-inner-halo {
+.scaling-olive-circle-disc {
   position: absolute;
-  width: 70%;
-  height: 70%;
+  left: var(--circle-cx);
+  top: var(--circle-cy);
+  width: 260vmax;
+  height: 260vmax;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(178, 201, 116, 0.12) 0%, transparent 70%);
-  pointer-events: none;
-}
-
-.circle-center-marker {
-  display: inline-flex;
+  background: radial-gradient(circle at center, #1b2416 0%, #12180e 40%, #090b08 75%);
+  border: 4px solid var(--olive-champagne);
+  box-shadow: 0 0 70px 10px var(--olive-primary), 0 0 150px 30px rgba(178, 201, 116, 0.45), inset 0 0 100px rgba(141, 167, 80, 0.35);
+  transform: translate(-50%, -50%) scale(0);
+  animation: circleDiscBloom 0.82s cubic-bezier(0.2, 0.85, 0.25, 1) forwards;
+  display: flex;
   align-items: center;
-  gap: 10px;
-  background: rgba(17, 22, 15, 0.95);
-  border: 1px solid var(--border-olive-subtle);
-  padding: 8px 20px;
-  border-radius: 9999px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
-  transform: scale(0.6);
-  opacity: 0;
-  animation: markerFadeIn 0.35s 0.15s var(--ease-spring) forwards;
+  justify-content: center;
+  will-change: transform, opacity;
 }
 
-@keyframes markerFadeIn {
-  to {
-    transform: scale(1);
+@keyframes circleDiscBloom {
+  0% {
+    transform: translate(-50%, -50%) scale(0);
     opacity: 1;
+  }
+  55% {
+    transform: translate(-50%, -50%) scale(0.6);
+    opacity: 1;
+  }
+  80% {
+    transform: translate(-50%, -50%) scale(1.02);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1.12);
+    opacity: 0;
   }
 }
 
-.circle-rec-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--film-rec-red);
-  box-shadow: 0 0 8px var(--film-rec-red);
+.scaling-circle-center-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  color: var(--olive-champagne);
+  font-family: var(--font-mono);
+  font-size: 0.86rem;
+  letter-spacing: 0.22em;
+  font-weight: 700;
+  text-shadow: 0 0 20px rgba(178, 201, 116, 0.8);
+  animation: centerLabelFade 0.75s ease-out forwards;
 }
 
-.circle-slate-txt {
-  font-family: var(--font-mono);
-  font-size: 0.78rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  color: var(--text-ivory);
+@keyframes centerLabelFade {
+  0% { opacity: 0; transform: scale(0.6); }
+  25% { opacity: 1; transform: scale(1); }
+  65% { opacity: 0.85; transform: scale(1.05); }
+  100% { opacity: 0; transform: scale(1.2); }
+}
+
+/* View Layers */
+.view-layer-studio,
+.view-layer-works {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+}
+
+.view-enter-reveal {
+  animation: viewRevealFade 0.45s ease-out forwards;
+}
+
+@keyframes viewRevealFade {
+  0% {
+    opacity: 0.4;
+    transform: translateY(8px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* ========================================================
@@ -515,27 +536,6 @@ button {
 }
 
 /* ========================================================
-   VIEW PAGES CONTAINER
-   ======================================================== */
-.view-container {
-  position: relative;
-  z-index: 1;
-  min-height: 100vh;
-  animation: cinemaEntrance 0.55s var(--ease-film) forwards;
-}
-
-@keyframes cinemaEntrance {
-  from {
-    opacity: 0;
-    transform: translateY(14px) scale(0.995);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-/* ========================================================
    HERO SECTION (Studio View)
    ======================================================== */
 .cinema-hero-section {
@@ -668,6 +668,10 @@ button {
   box-shadow: 0 10px 34px var(--olive-halo), 0 0 0 1px rgba(178, 201, 116, 0.18);
   transition: all 0.3s var(--ease-spring);
   cursor: pointer;
+}
+
+.cinema-works-pass-btn:active {
+  transform: scale(0.96);
 }
 
 .btn-ambient-halo {

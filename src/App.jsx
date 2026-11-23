@@ -159,9 +159,9 @@ function VideoCard({ project, index, onOpenTheater }) {
   return (
     <article
       className={`cinema-frame-card ${project.shape} ${isPlaying ? "playing" : ""}`}
-      style={{ animationDelay: `${index * 75}ms` }}
+      style={{ animationDelay: `${index * 60}ms` }}
       tabIndex={0}
-      aria-label={`${project.category} film cut, duration ${project.duration}`}
+      aria-label={`${project.category} reel #${padNum}, duration ${project.duration}`}
     >
       <div className="card-celluloid-ratio">
         {isPlaying ? (
@@ -171,7 +171,7 @@ function VideoCard({ project, index, onOpenTheater }) {
                 <span className="loader-olive-reel">
                   <FilmReelIcon size={24} />
                 </span>
-                <span className="loader-slate-label">ROLLING REEL...</span>
+                <span className="loader-slate-label">BUFFERING MASTER REEL...</span>
               </div>
             )}
             <iframe
@@ -180,14 +180,14 @@ function VideoCard({ project, index, onOpenTheater }) {
               allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
               allowFullScreen
               referrerPolicy="strict-origin-when-cross-origin"
-              title={`Film Reel ${project.id}`}
+              title={`Film Reel #${padNum}`}
               onLoad={() => setIsLoading(false)}
             />
             {/* Live Screening Header Bar */}
             <div className="player-overlay-bar">
               <div className="overlay-left-meta">
                 <span className="camera-rec-dot" />
-                <span className="meta-slate-tag">ROLLING • {project.category.toUpperCase()}</span>
+                <span className="meta-slate-tag">ROLLING • REEL #{padNum}</span>
               </div>
               <div className="overlay-right-actions">
                 <button
@@ -222,24 +222,30 @@ function VideoCard({ project, index, onOpenTheater }) {
             {/* Olive Celluloid Vignette */}
             <div className="poster-olive-vignette" />
 
-            {/* Top Slates: Numbered Slate & Format */}
+            {/* Top Slates: Numbered Slate, Format & Sound EQ */}
             <div className="poster-top-slate">
               <span className="slate-take-num">REEL #{padNum}</span>
               <span className="slate-pill category">{project.category}</span>
-              <span className="slate-pill format">{project.aspect}</span>
+              <div className="card-sound-equalizer" aria-hidden="true">
+                <span className="eq-bar bar-1" />
+                <span className="eq-bar bar-2" />
+                <span className="eq-bar bar-3" />
+                <span className="eq-bar bar-4" />
+              </div>
             </div>
 
             {/* Centered Olive Play Reel Trigger */}
             <div className="poster-center-play">
               <div className="play-olive-disc">
-                <PlayIcon size={22} />
+                <PlayIcon size={24} />
               </div>
               <span className="play-cinematic-label">PLAY REEL</span>
+              <span className="play-runtime-chip">{project.duration}</span>
             </div>
 
             {/* Bottom Meta Timecode */}
             <div className="poster-bottom-slate">
-              <span className="timecode-badge">RUNTIME {project.duration}</span>
+              <span className="timecode-badge">{project.aspect}</span>
               <button
                 type="button"
                 className="cinema-expand-pill"
@@ -833,18 +839,27 @@ export default function App() {
               </button>
 
               <div className="screening-film-status">
-                <span className="status-reel-icon">
-                  <FilmReelIcon size={14} />
-                </span>
-                <span>SCREENING ROOM // {PROJECTS.length} SELECTED CUTS</span>
+                <span className="camera-rec-dot" />
+                <span>MASTER ARCHIVE // PRORES 422 HQ // {PROJECTS.length} SELECTED CUTS</span>
               </div>
+
+              <a
+                href={`mailto:${PROFILE.email}?subject=Project%20Inquiry%20from%20Portfolio`}
+                className="screening-inquire-quick-btn"
+              >
+                <span>Inquire for Project</span>
+                <ArrowUpRight size={13} />
+              </a>
             </div>
 
             {/* Works Header & Filters */}
             <div className="screening-title-row">
               <div className="title-lead-box">
-                <span className="section-eyebrow-olive">CURATED REPERTOIRE (2024—2025)</span>
+                <span className="section-eyebrow-olive">[ CURATED REPERTOIRE // 2024—2025 ]</span>
                 <h2 className="screening-main-heading">Selected Cuts</h2>
+                <p className="screening-sub-desc">
+                  Frame-by-frame narrative pacing, rhythmic sound architecture, and organic DaVinci color grading across social Reels, commercial brand films, and multi-cam podcast workflows.
+                </p>
               </div>
 
               {/* Filter Tabs */}
@@ -865,8 +880,8 @@ export default function App() {
               </div>
             </div>
 
-            {/* Celluloid Film Grid */}
-            <div className="screening-film-grid">
+            {/* Celluloid Film Grid with format-aware layout */}
+            <div className={`screening-film-grid layout-${selectedCategory.toLowerCase().replace(/[^a-z]/g, "")}`}>
               {filteredProjects.map((project, idx) => (
                 <VideoCard
                   key={project.id}
@@ -880,8 +895,9 @@ export default function App() {
             {/* Screening Room Bottom Card */}
             <div className="screening-bottom-slate">
               <div className="slate-left-msg">
-                <strong>Looking for a dedicated video editor or creator retainer?</strong>
-                <p>Bringing narrative clarity, dynamic sound design, and fast turnarounds to every project.</p>
+                <span className="slate-eyebrow">CREATIVE COLLABORATION</span>
+                <h3 className="slate-cta-title">Looking for a dedicated video editor or creator retainer?</h3>
+                <p>Bringing narrative clarity, dynamic sound design, and 24-48h turnaround to every cut.</p>
               </div>
               <div className="slate-right-actions">
                 <button

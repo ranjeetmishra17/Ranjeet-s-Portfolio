@@ -158,3 +158,34 @@ export const PROJECTS = [
     image: "https://i.vimeocdn.com/video/2222045851-8b6ae9a48f8f9bffa3d3a4e83b7c1db02e6d60f15e3df6cbbfcdd1f01ab823e8-d_960?region=us",
   },
 ];
+
+
+export const MARQUEE_ITEMS = [
+  "4K Master Deliveries",
+  "First 3s Retention Hooks",
+  "Frame Economy & Rhythm",
+  "DaVinci Color Science",
+  "Immersive Sound Design",
+  "Multi-Cam Podcast Systems",
+  "Kinetic Typography",
+  "48-Hour Turnaround",
+];
+
+export const FAQS = [
+  {
+    q: "What is your typical turnaround time?",
+    a: "Short-form Reels and social cuts receive their initial rough cut within 24 to 48 hours. Long-form founder films and multi-cam podcasts typically take 3 to 5 business days depending on footage volume.",
+  },
+  {
+    q: "How are revisions and feedback handled?",
+    a: "Revisions are streamlined through timecoded feedback tools (Frame.io or Loom). Every project includes structured revision rounds to calibrate pacing, color grade, and audio until you are 100% satisfied.",
+  },
+  {
+    q: "How do I send you raw footage?",
+    a: "You can share files via Google Drive, Dropbox, Frame.io, WeTransfer, or a private cloud link. I work with Sony, Canon, RED, Blackmagic RAW, and smartphone camera files.",
+  },
+  {
+    q: "What final deliverables do I receive?",
+    a: "You receive full-resolution master exports formatted for your target platforms (9:16 vertical for IG/TikTok/Shorts, 16:9 widescreen for YouTube/Web), burned-in or separate .SRT subtitle files, and clean thumbnail grabs.",
+  },
+];

@@ -6,6 +6,8 @@ import {
   TOOLS,
   CATEGORIES,
   PROJECTS,
+  MARQUEE_ITEMS,
+  FAQS,
 } from "./data.js";
 
 /* ---------- SVG Icons ---------- */
@@ -47,7 +49,7 @@ const CopyIcon = ({ size = 14 }) => (
   </svg>
 );
 
-const FilmIcon = ({ size = 18 }) => (
+const FilmIcon = ({ size = 16 }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
     <rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18" />
     <line x1="7" y1="2" x2="7" y2="22" />
@@ -57,6 +59,13 @@ const FilmIcon = ({ size = 18 }) => (
     <line x1="2" y1="17" x2="7" y2="17" />
     <line x1="17" y1="17" x2="22" y2="17" />
     <line x1="17" y1="7" x2="22" y2="7" />
+  </svg>
+);
+
+const PlusIcon = ({ size = 18 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <line x1="12" y1="5" x2="12" y2="19" />
+    <line x1="5" y1="12" x2="19" y2="12" />
   </svg>
 );
 
@@ -106,7 +115,7 @@ function CountUpStat({ target, decimals = 0, suffix = "" }) {
     );
 
     obs.observe(el);
-    const fallback = setTimeout(startCounter, 400);
+    const fallback = setTimeout(startCounter, 350);
 
     return () => {
       obs.disconnect();
@@ -118,6 +127,24 @@ function CountUpStat({ target, decimals = 0, suffix = "" }) {
     <span ref={ref} className="stat-number tabular-nums">
       {val}
     </span>
+  );
+}
+
+/* ---------- Audio Equalizer Visualizer Decoration ---------- */
+function AudioEqualizer() {
+  return (
+    <div className="audio-equalizer" aria-hidden="true" title="Audio Design Visualizer">
+      {[45, 80, 30, 95, 60, 100, 70, 40, 85, 55, 90, 50, 75, 35].map((h, i) => (
+        <span
+          key={i}
+          className="eq-bar"
+          style={{
+            "--base-h": `${h}%`,
+            animationDelay: `${(i * 0.12).toFixed(2)}s`,
+          }}
+        />
+      ))}
+    </div>
   );
 }
 
@@ -150,7 +177,7 @@ function VideoCard({ project, onOpenTheater }) {
             {isLoading && (
               <div className="player-loading-spinner" aria-hidden="true">
                 <div className="spinner-orbit" />
-                <span>Loading Video...</span>
+                <span>Buffering Stream...</span>
               </div>
             )}
             <iframe
@@ -201,15 +228,18 @@ function VideoCard({ project, onOpenTheater }) {
             />
             <div className="poster-gradient-scrim" />
 
-            {/* Top Meta Badges (NO Names) */}
+            {/* Top Meta Badges (Strictly NO Names) */}
             <div className="card-top-meta">
               <span className="meta-badge category-badge">{project.category}</span>
               <span className="meta-badge aspect-badge">{project.aspect}</span>
             </div>
 
-            {/* Centered Glowing Play Button */}
+            {/* Centered Glowing Play Button with Concentric Waves */}
             <div className="center-play-trigger" title="Click to Play Video">
-              <div className="play-disc-pulse" />
+              <div className="play-ripple-waves" aria-hidden="true">
+                <span className="wave-ring ring-1" />
+                <span className="wave-ring ring-2" />
+              </div>
               <div className="play-disc-btn">
                 <PlayIcon size={26} />
               </div>
@@ -231,7 +261,7 @@ function VideoCard({ project, onOpenTheater }) {
                 }}
                 title="Open in Cinema Mode"
               >
-                <ExpandIcon size={14} />
+                <ExpandIcon size={13} />
                 <span>Cinema</span>
               </button>
             </div>
@@ -348,6 +378,27 @@ export default function App() {
   const [activeTheaterProject, setActiveTheaterProject] = useState(null);
   const [copiedEmail, setCopiedEmail] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [expandedFaq, setExpandedFaq] = useState(0); // first open by default
+  const [mousePos, setMousePos] = useState({ x: 50, y: 25 });
+
+  // Mouse spotlight coordinates tracking
+  useEffect(() => {
+    let frameId;
+    const handleMouseMove = (e) => {
+      cancelAnimationFrame(frameId);
+      frameId = requestAnimationFrame(() => {
+        setMousePos({
+          x: ((e.clientX / window.innerWidth) * 100).toFixed(1),
+          y: ((e.clientY / window.innerHeight) * 100).toFixed(1),
+        });
+      });
+    };
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      cancelAnimationFrame(frameId);
+    };
+  }, []);
 
   const filteredProjects = useMemo(() => {
     if (selectedCategory === "All Work") return PROJECTS;
@@ -370,11 +421,18 @@ export default function App() {
   };
 
   return (
-    <div className="app-root-cinema">
-      {/* Ambient Atmospheric Background Glows */}
+    <div
+      className="app-root-cinema"
+      style={{
+        "--mouse-x": `${mousePos.x}%`,
+        "--mouse-y": `${mousePos.y}%`,
+      }}
+    >
+      {/* Ambient Atmospheric Background with Dynamic Mouse Spotlight */}
       <div className="ambient-background" aria-hidden="true">
         <div className="ambient-spot cyan" />
         <div className="ambient-spot purple" />
+        <div className="ambient-interactive-spot" />
         <div className="grid-overlay" />
       </div>
 
@@ -407,8 +465,11 @@ export default function App() {
             <a href="#work" className="nav-link">Work</a>
             <a href="#services" className="nav-link">Services</a>
             <a href="#workflow" className="nav-link">Process</a>
-            <a href="#about" className="nav-link">About</a>
-            <a href="#contact" className="nav-cta-pill">Let's Talk</a>
+            <a href="#faq" className="nav-link">FAQ</a>
+            <a href="#contact" className="nav-cta-pill">
+              <span>Let's Talk</span>
+              <span className="cta-arrow-dot">↗</span>
+            </a>
           </nav>
 
           {/* Mobile Hamburger Button */}
@@ -428,9 +489,9 @@ export default function App() {
         {mobileMenuOpen && (
           <nav className="mobile-dropdown-menu" aria-label="Mobile Navigation">
             <a href="#work" onClick={() => setMobileMenuOpen(false)}>Featured Work</a>
-            <a href="#services" onClick={() => setMobileMenuOpen(false)}>Services</a>
+            <a href="#services" onClick={() => setMobileMenuOpen(false)}>Services & Stack</a>
             <a href="#workflow" onClick={() => setMobileMenuOpen(false)}>Editing Process</a>
-            <a href="#about" onClick={() => setMobileMenuOpen(false)}>About & Toolkit</a>
+            <a href="#faq" onClick={() => setMobileMenuOpen(false)}>Frequently Asked Questions</a>
             <a href="#contact" className="mobile-dropdown-cta" onClick={() => setMobileMenuOpen(false)}>
               Start a Project ↗
             </a>
@@ -439,25 +500,31 @@ export default function App() {
       </header>
 
       {/* ========================================================
-          HERO SECTION: Bold Cinematic Introduction
+          HERO SECTION: Bold Cinematic Typography & Kinetic Visuals
           ======================================================== */}
       <section className="hero-cinema-section">
         <div className="hero-content-wrapper">
+          {/* Sparkle Badge */}
           <div className="hero-badge-pill">
             <span className="beacon-sparkle">✦</span>
-            <span>Commercial, Social & Long-Form Video</span>
+            <span>Commercial • Social • Podcast Video Systems</span>
           </div>
+
+          {/* Audio Equalizer Animated Rhythm Strip */}
+          <AudioEqualizer />
 
           <h1 className="hero-main-headline">
             <span className="headline-row">EDITING WITH PURPOSE.</span>
-            <span className="headline-row">EXPLORING THE <span className="headline-gradient">ART OF MOTION.</span></span>
+            <span className="headline-row">
+              EXPLORING THE <span className="headline-gradient">ART OF MOTION.</span>
+            </span>
           </h1>
 
           <p className="hero-subtext">
-            Specializing in high-retention short-form Reels, documentary brand stories, and podcast video workflows. Designed for rhythm, emotional resonance, and frame economy.
+            Specializing in high-retention short-form Reels, cinematic founder stories, and podcast video workflows. Designed for rhythmic pacing, emotional resonance, and frame economy.
           </p>
 
-          {/* Running Metric Counters */}
+          {/* Running Metric Counters with Glowing Glass Cards */}
           <div className="hero-stats-strip">
             {PROFILE.stats.map((s, idx) => (
               <div key={idx} className="hero-stat-card">
@@ -479,11 +546,35 @@ export default function App() {
             </a>
             <a href="#contact" className="btn-secondary-action">
               <span>Start a Project</span>
-              <ExternalIcon size={15} />
+              <ExternalIcon size={14} />
             </a>
           </div>
         </div>
       </section>
+
+      {/* ========================================================
+          KINETIC FILM TAPE / MARQUEE TICKER
+          ======================================================== */}
+      <div className="marquee-banner-container" aria-hidden="true">
+        <div className="marquee-track">
+          <div className="marquee-content">
+            {MARQUEE_ITEMS.concat(MARQUEE_ITEMS).map((item, idx) => (
+              <span key={idx} className="marquee-item">
+                <span className="marquee-sparkle">✦</span>
+                <span>{item}</span>
+              </span>
+            ))}
+          </div>
+          <div className="marquee-content" aria-hidden="true">
+            {MARQUEE_ITEMS.concat(MARQUEE_ITEMS).map((item, idx) => (
+              <span key={`clone-${idx}`} className="marquee-item">
+                <span className="marquee-sparkle">✦</span>
+                <span>{item}</span>
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
 
       {/* ========================================================
           SELECTED WORK SECTION: Interactive Video Grid
@@ -491,10 +582,13 @@ export default function App() {
       <section className="work-cinema-section" id="work">
         <div className="section-header-row">
           <div className="section-title-lockup">
-            <span className="section-eyebrow">Portfolio</span>
+            <div className="section-eyebrow-box">
+              <span className="live-dot" />
+              <span className="section-eyebrow">Curated Film Vault</span>
+            </div>
             <h2 className="section-heading">Selected Work</h2>
             <p className="section-subheading">
-              Tap any video to play directly with sound, or expand to cinema mode.
+              Tap any video to play directly with sound, or expand to full cinema theater.
             </p>
           </div>
 
@@ -533,17 +627,21 @@ export default function App() {
           ======================================================== */}
       <section className="services-cinema-section" id="services">
         <div className="section-title-lockup centered">
-          <span className="section-eyebrow">Capabilities</span>
+          <span className="section-eyebrow">Creative Capabilities</span>
           <h2 className="section-heading">Editing Disciplines</h2>
           <p className="section-subheading">
-            Tailored visual storytelling built for viewer retention, platform algorithms, and brand equity.
+            Tailored visual storytelling built for viewer retention, platform algorithms, and brand authority.
           </p>
         </div>
 
         <div className="services-cards-grid">
           {SERVICES.map((s) => (
             <div key={s.num} className="service-cinema-card">
-              <span className="service-number-badge">{s.num}</span>
+              <div className="service-card-glow" />
+              <div className="service-card-top">
+                <span className="service-number-badge">{s.num}</span>
+                <span className="service-chip">Production Grade</span>
+              </div>
               <h3 className="service-title">{s.title}</h3>
               <p className="service-desc">{s.desc}</p>
             </div>
@@ -552,20 +650,21 @@ export default function App() {
       </section>
 
       {/* ========================================================
-          WORKFLOW & TOOLKIT SECTION
+          WORKFLOW & PRODUCTION PROCESS
           ======================================================== */}
       <section className="process-cinema-section" id="workflow">
         <div className="section-title-lockup centered">
           <span className="section-eyebrow">Production Flow</span>
           <h2 className="section-heading">How We Work Together</h2>
           <p className="section-subheading">
-            A reliable 4-stage pipeline calibrated for fast turnaround without compromising detail.
+            A reliable 4-stage pipeline calibrated for fast turnaround without compromising narrative detail.
           </p>
         </div>
 
         <div className="workflow-timeline-grid">
           {WORKFLOW.map((w) => (
             <div key={w.step} className="workflow-step-card">
+              <div className="step-glow-accent" />
               <div className="workflow-header-row">
                 <span className="step-num">STAGE {w.step}</span>
                 <span className="step-accent-dot" />
@@ -578,18 +677,18 @@ export default function App() {
       </section>
 
       {/* ========================================================
-          ABOUT & TOOLS SECTION
+          ABOUT & TOOLKIT SECTION
           ======================================================== */}
       <section className="about-cinema-section" id="about">
         <div className="about-grid-container">
           <div className="about-bio-column">
-            <span className="section-eyebrow">About Ranjeet</span>
-            <h2 className="section-heading">Obsessed With The Details That Keep People Watching.</h2>
+            <span className="section-eyebrow">The Editor Behind The Cuts</span>
+            <h2 className="section-heading">Obsessed With The Details That Keep Viewers Watching.</h2>
             <p className="about-p">
-              I edit videos with a relentless focus on pacing, frame economy, and emotional rhythm. Whether cutting a 45-second high-energy vertical reel or a 60-minute multi-cam podcast, my priority is ensuring every second serves a clear narrative purpose.
+              I edit videos with a relentless focus on pacing, frame economy, and emotional rhythm. Whether cutting a 45-second high-energy vertical reel or a 60-minute multi-cam podcast, my priority is ensuring every single frame serves a clear narrative purpose.
             </p>
             <p className="about-p">
-              Every project receives calibrated audio sweetening, sound design hits, natural skin-tone color grading, and custom motion graphics.
+              Every project receives calibrated audio sweetening, rhythmic sound design hits, natural skin-tone color grading in DaVinci Resolve, and custom kinetic typography.
             </p>
           </div>
 
@@ -618,15 +717,55 @@ export default function App() {
       </section>
 
       {/* ========================================================
+          FREQUENTLY ASKED QUESTIONS (FAQ)
+          ======================================================== */}
+      <section className="faq-cinema-section" id="faq">
+        <div className="section-title-lockup centered">
+          <span className="section-eyebrow">Client Assurance</span>
+          <h2 className="section-heading">Frequently Asked Questions</h2>
+          <p className="section-subheading">
+            Everything you need to know about starting an editing collaboration.
+          </p>
+        </div>
+
+        <div className="faq-accordion-container">
+          {FAQS.map((faq, idx) => {
+            const isOpen = expandedFaq === idx;
+            return (
+              <div
+                key={idx}
+                className={`faq-item-card ${isOpen ? "open" : ""}`}
+                onClick={() => setExpandedFaq(isOpen ? -1 : idx)}
+              >
+                <div className="faq-question-row">
+                  <h3 className="faq-question-text">{faq.q}</h3>
+                  <span className={`faq-toggle-icon ${isOpen ? "rotated" : ""}`}>
+                    <PlusIcon size={18} />
+                  </span>
+                </div>
+                {isOpen && (
+                  <div className="faq-answer-block">
+                    <p>{faq.a}</p>
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      </section>
+
+      {/* ========================================================
           CONTACT / INQUIRY SECTION
           ======================================================== */}
       <section className="contact-cinema-section" id="contact">
         <div className="contact-card-box">
+          <div className="contact-ambient-shimmer" />
+
           <div className="contact-header-text">
-            <span className="section-eyebrow">Get In Touch</span>
+            <span className="section-eyebrow">Let's Create</span>
             <h2 className="contact-main-heading">Ready To Bring Your Footage To Life?</h2>
             <p className="contact-lead-text">
-              Have an upcoming video project, YouTube series, or founder story? Let's discuss scope, references, and delivery timelines.
+              Have an upcoming video campaign, YouTube series, or founder story? Let's discuss scope, references, and delivery timelines.
             </p>
           </div>
 
@@ -693,7 +832,7 @@ export default function App() {
             <span className="footer-sub">{PROFILE.title}</span>
           </div>
           <div className="footer-right">
-            <span>© {new Date().getFullYear()} All Rights Reserved</span>
+            <span>© {new Date().getFullYear()} • Crafted for High-Retention Storytelling</span>
           </div>
         </div>
       </footer>

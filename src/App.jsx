@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import {
   PROFILE,
   SERVICES,
@@ -8,16 +8,10 @@ import {
   PROJECTS,
 } from "./data.js";
 
-/* ---------- Icons ---------- */
-const PlayIcon = ({ size = 20 }) => (
+/* ---------- SVG Icons ---------- */
+const PlayIcon = ({ size = 24 }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
     <path d="M8 5.14v13.72a1 1 0 001.52.85l11-6.86a1 1 0 000-1.7l-11-6.86A1 1 0 008 5.14z" />
-  </svg>
-);
-
-const ArrowUpRight = ({ size = 14 }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M7 17L17 7M7 7h10v10" />
   </svg>
 );
 
@@ -28,914 +22,304 @@ const CloseIcon = ({ size = 20 }) => (
   </svg>
 );
 
-const CheckIcon = () => (
-  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+const ExpandIcon = ({ size = 18 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7" />
+  </svg>
+);
+
+const ExternalIcon = ({ size = 14 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M7 17L17 7M7 7h10v10" />
+  </svg>
+);
+
+const CheckIcon = ({ size = 14 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
     <polyline points="20 6 9 17 4 12" />
   </svg>
 );
 
-/* ---------- Running Animated Stat Counter ---------- */
-function CountUpStat({ target, decimals = 0, suffix = "", fallback = "" }) {
-  const [displayValue, setDisplayValue] = useState(
-    (0).toFixed(decimals) + suffix
-  );
+const CopyIcon = ({ size = 14 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+  </svg>
+);
+
+const FilmIcon = ({ size = 18 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18" />
+    <line x1="7" y1="2" x2="7" y2="22" />
+    <line x1="17" y1="2" x2="17" y2="22" />
+    <line x1="2" y1="12" x2="22" y2="12" />
+    <line x1="2" y1="7" x2="7" y2="7" />
+    <line x1="2" y1="17" x2="7" y2="17" />
+    <line x1="17" y1="17" x2="22" y2="17" />
+    <line x1="17" y1="7" x2="22" y2="7" />
+  </svg>
+);
+
+/* ---------- Running Stat Counter ---------- */
+function CountUpStat({ target, decimals = 0, suffix = "" }) {
+  const [val, setVal] = useState("0" + suffix);
   const ref = useRef(null);
-  const hasAnimated = useRef(false);
+  const hasRun = useRef(false);
 
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
 
-    const runCounter = () => {
-      if (hasAnimated.current) return;
-      hasAnimated.current = true;
+    const startCounter = () => {
+      if (hasRun.current) return;
+      hasRun.current = true;
 
-      const duration = 2000; // 2s smooth running animation
+      const duration = 1800;
       const startTime = performance.now();
 
-      const step = (currentTime) => {
-        const elapsed = currentTime - startTime;
+      const step = (now) => {
+        const elapsed = now - startTime;
         const progress = Math.min(elapsed / duration, 1);
-
-        // Ease-out expo for natural deceleration
         const ease = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
-        const currentVal = target * ease;
+        const current = target * ease;
 
-        setDisplayValue(currentVal.toFixed(decimals) + suffix);
+        setVal(current.toFixed(decimals) + suffix);
 
         if (progress < 1) {
           requestAnimationFrame(step);
         } else {
-          setDisplayValue(target.toFixed(decimals) + suffix);
+          setVal(target.toFixed(decimals) + suffix);
         }
       };
 
       requestAnimationFrame(step);
     };
 
-    const observer = new IntersectionObserver(
+    const obs = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting) {
-          runCounter();
-          observer.disconnect();
+          startCounter();
+          obs.disconnect();
         }
       },
       { threshold: 0.1 }
     );
 
-    observer.observe(el);
-
-    // Initial kick-off fallback
-    const timer = setTimeout(runCounter, 250);
+    obs.observe(el);
+    const fallback = setTimeout(startCounter, 400);
 
     return () => {
-      observer.disconnect();
-      clearTimeout(timer);
+      obs.disconnect();
+      clearTimeout(fallback);
     };
   }, [target, decimals, suffix]);
 
   return (
     <span ref={ref} className="stat-number tabular-nums">
-      {displayValue}
+      {val}
     </span>
   );
 }
 
-/* ---------- Left Column: 40% Editorial Panel (Desktop) ---------- */
-const DESKTOP_TABS = [
-  { id: "about", label: "About" },
-  { id: "services", label: "Services" },
-  { id: "workflow", label: "Workflow" },
-  { id: "tools", label: "Tools" },
-  { id: "contact", label: "Contact" },
-];
+/* ---------- Interactive Video Card Component ---------- */
+function VideoCard({ project, onOpenTheater }) {
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
-/* ---------- Root Shell with Unified Desktop/Mobile Responsive System ---------- */
-export default function App() {
-  const [activeProject, setActiveProject] = useState(null);
-  const [desktopTab, setDesktopTab] = useState("about");
-  const [mobileSection, setMobileSection] = useState("work"); // "work" | "about" | "contact"
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [mobileMenuTab, setMobileMenuTab] = useState("contact"); // "contact" | "services"
-  const [selectedCategory, setSelectedCategory] = useState("All");
-  const [copied, setCopied] = useState(false);
-
-  const copyEmail = () => {
-    navigator.clipboard.writeText(PROFILE.email);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2200);
+  const startPlayback = (e) => {
+    e.stopPropagation();
+    setIsPlaying(true);
+    setIsLoading(true);
   };
 
-  useEffect(() => {
-    if (mobileMenuOpen || activeProject) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [mobileMenuOpen, activeProject]);
+  const stopPlayback = (e) => {
+    e.stopPropagation();
+    setIsPlaying(false);
+    setIsLoading(false);
+  };
 
-  useEffect(() => {
-    const handleKeyDown = (e) => {
-      if (e.key === "Escape") {
-        setMobileMenuOpen(false);
-        setActiveProject(null);
-      }
-    };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, []);
-
-  const filteredProjects = useMemo(() => {
-    if (selectedCategory === "All") return PROJECTS;
-    return PROJECTS.filter((p) => p.category === selectedCategory);
-  }, [selectedCategory]);
-
-  const categoryCounts = useMemo(() => {
-    const counts = { All: PROJECTS.length };
-    PROJECTS.forEach((p) => {
-      counts[p.category] = (counts[p.category] || 0) + 1;
-    });
-    return counts;
-  }, []);
-
-  return (
-    <div className="portfolio-wrapper">
-      {/* ========================================================
-          MOBILE TOP NAVBAR (Only for Mobile View <= 1024px)
-          ======================================================== */}
-      <header className="mobile-top-navbar" aria-label="Mobile Navigation">
-        <div className="mobile-nav-brand">
-          <span className="mobile-nav-name">{PROFILE.name}</span>
-          <span className="mobile-nav-role-bullet">•</span>
-          <span className="mobile-nav-role">{PROFILE.title}</span>
-        </div>
-
-        <button
-          className="mobile-hamburger-btn"
-          onClick={() => setMobileMenuOpen((prev) => !prev)}
-          aria-label={mobileMenuOpen ? "Close menu" : "Open contact and menu"}
-          aria-expanded={mobileMenuOpen}
-        >
-          <span className="ham-menu-text">Menu</span>
-          <span className="ham-equal-icon" aria-hidden="true">
-            <span className="ham-line" />
-            <span className="ham-line" />
-          </span>
-        </button>
-      </header>
-
-      {/* ========================================================
-          LEFT COLUMN: 40% TEXT (Desktop Sticky / Mobile Top)
-          ======================================================== */}
-      <aside className="text-column" aria-label="Profile and information">
-        <div className="column-inner">
-          {/* Brand Header / Pure Hero Section */}
-          <header className="brand-header hero-section">
-            {/* Identity Bar with Vector Art Avatar */}
-            <div className="profile-identity-bar">
-              <div className="avatar-frame" title={`${PROFILE.name} — Face Vector Art`}>
-                <img
-                  src={PROFILE.avatar || `${import.meta.env.BASE_URL}Ranjeet Vector.png`}
-                  alt={`${PROFILE.name} vector portrait`}
-                  className="avatar-img"
-                  onError={(e) => {
-                    const fallback = `${import.meta.env.BASE_URL}avatar.png`;
-                    if (!e.currentTarget.src.includes("avatar.png")) {
-                      e.currentTarget.src = fallback;
-                    } else {
-                      e.currentTarget.style.display = "none";
-                    }
-                  }}
-                />
-              </div>
-
-              <div className="identity-text-col">
-                <span className="brand-name">{PROFILE.name}</span>
-                <span className="brand-role">{PROFILE.title}</span>
-              </div>
-            </div>
-
-            <h1 className="hero-statement">
-              <span className="hero-statement-line">Editing with purpose.</span>
-              <span className="hero-statement-line">
-                Exploring <span className="hero-art-of">art of</span>{" "}
-                <span className="hero-highlight-pill">
-                  <span className="pill-dot" aria-hidden="true">✦</span> motion.
-                </span>
-              </span>
-            </h1>
-
-            <p className="hero-intro">{PROFILE.bio}</p>
-
-            {/* Stats Strip with Running Numbers */}
-            <div className="stats-strip">
-              {PROFILE.stats.map((s, idx) => (
-                <div key={idx} className="stat-item">
-                  <CountUpStat
-                    target={s.target}
-                    decimals={s.decimals}
-                    suffix={s.suffix}
-                    fallback={s.value}
-                  />
-                  <span className="stat-label">{s.label}</span>
-                </div>
-              ))}
-            </div>
-
-            {/* Dual Pill Call-to-Actions */}
-            <div className="mobile-hero-actions">
-              <a href="#work" className="mobile-hero-btn primary">
-                <span>View Selected Work</span>
-                <span className="hero-btn-arrow down" aria-hidden="true">↓</span>
-              </a>
-              <button
-                type="button"
-                className="mobile-hero-btn secondary"
-                onClick={() => setMobileMenuOpen(true)}
-              >
-                <span>Get in Touch</span>
-                <span className="hero-btn-arrow up-right" aria-hidden="true">↗</span>
-              </button>
-            </div>
-          </header>
-
-          {/* ---------- DESKTOP ONLY: Navigation Tabs & Panes ---------- */}
-          <div className="desktop-only-content">
-            <nav className="tab-navigation" aria-label="Sections">
-              {DESKTOP_TABS.map((t) => (
-                <button
-                  key={t.id}
-                  className={`nav-tab-button ${desktopTab === t.id ? "active" : ""}`}
-                  onClick={() => setDesktopTab(t.id)}
-                >
-                  {t.label}
-                </button>
-              ))}
-            </nav>
-
-            <div className="tab-body-container">
-              {desktopTab === "about" && (
-                <div className="tab-pane-content fade-in">
-                  <p className="body-text">
-                    Good editing is felt before it is noticed. Every cut is an intentional choice about pace, attention, and narrative weight.
-                  </p>
-                  <p className="body-text">
-                    I collaborate directly with founders, marketing teams, and creators to transform raw footage into focused video assets that keep viewers engaged to the end.
-                  </p>
-                </div>
-              )}
-
-              {desktopTab === "services" && (
-                <div className="tab-pane-content fade-in">
-                  <div className="service-list">
-                    {SERVICES.map((s) => (
-                      <div key={s.num} className="service-item">
-                        <span className="item-number">{s.num}</span>
-                        <div className="item-info">
-                          <h3 className="item-title">{s.title}</h3>
-                          <p className="item-desc">{s.desc}</p>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {desktopTab === "workflow" && (
-                <div className="tab-pane-content fade-in">
-                  <div className="workflow-list">
-                    {WORKFLOW.map((w) => (
-                      <div key={w.step} className="workflow-item">
-                        <span className="item-number">{w.step}</span>
-                        <div className="item-info">
-                          <h3 className="item-title">{w.title}</h3>
-                          <p className="item-desc">{w.desc}</p>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {desktopTab === "tools" && (
-                <div className="tab-pane-content fade-in">
-                  <p className="body-text">
-                    Software calibrated for story assembly, color grading, and kinetic motion:
-                  </p>
-                  <div className="tools-cloud">
-                    {TOOLS.map((tool) => (
-                      <span key={tool} className="tool-tag">
-                        {tool}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {desktopTab === "contact" && (
-                <div className="tab-pane-content fade-in">
-                  <p className="body-text">
-                    Have raw footage or an upcoming product launch? Let's discuss your timeline and scope.
-                  </p>
-
-                  <div className="contact-action-wrap">
-                    <button
-                      type="button"
-                      className="copy-email-btn"
-                      onClick={copyEmail}
-                      aria-label="Copy email address"
-                    >
-                      <span className="email-label">{PROFILE.email}</span>
-                      <span className="copy-badge">
-                        {copied ? (
-                          <>
-                            <CheckIcon /> Copied
-                          </>
-                        ) : (
-                          "Click to Copy"
-                        )}
-                      </span>
-                    </button>
-
-                    <a href={`mailto:${PROFILE.email}`} className="primary-email-btn">
-                      <span>Send an Email</span>
-                      <ArrowUpRight size={15} />
-                    </a>
-                  </div>
-
-                  <div className="socials-list">
-                    {PROFILE.socials.map((s) => (
-                      <a
-                        key={s.label}
-                        href={s.url}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="social-pill"
-                      >
-                        <span>{s.label}</span>
-                        <ArrowUpRight size={12} />
-                      </a>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
-
-            <footer className="column-footer">
-              <span className="footer-copyright">
-                © {new Date().getFullYear()} {PROFILE.name} • {PROFILE.title}
-              </span>
-            </footer>
-          </div>
-
-          {/* ---------- MOBILE ONLY: Segmented Selector (Work / About / Contact) ---------- */}
-          <div className="mobile-only-segmented-bar" role="tablist" aria-label="Mobile sections">
-            <button
-              className={`mobile-seg-btn ${mobileSection === "work" ? "active" : ""}`}
-              onClick={() => setMobileSection("work")}
-              role="tab"
-              aria-selected={mobileSection === "work"}
-            >
-              Selected Work ({PROJECTS.length})
-            </button>
-            <button
-              className={`mobile-seg-btn ${mobileSection === "about" ? "active" : ""}`}
-              onClick={() => setMobileSection("about")}
-              role="tab"
-              aria-selected={mobileSection === "about"}
-            >
-              Services & Tools
-            </button>
-            <button
-              className={`mobile-seg-btn ${mobileSection === "contact" ? "active" : ""}`}
-              onClick={() => setMobileSection("contact")}
-              role="tab"
-              aria-selected={mobileSection === "contact"}
-            >
-              Contact
-            </button>
-          </div>
-        </div>
-      </aside>
-
-      {/* ========================================================
-          RIGHT COLUMN: 60% WORK GALLERY (or Mobile Tab View)
-          ======================================================== */}
-      <main className="work-column" id="work" aria-label="Portfolio Content">
-        {/* If Mobile Section is "work" OR viewing on Desktop, show Work Gallery */}
-        <div className={`gallery-container-wrapper ${mobileSection !== "work" ? "mobile-hidden" : ""}`}>
-          <div className="work-header">
-            <div className="header-title-box">
-              <h2 className="section-title">Selected Work</h2>
-              <span className="project-tally">({filteredProjects.length})</span>
-            </div>
-
-            <div className="category-filters" role="group" aria-label="Filter projects">
-              {CATEGORIES.map((cat) => (
-                <button
-                  key={cat}
-                  className={`filter-pill ${selectedCategory === cat ? "active" : ""}`}
-                  onClick={() => setSelectedCategory(cat)}
-                >
-                  <span className="pill-text">{cat}</span>
-                  {categoryCounts[cat] !== undefined && (
-                    <span className="pill-count-badge">{categoryCounts[cat]}</span>
-                  )}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <div className="gallery-masonry">
-            {filteredProjects.map((p) => (
-              <ProjectCard
-                key={p.id}
-                project={p}
-                onClick={setActiveProject}
-              />
-            ))}
-          </div>
-        </div>
-
-        {/* MOBILE ONLY: "about" / Capabilities View */}
-        <div className={`mobile-tab-view ${mobileSection === "about" ? "active" : ""}`}>
-          <div className="mobile-section-block">
-            <h2 className="mobile-block-title">Core Disciplines</h2>
-            <div className="service-list">
-              {SERVICES.map((s) => (
-                <div key={s.num} className="service-item">
-                  <span className="item-number">{s.num}</span>
-                  <div className="item-info">
-                    <h3 className="item-title">{s.title}</h3>
-                    <p className="item-desc">{s.desc}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="mobile-section-block">
-            <h2 className="mobile-block-title">Editing Process</h2>
-            <div className="workflow-list">
-              {WORKFLOW.map((w) => (
-                <div key={w.step} className="workflow-item">
-                  <span className="item-number">{w.step}</span>
-                  <div className="item-info">
-                    <h3 className="item-title">{w.title}</h3>
-                    <p className="item-desc">{w.desc}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="mobile-section-block">
-            <h2 className="mobile-block-title">Software Suite</h2>
-            <div className="tools-cloud">
-              {TOOLS.map((tool) => (
-                <span key={tool} className="tool-tag">
-                  {tool}
-                </span>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* MOBILE ONLY: "contact" View */}
-        <div className={`mobile-tab-view ${mobileSection === "contact" ? "active" : ""}`}>
-          <div className="mobile-contact-card">
-            <h2 className="mobile-block-title">Start a Project</h2>
-            <p className="body-text">
-              Have raw footage or an upcoming product campaign? Let's discuss your timeline, reference pace, and deliverables.
-            </p>
-
-            <div className="contact-action-wrap">
-              <button
-                type="button"
-                className="copy-email-btn"
-                onClick={copyEmail}
-                aria-label="Copy email address"
-              >
-                <span className="email-label">{PROFILE.email}</span>
-                <span className="copy-badge">
-                  {copied ? (
-                    <>
-                      <CheckIcon /> Copied
-                    </>
-                  ) : (
-                    "Tap to Copy"
-                  )}
-                </span>
-              </button>
-
-              <a href={`mailto:${PROFILE.email}`} className="primary-email-btn">
-                <span>Compose Email</span>
-                <ArrowUpRight size={15} />
-              </a>
-            </div>
-
-            <div className="socials-list">
-              {PROFILE.socials.map((s) => (
-                <a
-                  key={s.label}
-                  href={s.url}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="social-pill"
-                >
-                  <span>{s.label}</span>
-                  <ArrowUpRight size={12} />
-                </a>
-              ))}
-            </div>
-
-            <p className="mobile-contact-sub">
-              Open for select commissions and worldwide remote projects with 24h turnaround options.
-            </p>
-          </div>
-        </div>
-
-        {/* Mobile Closing Call-to-Action Section */}
-        <section className="mobile-footer-cta-block" aria-label="Work with me">
-          <div className="mobile-cta-card">
-            <div className="mobile-cta-kicker-row">
-              <span className="live-status-dot-mini" aria-hidden="true" />
-              <span className="mobile-cta-kicker">Available for Q2 Commissions</span>
-            </div>
-            <h3 className="mobile-cta-heading">Have raw footage or an upcoming launch?</h3>
-            <p className="mobile-cta-desc">
-              Currently accepting commercial edits, founder stories, and podcast video retainers with 24h turnaround sprints.
-            </p>
-
-            <div className="mobile-cta-actions">
-              <button
-                type="button"
-                className="mobile-cta-copy-btn"
-                onClick={copyEmail}
-                aria-label="Copy email address"
-              >
-                <span className="cta-email-label">{PROFILE.email}</span>
-                <span className="cta-copy-badge">
-                  {copied ? (
-                    <>
-                      <CheckIcon /> Copied
-                    </>
-                  ) : (
-                    "Tap to Copy"
-                  )}
-                </span>
-              </button>
-
-              <a
-                href={`mailto:${PROFILE.email}`}
-                className="mobile-cta-send-btn"
-              >
-                <span>Send Email</span>
-                <ArrowUpRight size={14} />
-              </a>
-            </div>
-
-            <div className="mobile-footer-socials">
-              {PROFILE.socials.map((s) => (
-                <a
-                  key={s.label}
-                  href={s.url}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="mobile-footer-social-pill"
-                >
-                  <span>{s.label}</span>
-                  <ArrowUpRight size={11} />
-                </a>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Clean Grounded Footer */}
-        <footer className="work-footer">
-          <span className="work-footer-note">
-            Designed with intention • {PROFILE.name}
-          </span>
-          <button
-            className="back-to-top-btn"
-            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-            aria-label="Scroll back to top"
-          >
-            Back to top ↑
-          </button>
-        </footer>
-      </main>
-
-      {/* Case Study Lightbox */}
-      {activeProject && (
-        <CaseStudyModal
-          project={activeProject}
-          allProjects={PROJECTS}
-          onClose={() => setActiveProject(null)}
-          onNavigate={setActiveProject}
-        />
-      )}
-
-      {/* ========================================================
-          MOBILE MENU DRAWER: CONTACT & ALL (Only for Mobile View)
-          ======================================================== */}
-      {mobileMenuOpen && (
-        <div
-          className="mobile-drawer-backdrop"
-          onClick={() => setMobileMenuOpen(false)}
-          role="dialog"
-          aria-modal="true"
-          aria-label="Mobile contact and menu drawer"
-        >
-          <div
-            className="mobile-drawer-sheet"
-            onClick={(e) => e.stopPropagation()}
-          >
-            {/* Drawer Header */}
-            <div className="drawer-header">
-              <div className="drawer-identity">
-                <div className="drawer-avatar">
-                  <img
-                    src={PROFILE.avatar || `${import.meta.env.BASE_URL}Ranjeet Vector.png`}
-                    alt={PROFILE.name}
-                    className="avatar-img"
-                    onError={(e) => {
-                      const fallback = `${import.meta.env.BASE_URL}avatar.png`;
-                      if (!e.currentTarget.src.includes("avatar.png")) {
-                        e.currentTarget.src = fallback;
-                      } else {
-                        e.currentTarget.style.display = "none";
-                      }
-                    }}
-                  />
-                </div>
-                <div>
-                  <h3 className="drawer-name">{PROFILE.name}</h3>
-                  <span className="drawer-role">{PROFILE.title}</span>
-                </div>
-              </div>
-
-              <button
-                className="drawer-close-btn"
-                onClick={() => setMobileMenuOpen(false)}
-                aria-label="Close menu"
-              >
-                <CloseIcon size={20} />
-              </button>
-            </div>
-
-            {/* Drawer Tab Switcher: Contact vs Services */}
-            <div className="drawer-tabs">
-              <button
-                className={`drawer-tab-btn ${mobileMenuTab === "contact" ? "active" : ""}`}
-                onClick={() => setMobileMenuTab("contact")}
-              >
-                Contact & Inquiries
-              </button>
-              <button
-                className={`drawer-tab-btn ${mobileMenuTab === "services" ? "active" : ""}`}
-                onClick={() => setMobileMenuTab("services")}
-              >
-                Services & Skills
-              </button>
-            </div>
-
-            {/* Drawer Content */}
-            <div className="drawer-scroll-body">
-              {mobileMenuTab === "contact" ? (
-                <div className="drawer-contact-view">
-                  <p className="drawer-lead">
-                    Have raw footage or an upcoming product campaign? Let's discuss your timeline, reference pace, and deliverables.
-                  </p>
-
-                  <div className="drawer-email-box">
-                    <span className="drawer-email-address">{PROFILE.email}</span>
-                    <button
-                      type="button"
-                      className="drawer-copy-action"
-                      onClick={copyEmail}
-                      aria-label="Copy email address"
-                    >
-                      {copied ? (
-                        <>
-                          <CheckIcon /> Copied!
-                        </>
-                      ) : (
-                        "Copy"
-                      )}
-                    </button>
-                  </div>
-
-                  <a
-                    href={`mailto:${PROFILE.email}`}
-                    className="drawer-primary-cta"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    <span>Send an Email</span>
-                    <ArrowUpRight size={15} />
-                  </a>
-
-                  <div className="drawer-socials-group">
-                    <span className="drawer-socials-title">Direct Socials</span>
-                    <div className="drawer-social-pills">
-                      {PROFILE.socials.map((s) => (
-                        <a
-                          key={s.label}
-                          href={s.url}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="social-pill"
-                        >
-                          <span>{s.label}</span>
-                          <ArrowUpRight size={12} />
-                        </a>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div className="drawer-meta-list">
-                    <div className="drawer-meta-item">
-                      <span className="meta-item-label">Turnaround</span>
-                      <span className="meta-item-value">24h Average First Cut</span>
-                    </div>
-                    <div className="drawer-meta-item">
-                      <span className="meta-item-label">Location</span>
-                      <span className="meta-item-value">Worldwide Remote</span>
-                    </div>
-                    <div className="drawer-meta-item">
-                      <span className="meta-item-label">Projects</span>
-                      <span className="meta-item-value">100+ Completed (1.5M+ Views)</span>
-                    </div>
-                  </div>
-                </div>
-              ) : (
-                <div className="drawer-services-view">
-                  <div className="drawer-services-list">
-                    {SERVICES.map((s) => (
-                      <div key={s.num} className="drawer-service-card">
-                        <span className="service-number">{s.num}</span>
-                        <div>
-                          <h4 className="service-card-title">{s.title}</h4>
-                          <p className="service-card-desc">{s.desc}</p>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-
-                  <div className="drawer-tools-box">
-                    <span className="drawer-socials-title">Software Suite</span>
-                    <div className="tools-cloud">
-                      {TOOLS.map((t) => (
-                        <span key={t} className="tool-tag">
-                          {t}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              )}
-            </div>
-
-            {/* Drawer Bottom Bar: Jump to Work */}
-            <div className="drawer-footer-bar">
-              <a
-                href="#work"
-                className="drawer-work-jump-btn"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                <span>Browse Selected Work ({PROJECTS.length})</span>
-                <span className="arrow-down">↓</span>
-              </a>
-            </div>
-          </div>
-        </div>
-      )}
-    </div>
-  );
-}
-
-/* ---------- Project Card (Minimalist Video Slate, No Names) ---------- */
-function ProjectCard({ project, onClick }) {
   return (
     <article
-      className={`gallery-card ${project.shape}`}
-      onClick={() => onClick(project)}
+      className={`cinema-card ${project.shape} ${isPlaying ? "is-playing" : ""}`}
       tabIndex={0}
-      role="button"
-      aria-label={`${project.category} video, duration ${project.length}`}
-      onKeyDown={(e) => {
-        if (e.key === "Enter" || e.key === " ") {
-          e.preventDefault();
-          onClick(project);
-        }
-      }}
+      aria-label={`${project.category} video, duration ${project.duration}`}
     >
-      <div className="card-poster">
-        <img
-          src={project.image}
-          alt={`${project.category} preview`}
-          className="poster-img"
-          loading="lazy"
-        />
-        <div className="poster-scrim" />
+      <div className="card-media-stage">
+        {isPlaying ? (
+          <div className="player-embed-container">
+            {isLoading && (
+              <div className="player-loading-spinner" aria-hidden="true">
+                <div className="spinner-orbit" />
+                <span>Loading Video...</span>
+              </div>
+            )}
+            <iframe
+              src={`https://player.vimeo.com/video/${project.vimeoId}?autoplay=1&muted=0&playsinline=1&title=0&byline=0&portrait=0&badge=0&autopause=1&dnt=1`}
+              className="vimeo-embed-iframe"
+              allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
+              allowFullScreen
+              referrerPolicy="strict-origin-when-cross-origin"
+              title={`Video ${project.id}`}
+              onLoad={() => setIsLoading(false)}
+            />
+            {/* Top Bar inside active player */}
+            <div className="player-active-controls">
+              <div className="player-active-tags">
+                <span className="live-pulse-badge" />
+                <span className="tag-pill">{project.category}</span>
+                <span className="tag-pill">{project.duration}</span>
+              </div>
+              <div className="player-action-btns">
+                <button
+                  type="button"
+                  className="player-ctrl-btn"
+                  onClick={() => onOpenTheater(project)}
+                  title="Expand to Full Cinema"
+                  aria-label="Expand to full cinema"
+                >
+                  <ExpandIcon size={16} />
+                </button>
+                <button
+                  type="button"
+                  className="player-ctrl-btn close"
+                  onClick={stopPlayback}
+                  title="Close Video"
+                  aria-label="Close video player"
+                >
+                  <CloseIcon size={16} />
+                </button>
+              </div>
+            </div>
+          </div>
+        ) : (
+          <div className="poster-cover-stage" onClick={startPlayback}>
+            <img
+              src={project.image}
+              alt={`${project.category} frame preview`}
+              className="poster-artwork"
+              loading="lazy"
+            />
+            <div className="poster-gradient-scrim" />
 
-        <div className="poster-top-bar">
-          <span className="poster-pill category-pill">{project.category}</span>
-          <span className="poster-pill length-pill">{project.length}</span>
-        </div>
+            {/* Top Meta Badges (NO Names) */}
+            <div className="card-top-meta">
+              <span className="meta-badge category-badge">{project.category}</span>
+              <span className="meta-badge aspect-badge">{project.aspect}</span>
+            </div>
 
-        <div className="play-badge" aria-hidden="true">
-          <PlayIcon size={22} />
-        </div>
+            {/* Centered Glowing Play Button */}
+            <div className="center-play-trigger" title="Click to Play Video">
+              <div className="play-disc-pulse" />
+              <div className="play-disc-btn">
+                <PlayIcon size={26} />
+              </div>
+              <span className="play-prompt-label">Play Video</span>
+            </div>
+
+            {/* Bottom Meta Bar */}
+            <div className="card-bottom-bar">
+              <span className="duration-tag">
+                <FilmIcon size={13} />
+                <span>{project.duration}</span>
+              </span>
+              <button
+                type="button"
+                className="theater-expand-btn"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onOpenTheater(project);
+                }}
+                title="Open in Cinema Mode"
+              >
+                <ExpandIcon size={14} />
+                <span>Cinema</span>
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </article>
   );
 }
 
-/* ---------- Case Study Modal: Theater Video Player (No Names) ---------- */
-function CaseStudyModal({ project, allProjects, onClose, onNavigate }) {
+/* ---------- Fullscreen Cinema Modal Component ---------- */
+function CinemaModal({ project, allProjects, onClose, onNavigate }) {
   const currentIndex = allProjects.findIndex((p) => p.id === project.id);
   const prevProject = allProjects[(currentIndex - 1 + allProjects.length) % allProjects.length];
   const nextProject = allProjects[(currentIndex + 1) % allProjects.length];
-  const closeRef = useRef(null);
+  const closeBtnRef = useRef(null);
 
   useEffect(() => {
-    closeRef.current?.focus();
-    const handleKey = (e) => {
+    closeBtnRef.current?.focus();
+    const handleKeyDown = (e) => {
       if (e.key === "Escape") onClose();
       if (e.key === "ArrowLeft") onNavigate(prevProject);
       if (e.key === "ArrowRight") onNavigate(nextProject);
     };
     document.body.style.overflow = "hidden";
-    window.addEventListener("keydown", handleKey);
+    window.addEventListener("keydown", handleKeyDown);
     return () => {
       document.body.style.overflow = "";
-      window.removeEventListener("keydown", handleKey);
+      window.removeEventListener("keydown", handleKeyDown);
     };
   }, [currentIndex, allProjects, onClose, onNavigate, prevProject, nextProject]);
 
   return (
-    <div className="modal-backdrop" onClick={onClose} role="presentation">
+    <div className="cinema-modal-backdrop" onClick={onClose} role="presentation">
       <div
-        className={`modal-window theater-mode ${project.shape}`}
+        className={`cinema-modal-stage ${project.shape}`}
         role="dialog"
         aria-modal="true"
-        aria-label={`${project.category} video`}
+        aria-label={`${project.category} Cinema View`}
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="modal-sheet-handle" aria-hidden="true" />
-
-        {/* Modal Top Bar */}
-        <div className="modal-theater-header">
-          <div className="modal-theater-tags">
-            <span className="screen-tag category-tag">{project.category}</span>
-            <span className="screen-tag length-tag">{project.length}</span>
-            <span className="screen-tag aspect-tag">{project.aspect}</span>
+        {/* Cinema Header */}
+        <div className="cinema-header-bar">
+          <div className="cinema-tags-row">
+            <span className="cinema-badge category">{project.category}</span>
+            <span className="cinema-badge duration">{project.duration}</span>
+            <span className="cinema-badge aspect">{project.aspect}</span>
           </div>
 
           <button
-            ref={closeRef}
-            className="modal-close-trigger"
+            ref={closeBtnRef}
+            className="cinema-close-btn"
             onClick={onClose}
-            aria-label="Close modal"
+            aria-label="Close cinema mode"
           >
-            <CloseIcon />
+            <CloseIcon size={20} />
           </button>
         </div>
 
-        {/* Video Player Stage */}
-        <div className={`modal-player-wrapper ${project.shape}`}>
+        {/* Video Player Frame */}
+        <div className={`cinema-video-screen ${project.shape}`}>
           <iframe
-            src={`https://player.vimeo.com/video/${project.vimeoId}?h=${project.vimeoHash}&autoplay=1&title=0&byline=0&portrait=0&badge=0&autopause=0`}
-            className="modal-vimeo-iframe"
-            frameBorder="0"
-            allow="autoplay; fullscreen; picture-in-picture"
+            src={`https://player.vimeo.com/video/${project.vimeoId}?autoplay=1&muted=0&playsinline=1&title=0&byline=0&portrait=0&badge=0&autopause=0&dnt=1`}
+            className="cinema-vimeo-iframe"
+            allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
             allowFullScreen
-            title="Video player"
+            referrerPolicy="strict-origin-when-cross-origin"
+            title={`Cinema player ${project.id}`}
           />
         </div>
 
-        {/* Pinned Sticky Bottom Action Bar */}
-        <div className="modal-sticky-bottom-bar">
-          <div className="modal-pager-controls">
+        {/* Cinema Footer & Navigation */}
+        <div className="cinema-footer-bar">
+          <div className="cinema-pager-group">
             <button
               type="button"
-              className="modal-pager-nav-btn"
+              className="cinema-pager-btn"
               onClick={() => onNavigate(prevProject)}
               aria-label="Previous video"
             >
-              ← Prev
+              ← Previous
             </button>
-            <span className="modal-pager-counter">
-              {currentIndex + 1} / {allProjects.length}
+            <span className="cinema-pager-counter">
+              {currentIndex + 1} of {allProjects.length}
             </span>
             <button
               type="button"
-              className="modal-pager-nav-btn"
+              className="cinema-pager-btn"
               onClick={() => onNavigate(nextProject)}
               aria-label="Next video"
             >
@@ -944,16 +328,385 @@ function CaseStudyModal({ project, allProjects, onClose, onNavigate }) {
           </div>
 
           <a
-            href={project.vimeoUrl}
+            href={`https://vimeo.com/${project.vimeoId}`}
             target="_blank"
             rel="noreferrer"
-            className="modal-sticky-watch-btn"
+            className="cinema-direct-link"
           >
-            <span>Watch on Vimeo</span>
-            <ArrowUpRight size={14} />
+            <span>Open on Vimeo</span>
+            <ExternalIcon size={14} />
           </a>
         </div>
       </div>
+    </div>
+  );
+}
+
+/* ---------- Main Application Entrypoint ---------- */
+export default function App() {
+  const [selectedCategory, setSelectedCategory] = useState("All Work");
+  const [activeTheaterProject, setActiveTheaterProject] = useState(null);
+  const [copiedEmail, setCopiedEmail] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const filteredProjects = useMemo(() => {
+    if (selectedCategory === "All Work") return PROJECTS;
+    return PROJECTS.filter((p) => p.category === selectedCategory);
+  }, [selectedCategory]);
+
+  const categoryCounts = useMemo(() => {
+    const counts = { "All Work": PROJECTS.length };
+    PROJECTS.forEach((p) => {
+      counts[p.category] = (counts[p.category] || 0) + 1;
+    });
+    return counts;
+  }, []);
+
+  const copyEmailToClipboard = () => {
+    navigator.clipboard.writeText(PROFILE.email).then(() => {
+      setCopiedEmail(true);
+      setTimeout(() => setCopiedEmail(false), 2400);
+    });
+  };
+
+  return (
+    <div className="app-root-cinema">
+      {/* Ambient Atmospheric Background Glows */}
+      <div className="ambient-background" aria-hidden="true">
+        <div className="ambient-spot cyan" />
+        <div className="ambient-spot purple" />
+        <div className="grid-overlay" />
+      </div>
+
+      {/* Floating Glass Navigation Header */}
+      <header className="site-nav-header">
+        <div className="nav-container">
+          <a href="#" className="nav-brand-lockup">
+            <div className="nav-avatar-ring">
+              <img
+                src={PROFILE.avatar || `${import.meta.env.BASE_URL}avatar.png`}
+                alt={PROFILE.name}
+                className="nav-avatar-img"
+                onError={(e) => {
+                  e.currentTarget.style.display = "none";
+                }}
+              />
+            </div>
+            <div className="nav-brand-text">
+              <span className="nav-brand-name">{PROFILE.name}</span>
+              <span className="nav-brand-role">Video Editor</span>
+            </div>
+            <div className="nav-status-pill">
+              <span className="status-dot-pulse" />
+              <span className="status-label">Available for Projects</span>
+            </div>
+          </a>
+
+          {/* Desktop Links */}
+          <nav className="nav-links-desktop" aria-label="Main Navigation">
+            <a href="#work" className="nav-link">Work</a>
+            <a href="#services" className="nav-link">Services</a>
+            <a href="#workflow" className="nav-link">Process</a>
+            <a href="#about" className="nav-link">About</a>
+            <a href="#contact" className="nav-cta-pill">Let's Talk</a>
+          </nav>
+
+          {/* Mobile Hamburger Button */}
+          <button
+            type="button"
+            className="mobile-menu-trigger"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            aria-label="Toggle navigation menu"
+            aria-expanded={mobileMenuOpen}
+          >
+            <span className={`ham-bar ${mobileMenuOpen ? "open" : ""}`} />
+            <span className={`ham-bar ${mobileMenuOpen ? "open" : ""}`} />
+          </button>
+        </div>
+
+        {/* Mobile Dropdown Menu */}
+        {mobileMenuOpen && (
+          <nav className="mobile-dropdown-menu" aria-label="Mobile Navigation">
+            <a href="#work" onClick={() => setMobileMenuOpen(false)}>Featured Work</a>
+            <a href="#services" onClick={() => setMobileMenuOpen(false)}>Services</a>
+            <a href="#workflow" onClick={() => setMobileMenuOpen(false)}>Editing Process</a>
+            <a href="#about" onClick={() => setMobileMenuOpen(false)}>About & Toolkit</a>
+            <a href="#contact" className="mobile-dropdown-cta" onClick={() => setMobileMenuOpen(false)}>
+              Start a Project ↗
+            </a>
+          </nav>
+        )}
+      </header>
+
+      {/* ========================================================
+          HERO SECTION: Bold Cinematic Introduction
+          ======================================================== */}
+      <section className="hero-cinema-section">
+        <div className="hero-content-wrapper">
+          <div className="hero-badge-pill">
+            <span className="beacon-sparkle">✦</span>
+            <span>Commercial, Social & Long-Form Video</span>
+          </div>
+
+          <h1 className="hero-main-headline">
+            <span className="headline-row">EDITING WITH PURPOSE.</span>
+            <span className="headline-row">EXPLORING THE <span className="headline-gradient">ART OF MOTION.</span></span>
+          </h1>
+
+          <p className="hero-subtext">
+            Specializing in high-retention short-form Reels, documentary brand stories, and podcast video workflows. Designed for rhythm, emotional resonance, and frame economy.
+          </p>
+
+          {/* Running Metric Counters */}
+          <div className="hero-stats-strip">
+            {PROFILE.stats.map((s, idx) => (
+              <div key={idx} className="hero-stat-card">
+                <CountUpStat
+                  target={s.target}
+                  decimals={s.decimals}
+                  suffix={s.suffix}
+                />
+                <span className="hero-stat-label">{s.label}</span>
+              </div>
+            ))}
+          </div>
+
+          {/* Primary Action Buttons */}
+          <div className="hero-action-buttons">
+            <a href="#work" className="btn-primary-action">
+              <span>Explore Selected Work</span>
+              <span className="btn-icon-circle">↓</span>
+            </a>
+            <a href="#contact" className="btn-secondary-action">
+              <span>Start a Project</span>
+              <ExternalIcon size={15} />
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* ========================================================
+          SELECTED WORK SECTION: Interactive Video Grid
+          ======================================================== */}
+      <section className="work-cinema-section" id="work">
+        <div className="section-header-row">
+          <div className="section-title-lockup">
+            <span className="section-eyebrow">Portfolio</span>
+            <h2 className="section-heading">Selected Work</h2>
+            <p className="section-subheading">
+              Tap any video to play directly with sound, or expand to cinema mode.
+            </p>
+          </div>
+
+          {/* Category Filter Pills */}
+          <div className="category-filter-bar" role="tablist" aria-label="Filter portfolio projects">
+            {CATEGORIES.map((cat) => (
+              <button
+                key={cat}
+                type="button"
+                className={`category-filter-pill ${selectedCategory === cat ? "active" : ""}`}
+                onClick={() => setSelectedCategory(cat)}
+                role="tab"
+                aria-selected={selectedCategory === cat}
+              >
+                <span>{cat}</span>
+                <span className="cat-count">{categoryCounts[cat] || 0}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Video Cards Grid */}
+        <div className="video-cinema-grid">
+          {filteredProjects.map((project) => (
+            <VideoCard
+              key={project.id}
+              project={project}
+              onOpenTheater={setActiveTheaterProject}
+            />
+          ))}
+        </div>
+      </section>
+
+      {/* ========================================================
+          SERVICES & DISCIPLINES SECTION
+          ======================================================== */}
+      <section className="services-cinema-section" id="services">
+        <div className="section-title-lockup centered">
+          <span className="section-eyebrow">Capabilities</span>
+          <h2 className="section-heading">Editing Disciplines</h2>
+          <p className="section-subheading">
+            Tailored visual storytelling built for viewer retention, platform algorithms, and brand equity.
+          </p>
+        </div>
+
+        <div className="services-cards-grid">
+          {SERVICES.map((s) => (
+            <div key={s.num} className="service-cinema-card">
+              <span className="service-number-badge">{s.num}</span>
+              <h3 className="service-title">{s.title}</h3>
+              <p className="service-desc">{s.desc}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ========================================================
+          WORKFLOW & TOOLKIT SECTION
+          ======================================================== */}
+      <section className="process-cinema-section" id="workflow">
+        <div className="section-title-lockup centered">
+          <span className="section-eyebrow">Production Flow</span>
+          <h2 className="section-heading">How We Work Together</h2>
+          <p className="section-subheading">
+            A reliable 4-stage pipeline calibrated for fast turnaround without compromising detail.
+          </p>
+        </div>
+
+        <div className="workflow-timeline-grid">
+          {WORKFLOW.map((w) => (
+            <div key={w.step} className="workflow-step-card">
+              <div className="workflow-header-row">
+                <span className="step-num">STAGE {w.step}</span>
+                <span className="step-accent-dot" />
+              </div>
+              <h3 className="step-title">{w.title}</h3>
+              <p className="step-desc">{w.desc}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ========================================================
+          ABOUT & TOOLS SECTION
+          ======================================================== */}
+      <section className="about-cinema-section" id="about">
+        <div className="about-grid-container">
+          <div className="about-bio-column">
+            <span className="section-eyebrow">About Ranjeet</span>
+            <h2 className="section-heading">Obsessed With The Details That Keep People Watching.</h2>
+            <p className="about-p">
+              I edit videos with a relentless focus on pacing, frame economy, and emotional rhythm. Whether cutting a 45-second high-energy vertical reel or a 60-minute multi-cam podcast, my priority is ensuring every second serves a clear narrative purpose.
+            </p>
+            <p className="about-p">
+              Every project receives calibrated audio sweetening, sound design hits, natural skin-tone color grading, and custom motion graphics.
+            </p>
+          </div>
+
+          <div className="about-tools-column">
+            <span className="tools-card-title">Production Software Suite</span>
+            <div className="tools-badge-cloud">
+              {TOOLS.map((t) => (
+                <div key={t} className="tool-chip">
+                  <span className="tool-dot" />
+                  <span>{t}</span>
+                </div>
+              ))}
+            </div>
+
+            <div className="turnaround-guarantee-card">
+              <div className="guarantee-header">
+                <span className="guarantee-icon">⚡</span>
+                <span className="guarantee-title">48-Hour First Cut Turnaround</span>
+              </div>
+              <p className="guarantee-desc">
+                Fast, dependable delivery cycles with structured revision rounds so your content calendar stays on track.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ========================================================
+          CONTACT / INQUIRY SECTION
+          ======================================================== */}
+      <section className="contact-cinema-section" id="contact">
+        <div className="contact-card-box">
+          <div className="contact-header-text">
+            <span className="section-eyebrow">Get In Touch</span>
+            <h2 className="contact-main-heading">Ready To Bring Your Footage To Life?</h2>
+            <p className="contact-lead-text">
+              Have an upcoming video project, YouTube series, or founder story? Let's discuss scope, references, and delivery timelines.
+            </p>
+          </div>
+
+          <div className="contact-interactive-actions">
+            {/* 1-Click Copy Email Pill */}
+            <button
+              type="button"
+              className="copy-email-cinema-btn"
+              onClick={copyEmailToClipboard}
+              title="Click to copy email address"
+            >
+              <span className="email-addr-text">{PROFILE.email}</span>
+              <span className={`copy-state-pill ${copiedEmail ? "copied" : ""}`}>
+                {copiedEmail ? (
+                  <>
+                    <CheckIcon size={14} />
+                    <span>Copied!</span>
+                  </>
+                ) : (
+                  <>
+                    <CopyIcon size={14} />
+                    <span>Copy Email</span>
+                  </>
+                )}
+              </span>
+            </button>
+
+            {/* Direct Mailto Button */}
+            <a
+              href={`mailto:${PROFILE.email}?subject=Video%20Editing%20Project%20Inquiry`}
+              className="send-email-cinema-btn"
+            >
+              <span>Compose Email</span>
+              <ExternalIcon size={15} />
+            </a>
+          </div>
+
+          {/* Social Links */}
+          <div className="contact-socials-row">
+            {PROFILE.socials.map((s) => (
+              <a
+                key={s.label}
+                href={s.url}
+                target="_blank"
+                rel="noreferrer"
+                className="social-cinema-link"
+              >
+                <span>{s.label}</span>
+                <ExternalIcon size={12} />
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ========================================================
+          FOOTER
+          ======================================================== */}
+      <footer className="cinema-footer">
+        <div className="footer-container">
+          <div className="footer-left">
+            <span className="footer-brand">{PROFILE.name}</span>
+            <span className="footer-separator">•</span>
+            <span className="footer-sub">{PROFILE.title}</span>
+          </div>
+          <div className="footer-right">
+            <span>© {new Date().getFullYear()} All Rights Reserved</span>
+          </div>
+        </div>
+      </footer>
+
+      {/* Cinema Theater Modal (if active) */}
+      {activeTheaterProject && (
+        <CinemaModal
+          project={activeTheaterProject}
+          allProjects={filteredProjects}
+          onClose={() => setActiveTheaterProject(null)}
+          onNavigate={(p) => setActiveTheaterProject(p)}
+        />
+      )}
     </div>
   );
 }

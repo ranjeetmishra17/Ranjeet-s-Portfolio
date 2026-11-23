@@ -1,10 +1,9 @@
 export const PROFILE = {
   name: "Ranjeet Mishra",
-  avatar: `${import.meta.env.BASE_URL}Ranjeet Vector.png`,
-  title: "Video Editor",
+  title: "Video Editor & Motion Designer",
   status: "Available for new projects",
   email: "ranjeetmishra.work@gmail.com",
-  headline: "Editing with purpose. Exploring the art of motion.",
+  headline: "Editing with rhythm & purpose. Turning raw footage into high-retention visual stories.",
   bio: "Specializing in short-form Reels, cinematic founder stories, and podcast video systems. I focus on frame economy, rhythmic pacing, and clean color grading to keep viewers watching to the end.",
   socials: [
     { label: "Instagram", url: "https://instagram.com" },
@@ -13,9 +12,9 @@ export const PROFILE = {
     { label: "YouTube", url: "https://youtube.com" },
   ],
   stats: [
-    { target: 40, decimals: 0, suffix: "+", label: "Projects Completed", value: "40+" },
-    { target: 15, decimals: 0, suffix: "M+", label: "Views Generated", value: "15M+" },
-    { target: 48, decimals: 0, suffix: "h", label: "Average First Cut", value: "48h" },
+    { target: 40, decimals: 0, suffix: "+", label: "Projects Completed" },
+    { target: 15, decimals: 0, suffix: "M+", label: "Views Generated" },
+    { target: 48, decimals: 0, suffix: "h", label: "Average First Cut" },
   ],
 };
 
@@ -23,22 +22,22 @@ export const SERVICES = [
   {
     num: "01",
     title: "Short-Form Reels & Shorts",
-    desc: "Beat-matched transitions, first-second retention hooks, and dynamic subtitles built for Instagram and YouTube Shorts.",
+    desc: "Beat-matched transitions, first-3-second retention hooks, and dynamic typographic subtitles built for Instagram, TikTok, and YouTube Shorts.",
   },
   {
     num: "02",
     title: "Brand & Founder Stories",
-    desc: "Documentary-style interviews with clean narrative arcs, natural skin-tone color grading, and balanced audio design.",
+    desc: "Documentary-style interviews with clean narrative arcs, natural skin-tone color grading, and balanced audio design that build authority.",
   },
   {
     num: "03",
     title: "Podcast Video Edits",
-    desc: "Multi-cam cutting, voice leveling, and extraction of viral micro-clips optimized for cross-platform reach.",
+    desc: "Multi-cam cutting, voice leveling, dynamic camera framing, and extraction of viral micro-clips optimized for cross-platform reach.",
   },
   {
     num: "04",
     title: "Kinetic Motion Graphics",
-    desc: "Clean animated titles, lower-thirds, and typographic reveals designed with smooth, organic easing.",
+    desc: "Clean animated titles, lower-thirds, logo reveals, and typographic motion graphics designed with smooth, organic easing.",
   },
 ];
 
@@ -46,7 +45,7 @@ export const WORKFLOW = [
   {
     step: "01",
     title: "Brief & Align",
-    desc: "We define the goal, target audience, reference pacing, and delivery deadline.",
+    desc: "We define the narrative goal, target audience, reference pacing, and delivery deadline.",
   },
   {
     step: "02",
@@ -74,103 +73,88 @@ export const TOOLS = [
   "Sound Design",
 ];
 
-export const CATEGORIES = ["All", "Reels", "Brand films", "Podcasts"];
+export const CATEGORIES = ["All Work", "Reels", "Brand Films", "Podcasts"];
 
 export const PROJECTS = [
   {
-    id: 1,
+    id: "1243506770",
     vimeoId: "1243506770",
-    vimeoHash: "51e654e4be",
-    vimeoUrl: "https://vimeo.com/1243506770",
     category: "Reels",
     shape: "tall",
-    length: "0:54",
     aspect: "9:16 Vertical",
-    image:
-      "https://i.vimeocdn.com/video/2222045939-6356b79d6f44e4a7f240d23d402a5a80d7ada3f5296483045ed7b441baaef7bf-d_960?region=us",
+    duration: "0:54",
+    image: "https://i.vimeocdn.com/video/2222045939-6356b79d6f44e4a7f240d23d402a5a80d7ada3f5296483045ed7b441baaef7bf-d_960?region=us",
   },
   {
-    id: 2,
+    id: "1243506702",
     vimeoId: "1243506702",
-    vimeoHash: "cb87fde1c2",
-    vimeoUrl: "https://vimeo.com/1243506702",
-    category: "Brand films",
+    category: "Brand Films",
     shape: "wide",
-    length: "1:03",
     aspect: "16:9 Widescreen",
-    image:
-      "https://i.vimeocdn.com/video/2222045928-6628c1294e56a05c189136f6a1e85c9cd2fdb97efa90619e62fdc3dfa176b518-d_960?region=us",
+    duration: "1:03",
+    image: "https://i.vimeocdn.com/video/2222045928-6628c1294e56a05c189136f6a1e85c9cd2fdb97efa90619e62fdc3dfa176b518-d_960?region=us",
   },
   {
-    id: 3,
-    vimeoId: "1243506929",
-    vimeoHash: "d7bee15e62",
-    vimeoUrl: "https://vimeo.com/1243506929",
+    id: "1243506894",
+    vimeoId: "1243506894",
     category: "Reels",
     shape: "tall",
-    length: "0:40",
     aspect: "9:16 Vertical",
-    image:
-      "https://i.vimeocdn.com/video/2222046065-7f7669fbd3ca100798a4c6baa05b5bb539813324c12e762cee83e1d593712501-d_960?region=us",
+    duration: "0:45",
+    image: "https://i.vimeocdn.com/video/2222046074-139b322aa4c153ca90e4ebe7d3fb6c9b04c9ee22f85f11957bb65405f5ac0a0f-d_960?region=us",
   },
   {
-    id: 4,
+    id: "1243506704",
     vimeoId: "1243506704",
-    vimeoHash: "52cd92c434",
-    vimeoUrl: "https://vimeo.com/1243506704",
     category: "Podcasts",
     shape: "wide",
-    length: "1:00",
     aspect: "16:9 Widescreen",
-    image:
-      "https://i.vimeocdn.com/video/2222045740-0ba4144349cab2cf276e9a5f3c67b24af2d4fd0002bafb90d3fda788ae284a57-d_960?region=us",
+    duration: "1:00",
+    image: "https://i.vimeocdn.com/video/2222045740-0ba4144349cab2cf276e9a5f3c67b24af2d4fd0002bafb90d3fda788ae284a57-d_960?region=us",
   },
   {
-    id: 5,
+    id: "1243506866",
     vimeoId: "1243506866",
-    vimeoHash: "74deba9ee0",
-    vimeoUrl: "https://vimeo.com/1243506866",
     category: "Reels",
     shape: "tall",
-    length: "0:34",
     aspect: "9:16 Vertical",
-    image:
-      "https://i.vimeocdn.com/video/2222046079-c1cd7611b9caddcfd7813ad48914748e8561531363db5a0d056309cb1e613654-d_960?region=us",
+    duration: "0:34",
+    image: "https://i.vimeocdn.com/video/2222046079-c1cd7611b9caddcfd7813ad48914748e8561531363db5a0d056309cb1e613654-d_960?region=us",
   },
   {
-    id: 6,
+    id: "1243506703",
     vimeoId: "1243506703",
-    vimeoHash: "c6bc575a79",
-    vimeoUrl: "https://vimeo.com/1243506703",
-    category: "Brand films",
+    category: "Brand Films",
     shape: "wide",
-    length: "0:44",
     aspect: "16:9 Widescreen",
-    image:
-      "https://i.vimeocdn.com/video/2222045923-865f446eec5d824ef57693af47531d486b155e53696112d5c160a4024d9ca179-d_960?region=us",
+    duration: "0:44",
+    image: "https://i.vimeocdn.com/video/2222045923-865f446eec5d824ef57693af47531d486b155e53696112d5c160a4024d9ca179-d_960?region=us",
   },
   {
-    id: 7,
-    vimeoId: "1243506894",
-    vimeoHash: "a2a1f0a72f",
-    vimeoUrl: "https://vimeo.com/1243506894",
+    id: "1243506929",
+    vimeoId: "1243506929",
     category: "Reels",
     shape: "tall",
-    length: "0:45",
     aspect: "9:16 Vertical",
-    image:
-      "https://i.vimeocdn.com/video/2222046074-139b322aa4c153ca90e4ebe7d3fb6c9b04c9ee22f85f11957bb65405f5ac0a0f-d_960?region=us",
+    duration: "0:40",
+    image: "https://i.vimeocdn.com/video/2222046065-7f7669fbd3ca100798a4c6baa05b5bb539813324c12e762cee83e1d593712501-d_960?region=us",
   },
   {
-    id: 8,
+    id: "1244866216",
     vimeoId: "1244866216",
-    vimeoHash: "cc7547c3ca",
-    vimeoUrl: "https://vimeo.com/1244866216",
     category: "Reels",
     shape: "tall",
-    length: "0:43",
     aspect: "9:16 Vertical",
-    image:
-      "https://i.vimeocdn.com/video/2223771997-0f0df27102a500ff8f4a026ee501a99d8ad2a95faa6ecb6134bf10f25a1584ce-d_960?region=us",
+    duration: "0:43",
+    image: "https://i.vimeocdn.com/video/2223771997-0f0df27102a500ff8f4a026ee501a99d8ad2a95faa6ecb6134bf10f25a1584ce-d_960?region=us",
+  },
+  {
+    id: "1243506705",
+    vimeoId: "1243506705",
+    category: "Brand Films",
+    shape: "wide",
+    aspect: "16:9 Widescreen",
+    duration: "0:34",
+    image: "https://i.vimeocdn.com/video/2222045851-8b6ae9a48f8f9bffa3d3a4e83b7c1db02e6d60f15e3df6cbbfcdd1f01ab823e8-d_960?region=us",
   },
 ];

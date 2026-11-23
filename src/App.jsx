@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, useMemo } from "react";
 import {
   PROFILE,
+  SERVICES,
   TOOLS,
   CATEGORIES,
   PROJECTS,
@@ -36,10 +37,30 @@ const ArrowUpRight = ({ size = 14 }) => (
   </svg>
 );
 
-const ArrowDown = ({ size = 14 }) => (
+const ArrowRight = ({ size = 15 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+    <line x1="5" y1="12" x2="19" y2="12" />
+    <polyline points="12 5 19 12 12 19" />
+  </svg>
+);
+
+const ArrowLeft = ({ size = 15 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+    <line x1="19" y1="12" x2="5" y2="12" />
+    <polyline points="12 19 5 12 12 5" />
+  </svg>
+);
+
+const FilmIcon = ({ size = 16 }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <line x1="12" y1="5" x2="12" y2="19" />
-    <polyline points="19 12 12 19 5 12" />
+    <rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18" />
+    <line x1="7" y1="2" x2="7" y2="22" />
+    <line x1="17" y1="2" x2="17" y2="22" />
+    <line x1="2" y1="12" x2="22" y2="12" />
+    <line x1="2" y1="7" x2="7" y2="7" />
+    <line x1="2" y1="17" x2="7" y2="17" />
+    <line x1="17" y1="17" x2="22" y2="17" />
+    <line x1="17" y1="7" x2="22" y2="7" />
   </svg>
 );
 
@@ -56,6 +77,25 @@ const CopyIcon = ({ size = 13 }) => (
   </svg>
 );
 
+/* ---------- Real-Time 24fps SMPTE Timecode Hook ---------- */
+function useSMPTETimecode() {
+  const [tc, setTc] = useState("00:00:00:00");
+  useEffect(() => {
+    let frame = 0;
+    const interval = setInterval(() => {
+      frame++;
+      const now = new Date();
+      const hh = String(now.getHours()).padStart(2, "0");
+      const mm = String(now.getMinutes()).padStart(2, "0");
+      const ss = String(now.getSeconds()).padStart(2, "0");
+      const ff = String(frame % 24).padStart(2, "0");
+      setTc(`${hh}:${mm}:${ss}:${ff}`);
+    }, 1000 / 24);
+    return () => clearInterval(interval);
+  }, []);
+  return tc;
+}
+
 /* ---------- Monospaced Animated Stat Counter ---------- */
 function CountUpStat({ target, decimals = 0, suffix = "" }) {
   const [val, setVal] = useState("0" + suffix);
@@ -70,7 +110,7 @@ function CountUpStat({ target, decimals = 0, suffix = "" }) {
       if (hasRun.current) return;
       hasRun.current = true;
 
-      const duration = 1600;
+      const duration = 1400;
       const startTime = performance.now();
 
       const step = (now) => {
@@ -139,6 +179,7 @@ function VideoCard({ project, index, onOpenTheater }) {
   return (
     <article
       className={`video-frame-card ${project.shape} ${isPlaying ? "playing" : ""}`}
+      style={{ animationDelay: `${index * 65}ms` }}
       tabIndex={0}
       aria-label={`${project.category} reel, duration ${project.duration}`}
     >
@@ -148,7 +189,7 @@ function VideoCard({ project, index, onOpenTheater }) {
             {isLoading && (
               <div className="player-shimmer-loader" aria-hidden="true">
                 <span className="loader-pulse-dot" />
-                <span className="loader-mono-label">INITIALIZING STREAM</span>
+                <span className="loader-mono-label">BUFFERING STREAM</span>
               </div>
             )}
             <iframe
@@ -198,7 +239,7 @@ function VideoCard({ project, index, onOpenTheater }) {
             />
             <div className="poster-cinematic-vignette" />
 
-            {/* Top Slates / Meta Tags (NO Names) */}
+            {/* Top Slates / Meta Tags (NO Client or Project Names) */}
             <div className="poster-top-slate">
               <span className="slate-index">{padNum}</span>
               <span className="slate-pill">{project.category}</span>
@@ -210,7 +251,7 @@ function VideoCard({ project, index, onOpenTheater }) {
               <div className="play-glass-disc">
                 <PlayIcon size={20} />
               </div>
-              <span className="play-glass-label">WATCH</span>
+              <span className="play-glass-label">WATCH FILM</span>
             </div>
 
             {/* Bottom Meta Timecode */}
@@ -333,12 +374,54 @@ function CinemaModal({ project, allProjects, onClose, onNavigate }) {
   );
 }
 
-/* ---------- Main Editorial Portfolio ---------- */
+/* ---------- Main Editorial Portfolio Application ---------- */
 export default function App() {
+  const [currentView, setCurrentView] = useState("studio"); // 'studio' | 'works'
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const [transitionLabel, setTransitionLabel] = useState("INITIALIZING SCREENING ROOM");
   const [selectedCategory, setSelectedCategory] = useState("All Work");
   const [activeTheaterProject, setActiveTheaterProject] = useState(null);
   const [copiedEmail, setCopiedEmail] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const timecode = useSMPTETimecode();
+
+  // URL Hash Sync for Back/Forward Navigation
+  useEffect(() => {
+    const handleHash = () => {
+      const hash = window.location.hash.toLowerCase();
+      if (hash === "#works" || hash === "#repertoire") {
+        setCurrentView("works");
+      } else {
+        setCurrentView("studio");
+      }
+    };
+    handleHash();
+    window.addEventListener("hashchange", handleHash);
+    return () => window.removeEventListener("hashchange", handleHash);
+  }, []);
+
+  // Cinematic Transition Handler
+  const navigateToView = (nextView, label = "TRANSITIONING") => {
+    if (nextView === currentView || isTransitioning) return;
+    setTransitionLabel(label);
+    setIsTransitioning(true);
+    setMobileMenuOpen(false);
+
+    setTimeout(() => {
+      setCurrentView(nextView);
+      if (nextView === "works") {
+        window.history.pushState(null, "", "#works");
+      } else {
+        window.history.pushState(null, "", "#studio");
+      }
+      window.scrollTo({ top: 0, behavior: "instant" });
+
+      setTimeout(() => {
+        setIsTransitioning(false);
+      }, 400);
+    }, 450);
+  };
 
   const filteredProjects = useMemo(() => {
     if (selectedCategory === "All Work") return PROJECTS;
@@ -361,18 +444,45 @@ export default function App() {
   };
 
   return (
-    <div className="portfolio-editorial-root">
-      {/* Background Architectural Canvas & Subtle Ambient Texture */}
+    <div className={`portfolio-editorial-root ${currentView}-active`}>
+      {/* Background Architectural Canvas & Dynamic Ambient Light */}
       <div className="canvas-atmosphere" aria-hidden="true">
         <div className="ambient-radial-glow top" />
         <div className="ambient-radial-glow bottom" />
+        <div className="ambient-radial-glow cyan" />
         <div className="hairline-grid" />
+        <div className="cinema-grain" />
+      </div>
+
+      {/* Cinematic Dual Shutter Page Transition Curtain */}
+      <div
+        className={`cinematic-shutter-curtain ${isTransitioning ? "active" : ""}`}
+        aria-hidden={!isTransitioning}
+      >
+        <div className="shutter-blade top-blade">
+          <div className="shutter-laser-line" />
+        </div>
+        <div className="shutter-center-hud">
+          <div className="hud-rec-wrap">
+            <span className="hud-pulse-rec" />
+            <span className="hud-label-mono">{transitionLabel}</span>
+          </div>
+          <div className="hud-tc-mono">{timecode}</div>
+        </div>
+        <div className="shutter-blade bottom-blade">
+          <div className="shutter-laser-line" />
+        </div>
       </div>
 
       {/* Floating Minimalist Header */}
       <header className="editorial-nav-header">
         <div className="nav-inner-container">
-          <a href="#" className="nav-signature">
+          {/* Logo / Director Mark */}
+          <button
+            type="button"
+            className="nav-signature-btn"
+            onClick={() => navigateToView("studio", "RETURNING TO STUDIO")}
+          >
             <div className="avatar-dot-wrap">
               <img
                 src={PROFILE.avatar || `${import.meta.env.BASE_URL}avatar.png`}
@@ -382,30 +492,46 @@ export default function App() {
                   e.currentTarget.style.display = "none";
                 }}
               />
+              <span className="avatar-live-beacon" />
             </div>
             <div className="signature-info">
               <span className="signature-name">{PROFILE.name}</span>
-              <span className="signature-sub">Film & Video Editor</span>
+              <span className="signature-sub">Director of Edit</span>
             </div>
-          </a>
+          </button>
 
-          {/* Availability Beacon Pill */}
-          <div className="nav-availability-chip">
-            <span className="beacon-emerald-dot" />
-            <span className="beacon-text-mono">AVAILABLE FOR SELECT COMMISSIONS</span>
+          {/* Live Studio Timecode HUD Bar (Desktop) */}
+          <div className="nav-hud-center">
+            <span className="hud-dot-rec" />
+            <span className="hud-format">24.00 FPS [SMPTE]</span>
+            <span className="hud-clock">{timecode}</span>
           </div>
 
-          {/* Desktop Links */}
-          <nav className="nav-links-wrap" aria-label="Main Navigation">
-            <a href="#work" className="nav-link-anchor">Repertoire</a>
-            <a href="#stack" className="nav-link-anchor">Specifications</a>
-            <a href="#contact" className="nav-contact-button">
-              <span>Initiate Project</span>
-              <ArrowUpRight size={13} />
+          {/* Navigation Switcher Pills */}
+          <nav className="nav-view-switcher" aria-label="Page View Navigation">
+            <button
+              type="button"
+              className={`switcher-tab ${currentView === "studio" ? "active" : ""}`}
+              onClick={() => navigateToView("studio", "STUDIO VIEW")}
+            >
+              Studio
+            </button>
+            <button
+              type="button"
+              className={`switcher-tab works-tab ${currentView === "works" ? "active" : ""}`}
+              onClick={() => navigateToView("works", "SCREENING REPERTOIRE")}
+            >
+              <FilmIcon size={13} />
+              <span>Recent Works</span>
+              <span className="switcher-badge">{PROJECTS.length}</span>
+            </button>
+            <a href="#contact" className="switcher-contact-link">
+              <span>Inquire</span>
+              <ArrowUpRight size={12} />
             </a>
           </nav>
 
-          {/* Mobile Menu Button */}
+          {/* Mobile Menu Trigger */}
           <button
             type="button"
             className="mobile-burger-trigger"
@@ -418,231 +544,342 @@ export default function App() {
           </button>
         </div>
 
-        {/* Mobile Dropdown */}
+        {/* Mobile Dropdown Menu */}
         {mobileMenuOpen && (
           <nav className="mobile-curtain-menu" aria-label="Mobile Navigation">
-            <a href="#work" onClick={() => setMobileMenuOpen(false)}>Repertoire ({PROJECTS.length})</a>
-            <a href="#stack" onClick={() => setMobileMenuOpen(false)}>Specifications & Tools</a>
-            <a href="#contact" className="mobile-curtain-cta" onClick={() => setMobileMenuOpen(false)}>
-              Initiate Project ↗
+            <button
+              type="button"
+              className={`mobile-menu-item ${currentView === "studio" ? "active" : ""}`}
+              onClick={() => navigateToView("studio", "STUDIO VIEW")}
+            >
+              <span>Director Studio</span>
+              <ArrowRight size={14} />
+            </button>
+            <button
+              type="button"
+              className={`mobile-menu-item works-highlight ${currentView === "works" ? "active" : ""}`}
+              onClick={() => navigateToView("works", "OPENING REPERTOIRE")}
+            >
+              <span>Recent Works ({PROJECTS.length})</span>
+              <FilmIcon size={15} />
+            </button>
+            <a
+              href="#contact"
+              className="mobile-menu-item"
+              onClick={() => {
+                setMobileMenuOpen(false);
+                if (currentView === "works") navigateToView("studio", "CONTACT");
+              }}
+            >
+              <span>Initiate Project</span>
+              <ArrowUpRight size={14} />
             </a>
           </nav>
         )}
       </header>
 
       {/* ========================================================
-          HERO SECTION: Monumental Typography & High-Fashion Layout
+          VIEW A: STUDIO (Director's Studio & Hero Experience)
           ======================================================== */}
-      <section className="editorial-hero-section">
-        <div className="hero-monument-box">
-          <div className="hero-metadata-line">
-            <span className="meta-pill-outline">MUMBAI, IN [IST]</span>
-            <span className="meta-divider">•</span>
-            <span className="meta-text-muted">COMMERCIAL • SHORT-FORM • PODCAST SYSTEMS</span>
-          </div>
+      {currentView === "studio" && (
+        <main className="view-page studio-view-page">
+          {/* HERO SECTION */}
+          <section className="editorial-hero-section">
+            <div className="hero-monument-box">
+              {/* Top Studio Slates */}
+              <div className="hero-metadata-line">
+                <span className="meta-pill-outline">MUMBAI, IN [IST]</span>
+                <span className="meta-divider">•</span>
+                <span className="meta-text-status">
+                  <span className="status-emerald-dot" />
+                  AVAILABLE FOR SELECT COMMISSIONS
+                </span>
+              </div>
 
-          <h1 className="hero-editorial-headline">
-            <span className="headline-block">RHYTHM & FORM.</span>
-            <span className="headline-block serif-italic">
-              Editing with Purpose.
-            </span>
-          </h1>
+              {/* Monumental Headline */}
+              <h1 className="hero-editorial-headline">
+                <span className="headline-block">RHYTHM & FORM.</span>
+                <span className="headline-block serif-italic">
+                  Exploring the art of motion.
+                </span>
+              </h1>
 
-          <p className="hero-editorial-lead">
-            Specializing in high-retention short-form Reels, documentary founder films, and multi-cam podcast workflows. Built on frame economy, calibrated sound architecture, and organic DaVinci color grading.
-          </p>
+              {/* Refined Editorial Lead */}
+              <p className="hero-editorial-lead">
+                Specializing in high-retention short-form Reels, documentary founder films, and multi-cam podcast workflows. Built on frame economy, calibrated sound architecture, and organic DaVinci color grading.
+              </p>
 
-          {/* Architectural Stat Specs */}
-          <div className="hero-specs-banner">
-            {PROFILE.stats.map((s, idx) => (
-              <div key={idx} className="spec-item">
-                <span className="spec-label-mono">{s.label}</span>
-                <div className="spec-number-row">
-                  <CountUpStat
-                    target={s.target}
-                    decimals={s.decimals}
-                    suffix={s.suffix}
-                  />
+              {/* CENTERPIECE HERO CTA: RECENT WORKS BUTTON */}
+              <div className="hero-interactive-cta-cluster">
+                <button
+                  type="button"
+                  className="hero-recent-works-btn"
+                  onClick={() => navigateToView("works", "LAUNCHING SCREENING ROOM")}
+                  title="View Selected Repertoire & Film Edits"
+                >
+                  <div className="btn-shimmer-sweep" />
+                  <div className="btn-inner-content">
+                    <span className="btn-film-reel-icon">
+                      <FilmIcon size={17} />
+                    </span>
+                    <span className="btn-main-label">Recent Works</span>
+                    <span className="btn-film-counter-chip">{PROJECTS.length} CUTS</span>
+                    <span className="btn-arrow-bubble">
+                      <ArrowRight size={15} />
+                    </span>
+                  </div>
+                </button>
+
+                <a href="#contact" className="hero-secondary-inquire-btn">
+                  <span>Initiate Inquiry</span>
+                  <ArrowUpRight size={13} />
+                </a>
+              </div>
+
+              {/* Architectural Stat Specs */}
+              <div className="hero-specs-banner">
+                {PROFILE.stats.map((s, idx) => (
+                  <div key={idx} className="spec-item">
+                    <span className="spec-label-mono">{s.label}</span>
+                    <div className="spec-number-row">
+                      <CountUpStat
+                        target={s.target}
+                        decimals={s.decimals}
+                        suffix={s.suffix}
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* EDITORIAL DISCIPLINES / CRAFT PILLARS */}
+          <section className="editorial-services-section">
+            <div className="section-narrow-wrap">
+              <div className="section-head-slate">
+                <span className="eyebrow-mono">CRAFT & ARCHITECTURE</span>
+                <h2 className="section-display-title">Post-Production Disciplines</h2>
+              </div>
+
+              <div className="services-curated-grid">
+                {SERVICES.map((srv) => (
+                  <div key={srv.num} className="service-editorial-card">
+                    <div className="service-card-head">
+                      <span className="service-num-slate">/{srv.num}</span>
+                      <span className="service-deco-line" />
+                    </div>
+                    <h3 className="service-title">{srv.title}</h3>
+                    <p className="service-desc">{srv.desc}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* SPECIFICATIONS & HARDWARE RUNTIME */}
+          <section className="editorial-spec-section" id="stack">
+            <div className="spec-sheet-container">
+              <div className="spec-sheet-header">
+                <span className="eyebrow-mono">STUDIO SPECIFICATIONS</span>
+                <h3 className="spec-sheet-title">Technical Standards & Delivery Suite</h3>
+              </div>
+
+              <div className="spec-sheet-grid">
+                <div className="spec-sheet-col">
+                  <span className="col-mono-heading">SOFTWARE RUNTIME</span>
+                  <div className="tool-chips-wrap">
+                    {TOOLS.map((tool) => (
+                      <span key={tool} className="editorial-tool-tag">
+                        <span className="tool-bullet">/</span>
+                        {tool}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="spec-sheet-col">
+                  <span className="col-mono-heading">DELIVERY BENCHMARKS</span>
+                  <ul className="spec-benchmarks-list">
+                    <li>
+                      <span className="benchmark-idx">01</span>
+                      <div className="benchmark-body">
+                        <strong>48-Hour First Cut Turnaround</strong>
+                        <p>Rapid assembly and narrative locking so your publishing pipeline never stalls.</p>
+                      </div>
+                    </li>
+                    <li>
+                      <span className="benchmark-idx">02</span>
+                      <div className="benchmark-body">
+                        <strong>Lossless Multi-Format Masters</strong>
+                        <p>Full 4K ProRes 422 & optimized H.264 exports formatted for 9:16 vertical and 16:9 cinematic.</p>
+                      </div>
+                    </li>
+                    <li>
+                      <span className="benchmark-idx">03</span>
+                      <div className="benchmark-body">
+                        <strong>DaVinci Resolve Color & Sound Design</strong>
+                        <p>Film emulation curves, natural skin tone preservation, and layered SFX dynamics.</p>
+                      </div>
+                    </li>
+                  </ul>
                 </div>
               </div>
-            ))}
-          </div>
+            </div>
+          </section>
 
-          {/* Action Links */}
-          <div className="hero-action-row">
-            <a href="#work" className="action-pill-primary">
-              <span>View Selected Work</span>
-              <span className="pill-arrow-circle">
-                <ArrowDown size={13} />
-              </span>
-            </a>
-            <a href="#contact" className="action-pill-secondary">
-              <span>Initiate Inquiry</span>
-              <ArrowUpRight size={13} />
-            </a>
-          </div>
-        </div>
-      </section>
+          {/* CONTACT & INQUIRY */}
+          <section className="editorial-contact-section" id="contact">
+            <div className="contact-editorial-frame">
+              <span className="eyebrow-mono">COMMISSIONS & COLLABORATIONS</span>
+              <h2 className="contact-editorial-title">
+                Have raw footage to cut? <br />
+                <span className="serif-italic">Let’s build something iconic.</span>
+              </h2>
 
-      {/* ========================================================
-          SELECTED WORK SECTION: Gallery of Films & Reels
-          ======================================================== */}
-      <section className="editorial-work-section" id="work">
-        <div className="work-section-header">
-          <div className="work-title-wrap">
-            <span className="work-eyebrow-mono">INDEX OF WORKS (2024—2025)</span>
-            <h2 className="work-display-heading">Selected Repertoire</h2>
-          </div>
-
-          {/* Minimalist Filter Tabs */}
-          <div className="work-filter-tabs" role="tablist" aria-label="Filter works">
-            {CATEGORIES.map((cat) => (
-              <button
-                key={cat}
-                type="button"
-                className={`filter-tab-pill ${selectedCategory === cat ? "active" : ""}`}
-                onClick={() => setSelectedCategory(cat)}
-                role="tab"
-                aria-selected={selectedCategory === cat}
-              >
-                <span className="tab-name">{cat}</span>
-                <span className="tab-digit">{categoryCounts[cat] || 0}</span>
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* Video Grid */}
-        <div className="work-masonry-grid">
-          {filteredProjects.map((project, idx) => (
-            <VideoCard
-              key={project.id}
-              project={project}
-              index={idx}
-              onOpenTheater={setActiveTheaterProject}
-            />
-          ))}
-        </div>
-      </section>
-
-      {/* ========================================================
-          SPECIFICATIONS & TOOLS SECTION
-          ======================================================== */}
-      <section className="editorial-spec-section" id="stack">
-        <div className="spec-sheet-container">
-          <div className="spec-sheet-header">
-            <span className="work-eyebrow-mono">STUDIO SPECIFICATIONS</span>
-            <h3 className="spec-sheet-title">Technical Standards & Delivery Suite</h3>
-          </div>
-
-          <div className="spec-sheet-grid">
-            <div className="spec-sheet-col">
-              <span className="col-mono-heading">SOFTWARE RUNTIME</span>
-              <div className="tool-chips-wrap">
-                {TOOLS.map((tool) => (
-                  <span key={tool} className="editorial-tool-tag">
-                    <span className="tool-bullet">/</span>
-                    {tool}
+              <div className="contact-action-interface">
+                {/* Copy Email Button */}
+                <button
+                  type="button"
+                  className="email-clipboard-button"
+                  onClick={copyEmailToClipboard}
+                  title="Copy email address"
+                >
+                  <span className="email-plain-text">{PROFILE.email}</span>
+                  <span className={`clipboard-badge ${copiedEmail ? "copied" : ""}`}>
+                    {copiedEmail ? (
+                      <>
+                        <CheckIcon size={12} />
+                        <span>COPIED</span>
+                      </>
+                    ) : (
+                      <>
+                        <CopyIcon size={12} />
+                        <span>COPY</span>
+                      </>
+                    )}
                   </span>
+                </button>
+
+                {/* Direct Compose Mail */}
+                <a
+                  href={`mailto:${PROFILE.email}?subject=Project%20Inquiry%20%E2%80%94%20Video%20Editing`}
+                  className="direct-mail-button"
+                >
+                  <span>Compose Email</span>
+                  <ArrowUpRight size={14} />
+                </a>
+              </div>
+
+              {/* Social Links */}
+              <div className="contact-social-pills">
+                {PROFILE.socials.map((s) => (
+                  <a
+                    key={s.label}
+                    href={s.url}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="social-text-link"
+                  >
+                    <span>{s.label}</span>
+                    <ArrowUpRight size={11} />
+                  </a>
+                ))}
+              </div>
+            </div>
+          </section>
+        </main>
+      )}
+
+      {/* ========================================================
+          VIEW B: WORKS (The Repertoire Screening Room)
+          ======================================================== */}
+      {currentView === "works" && (
+        <main className="view-page works-view-page">
+          <section className="editorial-work-section">
+            {/* Works Header & Breadcrumbs */}
+            <div className="works-top-nav-bar">
+              <button
+                type="button"
+                className="back-to-studio-btn"
+                onClick={() => navigateToView("studio", "RETURNING TO STUDIO")}
+              >
+                <ArrowLeft size={14} />
+                <span>Back to Studio</span>
+              </button>
+
+              <div className="screening-room-tag">
+                <span className="screening-dot" />
+                <span>SCREENING ROOM // 2024—2025</span>
+              </div>
+            </div>
+
+            <div className="work-section-header">
+              <div className="work-title-wrap">
+                <span className="eyebrow-mono">INDEX OF WORKS ({PROJECTS.length} REELS)</span>
+                <h2 className="work-display-heading">Curated Repertoire</h2>
+              </div>
+
+              {/* Filter Tabs */}
+              <div className="work-filter-tabs" role="tablist" aria-label="Filter works">
+                {CATEGORIES.map((cat) => (
+                  <button
+                    key={cat}
+                    type="button"
+                    className={`filter-tab-pill ${selectedCategory === cat ? "active" : ""}`}
+                    onClick={() => setSelectedCategory(cat)}
+                    role="tab"
+                    aria-selected={selectedCategory === cat}
+                  >
+                    <span className="tab-name">{cat}</span>
+                    <span className="tab-digit">{categoryCounts[cat] || 0}</span>
+                  </button>
                 ))}
               </div>
             </div>
 
-            <div className="spec-sheet-col">
-              <span className="col-mono-heading">DELIVERY BENCHMARKS</span>
-              <ul className="spec-benchmarks-list">
-                <li>
-                  <span className="benchmark-idx">01</span>
-                  <div className="benchmark-body">
-                    <strong>48-Hour First Cut Turnaround</strong>
-                    <p>Rapid assembly and story locking so your publishing pipeline never stalls.</p>
-                  </div>
-                </li>
-                <li>
-                  <span className="benchmark-idx">02</span>
-                  <div className="benchmark-body">
-                    <strong>Lossless Multi-Format Masters</strong>
-                    <p>Full 4K ProRes 422 & optimized H.264 exports formatted for 9:16 and 16:9.</p>
-                  </div>
-                </li>
-                <li>
-                  <span className="benchmark-idx">03</span>
-                  <div className="benchmark-body">
-                    <strong>DaVinci Resolve Grade & Sound Design</strong>
-                    <p>Skin tone preservation, film emulation curves, and layered SFX dynamics.</p>
-                  </div>
-                </li>
-              </ul>
+            {/* Video Masonry Grid */}
+            <div className="work-masonry-grid">
+              {filteredProjects.map((project, idx) => (
+                <VideoCard
+                  key={project.id}
+                  project={project}
+                  index={idx}
+                  onOpenTheater={setActiveTheaterProject}
+                />
+              ))}
             </div>
-          </div>
-        </div>
-      </section>
+
+            {/* Bottom Floating Bar in Works Page */}
+            <div className="works-bottom-action-banner">
+              <div className="banner-left-info">
+                <strong>Need custom video editing or a monthly creator retainer?</strong>
+                <p>Delivering high-pacing cuts within 48 hours for fast-growing brands.</p>
+              </div>
+              <div className="banner-right-btns">
+                <button
+                  type="button"
+                  className="banner-studio-btn"
+                  onClick={() => navigateToView("studio", "STUDIO OVERVIEW")}
+                >
+                  <ArrowLeft size={13} />
+                  <span>Studio Specs</span>
+                </button>
+                <a
+                  href={`mailto:${PROFILE.email}?subject=Project%20Inquiry%20from%20Portfolio`}
+                  className="banner-inquire-btn"
+                >
+                  <span>Initiate Inquiry</span>
+                  <ArrowUpRight size={13} />
+                </a>
+              </div>
+            </div>
+          </section>
+        </main>
+      )}
 
       {/* ========================================================
-          CONTACT & INQUIRY SECTION
-          ======================================================== */}
-      <section className="editorial-contact-section" id="contact">
-        <div className="contact-editorial-frame">
-          <span className="work-eyebrow-mono">COMMISSIONS & COLLABORATIONS</span>
-          <h2 className="contact-editorial-title">
-            Have raw footage to cut? <br />
-            <span className="serif-italic">Let’s build something iconic.</span>
-          </h2>
-
-          <div className="contact-action-interface">
-            {/* Copy Email Button */}
-            <button
-              type="button"
-              className="email-clipboard-button"
-              onClick={copyEmailToClipboard}
-              title="Copy email address"
-            >
-              <span className="email-plain-text">{PROFILE.email}</span>
-              <span className={`clipboard-badge ${copiedEmail ? "copied" : ""}`}>
-                {copiedEmail ? (
-                  <>
-                    <CheckIcon size={12} />
-                    <span>COPIED</span>
-                  </>
-                ) : (
-                  <>
-                    <CopyIcon size={12} />
-                    <span>COPY</span>
-                  </>
-                )}
-              </span>
-            </button>
-
-            {/* Direct Compose Mail */}
-            <a
-              href={`mailto:${PROFILE.email}?subject=Project%20Inquiry%20%E2%80%94%20Video%20Editing`}
-              className="direct-mail-button"
-            >
-              <span>Compose Email</span>
-              <ArrowUpRight size={14} />
-            </a>
-          </div>
-
-          {/* Social Links */}
-          <div className="contact-social-pills">
-            {PROFILE.socials.map((s) => (
-              <a
-                key={s.label}
-                href={s.url}
-                target="_blank"
-                rel="noreferrer"
-                className="social-text-link"
-              >
-                <span>{s.label}</span>
-                <ArrowUpRight size={11} />
-              </a>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ========================================================
-          FOOTER
+          GLOBAL FOOTER
           ======================================================== */}
       <footer className="editorial-footer">
         <div className="footer-wrap">
@@ -652,7 +889,7 @@ export default function App() {
             <span className="footer-role">Video Editor & Motion Designer</span>
           </div>
           <div className="footer-stamp">
-            <span>© {new Date().getFullYear()} ALL RIGHTS RESERVED</span>
+            <span>© {new Date().getFullYear()} RANJEET MISHRA STUDIO • ALL RIGHTS RESERVED</span>
           </div>
         </div>
       </footer>

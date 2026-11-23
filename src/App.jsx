@@ -8,7 +8,7 @@ import {
   PROJECTS,
 } from "./data.js";
 
-/* ---------- Minimal Cinema Icons ---------- */
+/* ---------- Minimal Icons ---------- */
 const PlayIcon = ({ size = 20 }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
     <path d="M8 5.14v13.72a1 1 0 001.52.85l11-6.86a1 1 0 000-1.7l-11-6.86A1 1 0 008 5.14z" />
@@ -49,6 +49,17 @@ const ArrowLeft = ({ size = 15 }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
     <line x1="19" y1="12" x2="5" y2="12" />
     <polyline points="12 19 5 12 12 5" />
+  </svg>
+);
+
+const FilmReelIcon = ({ size = 16 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <circle cx="12" cy="12" r="10" />
+    <circle cx="12" cy="12" r="3" />
+    <circle cx="12" cy="6" r="1.5" fill="currentColor" />
+    <circle cx="12" cy="18" r="1.5" fill="currentColor" />
+    <circle cx="6" cy="12" r="1.5" fill="currentColor" />
+    <circle cx="18" cy="12" r="1.5" fill="currentColor" />
   </svg>
 );
 
@@ -126,7 +137,7 @@ function CountUpStat({ target, decimals = 0, suffix = "" }) {
   );
 }
 
-/* ---------- Minimal Video Card ---------- */
+/* ---------- Minimal Video Card (Works Screening Room) ---------- */
 function VideoCard({ project, index, onOpenTheater }) {
   const [isPlaying, setIsPlaying] = useState(false);
   const padNum = String(index + 1).padStart(2, "0");
@@ -329,6 +340,12 @@ export default function App() {
   const [activeTheaterProject, setActiveTheaterProject] = useState(null);
   const [copiedEmail, setCopiedEmail] = useState(false);
 
+  // Interactive Hero Video Portal state
+  const [heroProjectIndex, setHeroProjectIndex] = useState(0);
+  const [isHeroPlaying, setIsHeroPlaying] = useState(false);
+
+  const heroProject = PROJECTS[heroProjectIndex] || PROJECTS[0];
+
   // URL Hash Sync for Back/Forward Navigation
   useEffect(() => {
     const handleHash = () => {
@@ -488,6 +505,7 @@ export default function App() {
               className={`minimal-nav-pill ${currentView === "works" ? "active" : ""}`}
               onClick={handleRecentWorksClick}
             >
+              <FilmReelIcon size={14} />
               <span>Recent Works</span>
               <span className="nav-count-dot">{PROJECTS.length}</span>
             </button>
@@ -499,77 +517,187 @@ export default function App() {
       </header>
 
       {/* ========================================================
-          VIEW: STUDIO (Minimal Clean Overview)
+          VIEW: STUDIO (The Minimal & Creative Hero Stage)
           ======================================================== */}
       {currentView === "studio" && (
         <main className="view-layer-minimal view-enter-reveal">
-          {/* HERO SECTION */}
-          <section className="minimal-hero-section">
-            <div className="minimal-hero-container">
-              {/* Director Spotlight Badge with Avatar */}
-              <div className="hero-director-badge">
-                <div className="director-avatar-wrap">
-                  <img
-                    src={PROFILE.avatar || "/avatar.png"}
-                    alt={PROFILE.name}
-                    className="director-avatar-img"
-                  />
-                  <span className="director-rec-pulse" />
-                </div>
-                <div className="director-badge-info">
-                  <span className="director-badge-name">{PROFILE.name}</span>
-                  <span className="director-badge-craft">Post-Production Editor • Mumbai [IST]</span>
-                </div>
-                <span className="director-status-chip">
-                  <span className="chip-live-dot" />
-                  AVAILABLE FOR COMMISSIONS
-                </span>
-              </div>
-
-              <h1 className="hero-editorial-title">
-                <span className="title-bold">Crafting rhythm.</span>
-                <span className="title-italic">Stories that leave an impression.</span>
-              </h1>
-
-              <p className="hero-editorial-description">
-                Specializing in high-retention short-form Reels, documentary founder stories, and multi-cam podcast workflows. Frame-by-frame pacing, bespoke sound architecture, and organic DaVinci color grading.
-              </p>
-
-              {/* CENTERPIECE "RECENT WORKS" BUTTON */}
-              <div className="hero-action-row">
-                <button
-                  type="button"
-                  className="minimal-works-pass-btn"
-                  onClick={handleRecentWorksClick}
-                  title="Explore recent works"
-                >
-                  <span className="btn-label">Recent Works</span>
-                  <span className="btn-count-chip">{PROJECTS.length} CUTS</span>
-                  <span className="btn-arrow-disc">
-                    <ArrowRight size={13} />
-                  </span>
-                </button>
-
-                <a href="#contact" className="minimal-secondary-btn">
-                  <span>Start a Project</span>
-                  <ArrowUpRight size={12} />
-                </a>
-              </div>
-
-              {/* Minimal Numbers Row */}
-              <div className="minimal-stats-strip">
-                {PROFILE.stats.map((s, idx) => (
-                  <div key={idx} className="stat-minimal-item">
-                    <span className="stat-number">
-                      <CountUpStat
-                        target={s.target}
-                        decimals={s.decimals}
-                        suffix={s.suffix}
-                      />
-                    </span>
-                    <span className="stat-caption">{s.label}</span>
+          {/* THE CREATIVE INTERACTIVE HERO */}
+          <section className="creative-hero-section">
+            <div className="creative-hero-grid">
+              {/* Left Column: Directorial Narrative & Actions */}
+              <div className="hero-editorial-column">
+                <div className="hero-director-badge">
+                  <div className="director-avatar-wrap">
+                    <img
+                      src={PROFILE.avatar || "/avatar.png"}
+                      alt={PROFILE.name}
+                      className="director-avatar-img"
+                    />
+                    <span className="director-rec-pulse" />
                   </div>
-                ))}
+                  <div className="director-badge-info">
+                    <span className="director-badge-name">{PROFILE.name}</span>
+                    <span className="director-badge-craft">Post-Production Editor • Mumbai [IST]</span>
+                  </div>
+                  <span className="director-status-chip">
+                    <span className="chip-live-dot" />
+                    COMMISSIONS OPEN
+                  </span>
+                </div>
+
+                <h1 className="hero-editorial-title">
+                  <span className="title-bold">Crafting rhythm.</span>
+                  <span className="title-italic">Stories that leave an impression.</span>
+                </h1>
+
+                <p className="hero-editorial-description">
+                  Specializing in high-retention short-form Reels, documentary founder stories, and multi-cam podcast workflows. Frame-by-frame pacing, bespoke sound architecture, and organic DaVinci color grading.
+                </p>
+
+                {/* Centerpiece "Recent Works" Pass */}
+                <div className="hero-action-row">
+                  <button
+                    type="button"
+                    className="minimal-works-pass-btn"
+                    onClick={handleRecentWorksClick}
+                    title="Explore recent works"
+                  >
+                    <span className="btn-label">Recent Works</span>
+                    <span className="btn-count-chip">{PROJECTS.length} CUTS</span>
+                    <span className="btn-arrow-disc">
+                      <ArrowRight size={13} />
+                    </span>
+                  </button>
+
+                  <a href="#contact" className="minimal-secondary-btn">
+                    <span>Start a Project</span>
+                    <ArrowUpRight size={12} />
+                  </a>
+                </div>
+
+                {/* Minimal Numbers Row */}
+                <div className="minimal-stats-strip">
+                  {PROFILE.stats.map((s, idx) => (
+                    <div key={idx} className="stat-minimal-item">
+                      <span className="stat-number">
+                        <CountUpStat
+                          target={s.target}
+                          decimals={s.decimals}
+                          suffix={s.suffix}
+                        />
+                      </span>
+                      <span className="stat-caption">{s.label}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Right Column: The Interactive Showreel Portal */}
+              <div className="hero-portal-column">
+                <div className="hero-cinema-portal">
+                  <div className="portal-top-bar">
+                    <div className="portal-left-meta">
+                      <span className="portal-live-dot" />
+                      <span className="portal-slate-label">PREVIEW REEL // 24 FPS</span>
+                    </div>
+                    <div className="portal-right-meta">
+                      <span className="portal-category-tag">{heroProject.category}</span>
+                      <button
+                        type="button"
+                        className="portal-expand-icon"
+                        onClick={() => setActiveTheaterProject(heroProject)}
+                        title="Expand to Fullscreen Theater"
+                      >
+                        <ExpandIcon size={13} />
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Portal Screen Viewport */}
+                  <div className={`portal-screen-viewport ${heroProject.shape}`}>
+                    {isHeroPlaying ? (
+                      <div className="portal-inline-player">
+                        <iframe
+                          src={`https://player.vimeo.com/video/${heroProject.vimeoId}?autoplay=1&muted=0&playsinline=1&title=0&byline=0&portrait=0&badge=0&autopause=1&dnt=1`}
+                          className="portal-vimeo-iframe"
+                          allow="autoplay; fullscreen; picture-in-picture; encrypted-media"
+                          allowFullScreen
+                          referrerPolicy="strict-origin-when-cross-origin"
+                          title="Hero preview player"
+                        />
+                        <button
+                          type="button"
+                          className="portal-close-trigger"
+                          onClick={() => setIsHeroPlaying(false)}
+                          title="Close preview"
+                        >
+                          <CloseIcon size={14} />
+                          <span>STOP</span>
+                        </button>
+                      </div>
+                    ) : (
+                      <div
+                        className="portal-poster-surface"
+                        onClick={() => setIsHeroPlaying(true)}
+                        title="Click to play in preview monitor"
+                      >
+                        <img
+                          src={heroProject.image}
+                          alt="Showreel preview still"
+                          className="portal-poster-img"
+                        />
+                        {/* Optical Viewfinder Corners */}
+                        <div className="viewfinder-brackets" aria-hidden="true">
+                          <span className="vf-bracket vf-tl" />
+                          <span className="vf-bracket vf-tr" />
+                          <span className="vf-bracket vf-bl" />
+                          <span className="vf-bracket vf-br" />
+                        </div>
+
+                        <div className="card-vignette-overlay" />
+
+                        {/* Centered Play Trigger */}
+                        <div className="portal-center-play">
+                          <div className="play-disc-circle">
+                            <PlayIcon size={24} />
+                          </div>
+                          <span className="portal-play-label">PLAY PREVIEW</span>
+                        </div>
+
+                        <div className="portal-bottom-tag">
+                          <span>{heroProject.duration}</span>
+                          <span className="tag-sep">•</span>
+                          <span>{heroProject.aspect}</span>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Quick-Switch Thumbnails below Portal */}
+                  <div className="portal-switch-bar">
+                    <span className="switch-hint">FEATURED CUTS:</span>
+                    <div className="switch-chips">
+                      {[0, 1, 3].map((idx) => {
+                        const p = PROJECTS[idx];
+                        if (!p) return null;
+                        const isSelected = heroProjectIndex === idx;
+                        return (
+                          <button
+                            key={p.id}
+                            type="button"
+                            className={`switch-chip-btn ${isSelected ? "active" : ""}`}
+                            onClick={() => {
+                              setHeroProjectIndex(idx);
+                              setIsHeroPlaying(false);
+                            }}
+                          >
+                            <span>#{String(idx + 1).padStart(2, "0")} {p.category}</span>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </section>
@@ -585,7 +713,7 @@ export default function App() {
               <div className="disciplines-minimal-grid">
                 {SERVICES.map((srv) => (
                   <div key={srv.num} className="discipline-clean-card">
-                    <span className="discipline-num">{srv.num}</span>
+                    <span className="discipline-num">SCENE /{srv.num}</span>
                     <h3 className="discipline-title">{srv.title}</h3>
                     <p className="discipline-desc">{srv.desc}</p>
                   </div>
@@ -748,11 +876,11 @@ export default function App() {
                 ))}
               </div>
 
-              {/* Minimal Bottom Slate */}
+              {/* Minimal Bottom Prompt */}
               <div className="works-bottom-prompt">
                 <div className="prompt-left">
                   <span className="section-label">COMMISSIONS OPEN</span>
-                  <h3 className="prompt-title">Need a dedicated editor or monthly retainer?</h3>
+                  <h3 className="prompt-title">Need a dedicated editor or creator retainer?</h3>
                 </div>
                 <div className="prompt-actions">
                   <button

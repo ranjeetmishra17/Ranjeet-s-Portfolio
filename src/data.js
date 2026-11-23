@@ -1,6 +1,7 @@
 export const PROFILE = {
   name: "Ranjeet Mishra",
   title: "Video Editor & Motion Designer",
+  avatar: "/avatar.png",
   status: "Available for new projects",
   email: "ranjeetmishra.work@gmail.com",
   headline: "Editing with rhythm & purpose. Turning raw footage into high-retention visual stories.",

@@ -195,9 +195,44 @@ img {
 .minimal-brand-btn {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 12px;
   font-family: var(--font-body);
   text-align: left;
+}
+
+.nav-avatar-frame {
+  position: relative;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  overflow: visible;
+  flex-shrink: 0;
+}
+
+.nav-avatar-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1.5px solid var(--border-focus);
+  background: #151d11;
+}
+
+.nav-avatar-dot {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--olive-primary);
+  border: 1.5px solid #070806;
+  box-shadow: 0 0 6px var(--olive-primary);
+}
+
+.brand-text-col {
+  display: flex;
+  flex-direction: column;
 }
 
 .brand-name {
@@ -205,17 +240,13 @@ img {
   font-weight: 700;
   letter-spacing: -0.01em;
   color: var(--text-ivory);
-}
-
-.brand-divider {
-  color: var(--text-dust);
-  font-size: 0.85rem;
+  line-height: 1.2;
 }
 
 .brand-title {
   font-family: var(--font-mono);
-  font-size: 0.72rem;
-  letter-spacing: 0.06em;
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
   color: var(--olive-primary);
   text-transform: uppercase;
 }
@@ -302,24 +333,99 @@ img {
   align-items: center;
 }
 
-.hero-minimal-kicker {
+/* Hero Director Badge with Avatar */
+.hero-director-badge {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  letter-spacing: 0.12em;
-  color: var(--text-sand);
-  text-transform: uppercase;
-  margin-bottom: 24px;
+  gap: 14px;
+  padding: 6px 18px 6px 8px;
+  border-radius: 9999px;
+  background: rgba(14, 18, 12, 0.75);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--border-subtle);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(210, 228, 156, 0.12);
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
-.kicker-live-dot {
-  width: 6px;
-  height: 6px;
+.director-avatar-wrap {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.director-avatar-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1.5px solid var(--border-focus);
+  background: #141c10;
+}
+
+.director-rec-pulse {
+  position: absolute;
+  bottom: 1px;
+  right: 1px;
+  width: 9px;
+  height: 9px;
   border-radius: 50%;
   background: var(--olive-primary);
+  border: 2px solid #070806;
   box-shadow: 0 0 8px var(--olive-primary);
+  animation: pulseDot 2s ease-in-out infinite alternate;
+}
+
+@keyframes pulseDot {
+  0% { transform: scale(0.9); opacity: 0.6; }
+  100% { transform: scale(1.15); opacity: 1; }
+}
+
+.director-badge-info {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.director-badge-name {
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--text-ivory);
+  letter-spacing: -0.01em;
+}
+
+.director-badge-craft {
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.04em;
+  color: var(--text-sand);
+}
+
+.director-status-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  padding: 3px 10px;
+  border-radius: 9999px;
+  background: rgba(155, 184, 87, 0.14);
+  border: 1px solid rgba(155, 184, 87, 0.3);
+  color: var(--olive-champagne);
+}
+
+.chip-live-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--olive-primary);
 }
 
 .hero-editorial-title {
@@ -966,6 +1072,58 @@ img {
 
 .card-poster-surface:hover .card-media-poster {
   transform: scale(1.04);
+}
+
+/* Optical Viewfinder Framing Brackets */
+.viewfinder-brackets {
+  position: absolute;
+  inset: 12px;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.vf-bracket {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border-color: rgba(210, 228, 156, 0.3);
+  border-style: solid;
+  border-width: 0;
+  transition: all 0.3s var(--ease-spring);
+}
+
+.vf-bracket.vf-tl {
+  top: 0;
+  left: 0;
+  border-top-width: 1.5px;
+  border-left-width: 1.5px;
+}
+
+.vf-bracket.vf-tr {
+  top: 0;
+  right: 0;
+  border-top-width: 1.5px;
+  border-right-width: 1.5px;
+}
+
+.vf-bracket.vf-bl {
+  bottom: 0;
+  left: 0;
+  border-bottom-width: 1.5px;
+  border-left-width: 1.5px;
+}
+
+.vf-bracket.vf-br {
+  bottom: 0;
+  right: 0;
+  border-bottom-width: 1.5px;
+  border-right-width: 1.5px;
+}
+
+.card-poster-surface:hover .vf-bracket {
+  border-color: var(--olive-champagne);
+  box-shadow: 0 0 8px rgba(210, 228, 156, 0.4);
+  transform: scale(1.1);
 }
 
 .card-vignette-overlay {

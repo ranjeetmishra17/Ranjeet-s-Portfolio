@@ -178,6 +178,14 @@ function VideoCard({ project, index, onOpenTheater }) {
               className="card-media-poster"
               loading="lazy"
             />
+            {/* Optical Viewfinder Corners */}
+            <div className="viewfinder-brackets" aria-hidden="true">
+              <span className="vf-bracket vf-tl" />
+              <span className="vf-bracket vf-tr" />
+              <span className="vf-bracket vf-bl" />
+              <span className="vf-bracket vf-br" />
+            </div>
+
             <div className="card-vignette-overlay" />
 
             {/* Clean Metadata Slates */}
@@ -446,15 +454,24 @@ export default function App() {
       {/* PURE MINIMALIST NAVIGATION */}
       <header className="minimal-nav-header">
         <div className="minimal-nav-inner">
-          {/* Director Identity */}
+          {/* Director Identity with Avatar */}
           <button
             type="button"
             className="minimal-brand-btn"
             onClick={handleReturnToStudio}
           >
-            <span className="brand-name">{PROFILE.name}</span>
-            <span className="brand-divider">/</span>
-            <span className="brand-title">Video Editor</span>
+            <div className="nav-avatar-frame">
+              <img
+                src={PROFILE.avatar || "/avatar.png"}
+                alt={PROFILE.name}
+                className="nav-avatar-img"
+              />
+              <span className="nav-avatar-dot" />
+            </div>
+            <div className="brand-text-col">
+              <span className="brand-name">{PROFILE.name}</span>
+              <span className="brand-title">Video Editor</span>
+            </div>
           </button>
 
           {/* Clean Actions */}
@@ -489,9 +506,24 @@ export default function App() {
           {/* HERO SECTION */}
           <section className="minimal-hero-section">
             <div className="minimal-hero-container">
-              <div className="hero-minimal-kicker">
-                <span className="kicker-live-dot" />
-                <span>MUMBAI [IST] • AVAILABLE FOR COMMISSIONS</span>
+              {/* Director Spotlight Badge with Avatar */}
+              <div className="hero-director-badge">
+                <div className="director-avatar-wrap">
+                  <img
+                    src={PROFILE.avatar || "/avatar.png"}
+                    alt={PROFILE.name}
+                    className="director-avatar-img"
+                  />
+                  <span className="director-rec-pulse" />
+                </div>
+                <div className="director-badge-info">
+                  <span className="director-badge-name">{PROFILE.name}</span>
+                  <span className="director-badge-craft">Post-Production Editor • Mumbai [IST]</span>
+                </div>
+                <span className="director-status-chip">
+                  <span className="chip-live-dot" />
+                  AVAILABLE FOR COMMISSIONS
+                </span>
               </div>
 
               <h1 className="hero-editorial-title">

@@ -219,6 +219,14 @@ function VideoCard({ project, index, onOpenTheater }) {
               className="poster-media-img"
               loading="lazy"
             />
+            {/* Viewfinder Optical Framing Reticle */}
+            <div className="viewfinder-corners" aria-hidden="true">
+              <span className="vf-corner vf-tl" />
+              <span className="vf-corner vf-tr" />
+              <span className="vf-corner vf-bl" />
+              <span className="vf-corner vf-br" />
+            </div>
+
             {/* Olive Celluloid Vignette */}
             <div className="poster-olive-vignette" />
 
@@ -666,20 +674,34 @@ export default function App() {
                 </a>
               </div>
 
-              {/* Cinematic Stat Slates */}
-              <div className="hero-stats-celluloid">
-                {PROFILE.stats.map((s, idx) => (
-                  <div key={idx} className="stat-slate-cell">
-                    <span className="stat-label-vintage">{s.label}</span>
-                    <div className="stat-val-row">
-                      <CountUpStat
-                        target={s.target}
-                        decimals={s.decimals}
-                        suffix={s.suffix}
-                      />
-                    </div>
+              {/* Cinematic Stat Slates & Digital Monitor */}
+              <div className="hero-stats-panel">
+                <div className="stats-monitor-header" aria-hidden="true">
+                  <div className="monitor-left">
+                    <span className="camera-rec-dot" />
+                    <span className="monitor-title">DIGITAL CUT MONITOR // 24.000 FPS</span>
                   </div>
-                ))}
+                  <div className="monitor-right">
+                    <span className="monitor-tag">PRORES 422 HQ</span>
+                    <span className="monitor-sep">•</span>
+                    <span className="monitor-tag">DAVINCI WIDE GAMUT</span>
+                  </div>
+                </div>
+
+                <div className="hero-stats-celluloid">
+                  {PROFILE.stats.map((s, idx) => (
+                    <div key={idx} className="stat-slate-cell">
+                      <span className="stat-label-vintage">{s.label}</span>
+                      <div className="stat-val-row">
+                        <CountUpStat
+                          target={s.target}
+                          decimals={s.decimals}
+                          suffix={s.suffix}
+                        />
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           </section>
@@ -695,6 +717,13 @@ export default function App() {
               <div className="disciplines-art-grid">
                 {SERVICES.map((srv) => (
                   <div key={srv.num} className="discipline-cinema-card">
+                    {/* Viewfinder Optical Framing Reticle */}
+                    <div className="viewfinder-corners" aria-hidden="true">
+                      <span className="vf-corner vf-tl" />
+                      <span className="vf-corner vf-tr" />
+                      <span className="vf-corner vf-bl" />
+                      <span className="vf-corner vf-br" />
+                    </div>
                     <div className="card-top-take">
                       <span className="take-number">SCENE /{srv.num}</span>
                       <span className="take-olive-line" />

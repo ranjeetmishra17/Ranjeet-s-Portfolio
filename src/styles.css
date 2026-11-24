@@ -412,8 +412,8 @@ img {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding-top: 108px;
-  padding-bottom: 24px;
+  padding-top: 136px;
+  padding-bottom: 28px;
   position: relative;
 }
 
@@ -422,41 +422,56 @@ img {
   flex-direction: column;
   justify-content: space-between;
   height: 100%;
-  min-height: calc(94vh - 132px);
-  gap: 20px;
+  min-height: calc(94vh - 164px);
+  gap: 24px;
 }
 
-.hero-top-bar {
+.hero-director-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-family: var(--font-mono);
-  font-size: 0.74rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--text-dust);
+  gap: 24px;
   width: 100%;
+  margin-top: 4px;
+  margin-bottom: 2px;
 }
 
-.hero-top-left {
+.hero-badge-tag {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--olive-primary);
+  text-transform: uppercase;
+}
+
+.hero-director-meta {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 20px;
 }
 
-.hero-meta-label {
-  color: var(--text-sand);
+.hero-location-clock {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
   font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--text-sand);
+  text-transform: uppercase;
 }
 
-.hero-top-center .hero-meta-badge {
-  padding: 5px 16px;
-  border-radius: 9999px;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid var(--border-subtle);
-  font-size: 0.7rem;
-  letter-spacing: 0.1em;
-  color: var(--text-dust);
+.hero-location-clock .live-status-dot {
+  position: relative;
+  top: 0;
+  right: 0;
+  width: 6px;
+  height: 6px;
+  background: var(--olive-primary);
+  border-radius: 50%;
+  box-shadow: 0 0 8px rgba(155, 184, 87, 0.7);
 }
 
 .hero-status-chip {
@@ -479,47 +494,6 @@ img {
   border-radius: 50%;
   background: var(--olive-primary);
   box-shadow: 0 0 8px var(--olive-primary);
-}
-
-.hero-director-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 32px;
-  flex-wrap: wrap;
-  margin-top: 4px;
-}
-
-.hero-tag-accent {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  color: var(--text-dust);
-  text-transform: uppercase;
-}
-
-.hero-tag-accent .live-status-dot {
-  position: relative;
-  top: 0;
-  right: 0;
-  width: 6px;
-  height: 6px;
-  background: var(--olive-primary);
-  border-radius: 50%;
-  box-shadow: 0 0 8px rgba(155, 184, 87, 0.7);
-}
-
-.hero-badge-tag {
-  font-family: var(--font-mono);
-  font-size: 0.78rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  color: var(--olive-primary);
-  text-transform: uppercase;
 }
 
 .hero-monumental-wrap {
@@ -1733,7 +1707,7 @@ img {
      ======================================================== */
   .section-hero-stage {
     min-height: calc(100dvh - 16px);
-    padding-top: 78px;
+    padding-top: 86px;
     padding-bottom: 22px;
     display: flex;
     flex-direction: column;
@@ -1745,37 +1719,33 @@ img {
     flex-direction: column;
     justify-content: space-between;
     height: 100%;
-    min-height: calc(100dvh - 108px);
+    min-height: calc(100dvh - 110px);
     gap: 16px;
   }
 
-  .hero-top-bar {
-    font-size: 0.66rem;
-    letter-spacing: 0.08em;
-    margin-bottom: 2px;
-    display: flex;
+  .hero-director-row {
+    flex-direction: row;
+    align-items: center;
     justify-content: space-between;
+    gap: 10px;
+    margin-top: 0;
+    width: 100%;
   }
 
-  .hero-top-left {
-    gap: 7px;
+  .hero-badge-tag {
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+  }
+
+  .hero-director-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
   }
 
   .hero-status-chip {
     padding: 4px 10px;
     font-size: 0.62rem;
-  }
-
-  .hero-director-row {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 12px;
-    margin-top: 0;
-  }
-
-  .hero-badge-tag {
-    font-size: 0.7rem;
-    letter-spacing: 0.1em;
   }
 
   .hero-quote-wrap {

@@ -603,33 +603,20 @@ export default function App() {
           ======================================================== */}
       <section id="hero" className="section-hero-stage reveal-section">
         <div className="tdk-container hero-stage-inner">
-          {/* Hero Top Directorial Bar */}
-          <div className="hero-top-bar reveal-item">
-            <div className="hero-top-left">
-              <span className="live-status-dot" />
-              <span className="hero-meta-label">MUMBAI [IST] // <TimezoneClock /></span>
-            </div>
-            <div className="hero-top-center hide-mobile">
-              <span className="hero-meta-badge">POST-PRODUCTION // RHYTHM & SOUND</span>
-            </div>
-            <div className="hero-top-right">
-              <span className="hero-status-chip">
-                <span className="chip-dot" />
-                <span>COMMISSIONS OPEN Q1/Q2</span>
-              </span>
-            </div>
-          </div>
-
-          <div className="hairline-divider reveal-divider" />
-
           {/* Director Tagline Bar */}
           <div className="hero-director-row reveal-item">
             <div className="hero-badge-tag">
               <span className="hero-tag-text">DIRECTORIAL POST-PRODUCTION & MOTION</span>
             </div>
-            <div className="hero-tag-accent hide-mobile">
-              <span className="live-status-dot" />
-              <span className="meta-accent-text">FRAME ECONOMY // PSYCHOACOUSTIC SOUND</span>
+            <div className="hero-director-meta">
+              <div className="hero-location-clock hide-mobile">
+                <span className="live-status-dot" />
+                <span className="meta-accent-text">MUMBAI [IST] // <TimezoneClock /></span>
+              </div>
+              <div className="hero-status-chip">
+                <span className="chip-dot" />
+                <span>COMMISSIONS OPEN Q1/Q2</span>
+              </div>
             </div>
           </div>
 

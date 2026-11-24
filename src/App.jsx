@@ -1,4 +1,6 @@
 import { useState, useEffect, useRef, useMemo } from "react";
+import Lenis from "lenis";
+import "lenis/dist/lenis.css";
 import {
   PROFILE,
   EXPERIENCE,
@@ -417,6 +419,44 @@ export default function App() {
   const [copiedEmail, setCopiedEmail] = useState(false);
   const [activeSlideIndex, setActiveSlideIndex] = useState(0);
   const carouselTrackRef = useRef(null);
+  const lenisRef = useRef(null);
+
+  // Silky Lenis Momentum Scrolling (tomdekoning.work engine)
+  useEffect(() => {
+    const lenis = new Lenis({
+      duration: 1.15,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      orientation: "vertical",
+      gestureOrientation: "vertical",
+      smoothWheel: true,
+      wheelMultiplier: 1.0,
+      touchMultiplier: 1.2,
+    });
+    lenisRef.current = lenis;
+
+    let rafId;
+    function raf(time) {
+      lenis.raf(time);
+      rafId = requestAnimationFrame(raf);
+    }
+    rafId = requestAnimationFrame(raf);
+
+    return () => {
+      cancelAnimationFrame(rafId);
+      lenis.destroy();
+      lenisRef.current = null;
+    };
+  }, []);
+
+  const scrollToSection = (e, targetId) => {
+    e.preventDefault();
+    if (lenisRef.current) {
+      lenisRef.current.scrollTo(targetId, { offset: -25, duration: 1.1 });
+    } else {
+      const el = document.querySelector(targetId);
+      if (el) el.scrollIntoView({ behavior: "smooth" });
+    }
+  };
 
   // Category counts
   const categoryCounts = useMemo(() => {
@@ -513,7 +553,11 @@ export default function App() {
       <header className="navbar-fixed-pill">
         <div className="navbar-inner-pill">
           {/* Brand & Avatar */}
-          <a href="#header" className="navbar-brand-link">
+          <a
+            href="#header"
+            className="navbar-brand-link"
+            onClick={(e) => scrollToSection(e, "#header")}
+          >
             <div className="nav-avatar-circle">
               <img
                 src={PROFILE.avatar || "/avatar.png"}
@@ -529,19 +573,19 @@ export default function App() {
 
           {/* Stagger Nav Links */}
           <nav className="navbar-stagger-links" aria-label="Main Navigation">
-            <StaggerLink href="#info" className="nav-stagger-item">
+            <StaggerLink href="#info" className="nav-stagger-item" onClick={(e) => scrollToSection(e, "#info")}>
               INFO
             </StaggerLink>
-            <StaggerLink href="#about" className="nav-stagger-item">
+            <StaggerLink href="#about" className="nav-stagger-item" onClick={(e) => scrollToSection(e, "#about")}>
               ABOUT
             </StaggerLink>
-            <StaggerLink href="#work" className="nav-stagger-item">
+            <StaggerLink href="#work" className="nav-stagger-item" onClick={(e) => scrollToSection(e, "#work")}>
               WORK
             </StaggerLink>
-            <StaggerLink href="#experience" className="nav-stagger-item">
+            <StaggerLink href="#experience" className="nav-stagger-item" onClick={(e) => scrollToSection(e, "#experience")}>
               EXPERIENCE
             </StaggerLink>
-            <StaggerLink href="#contact" className="nav-stagger-item">
+            <StaggerLink href="#contact" className="nav-stagger-item" onClick={(e) => scrollToSection(e, "#contact")}>
               CONTACT
             </StaggerLink>
           </nav>
@@ -752,36 +796,6 @@ export default function App() {
                   onOpenTheater={setActiveTheaterProject}
                 />
               ))}
-            </div>
-          </div>
-
-          {/* Curated Exhibition Film Index Table */}
-          <div className="film-index-table-wrap reveal-item">
-            <div className="index-table-header">
-              <span className="section-micro-tag">CURATED CUTS INDEX</span>
-              <span className="index-total-tag">{filteredProjects.length} CUTS IN VAULT</span>
-            </div>
-            <div className="index-table-body">
-              {filteredProjects.map((project, idx) => {
-                const padNum = String(idx + 1).padStart(2, "0");
-                return (
-                  <div
-                    key={project.id}
-                    className="index-table-row"
-                    onClick={() => setActiveTheaterProject(project)}
-                  >
-                    <span className="col-idx">#{padNum}</span>
-                    <span className="col-cat">{project.category}</span>
-                    <span className="col-aspect">{project.aspect}</span>
-                    <span className="col-dur">{project.duration}</span>
-                    <span className="col-cta">
-                      <span>Watch Cut</span>
-                      <ArrowUpRight size={12} />
-                    </span>
-                    <div className="row-divider-line" />
-                  </div>
-                );
-              })}
             </div>
           </div>
         </div>

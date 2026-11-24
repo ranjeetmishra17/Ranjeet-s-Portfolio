@@ -268,6 +268,132 @@ img {
 }
 
 /* ========================================================
+   SCROLL-TRIGGERED SECTION REVEAL SYSTEM (Silky Kinetic Momentum)
+   ======================================================== */
+.reveal-section {
+  will-change: opacity;
+}
+
+.reveal-item {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.reveal-item.is-revealed,
+.reveal-section.is-revealed .reveal-item {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Hairline Dividers Expand Horizontally */
+.hairline-divider.reveal-divider {
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 1.05s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+
+.hairline-divider.reveal-divider.is-revealed,
+.reveal-section.is-revealed .hairline-divider.reveal-divider {
+  transform: scaleX(1);
+}
+
+/* Stagger Groups (e.g. Spec Rows, Experience Rows) */
+.reveal-stagger-group > * {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.reveal-stagger-group.is-revealed > *:nth-child(1),
+.reveal-section.is-revealed .reveal-stagger-group > *:nth-child(1) {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.05s;
+}
+
+.reveal-stagger-group.is-revealed > *:nth-child(2),
+.reveal-section.is-revealed .reveal-stagger-group > *:nth-child(2) {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.12s;
+}
+
+.reveal-stagger-group.is-revealed > *:nth-child(3),
+.reveal-section.is-revealed .reveal-stagger-group > *:nth-child(3) {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.19s;
+}
+
+.reveal-stagger-group.is-revealed > *:nth-child(4),
+.reveal-section.is-revealed .reveal-stagger-group > *:nth-child(4) {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.26s;
+}
+
+.reveal-stagger-group.is-revealed > *:nth-child(5),
+.reveal-section.is-revealed .reveal-stagger-group > *:nth-child(5) {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.33s;
+}
+
+.reveal-stagger-group.is-revealed > *:nth-child(6),
+.reveal-section.is-revealed .reveal-stagger-group > *:nth-child(6) {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.40s;
+}
+
+/* Glass Carousel Entrance */
+.glass-carousel-container.reveal-item {
+  opacity: 0;
+  transform: translateY(28px) scale(0.985);
+  transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-carousel-container.reveal-item.is-revealed,
+.reveal-section.is-revealed .glass-carousel-container.reveal-item {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* Film Index Table Rows Entrance */
+.film-index-table-wrap.reveal-item {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1) 0.12s,
+              transform 0.85s cubic-bezier(0.16, 1, 0.3, 1) 0.12s;
+}
+
+.film-index-table-wrap.reveal-item.is-revealed,
+.reveal-section.is-revealed .film-index-table-wrap.reveal-item {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Reduced Motion Override */
+@media (prefers-reduced-motion: reduce) {
+  .reveal-item,
+  .hairline-divider.reveal-divider,
+  .reveal-stagger-group > *,
+  .glass-carousel-container.reveal-item,
+  .film-index-table-wrap.reveal-item {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
+
+/* ========================================================
    SECTION: TOM DE KONING HERO
    ======================================================== */
 .section-tdk-header {

@@ -471,6 +471,39 @@ export default function App() {
     setTimeout(() => setCopiedEmail(false), 2200);
   };
 
+  // Scroll reveal animation observer
+  useEffect(() => {
+    const observerOptions = {
+      threshold: 0.08,
+      rootMargin: "0px 0px -40px 0px",
+    };
+
+    const handleIntersect = (entries, obs) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-revealed");
+          obs.unobserve(entry.target);
+        }
+      });
+    };
+
+    const observer = new IntersectionObserver(handleIntersect, observerOptions);
+    const targets = document.querySelectorAll(
+      ".reveal-section, .reveal-item, .reveal-divider, .reveal-stagger-group"
+    );
+    targets.forEach((el) => observer.observe(el));
+
+    // Reveal hero immediately on initial mount
+    const hero = document.getElementById("header");
+    if (hero) {
+      requestAnimationFrame(() => {
+        hero.classList.add("is-revealed");
+      });
+    }
+
+    return () => observer.disconnect();
+  }, [selectedCategory, filteredProjects.length]);
+
   return (
     <div className="minimal-portfolio-root">
       {/* Ambient Canvas Lighting */}
@@ -518,16 +551,16 @@ export default function App() {
       {/* ========================================================
           HERO SECTION (Tom de Koning Layout & Kinetic Typography)
           ======================================================== */}
-      <section id="header" className="section-tdk-header">
+      <section id="header" className="section-tdk-header reveal-section">
         <div className="tdk-container">
           {/* Header Top Micro-Bar */}
-          <div className="header-meta-bar">
+          <div className="header-meta-bar reveal-item">
             <span className="meta-brand-text">ranjeetmishra.work</span>
             <span className="meta-portfolio-text">portfolio 2026</span>
           </div>
 
           {/* Director Intro & Spinning Star */}
-          <div className="header-intro-row">
+          <div className="header-intro-row reveal-item">
             <div className="header-status-indicator">
               <span className="live-status-dot" />
               <span className="status-meta-text">POST-PRODUCTION EDITOR // MUMBAI [IST]</span>
@@ -542,10 +575,10 @@ export default function App() {
             </div>
           </div>
 
-          <div className="hairline-divider" />
+          <div className="hairline-divider reveal-divider" />
 
           {/* Monumental Hero Headline */}
-          <div className="header-monumental-wrap">
+          <div className="header-monumental-wrap reveal-item">
             <h1 className="hero-monumental-title">
               ranjeetmishra<br />
               <span className="text-color-olive">.work</span>
@@ -557,14 +590,14 @@ export default function App() {
       {/* ========================================================
           INFO & SPECS SECTION (Directorial Spec Rows)
           ======================================================== */}
-      <section id="info" className="section-tdk-info">
+      <section id="info" className="section-tdk-info reveal-section">
         <div className="tdk-container">
           <div className="info-2col-grid">
-            <div className="info-col-label">
+            <div className="info-col-label reveal-item">
               <h6>About</h6>
             </div>
 
-            <div className="info-col-specs">
+            <div className="info-col-specs reveal-stagger-group">
               <div className="spec-row">
                 <span className="spec-label">Services</span>
                 <span className="spec-value text-right">
@@ -602,7 +635,7 @@ export default function App() {
               </div>
 
               {/* Action Buttons */}
-              <div className="info-actions-bar">
+              <div className="info-actions-bar reveal-item">
                 <a href="#work" className="tdk-magnetic-btn">
                   <span className="btn-inner">
                     <span className="btn-text">View work</span>
@@ -622,17 +655,17 @@ export default function App() {
       {/* ========================================================
           GRADIENT WAVE MANIFESTO SECTION (Tom de Koning Inspired)
           ======================================================== */}
-      <section id="about" className="section-tdk-manifesto">
+      <section id="about" className="section-tdk-manifesto reveal-section">
         <div className="tdk-container">
-          <div className="manifesto-wrap">
+          <div className="manifesto-wrap reveal-item">
             <h2 className="heading-gradient-wave">
               I cut stories that stop the scroll — frame by frame, sound to color.
             </h2>
           </div>
 
-          <div className="hairline-divider" />
+          <div className="hairline-divider reveal-divider" />
 
-          <div className="manifesto-2col-grid">
+          <div className="manifesto-2col-grid reveal-item">
             <div className="manifesto-col-label">
               <h6>Because</h6>
             </div>
@@ -651,9 +684,9 @@ export default function App() {
       {/* ========================================================
           REDESIGNED WORK SECTION (Interactive Glass Showcase Carousel)
           ======================================================== */}
-      <section id="work" className="section-tdk-work">
+      <section id="work" className="section-tdk-work reveal-section">
         <div className="tdk-container">
-          <div className="work-header-row">
+          <div className="work-header-row reveal-item">
             <div className="work-title-wrap">
               <span className="section-micro-tag">WHAT YOU’RE HERE FOR (I GUESS)</span>
               <h2 className="heading-extreme-work">Work</h2>
@@ -686,7 +719,7 @@ export default function App() {
           </div>
 
           {/* Category Filter Tabs */}
-          <div className="work-filter-bar" role="tablist" aria-label="Filter works">
+          <div className="work-filter-bar reveal-item" role="tablist" aria-label="Filter works">
             {CATEGORIES.map((cat) => (
               <button
                 key={cat}
@@ -709,7 +742,7 @@ export default function App() {
           </div>
 
           {/* Liquid Glass Horizontal Showcase Carousel Track */}
-          <div className="glass-carousel-container" ref={carouselTrackRef}>
+          <div className="glass-carousel-container reveal-item" ref={carouselTrackRef}>
             <div className="glass-carousel-track">
               {filteredProjects.map((project, idx) => (
                 <GlassCarouselCard
@@ -723,7 +756,7 @@ export default function App() {
           </div>
 
           {/* Curated Exhibition Film Index Table */}
-          <div className="film-index-table-wrap">
+          <div className="film-index-table-wrap reveal-item">
             <div className="index-table-header">
               <span className="section-micro-tag">CURATED CUTS INDEX</span>
               <span className="index-total-tag">{filteredProjects.length} CUTS IN VAULT</span>
@@ -757,14 +790,14 @@ export default function App() {
       {/* ========================================================
           WORK EXPERIENCE SECTION (Added as requested)
           ======================================================== */}
-      <section id="experience" className="section-tdk-experience">
+      <section id="experience" className="section-tdk-experience reveal-section">
         <div className="tdk-container">
-          <div className="experience-header">
+          <div className="experience-header reveal-item">
             <span className="section-micro-tag">BACKGROUND & TRACK RECORD</span>
             <h2 className="heading-experience-title">Work Experience</h2>
           </div>
 
-          <div className="experience-table">
+          <div className="experience-table reveal-stagger-group">
             {EXPERIENCE.map((item, idx) => (
               <div key={idx} className="experience-row">
                 <div className="exp-col-period">
@@ -798,18 +831,18 @@ export default function App() {
       {/* ========================================================
           FOOTER & CONTACT SECTION (Tom de Koning Footer Architecture)
           ======================================================== */}
-      <footer id="contact" className="section-tdk-footer">
+      <footer id="contact" className="section-tdk-footer reveal-section">
         <div className="tdk-container">
           {/* Top Line */}
-          <div className="footer-top-meta">
+          <div className="footer-top-meta reveal-item">
             <h6>ranjeetmishra.work</h6>
             <h6>portfolio 2026</h6>
           </div>
 
-          <div className="hairline-divider" />
+          <div className="hairline-divider reveal-divider" />
 
           {/* Main Contact Grid */}
-          <div className="footer-contact-grid">
+          <div className="footer-contact-grid reveal-item">
             <div className="footer-contact-col">
               <div className="contact-field-group">
                 <span className="field-label">Direct Mail</span>
@@ -879,10 +912,10 @@ export default function App() {
             </div>
           </div>
 
-          <div className="hairline-divider" />
+          <div className="hairline-divider reveal-divider" />
 
           {/* Bottom Monumental Brand Stamp */}
-          <div className="footer-bottom-stamp">
+          <div className="footer-bottom-stamp reveal-item">
             <h3 className="footer-huge-name">
               ranjeetmishra<span className="text-color-olive">.work</span>
             </h3>

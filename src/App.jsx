@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef, useMemo } from "react";
-import { flushSync } from "react-dom";
 import {
   PROFILE,
   SERVICES,
@@ -8,7 +7,7 @@ import {
   PROJECTS,
 } from "./data.js";
 
-/* ---------- Minimal Icons ---------- */
+/* ---------- Minimal SVGs ---------- */
 const PlayIcon = ({ size = 20 }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
     <path d="M8 5.14v13.72a1 1 0 001.52.85l11-6.86a1 1 0 000-1.7l-11-6.86A1 1 0 008 5.14z" />
@@ -52,17 +51,6 @@ const ArrowLeft = ({ size = 15 }) => (
   </svg>
 );
 
-const FilmReelIcon = ({ size = 16 }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-    <circle cx="12" cy="12" r="10" />
-    <circle cx="12" cy="12" r="3" />
-    <circle cx="12" cy="6" r="1.5" fill="currentColor" />
-    <circle cx="12" cy="18" r="1.5" fill="currentColor" />
-    <circle cx="6" cy="12" r="1.5" fill="currentColor" />
-    <circle cx="18" cy="12" r="1.5" fill="currentColor" />
-  </svg>
-);
-
 const CheckIcon = ({ size = 13 }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
     <polyline points="20 6 9 17 4 12" />
@@ -76,68 +64,204 @@ const CopyIcon = ({ size = 13 }) => (
   </svg>
 );
 
-/* ---------- Minimal Animated Stat Counter ---------- */
-function CountUpStat({ target, decimals = 0, suffix = "" }) {
-  const [val, setVal] = useState("0" + suffix);
-  const ref = useRef(null);
-  const hasRun = useRef(false);
+/* ---------- Tom de Koning Style Rotating Star (Velocity Accelerated) ---------- */
+function StarIcon() {
+  const [rotation, setRotation] = useState(0);
 
   useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
+    let lastY = window.scrollY;
+    let boost = 0;
+    let rot = 0;
+    let rafId;
 
-    const startCounter = () => {
-      if (hasRun.current) return;
-      hasRun.current = true;
-
-      const duration = 1400;
-      const startTime = performance.now();
-
-      const step = (now) => {
-        const elapsed = now - startTime;
-        const progress = Math.min(elapsed / duration, 1);
-        const ease = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
-        const current = target * ease;
-
-        setVal(current.toFixed(decimals) + suffix);
-
-        if (progress < 1) {
-          requestAnimationFrame(step);
-        } else {
-          setVal(target.toFixed(decimals) + suffix);
-        }
-      };
-
-      requestAnimationFrame(step);
+    const handleScroll = () => {
+      const currentY = window.scrollY;
+      const diff = Math.abs(currentY - lastY);
+      boost = Math.min(diff * 0.35, 20);
+      lastY = currentY;
     };
 
-    const obs = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting) {
-          startCounter();
-          obs.disconnect();
-        }
-      },
-      { threshold: 0.1 }
-    );
+    window.addEventListener("scroll", handleScroll, { passive: true });
 
-    obs.observe(el);
-    const fallback = setTimeout(startCounter, 300);
+    const tick = () => {
+      boost *= 0.94;
+      rot = (rot + 0.65 + boost) % 360;
+      setRotation(rot);
+      rafId = requestAnimationFrame(tick);
+    };
+
+    rafId = requestAnimationFrame(tick);
 
     return () => {
-      obs.disconnect();
-      clearTimeout(fallback);
+      window.removeEventListener("scroll", handleScroll);
+      cancelAnimationFrame(rafId);
     };
-  }, [target, decimals, suffix]);
+  }, []);
 
   return (
-    <span ref={ref} className="minimal-stat-val">
-      {val}
-    </span>
+    <div className="star-icon" style={{ transform: `rotate(${rotation}deg)` }} aria-hidden="true">
+      <svg width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="M21 0C21.9 11.3 30.7 20.1 42 21C30.7 21.9 21.9 30.7 21 42C20.1 30.7 11.3 21.9 0 21C11.3 20.1 20.1 11.3 21 0Z"
+          fill="currentColor"
+        />
+      </svg>
+    </div>
   );
 }
 
-/* ---------- Minimal Video Card (Works Screening Room) ---------- */
+/* ---------- Tom de Koning Style Stagger Link (Dual-Layer Roll) ---------- */
+function StaggerLink({ href, children, className = "", onClick, target, rel }) {
+  return (
+    <a
+      href={href}
+      className={`stagger-link ${className}`}
+      onClick={onClick}
+      target={target}
+      rel={rel}
+    >
+      <span className="stagger-link__inner">
+        <span className="stagger-link__layer is-default">{children}</span>
+        <span className="stagger-link__layer is-hover" aria-hidden="true">{children}</span>
+      </span>
+    </a>
+  );
+}
+
+/* ---------- Live Timezone Clock (Mumbai IST) ---------- */
+function TimezoneClock() {
+  const [timeStr, setTimeStr] = useState("");
+
+  useEffect(() => {
+    const updateTime = () => {
+      const now = new Date();
+      const options = {
+        timeZone: "Asia/Kolkata",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+        hour12: false,
+      };
+      setTimeStr(now.toLocaleTimeString("en-GB", options));
+    };
+
+    updateTime();
+    const interval = setInterval(updateTime, 1000);
+    return () => clearInterval(interval);
+  }, []);
+
+  return <span className="timezone-live-clock">{timeStr || "15:45:00"}</span>;
+}
+
+/* ---------- Interactive Trailing Custom Cursor ---------- */
+function CustomCursor() {
+  const dotRef = useRef(null);
+  const ringRef = useRef(null);
+
+  useEffect(() => {
+    const isTouch = window.matchMedia("(hover: none)").matches;
+    if (isTouch) return;
+
+    let mouseX = -100, mouseY = -100;
+    let ringX = -100, ringY = -100;
+    let isHovered = false;
+    let isClicking = false;
+    let rafId;
+
+    const onMouseMove = (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      if (dotRef.current) {
+        dotRef.current.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0)`;
+      }
+    };
+
+    const onMouseDown = () => { isClicking = true; };
+    const onMouseUp = () => { isClicking = false; };
+
+    const checkHover = (e) => {
+      const target = e.target;
+      const interactive = target.closest("a, button, [role='button'], .minimal-video-card, .portal-poster-surface, .tdk-featured-monitor");
+      isHovered = !!interactive;
+    };
+
+    window.addEventListener("mousemove", onMouseMove);
+    window.addEventListener("mousedown", onMouseDown);
+    window.addEventListener("mouseup", onMouseUp);
+    window.addEventListener("mouseover", checkHover);
+
+    const animate = () => {
+      ringX += (mouseX - ringX) * 0.18;
+      ringY += (mouseY - ringY) * 0.18;
+
+      if (ringRef.current) {
+        const scale = isClicking ? 0.75 : isHovered ? 1.85 : 1;
+        ringRef.current.style.transform = `translate3d(${ringX}px, ${ringY}px, 0) scale(${scale})`;
+        ringRef.current.style.borderColor = isHovered ? "var(--olive-champagne)" : "var(--olive-primary)";
+        ringRef.current.style.background = isHovered ? "var(--olive-halo-strong)" : "transparent";
+      }
+
+      rafId = requestAnimationFrame(animate);
+    };
+
+    rafId = requestAnimationFrame(animate);
+
+    return () => {
+      window.removeEventListener("mousemove", onMouseMove);
+      window.removeEventListener("mousedown", onMouseDown);
+      window.removeEventListener("mouseup", onMouseUp);
+      window.removeEventListener("mouseover", checkHover);
+      cancelAnimationFrame(rafId);
+    };
+  }, []);
+
+  return (
+    <div className="cursor-wrap" aria-hidden="true">
+      <div ref={dotRef} className="cursor-dot" />
+      <div ref={ringRef} className="cursor-ring" />
+    </div>
+  );
+}
+
+/* ---------- Velocity Infinite Marquee ---------- */
+function VelocityMarquee() {
+  return (
+    <div className="marquee-advanced" aria-hidden="true">
+      <div className="marquee-advanced__track">
+        <div className="marquee-advanced__item">
+          <span>RANJEETMISHRA<span className="text-color-olive">.WORK</span></span>
+          <span className="marquee-star">★</span>
+          <span>FILM & VIDEO POST-PRODUCTION</span>
+          <span className="marquee-star">★</span>
+          <span>10M+ VIEWS GENERATED</span>
+          <span className="marquee-star">★</span>
+          <span>MUMBAI [IST]</span>
+          <span className="marquee-star">★</span>
+          <span>DAVINCI RESOLVE COLOR</span>
+          <span className="marquee-star">★</span>
+          <span>COMMISSIONS OPEN</span>
+          <span className="marquee-star">★</span>
+        </div>
+        <div className="marquee-advanced__item">
+          <span>RANJEETMISHRA<span className="text-color-olive">.WORK</span></span>
+          <span className="marquee-star">★</span>
+          <span>FILM & VIDEO POST-PRODUCTION</span>
+          <span className="marquee-star">★</span>
+          <span>10M+ VIEWS GENERATED</span>
+          <span className="marquee-star">★</span>
+          <span>MUMBAI [IST]</span>
+          <span className="marquee-star">★</span>
+          <span>DAVINCI RESOLVE COLOR</span>
+          <span className="marquee-star">★</span>
+          <span>COMMISSIONS OPEN</span>
+          <span className="marquee-star">★</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ---------- Video Project Card ---------- */
 function VideoCard({ project, index, onOpenTheater }) {
   const [isPlaying, setIsPlaying] = useState(false);
   const padNum = String(index + 1).padStart(2, "0");
@@ -154,20 +278,20 @@ function VideoCard({ project, index, onOpenTheater }) {
 
   return (
     <article
-      className={`minimal-video-card ${project.shape} ${isPlaying ? "playing" : ""}`}
+      className={`minimal-video-card ${project.shape} ${isPlaying ? "is-playing" : ""}`}
       tabIndex={0}
-      aria-label={`${project.category} #${padNum}`}
+      aria-label={`Project cut #${padNum} - ${project.category}`}
     >
       <div className="card-aspect-viewport">
         {isPlaying ? (
           <div className="card-inline-player">
             <iframe
-              src={`https://player.vimeo.com/video/${project.vimeoId}?autoplay=1&muted=0&playsinline=1&title=0&byline=0&portrait=0&badge=0&autopause=1&dnt=1`}
+              src={`https://player.vimeo.com/video/${project.vimeoId}?autoplay=1&muted=0&loop=1&playsinline=1&title=0&byline=0&portrait=0`}
               className="card-vimeo-iframe"
               allow="autoplay; fullscreen; picture-in-picture; encrypted-media"
               allowFullScreen
               referrerPolicy="strict-origin-when-cross-origin"
-              title={`Cut #${padNum}`}
+              title={`Video ${project.id}`}
             />
             <div className="player-close-bar">
               <span className="player-cut-tag">CUT #{padNum}</span>
@@ -175,6 +299,7 @@ function VideoCard({ project, index, onOpenTheater }) {
                 type="button"
                 className="player-close-pill"
                 onClick={stopPlayback}
+                title="Close video"
                 aria-label="Close video"
               >
                 <CloseIcon size={14} />
@@ -182,14 +307,18 @@ function VideoCard({ project, index, onOpenTheater }) {
             </div>
           </div>
         ) : (
-          <div className="card-poster-surface" onClick={startPlayback}>
+          <div
+            className="card-poster-surface"
+            onClick={startPlayback}
+            title="Click to play in-card"
+          >
             <img
               src={project.image}
-              alt={`${project.category} preview`}
-              className="card-media-poster"
+              alt={`Thumbnail for cut #${padNum}`}
+              className="card-poster-img"
               loading="lazy"
             />
-            {/* Optical Viewfinder Corners */}
+            {/* Viewfinder Corners */}
             <div className="viewfinder-brackets" aria-hidden="true">
               <span className="vf-bracket vf-tl" />
               <span className="vf-bracket vf-tr" />
@@ -199,13 +328,13 @@ function VideoCard({ project, index, onOpenTheater }) {
 
             <div className="card-vignette-overlay" />
 
-            {/* Clean Metadata Slates */}
+            {/* Top Slates */}
             <div className="card-header-slate">
               <span className="card-num-badge">#{padNum}</span>
               <span className="card-category-pill">{project.category}</span>
             </div>
 
-            {/* Clean Center Play Trigger */}
+            {/* Play Trigger */}
             <div className="card-center-play">
               <div className="play-disc-circle">
                 <PlayIcon size={22} />
@@ -258,39 +387,44 @@ function CinemaModal({ project, allProjects, onClose, onNavigate }) {
   }, [currentIndex, allProjects, onClose, onNavigate, prevProject, nextProject]);
 
   return (
-    <div className="cinema-overlay-backdrop" onClick={onClose} role="presentation">
+    <div
+      className="cinema-overlay-backdrop"
+      onClick={onClose}
+      role="dialog"
+      aria-modal="true"
+      aria-label="Fullscreen Cinema Theater"
+    >
       <div
         className={`cinema-overlay-box ${project.shape}`}
-        role="dialog"
-        aria-modal="true"
-        aria-label={`${project.category} Theater`}
         onClick={(e) => e.stopPropagation()}
       >
         <div className="theater-top-bar">
           <div className="theater-meta-tags">
-            <span className="theater-slate-tag take">CUT #{String(currentIndex + 1).padStart(2, "0")}</span>
-            <span className="theater-slate-tag category">{project.category}</span>
-            <span className="theater-slate-tag duration">{project.duration}</span>
+            <span className="theater-slate-tag take">TAKE #{project.id.slice(-4)}</span>
+            <span className="theater-slate-tag">•</span>
+            <span className="theater-slate-tag">{project.category}</span>
+            <span className="theater-slate-tag">•</span>
+            <span className="theater-slate-tag">{project.aspect}</span>
           </div>
-
           <button
             ref={closeBtnRef}
+            type="button"
             className="theater-close-btn"
             onClick={onClose}
-            aria-label="Exit screening room"
+            aria-label="Close Cinema"
           >
-            <CloseIcon size={18} />
+            <CloseIcon size={16} />
           </button>
         </div>
 
         <div className={`theater-screen ${project.shape}`}>
           <iframe
-            src={`https://player.vimeo.com/video/${project.vimeoId}?autoplay=1&muted=0&playsinline=1&title=0&byline=0&portrait=0&badge=0&autopause=0&dnt=1`}
+            src={`https://player.vimeo.com/video/${project.vimeoId}?autoplay=1&muted=0&loop=1&playsinline=1&title=0&byline=0&portrait=0`}
             className="theater-iframe"
-            allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media"
+            allow="autoplay; fullscreen; picture-in-picture; encrypted-media"
             allowFullScreen
             referrerPolicy="strict-origin-when-cross-origin"
-            title={`Cinema player ${project.id}`}
+            title="Fullscreen project playback"
           />
         </div>
 
@@ -301,17 +435,17 @@ function CinemaModal({ project, allProjects, onClose, onNavigate }) {
               className="theater-pager-btn"
               onClick={() => onNavigate(prevProject)}
             >
-              PREVIOUS
+              PREV CUT
             </button>
             <span className="theater-counter">
-              {String(currentIndex + 1).padStart(2, "0")} OF {String(allProjects.length).padStart(2, "0")}
+              {currentIndex + 1} / {allProjects.length}
             </span>
             <button
               type="button"
               className="theater-pager-btn"
               onClick={() => onNavigate(nextProject)}
             >
-              NEXT
+              NEXT CUT
             </button>
           </div>
 
@@ -321,7 +455,7 @@ function CinemaModal({ project, allProjects, onClose, onNavigate }) {
             rel="noreferrer"
             className="theater-vimeo-link"
           >
-            <span>VIMEO ARCHIVE</span>
+            <span>Open on Vimeo</span>
             <ArrowUpRight size={12} />
           </a>
         </div>
@@ -330,108 +464,23 @@ function CinemaModal({ project, allProjects, onClose, onNavigate }) {
   );
 }
 
-/* ---------- Main Portfolio Application ---------- */
+/* ========================================================
+   MAIN PORTFOLIO APPLICATION
+   ======================================================== */
 export default function App() {
-  const [currentView, setCurrentView] = useState("studio"); // 'studio' | 'works'
-  const [targetView, setTargetView] = useState("works");
-  const [isCircleTransitioning, setIsCircleTransitioning] = useState(false);
-  const [circleOrigin, setCircleOrigin] = useState({ x: 0, y: 0 });
   const [selectedCategory, setSelectedCategory] = useState("All Work");
   const [activeTheaterProject, setActiveTheaterProject] = useState(null);
   const [copiedEmail, setCopiedEmail] = useState(false);
-
-  // Interactive Hero Video Portal state
-  const [heroProjectIndex, setHeroProjectIndex] = useState(0);
   const [isHeroPlaying, setIsHeroPlaying] = useState(false);
+  const [heroCategoryKey, setHeroCategoryKey] = useState("Reels");
 
-  const heroProject = PROJECTS[heroProjectIndex] || PROJECTS[0];
+  // Showreel representative project
+  const heroProject = useMemo(() => {
+    const found = PROJECTS.find((p) => p.category === heroCategoryKey);
+    return found || PROJECTS[0];
+  }, [heroCategoryKey]);
 
-  // URL Hash Sync for Back/Forward Navigation
-  useEffect(() => {
-    const handleHash = () => {
-      const hash = window.location.hash.toLowerCase();
-      if (hash === "#works" || hash === "#repertoire") {
-        setCurrentView("works");
-      } else {
-        setCurrentView("studio");
-      }
-    };
-    handleHash();
-    window.addEventListener("hashchange", handleHash);
-    return () => window.removeEventListener("hashchange", handleHash);
-  }, []);
-
-  /* 
-   * CIRCULAR IRIS VIEW TRANSITION:
-   * Smooth, hardware-accelerated circular reveal from button click coordinates.
-   */
-  const navigateWithCircleTransition = (targetViewName, e) => {
-    if (currentView === targetViewName) return;
-
-    let x = window.innerWidth / 2;
-    let y = window.innerHeight / 2;
-
-    if (e && e.currentTarget) {
-      const rect = e.currentTarget.getBoundingClientRect();
-      x = rect.left + rect.width / 2;
-      y = rect.top + rect.height / 2;
-    } else if (e && e.clientX && e.clientY) {
-      x = e.clientX;
-      y = e.clientY;
-    }
-
-    const endRadius = Math.hypot(
-      Math.max(x, window.innerWidth - x),
-      Math.max(y, window.innerHeight - y)
-    );
-
-    if (typeof document !== "undefined" && "startViewTransition" in document) {
-      const transition = document.startViewTransition(() => {
-        flushSync(() => {
-          setCurrentView(targetViewName);
-          window.scrollTo({ top: 0, behavior: "instant" });
-          window.history.pushState(null, "", targetViewName === "works" ? "#works" : "#studio");
-        });
-      });
-
-      transition.ready.then(() => {
-        document.documentElement.animate(
-          [
-            { clipPath: `circle(0px at ${x}px ${y}px)` },
-            { clipPath: `circle(${endRadius}px at ${x}px ${y}px)` },
-          ],
-          {
-            duration: 650,
-            easing: "cubic-bezier(0.22, 1, 0.36, 1)",
-            pseudoElement: "::view-transition-new(root)",
-          }
-        );
-      });
-    } else {
-      setCircleOrigin({ x, y });
-      setTargetView(targetViewName);
-      setIsCircleTransitioning(true);
-
-      setTimeout(() => {
-        setCurrentView(targetViewName);
-        window.scrollTo({ top: 0, behavior: "instant" });
-        window.history.pushState(null, "", targetViewName === "works" ? "#works" : "#studio");
-      }, 320);
-
-      setTimeout(() => {
-        setIsCircleTransitioning(false);
-      }, 650);
-    }
-  };
-
-  const handleRecentWorksClick = (e) => navigateWithCircleTransition("works", e);
-  const handleReturnToStudio = (e) => navigateWithCircleTransition("studio", e);
-
-  const filteredProjects = useMemo(() => {
-    if (selectedCategory === "All Work") return PROJECTS;
-    return PROJECTS.filter((p) => p.category === selectedCategory);
-  }, [selectedCategory]);
-
+  // Category counts
   const categoryCounts = useMemo(() => {
     const counts = { "All Work": PROJECTS.length };
     PROJECTS.forEach((p) => {
@@ -440,465 +489,501 @@ export default function App() {
     return counts;
   }, []);
 
+  // Filtered list
+  const filteredProjects = useMemo(() => {
+    if (selectedCategory === "All Work") return PROJECTS;
+    return PROJECTS.filter((p) => p.category === selectedCategory);
+  }, [selectedCategory]);
+
   const copyEmailToClipboard = () => {
-    navigator.clipboard.writeText(PROFILE.email).then(() => {
-      setCopiedEmail(true);
-      setTimeout(() => setCopiedEmail(false), 2400);
-    });
+    navigator.clipboard.writeText(PROFILE.email);
+    setCopiedEmail(true);
+    setTimeout(() => setCopiedEmail(false), 2200);
   };
 
   return (
-    <div className={`minimal-portfolio-root ${currentView}-active`}>
-      {/* Discreet Ambient Background */}
-      <div className="minimal-atmosphere-canvas" aria-hidden="true">
-        <div className="minimal-ambient-glow" />
-      </div>
+    <div className="minimal-portfolio-root">
+      {/* Interactive Custom Cursor */}
+      <CustomCursor />
 
-      {/* Fallback circle overlay for non-ViewTransition browsers */}
-      {isCircleTransitioning && (
-        <div
-          className="circle-scaling-overlay-portal"
-          style={{
-            "--circle-cx": `${circleOrigin.x}px`,
-            "--circle-cy": `${circleOrigin.y}px`,
-          }}
-          aria-hidden="true"
-        >
-          <div className="scaling-olive-circle-disc" />
-        </div>
-      )}
+      {/* Ambient Canvas Lighting */}
+      <div className="minimal-atmosphere-canvas" aria-hidden="true" />
 
-      {/* PURE MINIMALIST NAVIGATION */}
-      <header className="minimal-nav-header">
-        <div className="minimal-nav-inner">
-          {/* Director Identity with Avatar */}
-          <button
-            type="button"
-            className="minimal-brand-btn"
-            onClick={handleReturnToStudio}
-          >
-            <div className="nav-avatar-frame">
+      {/* FLOATING GLASS PILL NAVBAR (Tom de Koning Style) */}
+      <header className="navbar-fixed-pill">
+        <div className="navbar-inner-pill">
+          {/* Brand & Avatar */}
+          <a href="#header" className="navbar-brand-link">
+            <div className="nav-avatar-circle">
               <img
                 src={PROFILE.avatar || "/avatar.png"}
                 alt={PROFILE.name}
                 className="nav-avatar-img"
               />
-              <span className="nav-avatar-dot" />
+              <span className="live-status-dot" />
             </div>
-            <div className="brand-text-col">
-              <span className="brand-name">{PROFILE.name}</span>
-              <span className="brand-title">Video Editor</span>
+            <div className="nav-brand-text">
+              <span className="brand-name">ranjeetmishra<span className="text-color-olive">.work</span></span>
             </div>
-          </button>
+          </a>
 
-          {/* Clean Actions */}
-          <nav className="minimal-nav-actions" aria-label="Main Navigation">
-            <button
-              type="button"
-              className={`minimal-nav-link ${currentView === "studio" ? "active" : ""}`}
-              onClick={handleReturnToStudio}
-            >
-              Overview
-            </button>
-            <button
-              type="button"
-              className={`minimal-nav-pill ${currentView === "works" ? "active" : ""}`}
-              onClick={handleRecentWorksClick}
-            >
-              <FilmReelIcon size={14} />
-              <span className="nav-pill-text-desktop">Recent Works</span>
-              <span className="nav-pill-text-mobile">Works</span>
-              <span className="nav-count-dot">{PROJECTS.length}</span>
-            </button>
-            <a href="#contact" className="minimal-contact-link">
-              Contact
-            </a>
+          {/* Stagger Nav Links */}
+          <nav className="navbar-stagger-links" aria-label="Main Navigation">
+            <StaggerLink href="#info" className="nav-stagger-item">
+              INFO
+            </StaggerLink>
+            <StaggerLink href="#about" className="nav-stagger-item">
+              ABOUT
+            </StaggerLink>
+            <StaggerLink href="#work" className="nav-stagger-item">
+              WORK
+            </StaggerLink>
+            <StaggerLink href="#contact" className="nav-stagger-item">
+              CONTACT
+            </StaggerLink>
           </nav>
         </div>
       </header>
 
       {/* ========================================================
-          VIEW: STUDIO (The Minimal & Creative Hero Stage)
+          HERO SECTION (Tom de Koning Layout & Kinetic Typography)
           ======================================================== */}
-      {currentView === "studio" && (
-        <main className="view-layer-minimal view-enter-reveal">
-          {/* THE CREATIVE INTERACTIVE HERO */}
-          <section className="creative-hero-section">
-            <div className="creative-hero-grid">
-              {/* Left Column: Directorial Narrative & Actions */}
-              <div className="hero-editorial-column">
-                <span className="hero-eyebrow-tag">[ FILM & VIDEO POST-PRODUCTION // MUMBAI ]</span>
+      <section id="header" className="section-tdk-header">
+        <div className="tdk-container">
+          {/* Header Top Micro-Bar */}
+          <div className="header-meta-bar">
+            <span className="meta-brand-text">ranjeetmishra.work</span>
+            <span className="meta-portfolio-text">portfolio 2026</span>
+          </div>
 
-                <h1 className="hero-editorial-title">
-                  <span className="title-bold">Crafting rhythm.</span>
-                  <span className="title-italic">Stories that leave an impression.</span>
-                </h1>
+          {/* Director Intro & Spinning Star */}
+          <div className="header-intro-row">
+            <div className="director-micro-pill">
+              <div className="director-avatar-circle">
+                <img
+                  src={PROFILE.avatar || "/avatar.png"}
+                  alt={PROFILE.name}
+                  className="director-img"
+                />
+                <span className="live-status-dot" />
+              </div>
+              <div className="director-info-col">
+                <span className="director-name">{PROFILE.name}</span>
+                <span className="director-role">Post-Production Editor // Mumbai</span>
+              </div>
+            </div>
 
-                <p className="hero-editorial-description">
-                  Specializing in high-retention short-form Reels, documentary founder stories, and multi-cam podcast workflows. Frame-by-frame pacing, bespoke sound architecture, and organic DaVinci color grading.
-                </p>
+            <div className="header-quote-wrap">
+              <StarIcon />
+              <p className="header-intro-quote">
+                I craft film rhythm and visual retention that turn heads — <br className="hide-mobile" />
+                stronger, sharper, unforgettable.
+              </p>
+            </div>
+          </div>
 
-                {/* Centerpiece "Recent Works" Pass */}
-                <div className="hero-action-row">
+          <div className="hairline-divider" />
+
+          {/* Monumental Hero Headline */}
+          <div className="header-monumental-wrap">
+            <h1 className="hero-monumental-title">
+              ranjeetmishra<br />
+              <span className="text-color-olive">.work</span>
+            </h1>
+          </div>
+        </div>
+      </section>
+
+      {/* ========================================================
+          INFO & SPECS SECTION (Directorial Spec Rows)
+          ======================================================== */}
+      <section id="info" className="section-tdk-info">
+        <div className="tdk-container">
+          <div className="info-2col-grid">
+            <div className="info-col-label">
+              <h6>About</h6>
+            </div>
+
+            <div className="info-col-specs">
+              <div className="spec-row">
+                <span className="spec-label">Services</span>
+                <span className="spec-value text-right">
+                  Film & Reel Editing, Commercials, Podcasts, DaVinci Grading & Sound
+                </span>
+                <div className="spec-line" />
+              </div>
+
+              <div className="spec-row">
+                <span className="spec-label">Experience</span>
+                <span className="spec-value">4+ Years // 150+ Mastered Cuts</span>
+                <div className="spec-line" />
+              </div>
+
+              <div className="spec-row">
+                <span className="spec-label">Timezone</span>
+                <span className="spec-value">
+                  MUMBAI [IST] // <TimezoneClock />
+                </span>
+                <div className="spec-line" />
+              </div>
+
+              <div className="spec-row">
+                <span className="spec-label">Availability</span>
+                <span className="spec-value text-olive-champagne">
+                  ● Taking on select projects for Q1/Q2
+                </span>
+                <div className="spec-line" />
+              </div>
+
+              <div className="spec-row">
+                <span className="spec-label">Audience Reach</span>
+                <span className="spec-value">10M+ Organic Views Generated</span>
+                <div className="spec-line" />
+              </div>
+
+              {/* Action Buttons */}
+              <div className="info-actions-bar">
+                <a href="#work" className="tdk-magnetic-btn">
+                  <span className="btn-inner">
+                    <span className="btn-text">View work</span>
+                    <ArrowRight size={14} />
+                  </span>
+                </a>
+                <a href="#contact" className="tdk-secondary-btn">
+                  <span>Start a Project</span>
+                  <ArrowUpRight size={13} />
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ========================================================
+          GRADIENT WAVE MANIFESTO SECTION (Tom de Koning Inspired)
+          ======================================================== */}
+      <section id="about" className="section-tdk-manifesto">
+        <div className="tdk-container">
+          <div className="manifesto-wrap">
+            <h2 className="heading-gradient-wave">
+              I cut stories that stop the scroll — frame by frame, sound to color.
+            </h2>
+          </div>
+
+          <div className="hairline-divider" />
+
+          <div className="manifesto-2col-grid">
+            <div className="manifesto-col-label">
+              <h6>Because</h6>
+            </div>
+            <div className="manifesto-col-body">
+              <p className="manifesto-lead">
+                I’m an independent post-production editor and motion designer based in Mumbai, India. I combine rhythmic frame economy, psychoacoustic sound architecture, and organic DaVinci color grading to build films that captivate and convert.
+              </p>
+              <p className="manifesto-sub">
+                From high-retention short-form Reels and founder documentaries to multi-cam podcast workflows, I engineer every cut for retention. One creative vision. Relentless pacing. Stories that linger.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ========================================================
+          WORK SHOWCASE (What you’re here for)
+          ======================================================== */}
+      <section id="work" className="section-tdk-work">
+        <div className="tdk-container">
+          <div className="work-header-block">
+            <span className="section-micro-tag">What you’re here for (I guess)</span>
+            <h2 className="heading-extreme-work">Work</h2>
+          </div>
+
+          {/* Category Tabs */}
+          <div className="work-filter-bar" role="tablist" aria-label="Filter works">
+            {CATEGORIES.map((cat) => (
+              <button
+                key={cat}
+                type="button"
+                className={`tdk-filter-btn ${selectedCategory === cat ? "active" : ""}`}
+                onClick={() => setSelectedCategory(cat)}
+                role="tab"
+                aria-selected={selectedCategory === cat}
+              >
+                <span>{cat}</span>
+                <span className="filter-badge">{categoryCounts[cat] || 0}</span>
+              </button>
+            ))}
+          </div>
+
+          {/* Interactive Featured Monitor Portal */}
+          <div className="tdk-featured-monitor">
+            <div className="portal-top-bar">
+              <div className="portal-left-meta">
+                <span className="portal-live-dot" />
+                <span className="portal-slate-label">FEATURED CUT // {heroProject.category.toUpperCase()}</span>
+              </div>
+              <div className="portal-right-meta">
+                <span className="portal-category-tag">{heroProject.duration}</span>
+                <button
+                  type="button"
+                  className="portal-expand-icon"
+                  onClick={() => setActiveTheaterProject(heroProject)}
+                  title="Expand to Fullscreen Cinema"
+                  aria-label="Expand to Fullscreen Cinema"
+                >
+                  <ExpandIcon size={13} />
+                </button>
+              </div>
+            </div>
+
+            <div className={`portal-screen-viewport ${heroProject.shape}`}>
+              {isHeroPlaying ? (
+                <div className="portal-inline-player">
+                  <iframe
+                    src={`https://player.vimeo.com/video/${heroProject.vimeoId}?autoplay=1&muted=0&loop=1&playsinline=1&title=0&byline=0&portrait=0`}
+                    className="portal-vimeo-iframe"
+                    allow="autoplay; fullscreen; picture-in-picture; encrypted-media"
+                    allowFullScreen
+                    referrerPolicy="strict-origin-when-cross-origin"
+                    title="Hero preview player"
+                  />
                   <button
                     type="button"
-                    className="minimal-works-pass-btn"
-                    onClick={handleRecentWorksClick}
-                    title="Explore recent works"
+                    className="portal-close-trigger"
+                    onClick={() => setIsHeroPlaying(false)}
+                    title="Close preview"
                   >
-                    <span className="btn-label">Recent Works</span>
-                    <span className="btn-count-chip">{PROJECTS.length} CUTS</span>
-                    <span className="btn-arrow-disc">
-                      <ArrowRight size={13} />
-                    </span>
+                    <CloseIcon size={14} />
+                    <span>STOP</span>
                   </button>
-
-                  <a href="#contact" className="minimal-secondary-btn">
-                    <span>Start a Project</span>
-                    <ArrowUpRight size={12} />
-                  </a>
                 </div>
-
-                {/* Minimal Numbers Row */}
-                <div className="minimal-stats-strip">
-                  {PROFILE.stats.map((s, idx) => (
-                    <div key={idx} className="stat-minimal-item">
-                      <span className="stat-number">
-                        <CountUpStat
-                          target={s.target}
-                          decimals={s.decimals}
-                          suffix={s.suffix}
-                        />
-                      </span>
-                      <span className="stat-caption">{s.label}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Right Column: The Interactive Showreel Portal */}
-              <div className="hero-portal-column">
-                <div className="hero-cinema-portal">
-                  <div className="portal-top-bar">
-                    <div className="portal-left-meta">
-                      <span className="portal-live-dot" />
-                      <span className="portal-slate-label">PREVIEW REEL // 24 FPS</span>
-                    </div>
-                    <div className="portal-right-meta">
-                      <span className="portal-category-tag">{heroProject.category}</span>
-                      <button
-                        type="button"
-                        className="portal-expand-icon"
-                        onClick={() => setActiveTheaterProject(heroProject)}
-                        title="Expand to Fullscreen Theater"
-                      >
-                        <ExpandIcon size={13} />
-                      </button>
-                    </div>
+              ) : (
+                <div
+                  className="portal-poster-surface"
+                  onClick={() => setIsHeroPlaying(true)}
+                  title="Click to play in preview monitor"
+                >
+                  <img
+                    src={heroProject.image}
+                    alt="Showreel preview still"
+                    className="portal-poster-img"
+                  />
+                  <div className="viewfinder-brackets" aria-hidden="true">
+                    <span className="vf-bracket vf-tl" />
+                    <span className="vf-bracket vf-tr" />
+                    <span className="vf-bracket vf-bl" />
+                    <span className="vf-bracket vf-br" />
                   </div>
-
-                  {/* Portal Screen Viewport */}
-                  <div className={`portal-screen-viewport ${heroProject.shape}`}>
-                    {isHeroPlaying ? (
-                      <div className="portal-inline-player">
-                        <iframe
-                          src={`https://player.vimeo.com/video/${heroProject.vimeoId}?autoplay=1&muted=0&playsinline=1&title=0&byline=0&portrait=0&badge=0&autopause=1&dnt=1`}
-                          className="portal-vimeo-iframe"
-                          allow="autoplay; fullscreen; picture-in-picture; encrypted-media"
-                          allowFullScreen
-                          referrerPolicy="strict-origin-when-cross-origin"
-                          title="Hero preview player"
-                        />
-                        <button
-                          type="button"
-                          className="portal-close-trigger"
-                          onClick={() => setIsHeroPlaying(false)}
-                          title="Close preview"
-                        >
-                          <CloseIcon size={14} />
-                          <span>STOP</span>
-                        </button>
-                      </div>
-                    ) : (
-                      <div
-                        className="portal-poster-surface"
-                        onClick={() => setIsHeroPlaying(true)}
-                        title="Click to play in preview monitor"
-                      >
-                        <img
-                          src={heroProject.image}
-                          alt="Showreel preview still"
-                          className="portal-poster-img"
-                        />
-                        {/* Optical Viewfinder Corners */}
-                        <div className="viewfinder-brackets" aria-hidden="true">
-                          <span className="vf-bracket vf-tl" />
-                          <span className="vf-bracket vf-tr" />
-                          <span className="vf-bracket vf-bl" />
-                          <span className="vf-bracket vf-br" />
-                        </div>
-
-                        <div className="card-vignette-overlay" />
-
-                        {/* Centered Play Trigger */}
-                        <div className="portal-center-play">
-                          <div className="play-disc-circle">
-                            <PlayIcon size={24} />
-                          </div>
-                          <span className="portal-play-label">PLAY PREVIEW</span>
-                        </div>
-
-                        <div className="portal-bottom-tag">
-                          <span>{heroProject.duration}</span>
-                          <span className="tag-sep">•</span>
-                          <span>{heroProject.aspect}</span>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Quick-Switch Thumbnails below Portal */}
-                  <div className="portal-switch-bar">
-                    <span className="switch-hint">FEATURED CUTS:</span>
-                    <div className="switch-chips">
-                      {[0, 1, 3].map((idx) => {
-                        const p = PROJECTS[idx];
-                        if (!p) return null;
-                        const isSelected = heroProjectIndex === idx;
-                        return (
-                          <button
-                            key={p.id}
-                            type="button"
-                            className={`switch-chip-btn ${isSelected ? "active" : ""}`}
-                            onClick={() => {
-                              setHeroProjectIndex(idx);
-                              setIsHeroPlaying(false);
-                            }}
-                          >
-                            <span>#{String(idx + 1).padStart(2, "0")} {p.category}</span>
-                          </button>
-                        );
-                      })}
+                  <div className="card-vignette-overlay" />
+                  <div className="portal-center-play">
+                    <div className="play-disc-circle">
+                      <PlayIcon size={24} />
                     </div>
+                    <span className="portal-play-label">WATCH PREVIEW</span>
+                  </div>
+                  <div className="portal-bottom-tag">
+                    <span>{heroProject.category}</span>
+                    <span className="tag-sep">•</span>
+                    <span>{heroProject.duration}</span>
                   </div>
                 </div>
+              )}
+            </div>
+
+            {/* Quick Switch Chips */}
+            <div className="portal-switch-bar">
+              <span className="switch-hint">QUICK FORMATS:</span>
+              <div className="switch-chips">
+                <button
+                  type="button"
+                  className={`switch-chip-btn ${heroCategoryKey === "Reels" ? "active" : ""}`}
+                  onClick={() => {
+                    setHeroCategoryKey("Reels");
+                    setIsHeroPlaying(false);
+                  }}
+                >
+                  #01 REELS
+                </button>
+                <button
+                  type="button"
+                  className={`switch-chip-btn ${heroCategoryKey === "Brand Films" ? "active" : ""}`}
+                  onClick={() => {
+                    setHeroCategoryKey("Brand Films");
+                    setIsHeroPlaying(false);
+                  }}
+                >
+                  #02 BRAND FILMS
+                </button>
+                <button
+                  type="button"
+                  className={`switch-chip-btn ${heroCategoryKey === "Podcasts" ? "active" : ""}`}
+                  onClick={() => {
+                    setHeroCategoryKey("Podcasts");
+                    setIsHeroPlaying(false);
+                  }}
+                >
+                  #04 PODCASTS
+                </button>
               </div>
             </div>
-          </section>
+          </div>
 
-          {/* EDITORIAL DISCIPLINES */}
-          <section className="minimal-disciplines-section">
-            <div className="minimal-section-container">
-              <div className="section-title-header">
-                <span className="section-label">THE CRAFT</span>
-                <h2 className="section-heading">Post-Production Disciplines</h2>
-              </div>
+          {/* Projects Cards Grid */}
+          <div className={`tdk-projects-grid layout-${selectedCategory.toLowerCase().replace(/[^a-z]/g, "")}`}>
+            {filteredProjects.map((project, idx) => (
+              <VideoCard
+                key={project.id}
+                project={project}
+                index={idx}
+                onOpenTheater={setActiveTheaterProject}
+              />
+            ))}
+          </div>
+        </div>
+      </section>
 
-              <div className="disciplines-minimal-grid">
-                {SERVICES.map((srv) => (
-                  <div key={srv.num} className="discipline-clean-card">
-                    <span className="discipline-num">SCENE /{srv.num}</span>
-                    <h3 className="discipline-title">{srv.title}</h3>
-                    <p className="discipline-desc">{srv.desc}</p>
-                  </div>
-                ))}
+      {/* ========================================================
+          DISCIPLINES & FINISHING SUITE
+          ======================================================== */}
+      <section className="section-tdk-disciplines">
+        <div className="tdk-container">
+          <div className="disciplines-header">
+            <span className="section-micro-tag">THE CRAFT</span>
+            <h2 className="heading-section-title">Post-Production Disciplines</h2>
+          </div>
+
+          <div className="disciplines-grid">
+            {SERVICES.map((srv) => (
+              <div key={srv.num} className="discipline-tdk-card">
+                <span className="discipline-tag">SCENE /{srv.num}</span>
+                <h3 className="discipline-title">{srv.title}</h3>
+                <p className="discipline-desc">{srv.desc}</p>
+                <div className="discipline-glow" />
               </div>
+            ))}
+          </div>
+
+          {/* Finishing Suite Box */}
+          <div className="finishing-suite-box">
+            <div className="suite-left">
+              <span className="section-micro-tag">FINISHING SUITE</span>
+              <h3 className="suite-title">Precision Tools & 24–48h Turnaround</h3>
+              <p className="suite-desc">
+                Every project receives lossless 4K ProRes master deliveries, natural skin-tone color grading in DaVinci Resolve, and multi-track spatial sound design.
+              </p>
             </div>
-          </section>
-
-          {/* FINISHING SUITE & TURNAROUND */}
-          <section className="minimal-suite-section">
-            <div className="minimal-section-container">
-              <div className="suite-minimal-box">
-                <div className="suite-info-col">
-                  <span className="section-label">FINISHING SUITE</span>
-                  <h3 className="suite-title">Precision Tools & 24–48h Turnaround</h3>
-                  <p className="suite-desc">
-                    Every project receives lossless 4K ProRes master deliveries, natural skin-tone color grading in DaVinci Resolve, and multi-track spatial sound design.
-                  </p>
-                  <div className="suite-tags-row">
-                    {TOOLS.map((tool) => (
-                      <span key={tool} className="suite-tag-pill">
-                        {tool}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </div>
+            <div className="suite-tags-grid">
+              {TOOLS.map((tool) => (
+                <span key={tool} className="suite-tag-badge">
+                  {tool}
+                </span>
+              ))}
             </div>
-          </section>
+          </div>
+        </div>
+      </section>
 
-          {/* CONTACT SECTION */}
-          <section className="minimal-contact-section" id="contact">
-            <div className="minimal-section-container">
-              <div className="contact-clean-box">
-                <span className="section-label">COLLABORATE</span>
-                <h2 className="contact-clean-title">
-                  Have raw footage ready to be cut? <br />
-                  <span className="title-italic">Let’s shape something unforgettable.</span>
-                </h2>
+      {/* ========================================================
+          VELOCITY INFINITE MARQUEE (Tom de Koning Style)
+          ======================================================== */}
+      <VelocityMarquee />
 
-                <div className="contact-actions-row">
+      {/* ========================================================
+          FOOTER & CONTACT SECTION (Tom de Koning Footer Architecture)
+          ======================================================== */}
+      <footer id="contact" className="section-tdk-footer">
+        <div className="tdk-container">
+          {/* Top Line */}
+          <div className="footer-top-meta">
+            <h6>ranjeetmishra.work</h6>
+            <h6>portfolio 2026</h6>
+          </div>
+
+          <div className="hairline-divider" />
+
+          {/* Main Contact Grid */}
+          <div className="footer-contact-grid">
+            <div className="footer-contact-col">
+              <div className="contact-field-group">
+                <span className="field-label">Direct Mail</span>
+                <div className="mail-copy-row">
+                  <StaggerLink
+                    href={`mailto:${PROFILE.email}?subject=Editing%20Project%20Inquiry%20%E2%80%94%20Ranjeet%20Mishra`}
+                    className="contact-stagger-text"
+                  >
+                    {PROFILE.email}
+                  </StaggerLink>
                   <button
                     type="button"
-                    className="copy-email-clean-btn"
+                    className="copy-icon-btn"
                     onClick={copyEmailToClipboard}
                     title="Copy email address"
                   >
-                    <span className="email-text">{PROFILE.email}</span>
-                    <span className={`copy-state-chip ${copiedEmail ? "copied" : ""}`}>
-                      {copiedEmail ? (
-                        <>
-                          <CheckIcon size={12} />
-                          <span>COPIED</span>
-                        </>
-                      ) : (
-                        <>
-                          <CopyIcon size={12} />
-                          <span>COPY</span>
-                        </>
-                      )}
-                    </span>
+                    {copiedEmail ? <CheckIcon size={12} /> : <CopyIcon size={12} />}
+                    <span>{copiedEmail ? "COPIED" : "COPY"}</span>
                   </button>
-
-                  <a
-                    href={`mailto:${PROFILE.email}?subject=Editing%20Project%20Inquiry%20%E2%80%94%20Ranjeet%20Mishra`}
-                    className="direct-mail-clean-btn"
-                  >
-                    <span>Send Email</span>
-                    <ArrowUpRight size={13} />
-                  </a>
                 </div>
+              </div>
 
-                <div className="contact-social-row">
-                  {PROFILE.socials.map((s) => (
-                    <a
-                      key={s.label}
-                      href={s.url}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="social-minimal-link"
-                    >
-                      <span>{s.label}</span>
-                      <ArrowUpRight size={11} />
-                    </a>
-                  ))}
-                </div>
+              <div className="contact-field-group">
+                <span className="field-label">Location & Local Time</span>
+                <p className="contact-location-text">
+                  Mumbai, India [IST] • <TimezoneClock />
+                </p>
               </div>
             </div>
-          </section>
-        </main>
-      )}
 
-      {/* ========================================================
-          VIEW: WORKS (Clean Minimal Screening Room)
-          ======================================================== */}
-      {currentView === "works" && (
-        <main className="view-layer-minimal view-enter-reveal">
-          <section className="minimal-works-section">
-            <div className="minimal-section-container">
-              {/* Back to Studio & Header */}
-              <div className="works-top-nav">
-                <button
-                  type="button"
-                  className="works-back-btn"
-                  onClick={handleReturnToStudio}
+            <div className="footer-social-col">
+              <div className="contact-field-group align-right">
+                <span className="field-label">LinkedIn</span>
+                <StaggerLink
+                  href="https://linkedin.com"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="contact-stagger-text text-right"
                 >
-                  <ArrowLeft size={14} />
-                  <span>Overview</span>
-                </button>
+                  @ranjeet-mishra
+                </StaggerLink>
+              </div>
 
-                <div className="works-vault-tag">
-                  <span>{PROJECTS.length} SELECTED CUTS</span>
-                </div>
-
-                <a
-                  href={`mailto:${PROFILE.email}?subject=Project%20Inquiry%20from%20Portfolio`}
-                  className="works-inquire-link"
+              <div className="contact-field-group align-right">
+                <span className="field-label">Instagram</span>
+                <StaggerLink
+                  href="https://instagram.com"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="contact-stagger-text text-right"
                 >
-                  <span>Inquire</span>
-                  <ArrowUpRight size={12} />
-                </a>
+                  @ranjeetmishra.work
+                </StaggerLink>
               </div>
 
-              {/* Title & Filter Tabs */}
-              <div className="works-header-row">
-                <div>
-                  <h2 className="works-main-title">Selected Cuts</h2>
-                  <p className="works-sub-title">
-                    Commercial brand films, high-retention short-form Reels, and multi-cam podcast workflows.
-                  </p>
-                </div>
-
-                {/* Filter Pills */}
-                <div className="works-filter-cluster" role="tablist" aria-label="Filter works">
-                  {CATEGORIES.map((cat) => (
-                    <button
-                      key={cat}
-                      type="button"
-                      className={`filter-minimal-btn ${selectedCategory === cat ? "active" : ""}`}
-                      onClick={() => setSelectedCategory(cat)}
-                      role="tab"
-                      aria-selected={selectedCategory === cat}
-                    >
-                      <span>{cat}</span>
-                      <span className="filter-count-chip">{categoryCounts[cat] || 0}</span>
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Clean Grid */}
-              <div className={`minimal-works-grid layout-${selectedCategory.toLowerCase().replace(/[^a-z]/g, "")}`}>
-                {filteredProjects.map((project, idx) => (
-                  <VideoCard
-                    key={project.id}
-                    project={project}
-                    index={idx}
-                    onOpenTheater={setActiveTheaterProject}
-                  />
-                ))}
-              </div>
-
-              {/* Minimal Bottom Prompt */}
-              <div className="works-bottom-prompt">
-                <div className="prompt-left">
-                  <span className="section-label">COMMISSIONS OPEN</span>
-                  <h3 className="prompt-title">Need a dedicated editor or creator retainer?</h3>
-                </div>
-                <div className="prompt-actions">
-                  <button
-                    type="button"
-                    className="prompt-back-btn"
-                    onClick={handleReturnToStudio}
-                  >
-                    <span>Overview</span>
-                  </button>
-                  <a
-                    href={`mailto:${PROFILE.email}?subject=Project%20Inquiry%20from%20Portfolio`}
-                    className="prompt-email-btn"
-                  >
-                    <span>Start a Project</span>
-                    <ArrowUpRight size={13} />
-                  </a>
-                </div>
+              <div className="contact-field-group align-right">
+                <span className="field-label">YouTube</span>
+                <StaggerLink
+                  href="https://youtube.com"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="contact-stagger-text text-right"
+                >
+                  @ranjeetmishra-editor
+                </StaggerLink>
               </div>
             </div>
-          </section>
-        </main>
-      )}
+          </div>
 
-      {/* FOOTER */}
-      <footer className="minimal-footer">
-        <div className="footer-inner-clean">
-          <span className="footer-brand">{PROFILE.name}</span>
-          <span className="footer-dot">•</span>
-          <span className="footer-role">Video Editor</span>
-          <span className="footer-right">© {new Date().getFullYear()}</span>
+          <div className="hairline-divider" />
+
+          {/* Bottom Monumental Brand Stamp */}
+          <div className="footer-bottom-stamp">
+            <h3 className="footer-huge-name">
+              ranjeetmishra<span className="text-color-olive">.work</span>
+            </h3>
+          </div>
         </div>
       </footer>
 
-      {/* Cinema Modal */}
+      {/* Fullscreen Theater Modal */}
       {activeTheaterProject && (
         <CinemaModal
           project={activeTheaterProject}

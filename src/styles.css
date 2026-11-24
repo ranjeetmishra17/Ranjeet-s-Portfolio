@@ -670,16 +670,15 @@ img {
   margin-top: 8px;
 }
 
-.about-editorial-grid {
+.about-editorial-wrap {
   display: grid;
-  grid-template-columns: 1.15fr 0.85fr;
-  gap: 64px;
+  grid-template-columns: 1.25fr 0.75fr;
+  gap: 56px;
   padding-top: 24px;
   align-items: flex-start;
 }
 
-.about-col-narrative,
-.about-col-specs {
+.about-narrative-block {
   display: flex;
   flex-direction: column;
 }
@@ -707,11 +706,11 @@ img {
   font-size: 0.98rem;
   line-height: 1.72;
   color: var(--text-sand);
-  margin-bottom: 30px;
+  margin-bottom: 0;
 }
 
 .about-tools-block {
-  padding: 24px;
+  padding: 26px;
   border-radius: 16px;
   background: rgba(14, 18, 12, 0.7);
   border: 1px solid var(--border-subtle);
@@ -762,22 +761,6 @@ img {
   height: 5px;
   border-radius: 50%;
   background: var(--olive-primary);
-}
-
-.about-specs-list {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-}
-
-.about-actions-bar {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  padding-top: 28px;
-  border-top: 1px solid var(--border-subtle);
-  margin-top: 8px;
-  flex-wrap: wrap;
 }
 
 /* ========================================================
@@ -1918,9 +1901,9 @@ img {
     margin-bottom: 16px;
   }
 
-  .about-editorial-grid {
+  .about-editorial-wrap {
     grid-template-columns: 1fr;
-    gap: 28px;
+    gap: 24px;
     padding-top: 12px;
   }
 
@@ -1935,7 +1918,7 @@ img {
     font-size: 0.85rem;
     line-height: 1.58;
     color: var(--text-sand);
-    margin-bottom: 22px;
+    margin-bottom: 0;
   }
 
   .about-tools-block {
@@ -1951,48 +1934,6 @@ img {
   .tool-pill-item {
     font-size: 0.68rem;
     padding: 5px 11px;
-  }
-
-  .spec-row {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 5px;
-    padding: 14px 0;
-    border-top: 1px solid var(--border-subtle);
-  }
-
-  .spec-line {
-    display: none;
-  }
-
-  .spec-label {
-    font-family: var(--font-mono);
-    font-size: 0.68rem;
-    letter-spacing: 0.08em;
-    color: var(--text-dust);
-    text-transform: uppercase;
-  }
-
-  .spec-value {
-    text-align: left;
-    font-size: 0.92rem;
-    font-weight: 600;
-    line-height: 1.45;
-    color: var(--text-ivory);
-  }
-
-  .about-actions-bar {
-    flex-direction: column;
-    width: 100%;
-    gap: 10px;
-    padding-top: 22px;
-  }
-
-  .about-actions-bar .tdk-magnetic-btn,
-  .about-actions-bar .tdk-secondary-btn {
-    width: 100%;
-    height: 50px;
-    justify-content: center;
   }
 
   /* Work Section: Cinematic Vertical Feed on Mobile */

@@ -809,10 +809,9 @@ export default function App() {
 
           <div className="hairline-divider reveal-divider" />
 
-          {/* 2-Column Luxury Editorial Grid */}
-          <div className="about-editorial-grid reveal-stagger-group">
-            {/* Left Column: The Narrative & Tool Stack */}
-            <div className="about-col-narrative">
+          {/* Luxury Editorial Body & Tools Arsenal */}
+          <div className="about-editorial-wrap reveal-stagger-group">
+            <div className="about-narrative-block">
               <span className="about-col-micro-label">THE CRAFT</span>
               <p className="about-lead-text">
                 I’m an independent post-production editor and motion designer based in Mumbai, India. I combine rhythmic frame economy, psychoacoustic sound architecture, and organic DaVinci color grading to build films that captivate and convert.
@@ -820,81 +819,18 @@ export default function App() {
               <p className="about-body-text">
                 From high-retention short-form Reels and founder documentaries to multi-cam podcast workflows, I engineer every cut for retention. One creative vision. Relentless pacing. Stories that linger.
               </p>
-
-              {/* Creative Software Stack */}
-              <div className="about-tools-block">
-                <span className="tools-heading-label">POST-PRODUCTION SUITE & ARSENAL</span>
-                <div className="tools-pills-wrap">
-                  {TOOLS.map((tool, i) => (
-                    <span key={i} className="tool-pill-item">
-                      <span className="tool-pill-dot" />
-                      <span>{tool}</span>
-                    </span>
-                  ))}
-                </div>
-              </div>
             </div>
 
-            {/* Right Column: Directorial Specs */}
-            <div className="about-col-specs">
-              <span className="about-col-micro-label">DIRECTORIAL SPECIFICATIONS</span>
-              <div className="about-specs-list">
-                <div className="spec-row">
-                  <span className="spec-label">Services</span>
-                  <span className="spec-value text-right">
-                    Short-Form Reels, Brand Films, Podcasts, DaVinci Grading & Sound
+            {/* Creative Software Stack */}
+            <div className="about-tools-block">
+              <span className="tools-heading-label">POST-PRODUCTION SUITE & ARSENAL</span>
+              <div className="tools-pills-wrap">
+                {TOOLS.map((tool, i) => (
+                  <span key={i} className="tool-pill-item">
+                    <span className="tool-pill-dot" />
+                    <span>{tool}</span>
                   </span>
-                  <div className="spec-line" />
-                </div>
-
-                <div className="spec-row">
-                  <span className="spec-label">Experience</span>
-                  <span className="spec-value">4+ Years // 150+ Mastered Cuts</span>
-                  <div className="spec-line" />
-                </div>
-
-                <div className="spec-row">
-                  <span className="spec-label">Timezone</span>
-                  <span className="spec-value">
-                    MUMBAI [IST] // <TimezoneClock />
-                  </span>
-                  <div className="spec-line" />
-                </div>
-
-                <div className="spec-row">
-                  <span className="spec-label">Availability</span>
-                  <span className="spec-value text-olive-champagne">
-                    ● Taking on select projects for Q1/Q2
-                  </span>
-                  <div className="spec-line" />
-                </div>
-
-                <div className="spec-row">
-                  <span className="spec-label">Audience Reach</span>
-                  <span className="spec-value">15M+ Organic Views Generated</span>
-                  <div className="spec-line" />
-                </div>
-              </div>
-
-              {/* Action Buttons */}
-              <div className="about-actions-bar">
-                <a
-                  href="#contact"
-                  className="tdk-magnetic-btn"
-                  onClick={(e) => scrollToSection(e, "#contact")}
-                >
-                  <span className="btn-inner">
-                    <span className="btn-text">Start a Project</span>
-                    <ArrowRight size={14} />
-                  </span>
-                </a>
-                <a
-                  href={`mailto:${PROFILE.email}?subject=Collaboration%20Inquiry%20%E2%80%94%20Ranjeet%20Mishra`}
-                  className="tdk-secondary-btn"
-                >
-                  <span>Direct Mail</span>
-                  <ArrowUpRight size={13} />
-                </a>
+                ))}
               </div>
             </div>
           </div>

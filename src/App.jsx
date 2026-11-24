@@ -6,6 +6,7 @@ import {
   EXPERIENCE,
   CATEGORIES,
   PROJECTS,
+  TOOLS,
 } from "./data.js";
 
 /* ---------- Minimal SVGs ---------- */
@@ -49,6 +50,13 @@ const ArrowLeft = ({ size = 15 }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
     <line x1="19" y1="12" x2="5" y2="12" />
     <polyline points="12 19 5 12 12 5" />
+  </svg>
+);
+
+const ArrowDown = ({ size = 15 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+    <line x1="12" y1="5" x2="12" y2="19" />
+    <polyline points="19 12 12 19 5 12" />
   </svg>
 );
 
@@ -535,7 +543,7 @@ export default function App() {
     targets.forEach((el) => observer.observe(el));
 
     // Reveal hero immediately on initial mount
-    const hero = document.getElementById("header");
+    const hero = document.getElementById("hero");
     if (hero) {
       requestAnimationFrame(() => {
         hero.classList.add("is-revealed");
@@ -555,9 +563,9 @@ export default function App() {
         <div className="navbar-inner-pill">
           {/* Brand & Avatar */}
           <a
-            href="#header"
+            href="#hero"
             className="navbar-brand-link"
-            onClick={(e) => scrollToSection(e, "#header")}
+            onClick={(e) => scrollToSection(e, "#hero")}
           >
             <div className="nav-avatar-circle">
               <img
@@ -572,16 +580,13 @@ export default function App() {
             </div>
           </a>
 
-          {/* Stagger Nav Links */}
+          {/* Stagger Nav Links: WORK, ABOUT, EXPERIENCE, CONTACT */}
           <nav className="navbar-stagger-links" aria-label="Main Navigation">
-            <StaggerLink href="#info" className="nav-stagger-item hide-mobile" onClick={(e) => scrollToSection(e, "#info")}>
-              INFO
-            </StaggerLink>
-            <StaggerLink href="#about" className="nav-stagger-item hide-mobile" onClick={(e) => scrollToSection(e, "#about")}>
-              ABOUT
-            </StaggerLink>
             <StaggerLink href="#work" className="nav-stagger-item" onClick={(e) => scrollToSection(e, "#work")}>
               WORK
+            </StaggerLink>
+            <StaggerLink href="#about" className="nav-stagger-item" onClick={(e) => scrollToSection(e, "#about")}>
+              ABOUT
             </StaggerLink>
             <StaggerLink href="#experience" className="nav-stagger-item hide-mobile" onClick={(e) => scrollToSection(e, "#experience")}>
               EXPERIENCE
@@ -594,146 +599,129 @@ export default function App() {
       </header>
 
       {/* ========================================================
-          HERO SECTION (Tom de Koning Layout & Kinetic Typography)
+          1. HERO SECTION (Separate, Distinct, Viewport-Defining)
           ======================================================== */}
-      <section id="header" className="section-tdk-header reveal-section">
-        <div className="tdk-container">
-          {/* Header Top Micro-Bar */}
-          <div className="header-meta-bar reveal-item">
-            <span className="meta-brand-text">ranjeetmishra.work</span>
-            <span className="meta-portfolio-text">portfolio 2026</span>
+      <section id="hero" className="section-hero-stage reveal-section">
+        <div className="tdk-container hero-stage-inner">
+          {/* Hero Top Directorial Bar */}
+          <div className="hero-top-bar reveal-item">
+            <div className="hero-top-left">
+              <span className="live-status-dot" />
+              <span className="hero-meta-label">MUMBAI [IST] // <TimezoneClock /></span>
+            </div>
+            <div className="hero-top-center hide-mobile">
+              <span className="hero-meta-badge">POST-PRODUCTION // RHYTHM & SOUND</span>
+            </div>
+            <div className="hero-top-right">
+              <span className="hero-status-chip">
+                <span className="chip-dot" />
+                <span>COMMISSIONS OPEN Q1/Q2</span>
+              </span>
+            </div>
           </div>
 
-          {/* Director Intro & Spinning Star */}
-          <div className="header-intro-row reveal-item">
-            <div className="header-status-indicator">
-              <span className="live-status-dot" />
-              <span className="status-meta-text">POST-PRODUCTION EDITOR // MUMBAI [IST]</span>
+          <div className="hairline-divider reveal-divider" />
+
+          {/* Director Hook & Spinning Star */}
+          <div className="hero-director-row reveal-item">
+            <div className="hero-badge-tag">
+              <span className="hero-tag-text">DIRECTORIAL POST-PRODUCTION & MOTION</span>
             </div>
 
-            <div className="header-quote-wrap">
+            <div className="hero-quote-wrap">
               <StarIcon />
-              <p className="header-intro-quote">
+              <p className="hero-intro-quote">
                 I craft film rhythm and visual retention that turn heads — <br className="hide-mobile" />
                 stronger, sharper, unforgettable.
               </p>
             </div>
           </div>
 
-          <div className="hairline-divider reveal-divider" />
-
-          {/* Monumental Hero Headline */}
-          <div className="header-monumental-wrap reveal-item">
+          {/* Monumental Architectural Headline */}
+          <div className="hero-monumental-wrap reveal-item">
             <h1 className="hero-monumental-title">
               ranjeetmishra<br />
               <span className="text-color-olive">.work</span>
             </h1>
           </div>
-        </div>
-      </section>
 
-      {/* ========================================================
-          INFO & SPECS SECTION (Directorial Spec Rows)
-          ======================================================== */}
-      <section id="info" className="section-tdk-info reveal-section">
-        <div className="tdk-container">
-          <div className="info-2col-grid">
-            <div className="info-col-label reveal-item">
-              <h6>About</h6>
-            </div>
+          {/* Hero Lead Sub-headline */}
+          <div className="hero-lead-row reveal-item">
+            <p className="hero-lead-text">
+              Turning raw footage into magnetic visual cinema. Specialized in high-retention short-form Reels, founder stories, and podcast video workflows engineered with psychoacoustic sound architecture and organic DaVinci color grading.
+            </p>
+          </div>
 
-            <div className="info-col-specs reveal-stagger-group">
-              <div className="spec-row">
-                <span className="spec-label">Services</span>
-                <span className="spec-value text-right">
-                  Film & Reel Editing, Commercials, Podcasts, DaVinci Grading & Sound
-                </span>
-                <div className="spec-line" />
+          {/* Hero Proof Deck & Dual CTAs */}
+          <div className="hero-proof-deck reveal-item">
+            <div className="hero-stats-trio">
+              <div className="hero-stat-card">
+                <span className="hero-stat-num">15M+</span>
+                <span className="hero-stat-desc">Views Generated</span>
               </div>
-
-              <div className="spec-row">
-                <span className="spec-label">Experience</span>
-                <span className="spec-value">4+ Years // 150+ Mastered Cuts</span>
-                <div className="spec-line" />
+              <div className="hero-stat-card">
+                <span className="hero-stat-num">150+</span>
+                <span className="hero-stat-desc">Mastered Cuts</span>
               </div>
-
-              <div className="spec-row">
-                <span className="spec-label">Timezone</span>
-                <span className="spec-value">
-                  MUMBAI [IST] // <TimezoneClock />
-                </span>
-                <div className="spec-line" />
-              </div>
-
-              <div className="spec-row">
-                <span className="spec-label">Availability</span>
-                <span className="spec-value text-olive-champagne">
-                  ● Taking on select projects for Q1/Q2
-                </span>
-                <div className="spec-line" />
-              </div>
-
-              <div className="spec-row">
-                <span className="spec-label">Audience Reach</span>
-                <span className="spec-value">15M+ Organic Views Generated</span>
-                <div className="spec-line" />
-              </div>
-
-              {/* Action Buttons */}
-              <div className="info-actions-bar reveal-item">
-                <a href="#work" className="tdk-magnetic-btn">
-                  <span className="btn-inner">
-                    <span className="btn-text">View work</span>
-                    <ArrowRight size={14} />
-                  </span>
-                </a>
-                <a href="#contact" className="tdk-secondary-btn">
-                  <span>Start a Project</span>
-                  <ArrowUpRight size={13} />
-                </a>
+              <div className="hero-stat-card">
+                <span className="hero-stat-num">48h</span>
+                <span className="hero-stat-desc">Average First Cut</span>
               </div>
             </div>
+
+            <div className="hero-actions-cluster">
+              <a
+                href="#work"
+                className="tdk-magnetic-btn hero-primary-cta"
+                onClick={(e) => scrollToSection(e, "#work")}
+              >
+                <span className="btn-inner">
+                  <span className="btn-text">Explore Work</span>
+                  <ArrowDown size={14} />
+                </span>
+              </a>
+              <a
+                href="#contact"
+                className="tdk-secondary-btn hero-secondary-cta"
+                onClick={(e) => scrollToSection(e, "#contact")}
+              >
+                <span>Start a Project</span>
+                <ArrowUpRight size={13} />
+              </a>
+            </div>
+          </div>
+
+          {/* Hero Bottom Architectural Cue */}
+          <div className="hero-bottom-cue reveal-item">
+            <span className="cue-spec-text hide-mobile">
+              [ 9:16 VERTICAL // 16:9 CINEMA // 4K PRORES 422HQ ]
+            </span>
+            <a
+              href="#work"
+              className="cue-scroll-indicator"
+              onClick={(e) => scrollToSection(e, "#work")}
+              aria-label="Scroll down to featured work"
+            >
+              <span className="cue-text">SCROLL TO VIEW CUTS</span>
+              <span className="cue-arrow-bounce">
+                <ArrowDown size={12} />
+              </span>
+            </a>
+            <span className="cue-vol-text hide-mobile">
+              PORTFOLIO 2026 // VOL. 04
+            </span>
           </div>
         </div>
       </section>
 
       {/* ========================================================
-          GRADIENT WAVE MANIFESTO SECTION (Tom de Koning Inspired)
-          ======================================================== */}
-      <section id="about" className="section-tdk-manifesto reveal-section">
-        <div className="tdk-container">
-          <div className="manifesto-wrap reveal-item">
-            <h2 className="heading-gradient-wave">
-              I cut stories that stop the scroll — frame by frame, sound to color.
-            </h2>
-          </div>
-
-          <div className="hairline-divider reveal-divider" />
-
-          <div className="manifesto-2col-grid reveal-item">
-            <div className="manifesto-col-label">
-              <h6>Because</h6>
-            </div>
-            <div className="manifesto-col-body">
-              <p className="manifesto-lead">
-                I’m an independent post-production editor and motion designer based in Mumbai, India. I combine rhythmic frame economy, psychoacoustic sound architecture, and organic DaVinci color grading to build films that captivate and convert.
-              </p>
-              <p className="manifesto-sub">
-                From high-retention short-form Reels and founder documentaries to multi-cam podcast workflows, I engineer every cut for retention. One creative vision. Relentless pacing. Stories that linger.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ========================================================
-          REDESIGNED WORK SECTION (Interactive Glass Showcase Carousel)
+          2. WORK SECTION (Interactive Glass Showcase Carousel)
           ======================================================== */}
       <section id="work" className="section-tdk-work reveal-section">
         <div className="tdk-container">
           <div className="work-header-row reveal-item">
             <div className="work-title-wrap">
-              <span className="section-micro-tag">WHAT YOU’RE HERE FOR (I GUESS)</span>
+              <span className="section-micro-tag">01 // WHAT YOU’RE HERE FOR</span>
               <h2 className="heading-extreme-work">Work</h2>
             </div>
 
@@ -803,12 +791,123 @@ export default function App() {
       </section>
 
       {/* ========================================================
-          WORK EXPERIENCE SECTION (Added as requested)
+          3. ABOUT ME SECTION (Manifesto, Philosophy, Specs & Stack)
+          ======================================================== */}
+      <section id="about" className="section-tdk-about reveal-section">
+        <div className="tdk-container">
+          <div className="about-header-row reveal-item">
+            <span className="section-micro-tag">02 // THE PHILOSOPHY & DISCIPLINE</span>
+            <h2 className="heading-about-title">About Me</h2>
+          </div>
+
+          {/* Gradient Wave Manifesto Headline */}
+          <div className="manifesto-wrap reveal-item">
+            <h3 className="heading-gradient-wave">
+              I cut stories that stop the scroll — frame by frame, sound to color.
+            </h3>
+          </div>
+
+          <div className="hairline-divider reveal-divider" />
+
+          {/* 2-Column Luxury Editorial Grid */}
+          <div className="about-editorial-grid reveal-stagger-group">
+            {/* Left Column: The Narrative & Tool Stack */}
+            <div className="about-col-narrative">
+              <span className="about-col-micro-label">THE CRAFT</span>
+              <p className="about-lead-text">
+                I’m an independent post-production editor and motion designer based in Mumbai, India. I combine rhythmic frame economy, psychoacoustic sound architecture, and organic DaVinci color grading to build films that captivate and convert.
+              </p>
+              <p className="about-body-text">
+                From high-retention short-form Reels and founder documentaries to multi-cam podcast workflows, I engineer every cut for retention. One creative vision. Relentless pacing. Stories that linger.
+              </p>
+
+              {/* Creative Software Stack */}
+              <div className="about-tools-block">
+                <span className="tools-heading-label">POST-PRODUCTION SUITE & ARSENAL</span>
+                <div className="tools-pills-wrap">
+                  {TOOLS.map((tool, i) => (
+                    <span key={i} className="tool-pill-item">
+                      <span className="tool-pill-dot" />
+                      <span>{tool}</span>
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Right Column: Directorial Specs */}
+            <div className="about-col-specs">
+              <span className="about-col-micro-label">DIRECTORIAL SPECIFICATIONS</span>
+              <div className="about-specs-list">
+                <div className="spec-row">
+                  <span className="spec-label">Services</span>
+                  <span className="spec-value text-right">
+                    Short-Form Reels, Brand Films, Podcasts, DaVinci Grading & Sound
+                  </span>
+                  <div className="spec-line" />
+                </div>
+
+                <div className="spec-row">
+                  <span className="spec-label">Experience</span>
+                  <span className="spec-value">4+ Years // 150+ Mastered Cuts</span>
+                  <div className="spec-line" />
+                </div>
+
+                <div className="spec-row">
+                  <span className="spec-label">Timezone</span>
+                  <span className="spec-value">
+                    MUMBAI [IST] // <TimezoneClock />
+                  </span>
+                  <div className="spec-line" />
+                </div>
+
+                <div className="spec-row">
+                  <span className="spec-label">Availability</span>
+                  <span className="spec-value text-olive-champagne">
+                    ● Taking on select projects for Q1/Q2
+                  </span>
+                  <div className="spec-line" />
+                </div>
+
+                <div className="spec-row">
+                  <span className="spec-label">Audience Reach</span>
+                  <span className="spec-value">15M+ Organic Views Generated</span>
+                  <div className="spec-line" />
+                </div>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="about-actions-bar">
+                <a
+                  href="#contact"
+                  className="tdk-magnetic-btn"
+                  onClick={(e) => scrollToSection(e, "#contact")}
+                >
+                  <span className="btn-inner">
+                    <span className="btn-text">Start a Project</span>
+                    <ArrowRight size={14} />
+                  </span>
+                </a>
+                <a
+                  href={`mailto:${PROFILE.email}?subject=Collaboration%20Inquiry%20%E2%80%94%20Ranjeet%20Mishra`}
+                  className="tdk-secondary-btn"
+                >
+                  <span>Direct Mail</span>
+                  <ArrowUpRight size={13} />
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ========================================================
+          4. WORKING EXPERIENCE SECTION (Track Record & Background)
           ======================================================== */}
       <section id="experience" className="section-tdk-experience reveal-section">
         <div className="tdk-container">
           <div className="experience-header reveal-item">
-            <span className="section-micro-tag">BACKGROUND & TRACK RECORD</span>
+            <span className="section-micro-tag">03 // BACKGROUND & TRACK RECORD</span>
             <h2 className="heading-experience-title">Work Experience</h2>
           </div>
 
@@ -844,13 +943,17 @@ export default function App() {
       <VelocityMarquee />
 
       {/* ========================================================
-          FOOTER & CONTACT SECTION (Tom de Koning Footer Architecture)
+          5. CONTACT SECTION (Directorial Footer Portal)
           ======================================================== */}
       <footer id="contact" className="section-tdk-footer reveal-section">
         <div className="tdk-container">
           {/* Top Line */}
           <div className="footer-top-meta reveal-item">
             <h6>ranjeetmishra.work</h6>
+            <div className="footer-edition-chip">
+              <span className="chip-dot" />
+              <span>COMMISSIONS OPEN Q1/Q2</span>
+            </div>
             <h6>portfolio 2026</h6>
           </div>
 

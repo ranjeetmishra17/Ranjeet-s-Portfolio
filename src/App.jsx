@@ -622,9 +622,15 @@ export default function App() {
 
           <div className="hairline-divider reveal-divider" />
 
-          {/* Director Sub-Discipline Tag */}
-          <div className="hero-badge-tag reveal-item">
-            <span className="hero-tag-text">DIRECTORIAL POST-PRODUCTION & MOTION</span>
+          {/* Director Tagline Bar */}
+          <div className="hero-director-row reveal-item">
+            <div className="hero-badge-tag">
+              <span className="hero-tag-text">DIRECTORIAL POST-PRODUCTION & MOTION</span>
+            </div>
+            <div className="hero-tag-accent hide-mobile">
+              <span className="live-status-dot" />
+              <span className="meta-accent-text">FRAME ECONOMY // PSYCHOACOUSTIC SOUND</span>
+            </div>
           </div>
 
           {/* Monumental Architectural Headline */}
@@ -635,8 +641,8 @@ export default function App() {
             </h1>
           </div>
 
-          {/* Star Icon & Lead Quote placed under the Monumental Title */}
-          <div className="hero-quote-row reveal-item">
+          {/* Director Hook & Spinning Star (Second Image Text replacing First Image Text) */}
+          <div className="hero-lead-row reveal-item">
             <div className="hero-quote-wrap">
               <StarIcon />
               <p className="hero-intro-quote">

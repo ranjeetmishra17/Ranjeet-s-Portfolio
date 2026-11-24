@@ -7,7 +7,7 @@ import {
   PROJECTS,
 } from "./data.js";
 
-/* ---------- Minimal SVGs ---------- */
+/* ---------- Minimal Icons ---------- */
 const PlayIcon = ({ size = 20 }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
     <path d="M8 5.14v13.72a1 1 0 001.52.85l11-6.86a1 1 0 000-1.7l-11-6.86A1 1 0 008 5.14z" />
@@ -64,7 +64,25 @@ const CopyIcon = ({ size = 13 }) => (
   </svg>
 );
 
-/* ---------- Tom de Koning Style Rotating Star (Velocity Accelerated) ---------- */
+const GridIcon = ({ size = 14 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <rect x="3" y="3" width="7" height="7" />
+    <rect x="14" y="3" width="7" height="7" />
+    <rect x="14" y="14" width="7" height="7" />
+    <rect x="3" y="14" width="7" height="7" />
+  </svg>
+);
+
+const CinemaIcon = ({ size = 14 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <rect x="2" y="4" width="20" height="16" rx="2" />
+    <line x1="2" y1="9" x2="22" y2="9" />
+    <line x1="7" y1="4" x2="7" y2="9" />
+    <line x1="17" y1="4" x2="17" y2="9" />
+  </svg>
+);
+
+/* ---------- Tom de Koning Style Rotating Geometric Star ---------- */
 function StarIcon() {
   const [rotation, setRotation] = useState(0);
 
@@ -77,7 +95,7 @@ function StarIcon() {
     const handleScroll = () => {
       const currentY = window.scrollY;
       const diff = Math.abs(currentY - lastY);
-      boost = Math.min(diff * 0.35, 20);
+      boost = Math.min(diff * 0.35, 22);
       lastY = currentY;
     };
 
@@ -85,7 +103,7 @@ function StarIcon() {
 
     const tick = () => {
       boost *= 0.94;
-      rot = (rot + 0.65 + boost) % 360;
+      rot = (rot + 0.6 + boost) % 360;
       setRotation(rot);
       rafId = requestAnimationFrame(tick);
     };
@@ -110,7 +128,7 @@ function StarIcon() {
   );
 }
 
-/* ---------- Tom de Koning Style Stagger Link (Dual-Layer Roll) ---------- */
+/* ---------- Dual-Layer Stagger Link (Rolling Text on Hover) ---------- */
 function StaggerLink({ href, children, className = "", onClick, target, rel }) {
   return (
     <a
@@ -150,77 +168,7 @@ function TimezoneClock() {
     return () => clearInterval(interval);
   }, []);
 
-  return <span className="timezone-live-clock">{timeStr || "15:45:00"}</span>;
-}
-
-/* ---------- Interactive Trailing Custom Cursor ---------- */
-function CustomCursor() {
-  const dotRef = useRef(null);
-  const ringRef = useRef(null);
-
-  useEffect(() => {
-    const isTouch = window.matchMedia("(hover: none)").matches;
-    if (isTouch) return;
-
-    let mouseX = -100, mouseY = -100;
-    let ringX = -100, ringY = -100;
-    let isHovered = false;
-    let isClicking = false;
-    let rafId;
-
-    const onMouseMove = (e) => {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-      if (dotRef.current) {
-        dotRef.current.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0)`;
-      }
-    };
-
-    const onMouseDown = () => { isClicking = true; };
-    const onMouseUp = () => { isClicking = false; };
-
-    const checkHover = (e) => {
-      const target = e.target;
-      const interactive = target.closest("a, button, [role='button'], .minimal-video-card, .portal-poster-surface, .tdk-featured-monitor");
-      isHovered = !!interactive;
-    };
-
-    window.addEventListener("mousemove", onMouseMove);
-    window.addEventListener("mousedown", onMouseDown);
-    window.addEventListener("mouseup", onMouseUp);
-    window.addEventListener("mouseover", checkHover);
-
-    const animate = () => {
-      ringX += (mouseX - ringX) * 0.18;
-      ringY += (mouseY - ringY) * 0.18;
-
-      if (ringRef.current) {
-        const scale = isClicking ? 0.75 : isHovered ? 1.85 : 1;
-        ringRef.current.style.transform = `translate3d(${ringX}px, ${ringY}px, 0) scale(${scale})`;
-        ringRef.current.style.borderColor = isHovered ? "var(--olive-champagne)" : "var(--olive-primary)";
-        ringRef.current.style.background = isHovered ? "var(--olive-halo-strong)" : "transparent";
-      }
-
-      rafId = requestAnimationFrame(animate);
-    };
-
-    rafId = requestAnimationFrame(animate);
-
-    return () => {
-      window.removeEventListener("mousemove", onMouseMove);
-      window.removeEventListener("mousedown", onMouseDown);
-      window.removeEventListener("mouseup", onMouseUp);
-      window.removeEventListener("mouseover", checkHover);
-      cancelAnimationFrame(rafId);
-    };
-  }, []);
-
-  return (
-    <div className="cursor-wrap" aria-hidden="true">
-      <div ref={dotRef} className="cursor-dot" />
-      <div ref={ringRef} className="cursor-ring" />
-    </div>
-  );
+  return <span className="timezone-live-clock">{timeStr || "16:00:00"}</span>;
 }
 
 /* ---------- Velocity Infinite Marquee ---------- */
@@ -261,8 +209,8 @@ function VelocityMarquee() {
   );
 }
 
-/* ---------- Video Project Card ---------- */
-function VideoCard({ project, index, onOpenTheater }) {
+/* ---------- Ultra-Sleek Editorial Video Card ---------- */
+function VideoProjectCard({ project, index, onOpenTheater }) {
   const [isPlaying, setIsPlaying] = useState(false);
   const padNum = String(index + 1).padStart(2, "0");
 
@@ -278,29 +226,29 @@ function VideoCard({ project, index, onOpenTheater }) {
 
   return (
     <article
-      className={`minimal-video-card ${project.shape} ${isPlaying ? "is-playing" : ""}`}
+      className={`editorial-video-card shape-${project.shape} ${isPlaying ? "is-active-playing" : ""}`}
       tabIndex={0}
       aria-label={`Project cut #${padNum} - ${project.category}`}
     >
-      <div className="card-aspect-viewport">
+      <div className="card-stage">
         {isPlaying ? (
-          <div className="card-inline-player">
+          <div className="card-player-container">
             <iframe
               src={`https://player.vimeo.com/video/${project.vimeoId}?autoplay=1&muted=0&loop=1&playsinline=1&title=0&byline=0&portrait=0`}
-              className="card-vimeo-iframe"
+              className="card-player-iframe"
               allow="autoplay; fullscreen; picture-in-picture; encrypted-media"
               allowFullScreen
               referrerPolicy="strict-origin-when-cross-origin"
-              title={`Video ${project.id}`}
+              title={`Cut #${padNum}`}
             />
-            <div className="player-close-bar">
-              <span className="player-cut-tag">CUT #{padNum}</span>
+            <div className="card-player-hud">
+              <span className="hud-cut-tag">CUT #{padNum} // PLAYING</span>
               <button
                 type="button"
-                className="player-close-pill"
+                className="hud-close-btn"
                 onClick={stopPlayback}
-                title="Close video"
-                aria-label="Close video"
+                title="Stop playback"
+                aria-label="Stop playback"
               >
                 <CloseIcon size={14} />
               </button>
@@ -308,57 +256,80 @@ function VideoCard({ project, index, onOpenTheater }) {
           </div>
         ) : (
           <div
-            className="card-poster-surface"
+            className="card-surface"
             onClick={startPlayback}
-            title="Click to play in-card"
+            title="Click to play preview"
           >
             <img
               src={project.image}
-              alt={`Thumbnail for cut #${padNum}`}
-              className="card-poster-img"
+              alt={`Video cut #${padNum}`}
+              className="card-still-img"
               loading="lazy"
             />
-            {/* Viewfinder Corners */}
-            <div className="viewfinder-brackets" aria-hidden="true">
-              <span className="vf-bracket vf-tl" />
-              <span className="vf-bracket vf-tr" />
-              <span className="vf-bracket vf-bl" />
-              <span className="vf-bracket vf-br" />
+
+            {/* Subtle Viewfinder Frame */}
+            <div className="card-viewfinder-brackets" aria-hidden="true">
+              <span className="bracket b-tl" />
+              <span className="bracket b-tr" />
+              <span className="bracket b-bl" />
+              <span className="bracket b-br" />
             </div>
 
-            <div className="card-vignette-overlay" />
+            <div className="card-cinematic-glow" />
 
-            {/* Top Slates */}
-            <div className="card-header-slate">
-              <span className="card-num-badge">#{padNum}</span>
-              <span className="card-category-pill">{project.category}</span>
+            {/* Card Slate Top */}
+            <div className="card-hud-top">
+              <span className="hud-pill-num">#{padNum}</span>
+              <span className="hud-pill-category">{project.category}</span>
             </div>
 
-            {/* Play Trigger */}
-            <div className="card-center-play">
-              <div className="play-disc-circle">
-                <PlayIcon size={22} />
+            {/* Centered Minimal Play Disk */}
+            <div className="card-center-action">
+              <div className="editorial-play-disc">
+                <PlayIcon size={20} />
               </div>
+              <span className="play-disc-hover-text">PLAY CUT</span>
             </div>
 
-            {/* Bottom Meta */}
-            <div className="card-footer-slate">
-              <span className="card-runtime-tag">{project.duration}</span>
+            {/* Card Slate Bottom */}
+            <div className="card-hud-bottom">
+              <span className="hud-runtime-tag">{project.duration}</span>
               <button
                 type="button"
-                className="card-expand-btn"
+                className="hud-fullscreen-btn"
                 onClick={(e) => {
                   e.stopPropagation();
                   onOpenTheater(project);
                 }}
-                title="Fullscreen Theater"
-                aria-label="Fullscreen Theater"
+                title="Expand to Cinema Modal"
+                aria-label="Expand to Cinema Modal"
               >
                 <ExpandIcon size={13} />
               </button>
             </div>
           </div>
         )}
+      </div>
+
+      {/* Editorial Metadata Footer Underneath Card */}
+      <div className="card-editorial-footer">
+        <div className="footer-title-col">
+          <h3 className="card-title-text">
+            {project.category} <span className="text-light-sand">#{padNum}</span>
+          </h3>
+          <span className="card-aspect-text">{project.aspect}</span>
+        </div>
+        <div className="footer-action-col">
+          <button
+            type="button"
+            className="card-quick-theater-trigger"
+            onClick={() => onOpenTheater(project)}
+            title="Watch in theater mode"
+          >
+            <span>Theater</span>
+            <ArrowUpRight size={12} />
+          </button>
+        </div>
       </div>
     </article>
   );
@@ -395,7 +366,7 @@ function CinemaModal({ project, allProjects, onClose, onNavigate }) {
       aria-label="Fullscreen Cinema Theater"
     >
       <div
-        className={`cinema-overlay-box ${project.shape}`}
+        className={`cinema-overlay-box shape-${project.shape}`}
         onClick={(e) => e.stopPropagation()}
       >
         <div className="theater-top-bar">
@@ -417,7 +388,7 @@ function CinemaModal({ project, allProjects, onClose, onNavigate }) {
           </button>
         </div>
 
-        <div className={`theater-screen ${project.shape}`}>
+        <div className={`theater-screen shape-${project.shape}`}>
           <iframe
             src={`https://player.vimeo.com/video/${project.vimeoId}?autoplay=1&muted=0&loop=1&playsinline=1&title=0&byline=0&portrait=0`}
             className="theater-iframe"
@@ -471,14 +442,7 @@ export default function App() {
   const [selectedCategory, setSelectedCategory] = useState("All Work");
   const [activeTheaterProject, setActiveTheaterProject] = useState(null);
   const [copiedEmail, setCopiedEmail] = useState(false);
-  const [isHeroPlaying, setIsHeroPlaying] = useState(false);
-  const [heroCategoryKey, setHeroCategoryKey] = useState("Reels");
-
-  // Showreel representative project
-  const heroProject = useMemo(() => {
-    const found = PROJECTS.find((p) => p.category === heroCategoryKey);
-    return found || PROJECTS[0];
-  }, [heroCategoryKey]);
+  const [activeLayoutMode, setActiveLayoutMode] = useState("grid"); // "grid" | "cinema"
 
   // Category counts
   const categoryCounts = useMemo(() => {
@@ -503,9 +467,6 @@ export default function App() {
 
   return (
     <div className="minimal-portfolio-root">
-      {/* Interactive Custom Cursor */}
-      <CustomCursor />
-
       {/* Ambient Canvas Lighting */}
       <div className="minimal-atmosphere-canvas" aria-hidden="true" />
 
@@ -689,13 +650,39 @@ export default function App() {
       </section>
 
       {/* ========================================================
-          WORK SHOWCASE (What you’re here for)
+          REDESIGNED CINEMATIC WORK GALLERY (Bespoke Exhibition)
           ======================================================== */}
       <section id="work" className="section-tdk-work">
         <div className="tdk-container">
-          <div className="work-header-block">
-            <span className="section-micro-tag">What you’re here for (I guess)</span>
-            <h2 className="heading-extreme-work">Work</h2>
+          <div className="work-header-row">
+            <div>
+              <span className="section-micro-tag">What you’re here for (I guess)</span>
+              <h2 className="heading-extreme-work">Work</h2>
+            </div>
+
+            {/* Layout Toggle Pill */}
+            <div className="work-layout-toggles">
+              <button
+                type="button"
+                className={`layout-toggle-btn ${activeLayoutMode === "grid" ? "active" : ""}`}
+                onClick={() => setActiveLayoutMode("grid")}
+                title="Curated Grid View"
+                aria-label="Curated Grid View"
+              >
+                <GridIcon size={14} />
+                <span>GRID</span>
+              </button>
+              <button
+                type="button"
+                className={`layout-toggle-btn ${activeLayoutMode === "cinema" ? "active" : ""}`}
+                onClick={() => setActiveLayoutMode("cinema")}
+                title="Cinematic Showcase View"
+                aria-label="Cinematic Showcase View"
+              >
+                <CinemaIcon size={14} />
+                <span>CINEMA</span>
+              </button>
+            </div>
           </div>
 
           {/* Category Tabs */}
@@ -715,123 +702,10 @@ export default function App() {
             ))}
           </div>
 
-          {/* Interactive Featured Monitor Portal */}
-          <div className="tdk-featured-monitor">
-            <div className="portal-top-bar">
-              <div className="portal-left-meta">
-                <span className="portal-live-dot" />
-                <span className="portal-slate-label">FEATURED CUT // {heroProject.category.toUpperCase()}</span>
-              </div>
-              <div className="portal-right-meta">
-                <span className="portal-category-tag">{heroProject.duration}</span>
-                <button
-                  type="button"
-                  className="portal-expand-icon"
-                  onClick={() => setActiveTheaterProject(heroProject)}
-                  title="Expand to Fullscreen Cinema"
-                  aria-label="Expand to Fullscreen Cinema"
-                >
-                  <ExpandIcon size={13} />
-                </button>
-              </div>
-            </div>
-
-            <div className={`portal-screen-viewport ${heroProject.shape}`}>
-              {isHeroPlaying ? (
-                <div className="portal-inline-player">
-                  <iframe
-                    src={`https://player.vimeo.com/video/${heroProject.vimeoId}?autoplay=1&muted=0&loop=1&playsinline=1&title=0&byline=0&portrait=0`}
-                    className="portal-vimeo-iframe"
-                    allow="autoplay; fullscreen; picture-in-picture; encrypted-media"
-                    allowFullScreen
-                    referrerPolicy="strict-origin-when-cross-origin"
-                    title="Hero preview player"
-                  />
-                  <button
-                    type="button"
-                    className="portal-close-trigger"
-                    onClick={() => setIsHeroPlaying(false)}
-                    title="Close preview"
-                  >
-                    <CloseIcon size={14} />
-                    <span>STOP</span>
-                  </button>
-                </div>
-              ) : (
-                <div
-                  className="portal-poster-surface"
-                  onClick={() => setIsHeroPlaying(true)}
-                  title="Click to play in preview monitor"
-                >
-                  <img
-                    src={heroProject.image}
-                    alt="Showreel preview still"
-                    className="portal-poster-img"
-                  />
-                  <div className="viewfinder-brackets" aria-hidden="true">
-                    <span className="vf-bracket vf-tl" />
-                    <span className="vf-bracket vf-tr" />
-                    <span className="vf-bracket vf-bl" />
-                    <span className="vf-bracket vf-br" />
-                  </div>
-                  <div className="card-vignette-overlay" />
-                  <div className="portal-center-play">
-                    <div className="play-disc-circle">
-                      <PlayIcon size={24} />
-                    </div>
-                    <span className="portal-play-label">WATCH PREVIEW</span>
-                  </div>
-                  <div className="portal-bottom-tag">
-                    <span>{heroProject.category}</span>
-                    <span className="tag-sep">•</span>
-                    <span>{heroProject.duration}</span>
-                  </div>
-                </div>
-              )}
-            </div>
-
-            {/* Quick Switch Chips */}
-            <div className="portal-switch-bar">
-              <span className="switch-hint">QUICK FORMATS:</span>
-              <div className="switch-chips">
-                <button
-                  type="button"
-                  className={`switch-chip-btn ${heroCategoryKey === "Reels" ? "active" : ""}`}
-                  onClick={() => {
-                    setHeroCategoryKey("Reels");
-                    setIsHeroPlaying(false);
-                  }}
-                >
-                  #01 REELS
-                </button>
-                <button
-                  type="button"
-                  className={`switch-chip-btn ${heroCategoryKey === "Brand Films" ? "active" : ""}`}
-                  onClick={() => {
-                    setHeroCategoryKey("Brand Films");
-                    setIsHeroPlaying(false);
-                  }}
-                >
-                  #02 BRAND FILMS
-                </button>
-                <button
-                  type="button"
-                  className={`switch-chip-btn ${heroCategoryKey === "Podcasts" ? "active" : ""}`}
-                  onClick={() => {
-                    setHeroCategoryKey("Podcasts");
-                    setIsHeroPlaying(false);
-                  }}
-                >
-                  #04 PODCASTS
-                </button>
-              </div>
-            </div>
-          </div>
-
-          {/* Projects Cards Grid */}
-          <div className={`tdk-projects-grid layout-${selectedCategory.toLowerCase().replace(/[^a-z]/g, "")}`}>
+          {/* Exhibition Gallery */}
+          <div className={`editorial-gallery-view mode-${activeLayoutMode} filter-${selectedCategory.toLowerCase().replace(/[^a-z]/g, "")}`}>
             {filteredProjects.map((project, idx) => (
-              <VideoCard
+              <VideoProjectCard
                 key={project.id}
                 project={project}
                 index={idx}

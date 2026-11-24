@@ -591,7 +591,7 @@ export default function App() {
             <StaggerLink href="#experience" className="nav-stagger-item hide-mobile" onClick={(e) => scrollToSection(e, "#experience")}>
               EXPERIENCE
             </StaggerLink>
-            <StaggerLink href="#contact" className="nav-stagger-item nav-contact-highlight" onClick={(e) => scrollToSection(e, "#contact")}>
+            <StaggerLink href="#contact" className="nav-stagger-item" onClick={(e) => scrollToSection(e, "#contact")}>
               CONTACT
             </StaggerLink>
           </nav>
@@ -599,15 +599,15 @@ export default function App() {
       </header>
 
       {/* ========================================================
-          1. HERO SECTION (Separate, Distinct, Viewport-Defining)
+          1. HERO SECTION (Exact Image 1 Layout & Image 2 Styling)
           ======================================================== */}
       <section id="hero" className="section-hero-stage reveal-section">
         <div className="tdk-container hero-stage-inner">
-          {/* Hero Top Directorial Bar */}
+          {/* Top Metadata Row: 3 parts */}
           <div className="hero-top-bar reveal-item">
             <div className="hero-top-left">
               <span className="live-status-dot" />
-              <span className="hero-meta-label">MUMBAI [IST] // <TimezoneClock /></span>
+              <span className="hero-meta-label">MUMBAI, INDIA // <TimezoneClock /></span>
             </div>
             <div className="hero-top-center hide-mobile">
               <span className="hero-meta-badge">POST-PRODUCTION // RHYTHM & SOUND</span>
@@ -622,7 +622,7 @@ export default function App() {
 
           <div className="hairline-divider reveal-divider" />
 
-          {/* Director Tagline Bar */}
+          {/* Secondary Row: Category on left, Frame economy on right */}
           <div className="hero-director-row reveal-item">
             <div className="hero-badge-tag">
               <span className="hero-tag-text">DIRECTORIAL POST-PRODUCTION & MOTION</span>
@@ -633,15 +633,15 @@ export default function App() {
             </div>
           </div>
 
-          {/* Monumental Architectural Headline */}
+          {/* Monumental Headline: Two-line staggered composition */}
           <div className="hero-monumental-wrap reveal-item">
             <h1 className="hero-monumental-title">
-              ranjeetmishra<br />
-              <span className="text-color-olive">.work</span>
+              <span className="title-name">ranjeetmishra</span>
+              <span className="title-domain">.work</span>
             </h1>
           </div>
 
-          {/* Director Hook & Spinning Star (Second Image Text replacing First Image Text) */}
+          {/* Tagline & Decorative Star on Right */}
           <div className="hero-lead-row reveal-item">
             <div className="hero-quote-wrap">
               <StarIcon />
@@ -652,64 +652,45 @@ export default function App() {
             </div>
           </div>
 
-          {/* Hero Proof Deck & Dual CTAs */}
+          <div className="hairline-divider reveal-divider" />
+
+          {/* Bottom Statistics on Left & Actions on Right */}
           <div className="hero-proof-deck reveal-item">
             <div className="hero-stats-trio">
               <div className="hero-stat-card">
                 <span className="hero-stat-num">15M+</span>
-                <span className="hero-stat-desc">Views Generated</span>
+                <span className="hero-stat-desc">VIEWS GENERATED</span>
               </div>
+              <div className="hero-stat-divider" aria-hidden="true" />
               <div className="hero-stat-card">
                 <span className="hero-stat-num">150+</span>
-                <span className="hero-stat-desc">Mastered Cuts</span>
+                <span className="hero-stat-desc">MASTERED CUTS</span>
               </div>
+              <div className="hero-stat-divider" aria-hidden="true" />
               <div className="hero-stat-card">
                 <span className="hero-stat-num">48h</span>
-                <span className="hero-stat-desc">Average First Cut</span>
+                <span className="hero-stat-desc">AVERAGE FIRST CUT</span>
               </div>
             </div>
 
             <div className="hero-actions-cluster">
               <a
                 href="#work"
-                className="tdk-magnetic-btn hero-primary-cta"
+                className="hero-text-link"
                 onClick={(e) => scrollToSection(e, "#work")}
               >
-                <span className="btn-inner">
-                  <span className="btn-text">Explore Work</span>
-                  <ArrowDown size={14} />
-                </span>
+                <span>Explore Work</span>
+                <span className="link-arrow">↓</span>
               </a>
               <a
                 href="#contact"
-                className="tdk-secondary-btn hero-secondary-cta"
+                className="hero-text-link"
                 onClick={(e) => scrollToSection(e, "#contact")}
               >
                 <span>Start a Project</span>
-                <ArrowUpRight size={13} />
+                <span className="link-arrow">↗</span>
               </a>
             </div>
-          </div>
-
-          {/* Hero Bottom Architectural Cue */}
-          <div className="hero-bottom-cue reveal-item">
-            <span className="cue-spec-text hide-mobile">
-              [ 9:16 VERTICAL // 16:9 CINEMA // 4K PRORES 422HQ ]
-            </span>
-            <a
-              href="#work"
-              className="cue-scroll-indicator"
-              onClick={(e) => scrollToSection(e, "#work")}
-              aria-label="Scroll down to featured work"
-            >
-              <span className="cue-text">SCROLL TO VIEW CUTS</span>
-              <span className="cue-arrow-bounce">
-                <ArrowDown size={12} />
-              </span>
-            </a>
-            <span className="cue-vol-text hide-mobile">
-              PORTFOLIO 2026 // VOL. 04
-            </span>
           </div>
         </div>
       </section>

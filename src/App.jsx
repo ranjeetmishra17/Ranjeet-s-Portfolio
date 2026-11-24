@@ -574,19 +574,19 @@ export default function App() {
 
           {/* Stagger Nav Links */}
           <nav className="navbar-stagger-links" aria-label="Main Navigation">
-            <StaggerLink href="#info" className="nav-stagger-item" onClick={(e) => scrollToSection(e, "#info")}>
+            <StaggerLink href="#info" className="nav-stagger-item hide-mobile" onClick={(e) => scrollToSection(e, "#info")}>
               INFO
             </StaggerLink>
-            <StaggerLink href="#about" className="nav-stagger-item" onClick={(e) => scrollToSection(e, "#about")}>
+            <StaggerLink href="#about" className="nav-stagger-item hide-mobile" onClick={(e) => scrollToSection(e, "#about")}>
               ABOUT
             </StaggerLink>
             <StaggerLink href="#work" className="nav-stagger-item" onClick={(e) => scrollToSection(e, "#work")}>
               WORK
             </StaggerLink>
-            <StaggerLink href="#experience" className="nav-stagger-item" onClick={(e) => scrollToSection(e, "#experience")}>
+            <StaggerLink href="#experience" className="nav-stagger-item hide-mobile" onClick={(e) => scrollToSection(e, "#experience")}>
               EXPERIENCE
             </StaggerLink>
-            <StaggerLink href="#contact" className="nav-stagger-item" onClick={(e) => scrollToSection(e, "#contact")}>
+            <StaggerLink href="#contact" className="nav-stagger-item nav-contact-highlight" onClick={(e) => scrollToSection(e, "#contact")}>
               CONTACT
             </StaggerLink>
           </nav>

@@ -599,9 +599,41 @@ export default function App() {
       </header>
 
       {/* ========================================================
-          1. HERO SECTION (Exact Image 1 Layout & Image 2 Styling)
+          1. HERO SECTION (Exact Reference with Portrait & Glow)
           ======================================================== */}
       <section id="hero" className="section-hero-stage reveal-section">
+        {/* Ambient Flowing Architectural Curve SVG */}
+        <svg
+          className="hero-flowing-curve-svg"
+          viewBox="0 0 1440 700"
+          fill="none"
+          preserveAspectRatio="none"
+          aria-hidden="true"
+        >
+          <defs>
+            <linearGradient id="heroCurveGrad" x1="1120" y1="50" x2="60" y2="540" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stopColor="#9bb857" stopOpacity="0.75" />
+              <stop offset="30%" stopColor="#9bb857" stopOpacity="0.4" />
+              <stop offset="65%" stopColor="#9bb857" stopOpacity="0.25" />
+              <stop offset="100%" stopColor="#9bb857" stopOpacity="0.06" />
+            </linearGradient>
+            <filter id="heroCurveGlow" x="-20%" y="-20%" width="140%" height="140%">
+              <feGaussianBlur stdDeviation="2.5" result="blur" />
+              <feMerge>
+                <feMergeNode in="blur" />
+                <feMergeNode in="SourceGraphic" />
+              </feMerge>
+            </filter>
+          </defs>
+          <path
+            d="M 1110 52 C 1250 60 1435 150 1410 320 C 1380 480 1020 525 720 525 C 460 525 240 540 60 545"
+            stroke="url(#heroCurveGrad)"
+            strokeWidth="1.2"
+            strokeLinecap="round"
+            filter="url(#heroCurveGlow)"
+          />
+        </svg>
+
         <div className="tdk-container hero-stage-inner">
           {/* Top Metadata Row: 3 parts */}
           <div className="hero-top-bar reveal-item">
@@ -622,33 +654,65 @@ export default function App() {
 
           <div className="hairline-divider reveal-divider" />
 
-          {/* Secondary Row: Category on left, Frame economy on right */}
+          {/* Secondary Row: Category on left + Horizontal Hairline */}
           <div className="hero-director-row reveal-item">
             <div className="hero-badge-tag">
               <span className="hero-tag-text">DIRECTORIAL POST-PRODUCTION & MOTION</span>
             </div>
-            <div className="hero-tag-accent hide-mobile">
-              <span className="live-status-dot" />
-              <span className="meta-accent-text">FRAME ECONOMY // PSYCHOACOUSTIC SOUND</span>
+            <div className="hero-director-hairline hide-mobile" />
+          </div>
+
+          {/* Monumental Stage Composition: Centered Portrait + Layered Headline + Left Tagline & Buttons */}
+          <div className="hero-stage-composition reveal-item">
+            {/* Background Monumental Typography */}
+            <div className="hero-typography-layer" aria-hidden="true">
+              <div className="hero-monumental-title">
+                <span className="title-name">ranjeetmishra</span>
+                <span className="title-domain">.work</span>
+              </div>
             </div>
-          </div>
 
-          {/* Monumental Headline: Two-line staggered composition */}
-          <div className="hero-monumental-wrap reveal-item">
-            <h1 className="hero-monumental-title">
-              <span className="title-name">ranjeetmishra</span>
-              <span className="title-domain">.work</span>
-            </h1>
-          </div>
+            {/* Accessible Screen Reader Heading */}
+            <h1 className="sr-only">Ranjeet Mishra — Directorial Post-Production & Motion</h1>
 
-          {/* Tagline & Decorative Star on Right */}
-          <div className="hero-lead-row reveal-item">
-            <div className="hero-quote-wrap">
-              <StarIcon />
-              <p className="hero-intro-quote">
-                I craft film rhythm and visual retention that turn heads — <br className="hide-mobile" />
-                stronger, sharper, unforgettable.
-              </p>
+            {/* Central Portrait of Ranjeet with Green Backlight Glow */}
+            <div className="hero-portrait-stage">
+              <div className="hero-portrait-glow" aria-hidden="true" />
+              <img
+                src="/Ranjeet.png"
+                alt="Ranjeet Mishra - Film Editor & Post-Production Director"
+                className="hero-portrait-img"
+              />
+            </div>
+
+            {/* Foreground Left Content: Tagline, Star & Two Outlined Pill Buttons */}
+            <div className="hero-left-content">
+              <div className="hero-quote-wrap">
+                <StarIcon />
+                <p className="hero-intro-quote">
+                  I craft film rhythm and visual retention that turn heads — <br className="hide-mobile" />
+                  stronger, sharper, unforgettable.
+                </p>
+              </div>
+
+              <div className="hero-pill-buttons">
+                <a
+                  href="#work"
+                  className="hero-outline-pill-btn"
+                  onClick={(e) => scrollToSection(e, "#work")}
+                >
+                  <span>Explore My Work</span>
+                  <span className="btn-arrow">↗</span>
+                </a>
+                <a
+                  href="#contact"
+                  className="hero-outline-pill-btn"
+                  onClick={(e) => scrollToSection(e, "#contact")}
+                >
+                  <span>Start a Project</span>
+                  <span className="btn-arrow">↗</span>
+                </a>
+              </div>
             </div>
           </div>
 

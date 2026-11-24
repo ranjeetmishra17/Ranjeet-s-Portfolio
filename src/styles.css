@@ -405,18 +405,29 @@ img {
 }
 
 /* ========================================================
-   SECTION 1: HERO STAGE (Exact Image 1 Layout & Image 2 Styling)
+   SECTION 1: HERO STAGE (Exact Image Reference Match)
    ======================================================== */
 .section-hero-stage {
-  height: 100vh;
-  min-height: 700px;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding-top: 92px;
-  padding-bottom: 32px;
+  padding-top: 88px;
+  padding-bottom: 24px;
   position: relative;
   overflow: hidden;
+  background: var(--bg-noir);
+}
+
+/* Ambient Flowing Architectural Curve */
+.hero-flowing-curve-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+  overflow: visible;
 }
 
 .hero-stage-inner {
@@ -425,6 +436,8 @@ img {
   justify-content: space-between;
   height: 100%;
   width: 100%;
+  position: relative;
+  z-index: 2;
 }
 
 .hero-top-bar {
@@ -497,10 +510,10 @@ img {
 .hero-director-row {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 24px;
+  gap: 20px;
   margin-top: 14px;
-  margin-bottom: 10px;
+  margin-bottom: 6px;
+  width: 100%;
 }
 
 .hero-badge-tag {
@@ -510,71 +523,123 @@ img {
   letter-spacing: 0.12em;
   color: var(--olive-primary);
   text-transform: uppercase;
+  flex-shrink: 0;
 }
 
-.hero-tag-accent {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  font-weight: 500;
-  letter-spacing: 0.08em;
-  color: #7a8074;
-  text-transform: uppercase;
+.hero-director-hairline {
+  flex: 0 1 260px;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.08);
 }
 
-.hero-tag-accent .live-status-dot {
-  position: relative;
-  top: 0;
-  right: 0;
-  width: 5px;
-  height: 5px;
-  background: var(--olive-primary);
-  border-radius: 50%;
-  box-shadow: 0 0 6px rgba(155, 184, 87, 0.6);
-}
-
-.hero-monumental-wrap {
+/* Central Stage Composition */
+.hero-stage-composition {
   position: relative;
   width: 100%;
-  margin: 8px 0 2px;
+  flex: 1;
+  min-height: clamp(460px, 56vh, 600px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 4px 0 12px;
+}
+
+/* Background Monumental Typography */
+.hero-typography-layer {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+  pointer-events: none;
+  user-select: none;
 }
 
 .hero-monumental-title {
   font-family: var(--font-display);
-  font-size: clamp(4.6rem, 11.5vw, 10.4rem);
+  font-size: clamp(4.4rem, 11vw, 10.4rem);
   font-weight: 600;
   line-height: 0.88;
   letter-spacing: -0.025em;
-  text-align: right;
+  width: 100%;
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  align-items: center;
 }
 
 .title-name {
   color: var(--text-ivory);
+  display: block;
+  width: 100%;
+  text-align: center;
 }
 
 .title-domain {
   color: var(--olive-primary);
-  margin-top: -0.03em;
+  display: block;
+  align-self: flex-end;
+  margin-right: 6%;
+  margin-top: -0.04em;
+  font-size: clamp(4.4rem, 11vw, 10.4rem);
 }
 
-.hero-lead-row {
+/* Central Portrait Stage */
+.hero-portrait-stage {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -46%);
+  z-index: 2;
   display: flex;
-  justify-content: flex-end;
-  width: 100%;
-  margin-top: 16px;
-  margin-bottom: 24px;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.hero-portrait-glow {
+  position: absolute;
+  top: 14%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: clamp(240px, 26vw, 360px);
+  height: clamp(240px, 26vw, 360px);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(155, 184, 87, 0.44) 0%, rgba(110, 145, 45, 0.22) 42%, rgba(155, 184, 87, 0.05) 68%, transparent 78%);
+  filter: blur(40px);
+  z-index: 1;
+}
+
+.hero-portrait-img {
+  position: relative;
+  z-index: 2;
+  height: clamp(360px, 48vh, 500px);
+  width: auto;
+  max-width: 88vw;
+  object-fit: contain;
+  -webkit-mask-image: linear-gradient(to bottom, black 82%, transparent 99%);
+  mask-image: linear-gradient(to bottom, black 82%, transparent 99%);
+  filter: drop-shadow(0 0 35px rgba(155, 184, 87, 0.24));
+}
+
+/* Foreground Left Content: Tagline, Star & Pill Buttons */
+.hero-left-content {
+  position: absolute;
+  left: 0;
+  bottom: 16px;
+  z-index: 3;
+  max-width: 460px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
 }
 
 .hero-quote-wrap {
   display: flex;
   align-items: flex-start;
-  gap: 16px;
-  max-width: 520px;
+  gap: 14px;
+  max-width: 440px;
   text-align: left;
 }
 
@@ -597,10 +662,54 @@ img {
 
 .hero-intro-quote {
   font-family: var(--font-body);
-  font-size: 0.94rem;
-  line-height: 1.55;
+  font-size: 0.92rem;
+  line-height: 1.5;
   color: #c5c2af;
   font-weight: 400;
+}
+
+.hero-pill-buttons {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.hero-outline-pill-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 22px;
+  border-radius: 9999px;
+  background: rgba(14, 16, 11, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  color: var(--text-ivory);
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hero-outline-pill-btn .btn-arrow {
+  color: var(--olive-primary);
+  transition: transform 0.25s ease;
+}
+
+.hero-outline-pill-btn:hover {
+  border-color: var(--olive-primary);
+  background: rgba(155, 184, 87, 0.12);
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 22px rgba(155, 184, 87, 0.2);
+}
+
+.hero-outline-pill-btn:hover .btn-arrow {
+  transform: translate(2px, -2px);
 }
 
 .hero-proof-deck {
@@ -608,7 +717,7 @@ img {
   align-items: center;
   justify-content: space-between;
   gap: 32px;
-  padding: 22px 0 0;
+  padding: 20px 0 0;
   width: 100%;
   flex-wrap: wrap;
 }
@@ -1800,88 +1909,127 @@ img {
   }
 
   .hero-director-row {
-    flex-direction: column;
-    align-items: flex-start;
+    display: flex;
+    align-items: center;
     gap: 12px;
-    margin-top: 0;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    width: 100%;
+  }
+
+  .hero-director-hairline {
+    display: none;
   }
 
   .hero-badge-tag {
-    font-size: 0.7rem;
+    font-size: 0.68rem;
     letter-spacing: 0.1em;
   }
 
-  .hero-quote-wrap {
+  /* Central Stage Composition on Mobile */
+  .hero-stage-composition {
+    min-height: clamp(480px, 64vh, 560px);
+    margin: 8px 0 10px;
+    position: relative;
+    width: 100%;
     display: flex;
-    align-items: flex-start;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .hero-monumental-title {
+    font-size: clamp(2.8rem, 11.5vw, 4.4rem);
+    line-height: 0.92;
+    text-align: center;
+  }
+
+  .title-name {
+    font-size: clamp(2.8rem, 11.5vw, 4.4rem);
+  }
+
+  .title-domain {
+    font-size: clamp(2.8rem, 11.5vw, 4.4rem);
+    margin-right: 4%;
+  }
+
+  .hero-portrait-stage {
+    top: 48%;
+  }
+
+  .hero-portrait-glow {
+    width: 220px;
+    height: 220px;
+    filter: blur(32px);
+  }
+
+  .hero-portrait-img {
+    height: clamp(270px, 42vh, 360px);
+    max-width: 92vw;
+  }
+
+  .hero-left-content {
+    bottom: 8px;
+    max-width: 100%;
     gap: 12px;
   }
 
+  .hero-quote-wrap {
+    gap: 10px;
+  }
+
   .star-icon {
-    width: 28px;
-    height: 28px;
-    flex-shrink: 0;
+    width: 18px;
+    height: 18px;
     margin-top: 2px;
   }
 
   .star-icon svg {
-    width: 28px;
-    height: 28px;
+    width: 18px;
+    height: 18px;
   }
 
   .hero-intro-quote {
-    font-size: 0.88rem;
-    line-height: 1.55;
+    font-size: 0.82rem;
+    line-height: 1.48;
     color: var(--text-parchment);
     font-weight: 500;
   }
 
-  .hero-monumental-wrap {
-    margin: 2px 0 6px;
+  .hero-pill-buttons {
+    gap: 8px;
   }
 
-  .hero-monumental-title {
-    font-family: var(--font-display);
-    text-align: left;
-    align-items: flex-start;
-    font-size: clamp(2.8rem, 12vw, 4.2rem);
-    line-height: 0.92;
-    letter-spacing: -0.025em;
-    margin-top: 4px;
-    word-break: break-word;
-  }
-
-  .hero-lead-row {
-    justify-content: flex-start;
-    margin-top: 6px;
+  .hero-outline-pill-btn {
+    padding: 8px 16px;
+    font-size: 0.72rem;
   }
 
   .hero-proof-deck {
     flex-direction: column;
     align-items: flex-start;
-    gap: 16px;
-    padding: 16px 0 0;
-    margin-top: 4px;
+    gap: 14px;
+    padding: 14px 0 0;
+    margin-top: 2px;
     width: 100%;
   }
 
   .hero-stats-trio {
     width: 100%;
     justify-content: space-between;
-    gap: 8px;
+    gap: 6px;
   }
 
   .hero-stat-num {
-    font-size: 1.4rem;
+    font-size: 1.35rem;
   }
 
   .hero-stat-desc {
-    font-size: 0.58rem;
+    font-size: 0.56rem;
   }
 
   .hero-stat-divider {
-    margin: 0 8px;
-    height: 30px;
+    margin: 0 6px;
+    height: 28px;
   }
 
   .hero-actions-cluster {
@@ -1889,12 +2037,12 @@ img {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 16px;
-    padding-top: 4px;
+    gap: 14px;
+    padding-top: 2px;
   }
 
   .hero-text-link {
-    font-size: 0.88rem;
+    font-size: 0.84rem;
   }
 
   /* ========================================================

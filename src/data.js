@@ -74,6 +74,36 @@ export const TOOLS = [
   "Sound Design",
 ];
 
+export const EXPERIENCE = [
+  {
+    period: "2023 — PRESENT",
+    type: "LEAD / STUDIO",
+    role: "Senior Video Editor & Post-Production Lead",
+    company: "Independent Practice",
+    location: "Mumbai, India",
+    desc: "Directing high-retention post-production for commercial creator brands, venture-backed founders, and multi-platform media houses. Mastered 150+ cuts with retention-first pacing, bespoke sound design, and organic DaVinci color grading.",
+    impact: "15M+ Organic Views",
+  },
+  {
+    period: "2022 — 2023",
+    type: "AGENCY & CREATORS",
+    role: "Post-Production Editor & Motion Designer",
+    company: "Creative Studio & Media Agency",
+    location: "Mumbai, India",
+    desc: "Spearheaded multi-cam podcast video pipelines, documentary interviews, and vertical short-form reels. Built systematic editing templates that accelerated turnarounds to 24–48 hours without compromising finish quality.",
+    impact: "80+ Episodes Delivered",
+  },
+  {
+    period: "2021 — 2022",
+    type: "PRODUCTION HOUSE",
+    role: "Assistant Editor & Colorist Apprentice",
+    company: "Digital Production House",
+    location: "Mumbai, India",
+    desc: "Managed footage ingestion, multi-camera sync, rough assembly cuts, dialogue denoise/audio leveling, and proxy-to-ProRes conform workflows for digital brand campaigns.",
+    impact: "4K Master Delivery Pipeline",
+  },
+];
+
 export const CATEGORIES = ["All Work", "Reels", "Brand Films", "Podcasts"];
 
 export const PROJECTS = [

@@ -1,13 +1,12 @@
 import { useState, useEffect, useRef, useMemo } from "react";
 import {
   PROFILE,
-  SERVICES,
-  TOOLS,
+  EXPERIENCE,
   CATEGORIES,
   PROJECTS,
 } from "./data.js";
 
-/* ---------- Minimal Icons ---------- */
+/* ---------- Minimal SVGs ---------- */
 const PlayIcon = ({ size = 20 }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
     <path d="M8 5.14v13.72a1 1 0 001.52.85l11-6.86a1 1 0 000-1.7l-11-6.86A1 1 0 008 5.14z" />
@@ -61,24 +60,6 @@ const CopyIcon = ({ size = 13 }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
     <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
     <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
-  </svg>
-);
-
-const GridIcon = ({ size = 14 }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <rect x="3" y="3" width="7" height="7" />
-    <rect x="14" y="3" width="7" height="7" />
-    <rect x="14" y="14" width="7" height="7" />
-    <rect x="3" y="14" width="7" height="7" />
-  </svg>
-);
-
-const CinemaIcon = ({ size = 14 }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <rect x="2" y="4" width="20" height="16" rx="2" />
-    <line x1="2" y1="9" x2="22" y2="9" />
-    <line x1="7" y1="4" x2="7" y2="9" />
-    <line x1="17" y1="4" x2="17" y2="9" />
   </svg>
 );
 
@@ -181,7 +162,7 @@ function VelocityMarquee() {
           <span className="marquee-star">★</span>
           <span>FILM & VIDEO POST-PRODUCTION</span>
           <span className="marquee-star">★</span>
-          <span>10M+ VIEWS GENERATED</span>
+          <span>15M+ VIEWS GENERATED</span>
           <span className="marquee-star">★</span>
           <span>MUMBAI [IST]</span>
           <span className="marquee-star">★</span>
@@ -195,7 +176,7 @@ function VelocityMarquee() {
           <span className="marquee-star">★</span>
           <span>FILM & VIDEO POST-PRODUCTION</span>
           <span className="marquee-star">★</span>
-          <span>10M+ VIEWS GENERATED</span>
+          <span>15M+ VIEWS GENERATED</span>
           <span className="marquee-star">★</span>
           <span>MUMBAI [IST]</span>
           <span className="marquee-star">★</span>
@@ -209,8 +190,8 @@ function VelocityMarquee() {
   );
 }
 
-/* ---------- Ultra-Sleek Editorial Video Card ---------- */
-function VideoProjectCard({ project, index, onOpenTheater }) {
+/* ---------- Ultra-Sleek Glass Carousel Card ---------- */
+function GlassCarouselCard({ project, index, onOpenTheater }) {
   const [isPlaying, setIsPlaying] = useState(false);
   const padNum = String(index + 1).padStart(2, "0");
 
@@ -225,24 +206,20 @@ function VideoProjectCard({ project, index, onOpenTheater }) {
   };
 
   return (
-    <article
-      className={`editorial-video-card shape-${project.shape} ${isPlaying ? "is-active-playing" : ""}`}
-      tabIndex={0}
-      aria-label={`Project cut #${padNum} - ${project.category}`}
-    >
-      <div className="card-stage">
+    <div className={`glass-carousel-slide shape-${project.shape} ${isPlaying ? "is-playing" : ""}`}>
+      <div className="slide-media-stage">
         {isPlaying ? (
-          <div className="card-player-container">
+          <div className="slide-player-box">
             <iframe
               src={`https://player.vimeo.com/video/${project.vimeoId}?autoplay=1&muted=0&loop=1&playsinline=1&title=0&byline=0&portrait=0`}
-              className="card-player-iframe"
+              className="slide-vimeo-iframe"
               allow="autoplay; fullscreen; picture-in-picture; encrypted-media"
               allowFullScreen
               referrerPolicy="strict-origin-when-cross-origin"
-              title={`Cut #${padNum}`}
+              title={`Video ${project.id}`}
             />
-            <div className="card-player-hud">
-              <span className="hud-cut-tag">CUT #{padNum} // PLAYING</span>
+            <div className="slide-player-hud">
+              <span className="hud-cut-badge">CUT #{padNum}</span>
               <button
                 type="button"
                 className="hud-close-btn"
@@ -256,53 +233,53 @@ function VideoProjectCard({ project, index, onOpenTheater }) {
           </div>
         ) : (
           <div
-            className="card-surface"
+            className="slide-poster-surface"
             onClick={startPlayback}
-            title="Click to play preview"
+            title="Click to play in-card"
           >
             <img
               src={project.image}
-              alt={`Video cut #${padNum}`}
-              className="card-still-img"
+              alt={`Thumbnail for cut #${padNum}`}
+              className="slide-poster-img"
               loading="lazy"
             />
 
-            {/* Subtle Viewfinder Frame */}
-            <div className="card-viewfinder-brackets" aria-hidden="true">
-              <span className="bracket b-tl" />
-              <span className="bracket b-tr" />
-              <span className="bracket b-bl" />
-              <span className="bracket b-br" />
+            {/* Viewfinder Corners */}
+            <div className="viewfinder-brackets" aria-hidden="true">
+              <span className="vf-bracket vf-tl" />
+              <span className="vf-bracket vf-tr" />
+              <span className="vf-bracket vf-bl" />
+              <span className="vf-bracket vf-br" />
             </div>
 
-            <div className="card-cinematic-glow" />
+            <div className="card-vignette-overlay" />
 
-            {/* Card Slate Top */}
-            <div className="card-hud-top">
-              <span className="hud-pill-num">#{padNum}</span>
-              <span className="hud-pill-category">{project.category}</span>
+            {/* Top Slates */}
+            <div className="slide-top-hud">
+              <span className="slide-num-pill">#{padNum}</span>
+              <span className="slide-category-pill">{project.category}</span>
             </div>
 
-            {/* Centered Minimal Play Disk */}
-            <div className="card-center-action">
-              <div className="editorial-play-disc">
-                <PlayIcon size={20} />
+            {/* Play Trigger */}
+            <div className="slide-center-play">
+              <div className="play-disc-circle">
+                <PlayIcon size={22} />
               </div>
-              <span className="play-disc-hover-text">PLAY CUT</span>
+              <span className="play-disc-label">PLAY CUT</span>
             </div>
 
-            {/* Card Slate Bottom */}
-            <div className="card-hud-bottom">
-              <span className="hud-runtime-tag">{project.duration}</span>
+            {/* Bottom Meta */}
+            <div className="slide-bottom-hud">
+              <span className="slide-runtime-tag">{project.duration}</span>
               <button
                 type="button"
-                className="hud-fullscreen-btn"
+                className="slide-theater-btn"
                 onClick={(e) => {
                   e.stopPropagation();
                   onOpenTheater(project);
                 }}
-                title="Expand to Cinema Modal"
-                aria-label="Expand to Cinema Modal"
+                title="Fullscreen Theater"
+                aria-label="Fullscreen Theater"
               >
                 <ExpandIcon size={13} />
               </button>
@@ -311,27 +288,23 @@ function VideoProjectCard({ project, index, onOpenTheater }) {
         )}
       </div>
 
-      {/* Editorial Metadata Footer Underneath Card */}
-      <div className="card-editorial-footer">
-        <div className="footer-title-col">
-          <h3 className="card-title-text">
-            {project.category} <span className="text-light-sand">#{padNum}</span>
-          </h3>
-          <span className="card-aspect-text">{project.aspect}</span>
+      {/* Editorial Label Beneath Slide */}
+      <div className="slide-caption-row">
+        <div className="slide-caption-title">
+          <h3>Cut #{padNum} // {project.category}</h3>
+          <p>{project.aspect} • Organic DaVinci Grade</p>
         </div>
-        <div className="footer-action-col">
-          <button
-            type="button"
-            className="card-quick-theater-trigger"
-            onClick={() => onOpenTheater(project)}
-            title="Watch in theater mode"
-          >
-            <span>Theater</span>
-            <ArrowUpRight size={12} />
-          </button>
-        </div>
+        <button
+          type="button"
+          className="slide-quick-expand"
+          onClick={() => onOpenTheater(project)}
+          title="Watch in Theater Modal"
+        >
+          <span>Theater</span>
+          <ArrowUpRight size={13} />
+        </button>
       </div>
-    </article>
+    </div>
   );
 }
 
@@ -442,7 +415,8 @@ export default function App() {
   const [selectedCategory, setSelectedCategory] = useState("All Work");
   const [activeTheaterProject, setActiveTheaterProject] = useState(null);
   const [copiedEmail, setCopiedEmail] = useState(false);
-  const [activeLayoutMode, setActiveLayoutMode] = useState("grid"); // "grid" | "cinema"
+  const [activeSlideIndex, setActiveSlideIndex] = useState(0);
+  const carouselTrackRef = useRef(null);
 
   // Category counts
   const categoryCounts = useMemo(() => {
@@ -458,6 +432,38 @@ export default function App() {
     if (selectedCategory === "All Work") return PROJECTS;
     return PROJECTS.filter((p) => p.category === selectedCategory);
   }, [selectedCategory]);
+
+  const scrollPrev = () => {
+    if (!carouselTrackRef.current) return;
+    const container = carouselTrackRef.current;
+    const cardWidth = container.querySelector(".glass-carousel-slide")?.offsetWidth || 400;
+    container.scrollBy({ left: -(cardWidth + 32), behavior: "smooth" });
+    setActiveSlideIndex((prev) => Math.max(0, prev - 1));
+  };
+
+  const scrollNext = () => {
+    if (!carouselTrackRef.current) return;
+    const container = carouselTrackRef.current;
+    const cardWidth = container.querySelector(".glass-carousel-slide")?.offsetWidth || 400;
+    container.scrollBy({ left: cardWidth + 32, behavior: "smooth" });
+    setActiveSlideIndex((prev) => Math.min(filteredProjects.length - 1, prev + 1));
+  };
+
+  // Track active slide on scroll
+  useEffect(() => {
+    const el = carouselTrackRef.current;
+    if (!el) return;
+
+    const onScroll = () => {
+      const scrollLeft = el.scrollLeft;
+      const cardWidth = el.querySelector(".glass-carousel-slide")?.offsetWidth || 400;
+      const index = Math.round(scrollLeft / (cardWidth + 32));
+      setActiveSlideIndex(Math.min(filteredProjects.length - 1, Math.max(0, index)));
+    };
+
+    el.addEventListener("scroll", onScroll, { passive: true });
+    return () => el.removeEventListener("scroll", onScroll);
+  }, [filteredProjects.length]);
 
   const copyEmailToClipboard = () => {
     navigator.clipboard.writeText(PROFILE.email);
@@ -498,6 +504,9 @@ export default function App() {
             </StaggerLink>
             <StaggerLink href="#work" className="nav-stagger-item">
               WORK
+            </StaggerLink>
+            <StaggerLink href="#experience" className="nav-stagger-item">
+              EXPERIENCE
             </StaggerLink>
             <StaggerLink href="#contact" className="nav-stagger-item">
               CONTACT
@@ -598,7 +607,7 @@ export default function App() {
 
               <div className="spec-row">
                 <span className="spec-label">Audience Reach</span>
-                <span className="spec-value">10M+ Organic Views Generated</span>
+                <span className="spec-value">15M+ Organic Views Generated</span>
                 <div className="spec-line" />
               </div>
 
@@ -650,49 +659,56 @@ export default function App() {
       </section>
 
       {/* ========================================================
-          REDESIGNED CINEMATIC WORK GALLERY (Bespoke Exhibition)
+          REDESIGNED WORK SECTION (Interactive Glass Showcase Carousel)
           ======================================================== */}
       <section id="work" className="section-tdk-work">
         <div className="tdk-container">
           <div className="work-header-row">
-            <div>
-              <span className="section-micro-tag">What you’re here for (I guess)</span>
+            <div className="work-title-wrap">
+              <span className="section-micro-tag">WHAT YOU’RE HERE FOR (I GUESS)</span>
               <h2 className="heading-extreme-work">Work</h2>
             </div>
 
-            {/* Layout Toggle Pill */}
-            <div className="work-layout-toggles">
+            {/* Carousel Navigation Arrows & Counter */}
+            <div className="carousel-nav-controls">
               <button
                 type="button"
-                className={`layout-toggle-btn ${activeLayoutMode === "grid" ? "active" : ""}`}
-                onClick={() => setActiveLayoutMode("grid")}
-                title="Curated Grid View"
-                aria-label="Curated Grid View"
+                className="carousel-arrow-btn"
+                onClick={scrollPrev}
+                title="Previous Cut"
+                aria-label="Previous Cut"
               >
-                <GridIcon size={14} />
-                <span>GRID</span>
+                <ArrowLeft size={16} />
               </button>
+              <span className="carousel-counter-badge">
+                {String(activeSlideIndex + 1).padStart(2, "0")} / {String(filteredProjects.length).padStart(2, "0")}
+              </span>
               <button
                 type="button"
-                className={`layout-toggle-btn ${activeLayoutMode === "cinema" ? "active" : ""}`}
-                onClick={() => setActiveLayoutMode("cinema")}
-                title="Cinematic Showcase View"
-                aria-label="Cinematic Showcase View"
+                className="carousel-arrow-btn"
+                onClick={scrollNext}
+                title="Next Cut"
+                aria-label="Next Cut"
               >
-                <CinemaIcon size={14} />
-                <span>CINEMA</span>
+                <ArrowRight size={16} />
               </button>
             </div>
           </div>
 
-          {/* Category Tabs */}
+          {/* Category Filter Tabs */}
           <div className="work-filter-bar" role="tablist" aria-label="Filter works">
             {CATEGORIES.map((cat) => (
               <button
                 key={cat}
                 type="button"
                 className={`tdk-filter-btn ${selectedCategory === cat ? "active" : ""}`}
-                onClick={() => setSelectedCategory(cat)}
+                onClick={() => {
+                  setSelectedCategory(cat);
+                  setActiveSlideIndex(0);
+                  if (carouselTrackRef.current) {
+                    carouselTrackRef.current.scrollTo({ left: 0, behavior: "smooth" });
+                  }
+                }}
                 role="tab"
                 aria-selected={selectedCategory === cat}
               >
@@ -702,57 +718,84 @@ export default function App() {
             ))}
           </div>
 
-          {/* Exhibition Gallery */}
-          <div className={`editorial-gallery-view mode-${activeLayoutMode} filter-${selectedCategory.toLowerCase().replace(/[^a-z]/g, "")}`}>
-            {filteredProjects.map((project, idx) => (
-              <VideoProjectCard
-                key={project.id}
-                project={project}
-                index={idx}
-                onOpenTheater={setActiveTheaterProject}
-              />
-            ))}
+          {/* Liquid Glass Horizontal Showcase Carousel Track */}
+          <div className="glass-carousel-container" ref={carouselTrackRef}>
+            <div className="glass-carousel-track">
+              {filteredProjects.map((project, idx) => (
+                <GlassCarouselCard
+                  key={project.id}
+                  project={project}
+                  index={idx}
+                  onOpenTheater={setActiveTheaterProject}
+                />
+              ))}
+            </div>
+          </div>
+
+          {/* Curated Exhibition Film Index Table */}
+          <div className="film-index-table-wrap">
+            <div className="index-table-header">
+              <span className="section-micro-tag">CURATED CUTS INDEX</span>
+              <span className="index-total-tag">{filteredProjects.length} CUTS IN VAULT</span>
+            </div>
+            <div className="index-table-body">
+              {filteredProjects.map((project, idx) => {
+                const padNum = String(idx + 1).padStart(2, "0");
+                return (
+                  <div
+                    key={project.id}
+                    className="index-table-row"
+                    onClick={() => setActiveTheaterProject(project)}
+                  >
+                    <span className="col-idx">#{padNum}</span>
+                    <span className="col-cat">{project.category}</span>
+                    <span className="col-aspect">{project.aspect}</span>
+                    <span className="col-dur">{project.duration}</span>
+                    <span className="col-cta">
+                      <span>Watch Cut</span>
+                      <ArrowUpRight size={12} />
+                    </span>
+                    <div className="row-divider-line" />
+                  </div>
+                );
+              })}
+            </div>
           </div>
         </div>
       </section>
 
       {/* ========================================================
-          DISCIPLINES & FINISHING SUITE
+          WORK EXPERIENCE SECTION (Added as requested)
           ======================================================== */}
-      <section className="section-tdk-disciplines">
+      <section id="experience" className="section-tdk-experience">
         <div className="tdk-container">
-          <div className="disciplines-header">
-            <span className="section-micro-tag">THE CRAFT</span>
-            <h2 className="heading-section-title">Post-Production Disciplines</h2>
+          <div className="experience-header">
+            <span className="section-micro-tag">BACKGROUND & TRACK RECORD</span>
+            <h2 className="heading-experience-title">Work Experience</h2>
           </div>
 
-          <div className="disciplines-grid">
-            {SERVICES.map((srv) => (
-              <div key={srv.num} className="discipline-tdk-card">
-                <span className="discipline-tag">SCENE /{srv.num}</span>
-                <h3 className="discipline-title">{srv.title}</h3>
-                <p className="discipline-desc">{srv.desc}</p>
-                <div className="discipline-glow" />
+          <div className="experience-table">
+            {EXPERIENCE.map((item, idx) => (
+              <div key={idx} className="experience-row">
+                <div className="exp-col-period">
+                  <span className="exp-period-tag">{item.period}</span>
+                  <span className="exp-status-chip">{item.type}</span>
+                </div>
+
+                <div className="exp-col-role">
+                  <h3 className="exp-role-title">{item.role}</h3>
+                  <span className="exp-company-text">{item.company} • {item.location}</span>
+                  <p className="exp-desc-text">{item.desc}</p>
+                </div>
+
+                <div className="exp-col-metrics">
+                  <span className="exp-metric-label">Key Impact</span>
+                  <span className="exp-metric-value">{item.impact}</span>
+                </div>
+
+                <div className="exp-row-line" />
               </div>
             ))}
-          </div>
-
-          {/* Finishing Suite Box */}
-          <div className="finishing-suite-box">
-            <div className="suite-left">
-              <span className="section-micro-tag">FINISHING SUITE</span>
-              <h3 className="suite-title">Precision Tools & 24–48h Turnaround</h3>
-              <p className="suite-desc">
-                Every project receives lossless 4K ProRes master deliveries, natural skin-tone color grading in DaVinci Resolve, and multi-track spatial sound design.
-              </p>
-            </div>
-            <div className="suite-tags-grid">
-              {TOOLS.map((tool) => (
-                <span key={tool} className="suite-tag-badge">
-                  {tool}
-                </span>
-              ))}
-            </div>
           </div>
         </div>
       </section>

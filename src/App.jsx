@@ -511,18 +511,19 @@ export default function App() {
     setTimeout(() => setCopiedEmail(false), 2200);
   };
 
-  // Scroll reveal animation observer with optimized threshold
+  // Scroll reveal animation observer (triggers both on scroll down and scroll up)
   useEffect(() => {
     const observerOptions = {
-      threshold: 0.04,
-      rootMargin: "0px 0px -60px 0px",
+      threshold: 0.05,
+      rootMargin: "-20px 0px -50px 0px",
     };
 
-    const handleIntersect = (entries, obs) => {
+    const handleIntersect = (entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           entry.target.classList.add("is-revealed");
-          obs.unobserve(entry.target);
+        } else {
+          entry.target.classList.remove("is-revealed");
         }
       });
     };

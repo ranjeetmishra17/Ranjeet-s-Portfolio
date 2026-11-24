@@ -528,19 +528,9 @@ export default function App() {
 
           {/* Director Intro & Spinning Star */}
           <div className="header-intro-row">
-            <div className="director-micro-pill">
-              <div className="director-avatar-circle">
-                <img
-                  src={PROFILE.avatar || "/avatar.png"}
-                  alt={PROFILE.name}
-                  className="director-img"
-                />
-                <span className="live-status-dot" />
-              </div>
-              <div className="director-info-col">
-                <span className="director-name">{PROFILE.name}</span>
-                <span className="director-role">Post-Production Editor // Mumbai</span>
-              </div>
+            <div className="header-status-indicator">
+              <span className="live-status-dot" />
+              <span className="status-meta-text">POST-PRODUCTION EDITOR // MUMBAI [IST]</span>
             </div>
 
             <div className="header-quote-wrap">

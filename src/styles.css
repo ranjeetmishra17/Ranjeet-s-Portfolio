@@ -173,7 +173,7 @@ img {
   left: 0;
   right: 0;
   z-index: 1000;
-  padding: 20px 28px;
+  padding: 18px 24px;
   display: flex;
   justify-content: center;
   pointer-events: none;
@@ -181,17 +181,17 @@ img {
 
 .navbar-inner-pill {
   width: 100%;
-  max-width: 1100px;
+  max-width: 1200px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 9px 20px 9px 12px;
+  padding: 8px 22px 8px 12px;
   border-radius: 9999px;
-  background: var(--bg-glass);
+  background: rgba(8, 10, 7, 0.82);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid var(--border-subtle);
-  box-shadow: 0 10px 32px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(210, 228, 156, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 10px 32px rgba(0, 0, 0, 0.5);
   pointer-events: auto;
 }
 
@@ -203,8 +203,8 @@ img {
 
 .nav-avatar-circle {
   position: relative;
-  width: 36px;
-  height: 36px;
+  width: 26px;
+  height: 26px;
   border-radius: 50%;
   flex-shrink: 0;
 }
@@ -214,7 +214,7 @@ img {
   height: 100%;
   border-radius: 50%;
   object-fit: cover;
-  border: 1.5px solid var(--border-focus);
+  border: 1px solid rgba(155, 184, 87, 0.4);
   background: #141c10;
 }
 
@@ -222,11 +222,11 @@ img {
   position: absolute;
   bottom: 0px;
   right: 0px;
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
   background: var(--olive-primary);
-  border: 1.5px solid #070806;
+  border: 1px solid #070806;
   box-shadow: 0 0 6px var(--olive-primary);
   animation: pulseDot 2s ease-in-out infinite alternate;
 }
@@ -237,10 +237,10 @@ img {
 }
 
 .nav-brand-text {
-  font-family: var(--font-body);
-  font-size: 0.94rem;
-  font-weight: 700;
-  letter-spacing: -0.01em;
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
   color: var(--text-ivory);
 }
 
@@ -251,16 +251,17 @@ img {
 .navbar-stagger-links {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 24px;
 }
 
 .nav-stagger-item {
   font-family: var(--font-mono);
-  font-size: 0.78rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  color: var(--text-sand);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  color: #8a8f82;
   padding: 4px 6px;
+  transition: color 0.2s ease;
 }
 
 .nav-stagger-item:hover {
@@ -407,14 +408,15 @@ img {
    SECTION 1: HERO STAGE (Exact Image 1 Layout & Image 2 Styling)
    ======================================================== */
 .section-hero-stage {
-  min-height: calc(100vh - 40px);
-  min-height: 94vh;
+  height: 100vh;
+  min-height: 700px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding-top: 104px;
-  padding-bottom: 28px;
+  padding-top: 92px;
+  padding-bottom: 32px;
   position: relative;
+  overflow: hidden;
 }
 
 .hero-stage-inner {
@@ -422,8 +424,7 @@ img {
   flex-direction: column;
   justify-content: space-between;
   height: 100%;
-  min-height: calc(94vh - 132px);
-  gap: 16px;
+  width: 100%;
 }
 
 .hero-top-bar {
@@ -434,31 +435,32 @@ img {
   font-size: 0.72rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--text-dust);
+  color: #7a8074;
   width: 100%;
+  margin-bottom: 12px;
 }
 
 .hero-top-left {
   display: flex;
   align-items: center;
   gap: 8px;
-  color: var(--text-sand);
+  color: #7a8074;
 }
 
 .hero-meta-label {
-  color: var(--text-sand);
+  color: #7a8074;
   font-weight: 500;
   font-family: var(--font-mono);
 }
 
 .hero-top-center .hero-meta-badge {
-  padding: 4px 16px;
+  padding: 5px 16px;
   border-radius: 9999px;
   background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.09);
   font-size: 0.68rem;
   letter-spacing: 0.1em;
-  color: var(--text-sand);
+  color: #7a8074;
   font-family: var(--font-mono);
 }
 
@@ -466,10 +468,10 @@ img {
   display: inline-flex;
   align-items: center;
   gap: 7px;
-  padding: 4px 14px;
+  padding: 5px 15px;
   border-radius: 9999px;
   background: rgba(155, 184, 87, 0.06);
-  border: 1px solid rgba(155, 184, 87, 0.28);
+  border: 1px solid rgba(155, 184, 87, 0.32);
   color: var(--olive-primary);
   font-size: 0.68rem;
   font-weight: 600;
@@ -488,8 +490,8 @@ img {
 .hairline-divider {
   width: 100%;
   height: 1px;
-  background: rgba(255, 255, 255, 0.07);
-  margin: 6px 0;
+  background: rgba(255, 255, 255, 0.08);
+  margin: 0;
 }
 
 .hero-director-row {
@@ -497,7 +499,8 @@ img {
   align-items: center;
   justify-content: space-between;
   gap: 24px;
-  margin-top: 2px;
+  margin-top: 14px;
+  margin-bottom: 10px;
 }
 
 .hero-badge-tag {
@@ -516,8 +519,8 @@ img {
   font-family: var(--font-mono);
   font-size: 0.7rem;
   font-weight: 500;
-  letter-spacing: 0.09em;
-  color: var(--text-sand);
+  letter-spacing: 0.08em;
+  color: #7a8074;
   text-transform: uppercase;
 }
 
@@ -540,7 +543,7 @@ img {
 
 .hero-monumental-title {
   font-family: var(--font-display);
-  font-size: clamp(4.4rem, 12.2vw, 11rem);
+  font-size: clamp(4.6rem, 11.5vw, 10.4rem);
   font-weight: 600;
   line-height: 0.88;
   letter-spacing: -0.025em;
@@ -556,21 +559,23 @@ img {
 
 .title-domain {
   color: var(--olive-primary);
-  margin-top: -0.02em;
+  margin-top: -0.03em;
 }
 
 .hero-lead-row {
   display: flex;
   justify-content: flex-end;
   width: 100%;
-  margin-top: 8px;
+  margin-top: 16px;
+  margin-bottom: 24px;
 }
 
 .hero-quote-wrap {
   display: flex;
   align-items: flex-start;
   gap: 16px;
-  max-width: 600px;
+  max-width: 520px;
+  text-align: left;
 }
 
 .star-icon {
@@ -584,11 +589,17 @@ img {
   margin-top: 3px;
 }
 
+.star-icon svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
 .hero-intro-quote {
   font-family: var(--font-body);
   font-size: 0.94rem;
   line-height: 1.55;
-  color: #d1ceb8;
+  color: #c5c2af;
   font-weight: 400;
 }
 
@@ -597,7 +608,7 @@ img {
   align-items: center;
   justify-content: space-between;
   gap: 32px;
-  padding: 18px 0 0;
+  padding: 22px 0 0;
   width: 100%;
   flex-wrap: wrap;
 }
@@ -610,12 +621,12 @@ img {
 .hero-stat-card {
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  gap: 4px;
 }
 
 .hero-stat-num {
   font-family: var(--font-display);
-  font-size: clamp(1.65rem, 2.2vw, 2.2rem);
+  font-size: clamp(1.65rem, 2.2vw, 2.1rem);
   font-weight: 600;
   color: var(--olive-primary);
   letter-spacing: -0.01em;
@@ -628,7 +639,7 @@ img {
   font-weight: 600;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--text-dust);
+  color: #6e7368;
 }
 
 .hero-stat-divider {
@@ -641,13 +652,13 @@ img {
 .hero-actions-cluster {
   display: flex;
   align-items: center;
-  gap: 32px;
+  gap: 36px;
 }
 
 .hero-text-link {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 7px;
   font-family: var(--font-body);
   font-size: 0.92rem;
   font-weight: 500;

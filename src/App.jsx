@@ -591,7 +591,7 @@ export default function App() {
             <StaggerLink href="#experience" className="nav-stagger-item hide-mobile" onClick={(e) => scrollToSection(e, "#experience")}>
               EXPERIENCE
             </StaggerLink>
-            <StaggerLink href="#contact" className="nav-stagger-item" onClick={(e) => scrollToSection(e, "#contact")}>
+            <StaggerLink href="#contact" className="nav-stagger-item nav-contact-highlight" onClick={(e) => scrollToSection(e, "#contact")}>
               CONTACT
             </StaggerLink>
           </nav>
@@ -599,47 +599,15 @@ export default function App() {
       </header>
 
       {/* ========================================================
-          1. HERO SECTION (Exact Reference with Portrait & Glow)
+          1. HERO SECTION (Separate, Distinct, Viewport-Defining)
           ======================================================== */}
       <section id="hero" className="section-hero-stage reveal-section">
-        {/* Ambient Flowing Architectural Curve SVG */}
-        <svg
-          className="hero-flowing-curve-svg"
-          viewBox="0 0 1440 700"
-          fill="none"
-          preserveAspectRatio="none"
-          aria-hidden="true"
-        >
-          <defs>
-            <linearGradient id="heroCurveGrad" x1="1120" y1="50" x2="60" y2="540" gradientUnits="userSpaceOnUse">
-              <stop offset="0%" stopColor="#9bb857" stopOpacity="0.75" />
-              <stop offset="30%" stopColor="#9bb857" stopOpacity="0.4" />
-              <stop offset="65%" stopColor="#9bb857" stopOpacity="0.25" />
-              <stop offset="100%" stopColor="#9bb857" stopOpacity="0.06" />
-            </linearGradient>
-            <filter id="heroCurveGlow" x="-20%" y="-20%" width="140%" height="140%">
-              <feGaussianBlur stdDeviation="2.5" result="blur" />
-              <feMerge>
-                <feMergeNode in="blur" />
-                <feMergeNode in="SourceGraphic" />
-              </feMerge>
-            </filter>
-          </defs>
-          <path
-            d="M 1110 52 C 1250 60 1435 150 1410 320 C 1380 480 1020 525 720 525 C 460 525 240 540 60 545"
-            stroke="url(#heroCurveGrad)"
-            strokeWidth="1.2"
-            strokeLinecap="round"
-            filter="url(#heroCurveGlow)"
-          />
-        </svg>
-
         <div className="tdk-container hero-stage-inner">
-          {/* Top Metadata Row: 3 parts */}
+          {/* Hero Top Directorial Bar */}
           <div className="hero-top-bar reveal-item">
             <div className="hero-top-left">
               <span className="live-status-dot" />
-              <span className="hero-meta-label">MUMBAI, INDIA // <TimezoneClock /></span>
+              <span className="hero-meta-label">MUMBAI [IST] // <TimezoneClock /></span>
             </div>
             <div className="hero-top-center hide-mobile">
               <span className="hero-meta-badge">POST-PRODUCTION // RHYTHM & SOUND</span>
@@ -654,107 +622,94 @@ export default function App() {
 
           <div className="hairline-divider reveal-divider" />
 
-          {/* Secondary Row: Category on left + Horizontal Hairline */}
+          {/* Director Tagline Bar */}
           <div className="hero-director-row reveal-item">
             <div className="hero-badge-tag">
               <span className="hero-tag-text">DIRECTORIAL POST-PRODUCTION & MOTION</span>
             </div>
-            <div className="hero-director-hairline hide-mobile" />
-          </div>
-
-          {/* Monumental Stage Composition: Centered Portrait + Layered Headline + Left Tagline & Buttons */}
-          <div className="hero-stage-composition reveal-item">
-            {/* Background Monumental Typography */}
-            <div className="hero-typography-layer" aria-hidden="true">
-              <div className="hero-monumental-title">
-                <span className="title-name">ranjeetmishra</span>
-                <span className="title-domain">.work</span>
-              </div>
-            </div>
-
-            {/* Accessible Screen Reader Heading */}
-            <h1 className="sr-only">Ranjeet Mishra — Directorial Post-Production & Motion</h1>
-
-            {/* Central Portrait of Ranjeet with Green Backlight Glow */}
-            <div className="hero-portrait-stage">
-              <div className="hero-portrait-glow" aria-hidden="true" />
-              <img
-                src="/Ranjeet.png"
-                alt="Ranjeet Mishra - Film Editor & Post-Production Director"
-                className="hero-portrait-img"
-              />
-            </div>
-
-            {/* Foreground Left Content: Tagline, Star & Two Outlined Pill Buttons */}
-            <div className="hero-left-content">
-              <div className="hero-quote-wrap">
-                <StarIcon />
-                <p className="hero-intro-quote">
-                  I craft film rhythm and visual retention that turn heads — <br className="hide-mobile" />
-                  stronger, sharper, unforgettable.
-                </p>
-              </div>
-
-              <div className="hero-pill-buttons">
-                <a
-                  href="#work"
-                  className="hero-outline-pill-btn"
-                  onClick={(e) => scrollToSection(e, "#work")}
-                >
-                  <span>Explore My Work</span>
-                  <span className="btn-arrow">↗</span>
-                </a>
-                <a
-                  href="#contact"
-                  className="hero-outline-pill-btn"
-                  onClick={(e) => scrollToSection(e, "#contact")}
-                >
-                  <span>Start a Project</span>
-                  <span className="btn-arrow">↗</span>
-                </a>
-              </div>
+            <div className="hero-tag-accent hide-mobile">
+              <span className="live-status-dot" />
+              <span className="meta-accent-text">FRAME ECONOMY // PSYCHOACOUSTIC SOUND</span>
             </div>
           </div>
 
-          <div className="hairline-divider reveal-divider" />
+          {/* Monumental Architectural Headline */}
+          <div className="hero-monumental-wrap reveal-item">
+            <h1 className="hero-monumental-title">
+              ranjeetmishra<br />
+              <span className="text-color-olive">.work</span>
+            </h1>
+          </div>
 
-          {/* Bottom Statistics on Left & Actions on Right */}
+          {/* Director Hook & Spinning Star (Second Image Text replacing First Image Text) */}
+          <div className="hero-lead-row reveal-item">
+            <div className="hero-quote-wrap">
+              <StarIcon />
+              <p className="hero-intro-quote">
+                I craft film rhythm and visual retention that turn heads — <br className="hide-mobile" />
+                stronger, sharper, unforgettable.
+              </p>
+            </div>
+          </div>
+
+          {/* Hero Proof Deck & Dual CTAs */}
           <div className="hero-proof-deck reveal-item">
             <div className="hero-stats-trio">
               <div className="hero-stat-card">
                 <span className="hero-stat-num">15M+</span>
-                <span className="hero-stat-desc">VIEWS GENERATED</span>
+                <span className="hero-stat-desc">Views Generated</span>
               </div>
-              <div className="hero-stat-divider" aria-hidden="true" />
               <div className="hero-stat-card">
                 <span className="hero-stat-num">150+</span>
-                <span className="hero-stat-desc">MASTERED CUTS</span>
+                <span className="hero-stat-desc">Mastered Cuts</span>
               </div>
-              <div className="hero-stat-divider" aria-hidden="true" />
               <div className="hero-stat-card">
                 <span className="hero-stat-num">48h</span>
-                <span className="hero-stat-desc">AVERAGE FIRST CUT</span>
+                <span className="hero-stat-desc">Average First Cut</span>
               </div>
             </div>
 
             <div className="hero-actions-cluster">
               <a
                 href="#work"
-                className="hero-text-link"
+                className="tdk-magnetic-btn hero-primary-cta"
                 onClick={(e) => scrollToSection(e, "#work")}
               >
-                <span>Explore Work</span>
-                <span className="link-arrow">↓</span>
+                <span className="btn-inner">
+                  <span className="btn-text">Explore Work</span>
+                  <ArrowDown size={14} />
+                </span>
               </a>
               <a
                 href="#contact"
-                className="hero-text-link"
+                className="tdk-secondary-btn hero-secondary-cta"
                 onClick={(e) => scrollToSection(e, "#contact")}
               >
                 <span>Start a Project</span>
-                <span className="link-arrow">↗</span>
+                <ArrowUpRight size={13} />
               </a>
             </div>
+          </div>
+
+          {/* Hero Bottom Architectural Cue */}
+          <div className="hero-bottom-cue reveal-item">
+            <span className="cue-spec-text hide-mobile">
+              [ 9:16 VERTICAL // 16:9 CINEMA // 4K PRORES 422HQ ]
+            </span>
+            <a
+              href="#work"
+              className="cue-scroll-indicator"
+              onClick={(e) => scrollToSection(e, "#work")}
+              aria-label="Scroll down to featured work"
+            >
+              <span className="cue-text">SCROLL TO VIEW CUTS</span>
+              <span className="cue-arrow-bounce">
+                <ArrowDown size={12} />
+              </span>
+            </a>
+            <span className="cue-vol-text hide-mobile">
+              PORTFOLIO 2026 // VOL. 04
+            </span>
           </div>
         </div>
       </section>

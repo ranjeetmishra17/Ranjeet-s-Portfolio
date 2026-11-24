@@ -155,7 +155,7 @@ function TimezoneClock() {
 /* ---------- Velocity Infinite Marquee ---------- */
 function VelocityMarquee() {
   return (
-    <div className="marquee-advanced" aria-hidden="true">
+    <div className="marquee-advanced reveal-section" aria-hidden="true">
       <div className="marquee-advanced__track">
         <div className="marquee-advanced__item">
           <span>RANJEETMISHRA<span className="text-color-olive">.WORK</span></span>

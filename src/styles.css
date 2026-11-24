@@ -481,15 +481,6 @@ img {
   box-shadow: 0 0 8px var(--olive-primary);
 }
 
-.hero-director-row {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 32px;
-  flex-wrap: wrap;
-  margin-top: 4px;
-}
-
 .hero-badge-tag {
   font-family: var(--font-mono);
   font-size: 0.78rem;
@@ -497,26 +488,14 @@ img {
   letter-spacing: 0.12em;
   color: var(--olive-primary);
   text-transform: uppercase;
-}
-
-.hero-quote-wrap {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  max-width: 600px;
-}
-
-.hero-intro-quote {
-  font-size: 1.05rem;
-  line-height: 1.55;
-  color: var(--text-parchment);
-  font-weight: 500;
+  text-align: left;
+  margin-top: 4px;
 }
 
 .hero-monumental-wrap {
   position: relative;
   width: 100%;
-  margin: 6px 0;
+  margin: 6px 0 16px;
 }
 
 .hero-monumental-title {
@@ -526,22 +505,45 @@ img {
   line-height: 0.88;
   letter-spacing: -0.04em;
   color: var(--text-ivory);
-  text-align: right;
+  text-align: left;
+  margin: 0;
 }
 
-.hero-lead-row {
+.hero-quote-row {
   display: flex;
-  justify-content: flex-end;
+  align-items: flex-start;
+  justify-content: flex-start;
   width: 100%;
+  margin-top: 4px;
+  margin-bottom: 12px;
 }
 
-.hero-lead-text {
+.hero-quote-wrap {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
   max-width: 680px;
-  font-size: clamp(0.96rem, 1.25vw, 1.12rem);
-  line-height: 1.68;
-  color: var(--text-sand);
-  text-align: right;
-  font-weight: 400;
+  text-align: left;
+}
+
+.star-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  color: var(--olive-primary);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.hero-intro-quote {
+  font-size: clamp(1.05rem, 1.45vw, 1.25rem);
+  line-height: 1.55;
+  color: var(--text-parchment);
+  font-weight: 500;
+  margin: 0;
+  text-align: left;
 }
 
 .hero-proof-deck {
@@ -1768,22 +1770,38 @@ img {
     font-size: 0.62rem;
   }
 
-  .hero-director-row {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 12px;
-    margin-top: 0;
-  }
-
   .hero-badge-tag {
     font-size: 0.7rem;
     letter-spacing: 0.1em;
+    text-align: left;
+    margin-top: 0;
+  }
+
+  .hero-monumental-wrap {
+    margin: 4px 0 10px;
+  }
+
+  .hero-monumental-title {
+    font-family: var(--font-display);
+    text-align: left;
+    font-size: clamp(2.4rem, 11vw, 3.8rem);
+    line-height: 0.92;
+    letter-spacing: -0.04em;
+    margin: 0;
+    word-break: break-word;
+  }
+
+  .hero-quote-row {
+    margin-top: 6px;
+    margin-bottom: 10px;
+    width: 100%;
   }
 
   .hero-quote-wrap {
     display: flex;
     align-items: flex-start;
     gap: 12px;
+    text-align: left;
   }
 
   .star-icon {
@@ -1799,36 +1817,12 @@ img {
   }
 
   .hero-intro-quote {
-    font-size: 0.88rem;
+    font-size: 0.92rem;
     line-height: 1.55;
     color: var(--text-parchment);
     font-weight: 500;
-  }
-
-  .hero-monumental-wrap {
-    margin: 2px 0 6px;
-  }
-
-  .hero-monumental-title {
-    font-family: var(--font-display);
     text-align: left;
-    font-size: clamp(2.4rem, 11vw, 3.8rem);
-    line-height: 0.92;
-    letter-spacing: -0.04em;
-    margin-top: 4px;
-    word-break: break-word;
-  }
-
-  .hero-lead-row {
-    justify-content: flex-start;
-    margin-top: 4px;
-  }
-
-  .hero-lead-text {
-    text-align: left;
-    font-size: 0.86rem;
-    line-height: 1.58;
-    color: var(--text-sand);
+    margin: 0;
   }
 
   .hero-proof-deck {

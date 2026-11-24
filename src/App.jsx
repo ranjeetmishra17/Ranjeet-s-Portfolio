@@ -622,19 +622,9 @@ export default function App() {
 
           <div className="hairline-divider reveal-divider" />
 
-          {/* Director Hook & Spinning Star */}
-          <div className="hero-director-row reveal-item">
-            <div className="hero-badge-tag">
-              <span className="hero-tag-text">DIRECTORIAL POST-PRODUCTION & MOTION</span>
-            </div>
-
-            <div className="hero-quote-wrap">
-              <StarIcon />
-              <p className="hero-intro-quote">
-                I craft film rhythm and visual retention that turn heads — <br className="hide-mobile" />
-                stronger, sharper, unforgettable.
-              </p>
-            </div>
+          {/* Director Sub-Discipline Tag */}
+          <div className="hero-badge-tag reveal-item">
+            <span className="hero-tag-text">DIRECTORIAL POST-PRODUCTION & MOTION</span>
           </div>
 
           {/* Monumental Architectural Headline */}
@@ -645,11 +635,15 @@ export default function App() {
             </h1>
           </div>
 
-          {/* Hero Lead Sub-headline */}
-          <div className="hero-lead-row reveal-item">
-            <p className="hero-lead-text">
-              Turning raw footage into magnetic visual cinema. Specialized in high-retention short-form Reels, founder stories, and podcast video workflows engineered with psychoacoustic sound architecture and organic DaVinci color grading.
-            </p>
+          {/* Star Icon & Lead Quote placed under the Monumental Title */}
+          <div className="hero-quote-row reveal-item">
+            <div className="hero-quote-wrap">
+              <StarIcon />
+              <p className="hero-intro-quote">
+                I craft film rhythm and visual retention that turn heads — <br className="hide-mobile" />
+                stronger, sharper, unforgettable.
+              </p>
+            </div>
           </div>
 
           {/* Hero Proof Deck & Dual CTAs */}

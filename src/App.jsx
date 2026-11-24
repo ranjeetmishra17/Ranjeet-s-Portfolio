@@ -471,11 +471,11 @@ export default function App() {
     setTimeout(() => setCopiedEmail(false), 2200);
   };
 
-  // Scroll reveal animation observer
+  // Scroll reveal animation observer with optimized threshold
   useEffect(() => {
     const observerOptions = {
-      threshold: 0.08,
-      rootMargin: "0px 0px -40px 0px",
+      threshold: 0.04,
+      rootMargin: "0px 0px -60px 0px",
     };
 
     const handleIntersect = (entries, obs) => {

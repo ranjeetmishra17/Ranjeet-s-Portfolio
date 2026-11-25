@@ -521,13 +521,27 @@ img {
 /* ========================================================
    SECTION 1: HERO STAGE (Separate, Distinct, Viewport-Defining)
    ======================================================== */
+#hero,
+#hero.section-hero-stage,
+#hero.reveal-section,
+#hero .reveal-item,
+#hero .hero-stage-inner {
+  opacity: 1 !important;
+  transform: none !important;
+  visibility: visible !important;
+}
+
+#hero .hairline-divider.reveal-divider {
+  transform: scaleX(1) !important;
+}
+
 .section-hero-stage {
   min-height: calc(100vh - 40px);
   min-height: 94vh;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding-top: 108px;
+  padding-top: 124px;
   padding-bottom: 24px;
   position: relative;
   overflow: hidden;
@@ -2222,7 +2236,7 @@ img {
      ======================================================== */
   .section-hero-stage {
     min-height: 100dvh;
-    padding-top: 84px;
+    padding-top: 96px;
     padding-bottom: 24px;
     display: flex;
     flex-direction: column;

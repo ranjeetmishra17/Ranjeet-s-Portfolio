@@ -459,6 +459,14 @@ export default function App() {
 
   const scrollToSection = (e, targetId) => {
     e.preventDefault();
+    if (targetId === "#hero") {
+      if (lenisRef.current) {
+        lenisRef.current.scrollTo(0, { duration: 1.1 });
+      } else {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+      return;
+    }
     if (lenisRef.current) {
       lenisRef.current.scrollTo(targetId, { offset: -95, duration: 1.1 });
     } else {
@@ -474,6 +482,14 @@ export default function App() {
   useEffect(() => {
     if (window.location.hash) {
       const targetId = window.location.hash;
+      if (targetId === "#hero") {
+        if (lenisRef.current) {
+          lenisRef.current.scrollTo(0, { immediate: true });
+        } else {
+          window.scrollTo({ top: 0, behavior: "instant" });
+        }
+        return;
+      }
       const timer = setTimeout(() => {
         const el = document.querySelector(targetId);
         if (el) {
@@ -561,16 +577,14 @@ export default function App() {
 
     const observer = new IntersectionObserver(handleIntersect, observerOptions);
     const targets = document.querySelectorAll(
-      ".reveal-section, .reveal-item, .reveal-divider, .reveal-stagger-group"
+      ".reveal-section:not(#hero), section:not(#hero) .reveal-item, section:not(#hero) .reveal-divider, section:not(#hero) .reveal-stagger-group"
     );
     targets.forEach((el) => observer.observe(el));
 
     // Reveal hero immediately on initial mount
     const hero = document.getElementById("hero");
     if (hero) {
-      requestAnimationFrame(() => {
-        hero.classList.add("is-revealed");
-      });
+      hero.classList.add("is-revealed");
     }
 
     return () => observer.disconnect();

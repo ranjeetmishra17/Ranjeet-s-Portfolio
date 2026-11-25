@@ -187,12 +187,21 @@ img {
   justify-content: space-between;
   padding: 9px 20px 9px 12px;
   border-radius: 9999px;
-  background: var(--bg-glass);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  background: rgba(12, 16, 10, 0.94);
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
   border: 1px solid var(--border-subtle);
-  box-shadow: 0 10px 32px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(210, 228, 156, 0.1);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.65), inset 0 1px 0 rgba(210, 228, 156, 0.12);
   pointer-events: auto;
+}
+
+/* Global Section Scroll Clearance for Fixed Navbar */
+#hero,
+#work,
+#about,
+#experience,
+#contact {
+  scroll-margin-top: 100px;
 }
 
 .navbar-brand-link {
@@ -509,7 +518,7 @@ img {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding-top: 136px;
+  padding-top: 144px;
   padding-bottom: 28px;
   position: relative;
   overflow: hidden;
@@ -615,6 +624,13 @@ img {
   flex: 1;
   height: 1px;
   background: linear-gradient(90deg, rgba(155, 184, 87, 0.4) 0%, rgba(155, 184, 87, 0.08) 75%, transparent 100%);
+}
+
+.hero-desktop-meta {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  flex-shrink: 0;
 }
 
 /* Monumental Title Stack */
@@ -1859,6 +1875,15 @@ img {
     width: 100%;
     max-width: 100%;
     box-sizing: border-box;
+  }
+
+  /* Section Scroll Clearance on Mobile */
+  #hero,
+  #work,
+  #about,
+  #experience,
+  #contact {
+    scroll-margin-top: 80px;
   }
 
   /* Ultra-Clean Floating Navbar on Mobile */

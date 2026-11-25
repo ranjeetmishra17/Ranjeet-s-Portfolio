@@ -460,12 +460,34 @@ export default function App() {
   const scrollToSection = (e, targetId) => {
     e.preventDefault();
     if (lenisRef.current) {
-      lenisRef.current.scrollTo(targetId, { offset: -25, duration: 1.1 });
+      lenisRef.current.scrollTo(targetId, { offset: -95, duration: 1.1 });
     } else {
       const el = document.querySelector(targetId);
-      if (el) el.scrollIntoView({ behavior: "smooth" });
+      if (el) {
+        const top = el.getBoundingClientRect().top + window.pageYOffset - 95;
+        window.scrollTo({ top, behavior: "smooth" });
+      }
     }
   };
+
+  // Ensure direct hash navigation clears the fixed navbar
+  useEffect(() => {
+    if (window.location.hash) {
+      const targetId = window.location.hash;
+      const timer = setTimeout(() => {
+        const el = document.querySelector(targetId);
+        if (el) {
+          if (lenisRef.current) {
+            lenisRef.current.scrollTo(targetId, { offset: -95, immediate: true });
+          } else {
+            const top = el.getBoundingClientRect().top + window.pageYOffset - 95;
+            window.scrollTo({ top, behavior: "instant" });
+          }
+        }
+      }, 200);
+      return () => clearTimeout(timer);
+    }
+  }, []);
 
   // Category counts
   const categoryCounts = useMemo(() => {
@@ -708,8 +730,8 @@ export default function App() {
         </svg>
 
         <div className="tdk-container hero-stage-inner">
-          {/* Top Metadata Stack: Location + Commissions Pill */}
-          <div className="hero-top-meta-stack reveal-item">
+          {/* Top Metadata Stack: Location + Commissions Pill (Mobile Only matching reference) */}
+          <div className="hero-top-meta-stack show-mobile reveal-item">
             <div className="hero-meta-loc-row">
               <span className="live-status-dot" />
               <span className="hero-meta-loc-text">MUMBAI, INDIA // <TimezoneClock /></span>
@@ -720,10 +742,20 @@ export default function App() {
             </div>
           </div>
 
-          {/* Directorial Category + Extending Hairline */}
+          {/* Directorial Category + Extending Hairline (Desktop includes location & commissions on right) */}
           <div className="hero-category-hairline-row reveal-item">
             <span className="hero-category-tag">DIRECTORIAL POST-PRODUCTION & MOTION</span>
             <div className="hero-category-hairline" />
+            <div className="hero-desktop-meta hide-mobile">
+              <div className="hero-meta-loc-row">
+                <span className="live-status-dot" />
+                <span className="hero-meta-loc-text">MUMBAI [IST] // <TimezoneClock /></span>
+              </div>
+              <div className="hero-commission-pill">
+                <span className="chip-dot" />
+                <span>COMMISSIONS OPEN Q1/Q2</span>
+              </div>
+            </div>
           </div>
 
           {/* Monumental Headline: ranjeetmishra on line 1, .work indented right on line 2 */}

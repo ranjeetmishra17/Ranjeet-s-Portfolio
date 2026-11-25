@@ -694,7 +694,7 @@ export default function App() {
       </header>
 
       {/* ========================================================
-          1. HERO SECTION (Exact Reference Match)
+          1. HERO SECTION (Immaculate Dual-Mode Viewport Containment)
           ======================================================== */}
       <section id="hero" className="section-hero-stage reveal-section">
         {/* Flowing Ambient Hairline Curve SVG */}
@@ -729,9 +729,109 @@ export default function App() {
           />
         </svg>
 
-        <div className="tdk-container hero-stage-inner">
-          {/* Top Metadata Stack: Location + Commissions Pill (Mobile Only matching reference) */}
-          <div className="hero-top-meta-stack show-mobile reveal-item">
+        {/* ==================== DESKTOP HERO STAGE ==================== */}
+        <div className="tdk-container hero-desktop-stage hide-mobile">
+          {/* Top Director Row */}
+          <div className="hero-director-row reveal-item">
+            <div className="hero-badge-tag">
+              <span className="hero-tag-text">DIRECTORIAL POST-PRODUCTION & MOTION</span>
+            </div>
+            <div className="hero-director-meta">
+              <div className="hero-location-clock">
+                <span className="live-status-dot" />
+                <span className="meta-accent-text">MUMBAI [IST] // <TimezoneClock /></span>
+              </div>
+              <div className="hero-status-chip">
+                <span className="chip-dot" />
+                <span>COMMISSIONS OPEN Q1/Q2</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Monumental Cascading Title */}
+          <div className="hero-monumental-wrap reveal-item">
+            <h1 className="hero-monumental-title">
+              ranjeetmishra<br />
+              <span className="text-color-olive">.work</span>
+            </h1>
+          </div>
+
+          {/* Director Hook & Spinning Star */}
+          <div className="hero-lead-row reveal-item">
+            <div className="hero-quote-wrap">
+              <StarIcon />
+              <p className="hero-intro-quote">
+                I craft film rhythm and visual retention that turn heads — <br />
+                stronger, sharper, unforgettable.
+              </p>
+            </div>
+          </div>
+
+          {/* Hero Proof Deck & Action Links */}
+          <div className="hero-proof-deck reveal-item">
+            <div className="hero-stats-trio">
+              <div className="hero-stat-card">
+                <span className="hero-stat-num">15M+</span>
+                <span className="hero-stat-desc">VIEWS GENERATED</span>
+              </div>
+              <div className="hero-stat-divider" aria-hidden="true" />
+              <div className="hero-stat-card">
+                <span className="hero-stat-num">150+</span>
+                <span className="hero-stat-desc">MASTERED CUTS</span>
+              </div>
+              <div className="hero-stat-divider" aria-hidden="true" />
+              <div className="hero-stat-card">
+                <span className="hero-stat-num">48h</span>
+                <span className="hero-stat-desc">AVERAGE FIRST CUT</span>
+              </div>
+            </div>
+
+            <div className="hero-actions-cluster">
+              <a
+                href="#work"
+                className="hero-text-cta"
+                onClick={(e) => scrollToSection(e, "#work")}
+              >
+                <span>Explore Work</span>
+                <span className="cta-arrow">↓</span>
+              </a>
+              <a
+                href="#contact"
+                className="hero-text-cta"
+                onClick={(e) => scrollToSection(e, "#contact")}
+              >
+                <span>Start a Project</span>
+                <span className="cta-arrow">↗</span>
+              </a>
+            </div>
+          </div>
+
+          {/* Hero Bottom Architectural Cue */}
+          <div className="hero-bottom-cue reveal-item">
+            <span className="cue-spec-text">
+              [ 9:16 VERTICAL // 16:9 CINEMA // 4K PRORES 422HQ ]
+            </span>
+            <a
+              href="#work"
+              className="cue-scroll-indicator"
+              onClick={(e) => scrollToSection(e, "#work")}
+              aria-label="Scroll down to featured work"
+            >
+              <span className="cue-text">SCROLL TO VIEW CUTS</span>
+              <span className="cue-arrow-bounce">
+                <ArrowDown size={12} />
+              </span>
+            </a>
+            <span className="cue-vol-text">
+              PORTFOLIO 2026 // VOL. 04
+            </span>
+          </div>
+        </div>
+
+        {/* ==================== MOBILE HERO STAGE ==================== */}
+        <div className="tdk-container hero-mobile-stage show-mobile">
+          {/* Top Metadata Stack: Location + Commissions Pill */}
+          <div className="hero-top-meta-stack reveal-item">
             <div className="hero-meta-loc-row">
               <span className="live-status-dot" />
               <span className="hero-meta-loc-text">MUMBAI, INDIA // <TimezoneClock /></span>
@@ -742,20 +842,10 @@ export default function App() {
             </div>
           </div>
 
-          {/* Directorial Category + Extending Hairline (Desktop includes location & commissions on right) */}
+          {/* Directorial Category + Extending Hairline */}
           <div className="hero-category-hairline-row reveal-item">
             <span className="hero-category-tag">DIRECTORIAL POST-PRODUCTION & MOTION</span>
             <div className="hero-category-hairline" />
-            <div className="hero-desktop-meta hide-mobile">
-              <div className="hero-meta-loc-row">
-                <span className="live-status-dot" />
-                <span className="hero-meta-loc-text">MUMBAI [IST] // <TimezoneClock /></span>
-              </div>
-              <div className="hero-commission-pill">
-                <span className="chip-dot" />
-                <span>COMMISSIONS OPEN Q1/Q2</span>
-              </div>
-            </div>
           </div>
 
           {/* Monumental Headline: ranjeetmishra on line 1, .work indented right on line 2 */}

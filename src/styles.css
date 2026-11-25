@@ -513,15 +513,17 @@ img {
    SECTION 1: HERO STAGE (Separate, Distinct, Viewport-Defining)
    ======================================================== */
 .section-hero-stage {
-  min-height: calc(100vh - 40px);
-  min-height: 94vh;
+  min-height: 100vh;
+  min-height: 100dvh;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding-top: 144px;
-  padding-bottom: 28px;
+  padding-top: 96px;
+  padding-bottom: 20px;
   position: relative;
   overflow: hidden;
+  box-sizing: border-box;
 }
 
 /* Flowing Ambient Hairline Curve SVG */
@@ -536,6 +538,243 @@ img {
   opacity: 0.85;
 }
 
+/* ==================== DESKTOP HERO STAGE ==================== */
+.hero-desktop-stage {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  z-index: 2;
+  box-sizing: border-box;
+  gap: 14px;
+}
+
+.hero-director-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  width: 100%;
+  margin-top: 2px;
+}
+
+.hero-badge-tag {
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--olive-primary);
+  text-transform: uppercase;
+}
+
+.hero-director-meta {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.hero-location-clock {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--text-sand);
+  text-transform: uppercase;
+}
+
+.hero-location-clock .live-status-dot {
+  position: relative;
+  top: 0;
+  right: 0;
+  width: 6px;
+  height: 6px;
+  background: var(--olive-primary);
+  border-radius: 50%;
+  box-shadow: 0 0 8px rgba(155, 184, 87, 0.7);
+}
+
+.hero-status-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 15px;
+  border-radius: 9999px;
+  background: rgba(155, 184, 87, 0.09);
+  border: 1px solid rgba(155, 184, 87, 0.28);
+  color: var(--olive-champagne);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.chip-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--olive-primary);
+  box-shadow: 0 0 8px var(--olive-primary);
+}
+
+.hero-monumental-wrap {
+  position: relative;
+  width: 100%;
+  margin: 0;
+}
+
+.hero-monumental-title {
+  font-family: var(--font-display);
+  font-size: clamp(3.2rem, 9.4vw, 8.4rem);
+  font-weight: 700;
+  line-height: 0.88;
+  letter-spacing: -0.04em;
+  color: var(--text-ivory);
+  text-align: right;
+  margin: 0;
+}
+
+.hero-lead-row {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  margin-top: -6px;
+}
+
+.hero-quote-wrap {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  max-width: 620px;
+}
+
+.hero-intro-quote {
+  font-size: clamp(0.96rem, 1.25vw, 1.15rem);
+  line-height: 1.5;
+  color: var(--text-parchment);
+  font-weight: 500;
+  margin: 0;
+}
+
+.hero-proof-deck {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  padding: 16px 0 12px;
+  border-top: 1px solid var(--border-subtle);
+  width: 100%;
+  margin-top: auto;
+}
+
+.hero-stats-trio {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+.hero-stat-card {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.hero-stat-num {
+  font-family: var(--font-display);
+  font-size: 1.65rem;
+  font-weight: 800;
+  color: var(--olive-champagne);
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.hero-stat-desc {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-dust);
+}
+
+.hero-stat-divider {
+  width: 1px;
+  height: 32px;
+  background: rgba(155, 184, 87, 0.22);
+}
+
+.hero-actions-cluster {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.hero-text-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--font-body);
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--text-ivory);
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.hero-text-cta:hover {
+  color: var(--olive-champagne);
+  transform: translateY(-1px);
+}
+
+.cta-arrow {
+  color: var(--olive-primary);
+  font-size: 1rem;
+  transition: transform 0.2s ease;
+}
+
+.hero-text-cta:hover .cta-arrow {
+  transform: translateY(2px);
+}
+
+.hero-bottom-cue {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  color: var(--text-dust);
+  text-transform: uppercase;
+  width: 100%;
+}
+
+.cue-scroll-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--olive-primary);
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.cue-scroll-indicator:hover {
+  color: var(--olive-champagne);
+  transform: translateY(2px);
+}
+
+.cue-arrow-bounce {
+  display: inline-flex;
+  animation: cueArrowPulse 2s infinite ease-in-out;
+}
+
+/* ==================== MOBILE HERO STAGE SHARED CLASSES ==================== */
 .hero-stage-inner {
   position: relative;
   z-index: 2;
@@ -591,14 +830,6 @@ img {
   font-size: 0.7rem;
   font-weight: 700;
   letter-spacing: 0.08em;
-}
-
-.chip-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--olive-primary);
-  box-shadow: 0 0 8px var(--olive-primary);
 }
 
 /* Category & Extending Hairline */
@@ -1974,6 +2205,7 @@ img {
     opacity: 0.9;
   }
 
+  .hero-mobile-stage,
   .hero-stage-inner {
     position: relative;
     z-index: 2;

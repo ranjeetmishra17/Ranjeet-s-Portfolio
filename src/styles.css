@@ -2236,13 +2236,14 @@ img {
      ======================================================== */
   .section-hero-stage {
     min-height: 100dvh;
-    padding-top: 96px;
-    padding-bottom: 24px;
+    padding-top: 84px;
+    padding-bottom: 16px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     position: relative;
     overflow: hidden;
+    box-sizing: border-box;
     background: radial-gradient(circle at 5% 18%, rgba(155, 184, 87, 0.16) 0%, transparent 45%),
                 radial-gradient(circle at 95% 12%, rgba(155, 184, 87, 0.20) 0%, transparent 50%),
                 radial-gradient(circle at 50% 92%, rgba(155, 184, 87, 0.14) 0%, transparent 55%),
@@ -2257,18 +2258,20 @@ img {
     pointer-events: none;
     z-index: 1;
     opacity: 0.9;
+    overflow: hidden;
   }
 
-  .hero-mobile-stage,
-  .hero-stage-inner {
+  .hero-mobile-stage {
     position: relative;
     z-index: 2;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     height: 100%;
-    min-height: calc(100dvh - 108px);
-    gap: 12px;
+    min-height: calc(100dvh - 100px);
+    gap: 8px;
+    width: 100%;
+    box-sizing: border-box;
   }
 
   /* Top Meta Stack */
@@ -2365,10 +2368,12 @@ img {
 
   .hero-title-line {
     font-family: var(--font-display);
-    font-size: clamp(2.85rem, 13vw, 4.3rem);
+    font-size: clamp(1.85rem, 8.4vw, 2.75rem);
     font-weight: 700;
-    line-height: 0.92;
-    letter-spacing: -0.04em;
+    line-height: 0.94;
+    letter-spacing: -0.03em;
+    word-break: normal;
+    white-space: nowrap;
   }
 
   .hero-title-line.title-first {
@@ -2379,7 +2384,7 @@ img {
   .hero-title-line.title-second {
     color: var(--olive-primary);
     text-align: right;
-    padding-right: 4px;
+    padding-right: 24px;
   }
 
   /* Director Quote with Diamond Star */
@@ -2407,12 +2412,12 @@ img {
 
   .hero-quote-text {
     font-family: var(--font-body);
-    font-size: 0.88rem;
+    font-size: 0.84rem;
     line-height: 1.5;
     color: #cfd4c8;
     font-weight: 500;
     text-align: left;
-    max-width: 90%;
+    max-width: 290px;
   }
 
   /* Stacked Compact Pill Buttons */
@@ -2421,24 +2426,24 @@ img {
     flex-direction: column;
     align-items: flex-start;
     justify-content: flex-start;
-    gap: 11px;
+    gap: 10px;
     width: 100%;
-    margin: 8px 0 10px;
+    margin: 6px 0 8px;
   }
 
   .hero-glow-pill-btn {
-    width: 205px;
+    width: 195px;
     box-sizing: border-box;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 11px 22px;
+    padding: 10px 20px;
     border-radius: 9999px;
     background: #060905;
     border: 1.5px solid #9bb857;
     color: #ffffff;
     font-family: var(--font-body);
-    font-size: 0.84rem;
+    font-size: 0.82rem;
     font-weight: 600;
     box-shadow: 0 0 18px rgba(155, 184, 87, 0.42), 0 0 34px rgba(155, 184, 87, 0.15);
     text-decoration: none;
@@ -2447,18 +2452,18 @@ img {
   }
 
   .hero-outline-pill-btn {
-    width: 205px;
+    width: 195px;
     box-sizing: border-box;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 11px 22px;
+    padding: 10px 20px;
     border-radius: 9999px;
     background: #060905;
     border: 1px solid rgba(155, 184, 87, 0.4);
     color: #ffffff;
     font-family: var(--font-body);
-    font-size: 0.84rem;
+    font-size: 0.82rem;
     font-weight: 600;
     text-decoration: none;
     cursor: pointer;
@@ -2467,7 +2472,7 @@ img {
 
   .hero-glow-pill-btn .btn-arrow,
   .hero-outline-pill-btn .btn-arrow {
-    font-size: 1rem;
+    font-size: 0.95rem;
     color: #ffffff;
   }
 
@@ -2478,10 +2483,11 @@ img {
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    padding: 15px 0 12px;
-    margin: 8px 0 4px;
+    padding: 12px 0 10px;
+    margin: 6px 0 2px;
     border-top: 1px solid rgba(155, 184, 87, 0.22);
     border-bottom: none;
+    box-sizing: border-box;
   }
 
   .hero-metric-item {
@@ -2490,11 +2496,12 @@ img {
     gap: 3px;
     flex: 1;
     text-align: left;
+    min-width: 0;
   }
 
   .hero-metric-item .metric-num {
     font-family: var(--font-display);
-    font-size: 1.45rem;
+    font-size: 1.35rem;
     font-weight: 800;
     color: var(--olive-champagne);
     letter-spacing: -0.02em;
@@ -2503,19 +2510,20 @@ img {
 
   .hero-metric-item .metric-lbl {
     font-family: var(--font-mono);
-    font-size: 0.58rem;
+    font-size: 0.50rem;
     font-weight: 700;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.02em;
     color: #727a69;
     text-transform: uppercase;
     line-height: 1.25;
+    white-space: nowrap;
   }
 
   .metric-v-divider {
     width: 1px;
-    height: 32px;
+    height: 30px;
     background: rgba(155, 184, 87, 0.22);
-    margin: 0 10px;
+    margin: 0 4px;
     flex-shrink: 0;
   }
 
@@ -2525,40 +2533,41 @@ img {
     flex-direction: column;
     align-items: center;
     width: 100%;
-    padding-top: 4px;
+    padding-top: 2px;
     position: relative;
+    box-sizing: border-box;
   }
 
   .hero-bottom-h-divider {
     width: 100%;
     height: 1px;
     background: rgba(155, 184, 87, 0.2);
-    margin-bottom: 12px;
+    margin-bottom: 8px;
   }
 
   .hero-capsule-scroll-cue {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
     text-decoration: none;
   }
 
   .capsule-mouse-icon {
-    width: 20px;
-    height: 32px;
-    border-radius: 11px;
+    width: 18px;
+    height: 28px;
+    border-radius: 9px;
     border: 1.5px solid var(--olive-primary);
     display: flex;
     justify-content: center;
-    padding-top: 5px;
+    padding-top: 4px;
     box-shadow: 0 0 10px rgba(155, 184, 87, 0.35);
     box-sizing: border-box;
   }
 
   .capsule-mouse-wheel {
-    width: 2.5px;
-    height: 6px;
+    width: 2px;
+    height: 5px;
     border-radius: 2px;
     background: var(--olive-primary);
     animation: mouseWheelScroll 1.8s infinite ease-in-out;
@@ -2566,18 +2575,18 @@ img {
 
   .capsule-scroll-text {
     font-family: var(--font-mono);
-    font-size: 0.62rem;
+    font-size: 0.58rem;
     font-weight: 700;
-    letter-spacing: 0.16em;
+    letter-spacing: 0.14em;
     color: #727a69;
     text-transform: uppercase;
   }
 
   .hero-bottom-v-stem {
     width: 1px;
-    height: 32px;
+    height: 26px;
     background: linear-gradient(180deg, rgba(155, 184, 87, 0.45) 0%, transparent 100%);
-    margin-top: 10px;
+    margin-top: 6px;
   }
 
   /* ========================================================
@@ -3036,7 +3045,7 @@ img {
   }
 
   .hero-title-line {
-    font-size: clamp(2.5rem, 12vw, 3.4rem);
+    font-size: clamp(1.75rem, 8.2vw, 2.3rem);
   }
 
   .heading-extreme-work {

@@ -426,6 +426,7 @@ export default function App() {
   const [activeTheaterProject, setActiveTheaterProject] = useState(null);
   const [copiedEmail, setCopiedEmail] = useState(false);
   const [activeSlideIndex, setActiveSlideIndex] = useState(0);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const carouselTrackRef = useRef(null);
   const lenisRef = useRef(null);
 
@@ -558,14 +559,17 @@ export default function App() {
       {/* Ambient Canvas Lighting */}
       <div className="minimal-atmosphere-canvas" aria-hidden="true" />
 
-      {/* FLOATING GLASS PILL NAVBAR (Tom de Koning Style) */}
+      {/* FLOATING GLASS PILL NAVBAR */}
       <header className="navbar-fixed-pill">
         <div className="navbar-inner-pill">
           {/* Brand & Avatar */}
           <a
             href="#hero"
             className="navbar-brand-link"
-            onClick={(e) => scrollToSection(e, "#hero")}
+            onClick={(e) => {
+              setMobileMenuOpen(false);
+              scrollToSection(e, "#hero");
+            }}
           >
             <div className="nav-avatar-circle">
               <img
@@ -580,123 +584,215 @@ export default function App() {
             </div>
           </a>
 
-          {/* Stagger Nav Links: WORK, ABOUT, EXPERIENCE, CONTACT */}
-          <nav className="navbar-stagger-links" aria-label="Main Navigation">
+          {/* Desktop Stagger Nav Links */}
+          <nav className="navbar-stagger-links hide-mobile" aria-label="Main Navigation">
             <StaggerLink href="#work" className="nav-stagger-item" onClick={(e) => scrollToSection(e, "#work")}>
               WORK
             </StaggerLink>
             <StaggerLink href="#about" className="nav-stagger-item" onClick={(e) => scrollToSection(e, "#about")}>
               ABOUT
             </StaggerLink>
-            <StaggerLink href="#experience" className="nav-stagger-item hide-mobile" onClick={(e) => scrollToSection(e, "#experience")}>
+            <StaggerLink href="#experience" className="nav-stagger-item" onClick={(e) => scrollToSection(e, "#experience")}>
               EXPERIENCE
             </StaggerLink>
             <StaggerLink href="#contact" className="nav-stagger-item nav-contact-highlight" onClick={(e) => scrollToSection(e, "#contact")}>
               CONTACT
             </StaggerLink>
           </nav>
+
+          {/* Mobile Circular Hamburger Button (Matching Reference) */}
+          <button
+            type="button"
+            className="navbar-hamburger-btn show-mobile"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            aria-label="Toggle navigation menu"
+            aria-expanded={mobileMenuOpen}
+          >
+            {mobileMenuOpen ? (
+              <CloseIcon size={16} />
+            ) : (
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round">
+                <line x1="4" y1="7" x2="20" y2="7" />
+                <line x1="4" y1="12" x2="20" y2="12" />
+                <line x1="4" y1="17" x2="20" y2="17" />
+              </svg>
+            )}
+          </button>
         </div>
+
+        {/* Mobile Dropdown Menu Drawer */}
+        {mobileMenuOpen && (
+          <div className="navbar-mobile-drawer show-mobile" role="dialog" aria-label="Mobile Navigation">
+            <a
+              href="#work"
+              className="mobile-drawer-link"
+              onClick={(e) => {
+                setMobileMenuOpen(false);
+                scrollToSection(e, "#work");
+              }}
+            >
+              <span className="drawer-idx">01</span>
+              <span>WORK</span>
+            </a>
+            <a
+              href="#about"
+              className="mobile-drawer-link"
+              onClick={(e) => {
+                setMobileMenuOpen(false);
+                scrollToSection(e, "#about");
+              }}
+            >
+              <span className="drawer-idx">02</span>
+              <span>ABOUT</span>
+            </a>
+            <a
+              href="#experience"
+              className="mobile-drawer-link"
+              onClick={(e) => {
+                setMobileMenuOpen(false);
+                scrollToSection(e, "#experience");
+              }}
+            >
+              <span className="drawer-idx">03</span>
+              <span>EXPERIENCE</span>
+            </a>
+            <a
+              href="#contact"
+              className="mobile-drawer-link contact-pill"
+              onClick={(e) => {
+                setMobileMenuOpen(false);
+                scrollToSection(e, "#contact");
+              }}
+            >
+              <span className="drawer-idx">04</span>
+              <span>CONTACT</span>
+            </a>
+          </div>
+        )}
       </header>
 
       {/* ========================================================
-          1. HERO SECTION (Separate, Distinct, Viewport-Defining)
+          1. HERO SECTION (Exact Reference Match)
           ======================================================== */}
       <section id="hero" className="section-hero-stage reveal-section">
+        {/* Flowing Ambient Hairline Curve SVG */}
+        <svg
+          className="hero-flowing-curve-svg"
+          viewBox="0 0 1440 900"
+          fill="none"
+          preserveAspectRatio="none"
+          aria-hidden="true"
+        >
+          <defs>
+            <linearGradient id="heroCurveGrad" x1="1240" y1="50" x2="50" y2="720" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stopColor="#9bb857" stopOpacity="0.75" />
+              <stop offset="35%" stopColor="#9bb857" stopOpacity="0.35" />
+              <stop offset="70%" stopColor="#9bb857" stopOpacity="0.18" />
+              <stop offset="100%" stopColor="#9bb857" stopOpacity="0.04" />
+            </linearGradient>
+            <filter id="heroCurveGlow" x="-20%" y="-20%" width="140%" height="140%">
+              <feGaussianBlur stdDeviation="2" result="blur" />
+              <feMerge>
+                <feMergeNode in="blur" />
+                <feMergeNode in="SourceGraphic" />
+              </feMerge>
+            </filter>
+          </defs>
+          <path
+            d="M 1250 50 C 1420 160 1410 380 1150 510 C 860 630 450 660 40 700"
+            stroke="url(#heroCurveGrad)"
+            strokeWidth="1.2"
+            strokeLinecap="round"
+            filter="url(#heroCurveGlow)"
+          />
+        </svg>
+
         <div className="tdk-container hero-stage-inner">
-          {/* Director Tagline Bar */}
-          <div className="hero-director-row reveal-item">
-            <div className="hero-badge-tag">
-              <span className="hero-tag-text">DIRECTORIAL POST-PRODUCTION & MOTION</span>
+          {/* Top Metadata Stack: Location + Commissions Pill */}
+          <div className="hero-top-meta-stack reveal-item">
+            <div className="hero-meta-loc-row">
+              <span className="live-status-dot" />
+              <span className="hero-meta-loc-text">MUMBAI, INDIA // <TimezoneClock /></span>
             </div>
-            <div className="hero-director-meta">
-              <div className="hero-location-clock hide-mobile">
-                <span className="live-status-dot" />
-                <span className="meta-accent-text">MUMBAI [IST] // <TimezoneClock /></span>
-              </div>
-              <div className="hero-status-chip">
-                <span className="chip-dot" />
-                <span>COMMISSIONS OPEN Q1/Q2</span>
-              </div>
+            <div className="hero-commission-pill">
+              <span className="chip-dot" />
+              <span>COMMISSIONS OPEN Q1/Q2</span>
             </div>
           </div>
 
-          {/* Monumental Architectural Headline */}
-          <div className="hero-monumental-wrap reveal-item">
-            <h1 className="hero-monumental-title">
-              ranjeetmishra<br />
-              <span className="text-color-olive">.work</span>
-            </h1>
+          {/* Directorial Category + Extending Hairline */}
+          <div className="hero-category-hairline-row reveal-item">
+            <span className="hero-category-tag">DIRECTORIAL POST-PRODUCTION & MOTION</span>
+            <div className="hero-category-hairline" />
           </div>
 
-          {/* Director Hook & Spinning Star (Second Image Text replacing First Image Text) */}
-          <div className="hero-lead-row reveal-item">
-            <div className="hero-quote-wrap">
-              <StarIcon />
-              <p className="hero-intro-quote">
-                I craft film rhythm and visual retention that turn heads — <br className="hide-mobile" />
-                stronger, sharper, unforgettable.
-              </p>
-            </div>
+          {/* Monumental Headline: ranjeetmishra on line 1, .work indented right on line 2 */}
+          <div className="hero-title-stack reveal-item">
+            <h1 className="hero-title-line title-first">ranjeetmishra</h1>
+            <div className="hero-title-line title-second text-color-olive">.work</div>
           </div>
 
-          {/* Hero Proof Deck & Dual CTAs */}
-          <div className="hero-proof-deck reveal-item">
-            <div className="hero-stats-trio">
-              <div className="hero-stat-card">
-                <span className="hero-stat-num">15M+</span>
-                <span className="hero-stat-desc">Views Generated</span>
-              </div>
-              <div className="hero-stat-card">
-                <span className="hero-stat-num">150+</span>
-                <span className="hero-stat-desc">Mastered Cuts</span>
-              </div>
-              <div className="hero-stat-card">
-                <span className="hero-stat-num">48h</span>
-                <span className="hero-stat-desc">Average First Cut</span>
-              </div>
-            </div>
-
-            <div className="hero-actions-cluster">
-              <a
-                href="#work"
-                className="tdk-magnetic-btn hero-primary-cta"
-                onClick={(e) => scrollToSection(e, "#work")}
-              >
-                <span className="btn-inner">
-                  <span className="btn-text">Explore Work</span>
-                  <ArrowDown size={14} />
-                </span>
-              </a>
-              <a
-                href="#contact"
-                className="tdk-secondary-btn hero-secondary-cta"
-                onClick={(e) => scrollToSection(e, "#contact")}
-              >
-                <span>Start a Project</span>
-                <ArrowUpRight size={13} />
-              </a>
-            </div>
+          {/* Director Quote with 4-Point Star */}
+          <div className="hero-quote-block reveal-item">
+            <StarIcon />
+            <p className="hero-quote-text">
+              I craft film rhythm and visual retention that turn heads — stronger, sharper, unforgettable.
+            </p>
           </div>
 
-          {/* Hero Bottom Architectural Cue */}
-          <div className="hero-bottom-cue reveal-item">
-            <span className="cue-spec-text hide-mobile">
-              [ 9:16 VERTICAL // 16:9 CINEMA // 4K PRORES 422HQ ]
-            </span>
+          {/* Dual Action Buttons (Stacked on Mobile, Compact Pill Shape) */}
+          <div className="hero-pill-buttons-stack reveal-item">
             <a
               href="#work"
-              className="cue-scroll-indicator"
+              className="hero-glow-pill-btn"
               onClick={(e) => scrollToSection(e, "#work")}
-              aria-label="Scroll down to featured work"
             >
-              <span className="cue-text">SCROLL TO VIEW CUTS</span>
-              <span className="cue-arrow-bounce">
-                <ArrowDown size={12} />
-              </span>
+              <span>Explore My Work</span>
+              <span className="btn-arrow">↗</span>
             </a>
-            <span className="cue-vol-text hide-mobile">
-              PORTFOLIO 2026 // VOL. 04
-            </span>
+            <a
+              href="#contact"
+              className="hero-outline-pill-btn"
+              onClick={(e) => scrollToSection(e, "#contact")}
+            >
+              <span>Start a Project</span>
+              <span className="btn-arrow">↗</span>
+            </a>
+          </div>
+
+          {/* 3 Proof Metrics with Vertical Hairline Dividers */}
+          <div className="hero-metrics-row reveal-item">
+            <div className="hero-metric-item">
+              <span className="metric-num">15M+</span>
+              <span className="metric-lbl">VIEWS GENERATED</span>
+            </div>
+            <div className="metric-v-divider" />
+            <div className="hero-metric-item">
+              <span className="metric-num">150+</span>
+              <span className="metric-lbl">MASTERED CUTS</span>
+            </div>
+            <div className="metric-v-divider" />
+            <div className="hero-metric-item">
+              <span className="metric-num">48h</span>
+              <span className="metric-lbl">AVERAGE FIRST CUT</span>
+            </div>
+          </div>
+
+          {/* Bottom Hairline Divider & Capsule Mouse Scroll Indicator */}
+          <div className="hero-bottom-scroll-block reveal-item">
+            <div className="hero-bottom-h-divider" />
+            <a
+              href="#work"
+              className="hero-capsule-scroll-cue"
+              onClick={(e) => scrollToSection(e, "#work")}
+              aria-label="Scroll to explore"
+            >
+              <div className="capsule-mouse-icon">
+                <span className="capsule-mouse-wheel" />
+              </div>
+              <span className="capsule-scroll-text">SCROLL TO EXPLORE</span>
+            </a>
+            <div className="hero-bottom-v-stem" />
           </div>
         </div>
       </section>

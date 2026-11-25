@@ -417,6 +417,15 @@ img {
   transform: translateY(0);
 }
 
+/* Hairline Dividers */
+.hairline-divider {
+  width: 100%;
+  height: 1px;
+  background: var(--border-subtle);
+  border: none;
+  margin: 0;
+}
+
 /* Hairline Dividers Expand Horizontally */
 .hairline-divider.reveal-divider {
   transform: scaleX(0);
@@ -513,17 +522,15 @@ img {
    SECTION 1: HERO STAGE (Separate, Distinct, Viewport-Defining)
    ======================================================== */
 .section-hero-stage {
-  min-height: 100vh;
-  min-height: 100dvh;
-  height: 100vh;
+  min-height: calc(100vh - 40px);
+  min-height: 94vh;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding-top: 96px;
-  padding-bottom: 20px;
+  padding-top: 108px;
+  padding-bottom: 24px;
   position: relative;
   overflow: hidden;
-  box-sizing: border-box;
 }
 
 /* Flowing Ambient Hairline Curve SVG */
@@ -538,76 +545,61 @@ img {
   opacity: 0.85;
 }
 
-/* ==================== DESKTOP HERO STAGE ==================== */
-.hero-desktop-stage {
-  height: 100%;
+.hero-stage-inner {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  height: 100%;
+  min-height: calc(94vh - 132px);
+  gap: 20px;
   position: relative;
   z-index: 2;
-  box-sizing: border-box;
-  gap: 14px;
 }
 
-.hero-director-row {
+/* Hero Top Directorial Bar */
+.hero-top-bar {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 24px;
-  width: 100%;
-  margin-top: 2px;
-}
-
-.hero-badge-tag {
   font-family: var(--font-mono);
   font-size: 0.74rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  color: var(--olive-primary);
+  letter-spacing: 0.08em;
   text-transform: uppercase;
+  color: var(--text-dust);
+  width: 100%;
 }
 
-.hero-director-meta {
+.hero-top-left {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 10px;
 }
 
-.hero-location-clock {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
+.hero-meta-label {
   color: var(--text-sand);
-  text-transform: uppercase;
+  font-weight: 600;
 }
 
-.hero-location-clock .live-status-dot {
-  position: relative;
-  top: 0;
-  right: 0;
-  width: 6px;
-  height: 6px;
-  background: var(--olive-primary);
-  border-radius: 50%;
-  box-shadow: 0 0 8px rgba(155, 184, 87, 0.7);
+.hero-top-center .hero-meta-badge {
+  padding: 5px 16px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-subtle);
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  color: var(--text-dust);
 }
 
 .hero-status-chip {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 5px 15px;
+  padding: 6px 16px;
   border-radius: 9999px;
-  background: rgba(155, 184, 87, 0.09);
+  background: rgba(155, 184, 87, 0.1);
   border: 1px solid rgba(155, 184, 87, 0.28);
   color: var(--olive-champagne);
-  font-family: var(--font-mono);
-  font-size: 0.68rem;
+  font-size: 0.7rem;
   font-weight: 700;
   letter-spacing: 0.08em;
 }
@@ -620,60 +612,102 @@ img {
   box-shadow: 0 0 8px var(--olive-primary);
 }
 
+/* Director Tagline Bar */
+.hero-director-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+
+.hero-badge-tag {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--olive-primary);
+  text-transform: uppercase;
+}
+
+.hero-tag-accent {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--text-dust);
+  text-transform: uppercase;
+}
+
+.hero-tag-accent .live-status-dot {
+  position: relative;
+  top: 0;
+  right: 0;
+  width: 6px;
+  height: 6px;
+  background: var(--olive-primary);
+  border-radius: 50%;
+  box-shadow: 0 0 8px rgba(155, 184, 87, 0.7);
+}
+
+/* Monumental Architectural Headline */
 .hero-monumental-wrap {
   position: relative;
   width: 100%;
-  margin: 0;
+  margin: 10px 0 6px;
 }
 
 .hero-monumental-title {
   font-family: var(--font-display);
-  font-size: clamp(3.2rem, 9.4vw, 8.4rem);
+  font-size: clamp(3.8rem, 11.5vw, 10.8rem);
   font-weight: 700;
   line-height: 0.88;
   letter-spacing: -0.04em;
   color: var(--text-ivory);
   text-align: right;
-  margin: 0;
 }
 
+/* Director Hook & Spinning Star */
 .hero-lead-row {
   display: flex;
   justify-content: flex-end;
   width: 100%;
-  margin-top: -6px;
+  margin-top: 10px;
 }
 
 .hero-quote-wrap {
   display: flex;
   align-items: center;
-  gap: 18px;
+  gap: 20px;
   max-width: 620px;
 }
 
 .hero-intro-quote {
-  font-size: clamp(0.96rem, 1.25vw, 1.15rem);
-  line-height: 1.5;
+  font-size: clamp(1.05rem, 1.4vw, 1.25rem);
+  line-height: 1.55;
   color: var(--text-parchment);
   font-weight: 500;
-  margin: 0;
 }
 
+/* Hero Proof Deck */
 .hero-proof-deck {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 32px;
-  padding: 16px 0 12px;
-  border-top: 1px solid var(--border-subtle);
-  width: 100%;
-  margin-top: auto;
+  padding: 18px 0 16px;
+  margin-top: 6px;
+  flex-wrap: wrap;
 }
 
 .hero-stats-trio {
   display: flex;
   align-items: center;
-  gap: 32px;
+  gap: 40px;
 }
 
 .hero-stat-card {
@@ -684,16 +718,15 @@ img {
 
 .hero-stat-num {
   font-family: var(--font-display);
-  font-size: 1.65rem;
+  font-size: 1.85rem;
   font-weight: 800;
   color: var(--olive-champagne);
   letter-spacing: -0.02em;
-  line-height: 1;
 }
 
 .hero-stat-desc {
   font-family: var(--font-mono);
-  font-size: 0.65rem;
+  font-size: 0.68rem;
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -702,8 +735,8 @@ img {
 
 .hero-stat-divider {
   width: 1px;
-  height: 32px;
-  background: rgba(155, 184, 87, 0.22);
+  height: 36px;
+  background: var(--border-subtle);
 }
 
 .hero-actions-cluster {
@@ -712,41 +745,40 @@ img {
   gap: 24px;
 }
 
-.hero-text-cta {
+.hero-text-link {
   display: inline-flex;
   align-items: center;
   gap: 7px;
   font-family: var(--font-body);
   font-size: 0.92rem;
-  font-weight: 600;
+  font-weight: 500;
   color: var(--text-ivory);
   text-decoration: none;
-  transition: all 0.2s ease;
+  transition: color 0.2s ease;
 }
 
-.hero-text-cta:hover {
-  color: var(--olive-champagne);
-  transform: translateY(-1px);
-}
-
-.cta-arrow {
+.hero-text-link:hover {
   color: var(--olive-primary);
-  font-size: 1rem;
+}
+
+.hero-text-link .link-arrow {
+  color: var(--olive-primary);
+  font-size: 0.95rem;
   transition: transform 0.2s ease;
 }
 
-.hero-text-cta:hover .cta-arrow {
-  transform: translateY(2px);
+.hero-text-link:hover .link-arrow {
+  transform: translate(2px, 0);
 }
 
 .hero-bottom-cue {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-top: 12px;
+  padding-top: 16px;
   border-top: 1px solid rgba(255, 255, 255, 0.06);
   font-family: var(--font-mono);
-  font-size: 0.7rem;
+  font-size: 0.72rem;
   letter-spacing: 0.08em;
   color: var(--text-dust);
   text-transform: uppercase;
@@ -759,7 +791,6 @@ img {
   gap: 8px;
   color: var(--olive-primary);
   font-weight: 700;
-  text-decoration: none;
   cursor: pointer;
   transition: all 0.25s ease;
 }
@@ -772,6 +803,15 @@ img {
 .cue-arrow-bounce {
   display: inline-flex;
   animation: cueArrowPulse 2s infinite ease-in-out;
+}
+
+@keyframes cueArrowPulse {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(4px);
+  }
 }
 
 /* ==================== MOBILE HERO STAGE SHARED CLASSES ==================== */

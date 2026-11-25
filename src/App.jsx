@@ -694,12 +694,12 @@ export default function App() {
       </header>
 
       {/* ========================================================
-          1. HERO SECTION (Immaculate Dual-Mode Viewport Containment)
+          1. HERO SECTION (Exact 1:1 Match to Reference)
           ======================================================== */}
       <section id="hero" className="section-hero-stage reveal-section">
-        {/* Flowing Ambient Hairline Curve SVG */}
+        {/* Flowing Ambient Hairline Curve SVG (Mobile only) */}
         <svg
-          className="hero-flowing-curve-svg"
+          className="hero-flowing-curve-svg show-mobile"
           viewBox="0 0 1440 900"
           fill="none"
           preserveAspectRatio="none"
@@ -729,26 +729,39 @@ export default function App() {
           />
         </svg>
 
-        {/* ==================== DESKTOP HERO STAGE ==================== */}
-        <div className="tdk-container hero-desktop-stage hide-mobile">
-          {/* Top Director Row */}
+        {/* ==================== DESKTOP HERO STAGE (Exact 1:1 match to media_1795617742201_6e486149.jpg) ==================== */}
+        <div className="tdk-container hero-stage-inner hero-desktop-stage hide-mobile">
+          {/* Top Metadata Row: 3 parts */}
+          <div className="hero-top-bar reveal-item">
+            <div className="hero-top-left">
+              <span className="live-status-dot" />
+              <span className="hero-meta-label">MUMBAI, INDIA // <TimezoneClock /></span>
+            </div>
+            <div className="hero-top-center">
+              <span className="hero-meta-badge">POST-PRODUCTION // RHYTHM & SOUND</span>
+            </div>
+            <div className="hero-top-right">
+              <span className="hero-status-chip">
+                <span className="chip-dot" />
+                <span>COMMISSIONS OPEN Q1/Q2</span>
+              </span>
+            </div>
+          </div>
+
+          <div className="hairline-divider reveal-divider" />
+
+          {/* Director Tagline Bar */}
           <div className="hero-director-row reveal-item">
             <div className="hero-badge-tag">
               <span className="hero-tag-text">DIRECTORIAL POST-PRODUCTION & MOTION</span>
             </div>
-            <div className="hero-director-meta">
-              <div className="hero-location-clock">
-                <span className="live-status-dot" />
-                <span className="meta-accent-text">MUMBAI [IST] // <TimezoneClock /></span>
-              </div>
-              <div className="hero-status-chip">
-                <span className="chip-dot" />
-                <span>COMMISSIONS OPEN Q1/Q2</span>
-              </div>
+            <div className="hero-tag-accent">
+              <span className="live-status-dot" />
+              <span className="meta-accent-text">FRAME ECONOMY // PSYCHOACOUSTIC SOUND</span>
             </div>
           </div>
 
-          {/* Monumental Cascading Title */}
+          {/* Monumental Architectural Headline */}
           <div className="hero-monumental-wrap reveal-item">
             <h1 className="hero-monumental-title">
               ranjeetmishra<br />
@@ -767,7 +780,9 @@ export default function App() {
             </div>
           </div>
 
-          {/* Hero Proof Deck & Action Links */}
+          <div className="hairline-divider reveal-divider" />
+
+          {/* Hero Proof Deck & Dual Action Links */}
           <div className="hero-proof-deck reveal-item">
             <div className="hero-stats-trio">
               <div className="hero-stat-card">
@@ -789,42 +804,21 @@ export default function App() {
             <div className="hero-actions-cluster">
               <a
                 href="#work"
-                className="hero-text-cta"
+                className="hero-text-link"
                 onClick={(e) => scrollToSection(e, "#work")}
               >
                 <span>Explore Work</span>
-                <span className="cta-arrow">↓</span>
+                <span className="link-arrow">↓</span>
               </a>
               <a
                 href="#contact"
-                className="hero-text-cta"
+                className="hero-text-link"
                 onClick={(e) => scrollToSection(e, "#contact")}
               >
                 <span>Start a Project</span>
-                <span className="cta-arrow">↗</span>
+                <span className="link-arrow">↗</span>
               </a>
             </div>
-          </div>
-
-          {/* Hero Bottom Architectural Cue */}
-          <div className="hero-bottom-cue reveal-item">
-            <span className="cue-spec-text">
-              [ 9:16 VERTICAL // 16:9 CINEMA // 4K PRORES 422HQ ]
-            </span>
-            <a
-              href="#work"
-              className="cue-scroll-indicator"
-              onClick={(e) => scrollToSection(e, "#work")}
-              aria-label="Scroll down to featured work"
-            >
-              <span className="cue-text">SCROLL TO VIEW CUTS</span>
-              <span className="cue-arrow-bounce">
-                <ArrowDown size={12} />
-              </span>
-            </a>
-            <span className="cue-vol-text">
-              PORTFOLIO 2026 // VOL. 04
-            </span>
           </div>
         </div>
 

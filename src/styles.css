@@ -756,7 +756,7 @@ img {
 .hero-actions-cluster {
   display: flex;
   align-items: center;
-  gap: 24px;
+  gap: 16px;
 }
 
 .hero-text-link {

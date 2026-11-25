@@ -818,19 +818,19 @@ export default function App() {
             <div className="hero-actions-cluster">
               <a
                 href="#work"
-                className="hero-text-link"
+                className="hero-glow-pill-btn"
                 onClick={(e) => scrollToSection(e, "#work")}
               >
                 <span>Explore Work</span>
-                <span className="link-arrow">↓</span>
+                <span className="btn-arrow">↗</span>
               </a>
               <a
                 href="#contact"
-                className="hero-text-link"
+                className="hero-outline-pill-btn"
                 onClick={(e) => scrollToSection(e, "#contact")}
               >
                 <span>Start a Project</span>
-                <span className="link-arrow">↗</span>
+                <span className="btn-arrow">↗</span>
               </a>
             </div>
           </div>

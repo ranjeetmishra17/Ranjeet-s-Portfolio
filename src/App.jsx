@@ -711,38 +711,6 @@ export default function App() {
           1. HERO SECTION (Exact 1:1 Match to Reference)
           ======================================================== */}
       <section id="hero" className="section-hero-stage reveal-section">
-        {/* Flowing Ambient Hairline Curve SVG (Mobile only) */}
-        <svg
-          className="hero-flowing-curve-svg show-mobile"
-          viewBox="0 0 390 844"
-          fill="none"
-          preserveAspectRatio="none"
-          aria-hidden="true"
-        >
-          <defs>
-            <linearGradient id="heroCurveGrad" x1="420" y1="120" x2="-10" y2="680" gradientUnits="userSpaceOnUse">
-              <stop offset="0%" stopColor="#9bb857" stopOpacity="0.85" />
-              <stop offset="35%" stopColor="#9bb857" stopOpacity="0.4" />
-              <stop offset="70%" stopColor="#9bb857" stopOpacity="0.18" />
-              <stop offset="100%" stopColor="#9bb857" stopOpacity="0.05" />
-            </linearGradient>
-            <filter id="heroCurveGlow" x="-20%" y="-20%" width="140%" height="140%">
-              <feGaussianBlur stdDeviation="2.5" result="blur" />
-              <feMerge>
-                <feMergeNode in="blur" />
-                <feMergeNode in="SourceGraphic" />
-              </feMerge>
-            </filter>
-          </defs>
-          <path
-            d="M -10 680 C 180 660, 310 520, 345 360 C 370 240, 375 160, 420 120"
-            stroke="url(#heroCurveGrad)"
-            strokeWidth="1.2"
-            strokeLinecap="round"
-            filter="url(#heroCurveGlow)"
-          />
-        </svg>
-
         {/* ==================== DESKTOP HERO STAGE (Exact 1:1 match to media_1795617742201_6e486149.jpg) ==================== */}
         <div className="tdk-container hero-stage-inner hero-desktop-stage hide-mobile">
           {/* Top Metadata Row: 3 parts */}

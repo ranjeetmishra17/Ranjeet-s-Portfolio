@@ -974,65 +974,74 @@ export default function App() {
       </section>
 
       {/* ========================================================
-          3. ABOUT ME SECTION (Manifesto, Philosophy, Specs & Stack)
+          3. ABOUT ME SECTION (Minimal & Direct)
           ======================================================== */}
       <section id="about" className="section-tdk-about reveal-section">
         <div className="tdk-container">
           <div className="about-header-row reveal-item">
-            <span className="section-micro-tag">02 // THE PHILOSOPHY & DISCIPLINE</span>
-            <h2 className="heading-about-title">About Me</h2>
+            <span className="section-micro-tag">02 // ABOUT</span>
+            <h2 className="heading-about-title">The Craft</h2>
           </div>
 
-          {/* Gradient Wave Manifesto Headline */}
+          {/* Minimal Manifesto Statement */}
           <div className="manifesto-wrap reveal-item">
             <h3 className="heading-gradient-wave">
-              I cut stories that stop the scroll — frame by frame, sound to color.
+              Film rhythm. Frame economy. Psychoacoustic sound.
             </h3>
+            <p className="about-minimal-lead">
+              Independent post-production editor and motion designer based in Mumbai, engineering cuts for retention and emotional resonance.
+            </p>
           </div>
 
           <div className="hairline-divider reveal-divider" />
 
-          {/* Luxury Editorial Body & Tools Arsenal */}
-          <div className="about-editorial-wrap reveal-stagger-group">
-            <div className="about-narrative-block">
-              <span className="about-col-micro-label">THE CRAFT</span>
-              <p className="about-lead-text">
-                I’m an independent post-production editor and motion designer based in Mumbai, India. I combine rhythmic frame economy, psychoacoustic sound architecture, and organic DaVinci color grading to build films that captivate and convert.
-              </p>
-              <p className="about-body-text">
-                From high-retention short-form Reels and founder documentaries to multi-cam podcast workflows, I engineer every cut for retention. One creative vision. Relentless pacing. Stories that linger.
-              </p>
+          {/* 3 Minimal Disciplines Grid */}
+          <div className="about-disciplines-grid reveal-stagger-group">
+            <div className="discipline-card">
+              <span className="discipline-num">01</span>
+              <h4 className="discipline-title">Rhythmic Editing</h4>
+              <p className="discipline-desc">Beat-matched cuts, high-retention pacing, and frame-by-frame narrative momentum.</p>
             </div>
+            <div className="discipline-card">
+              <span className="discipline-num">02</span>
+              <h4 className="discipline-title">Motion & VFX</h4>
+              <p className="discipline-desc">Dynamic kinetic typography, clean 3D tracking, and bespoke cinematic title design.</p>
+            </div>
+            <div className="discipline-card">
+              <span className="discipline-num">03</span>
+              <h4 className="discipline-title">Sound & Color</h4>
+              <p className="discipline-desc">Psychoacoustic audio layering, impact SFX, and organic filmic DaVinci color grading.</p>
+            </div>
+          </div>
 
-            {/* Creative Software Stack */}
-            <div className="about-tools-block">
-              <span className="tools-heading-label">POST-PRODUCTION SUITE & ARSENAL</span>
-              <div className="tools-pills-wrap">
-                {TOOLS.map((tool, i) => (
-                  <span key={i} className="tool-pill-item">
-                    <span className="tool-pill-dot" />
-                    <span>{tool}</span>
-                  </span>
-                ))}
-              </div>
+          {/* Minimal Tools Row */}
+          <div className="about-tools-minimal reveal-item">
+            <span className="tools-minimal-label">SUITE</span>
+            <div className="tools-minimal-pills">
+              {TOOLS.map((tool, i) => (
+                <span key={i} className="tool-pill-item">
+                  <span className="tool-pill-dot" />
+                  <span>{tool}</span>
+                </span>
+              ))}
             </div>
           </div>
         </div>
       </section>
 
       {/* ========================================================
-          4. WORKING EXPERIENCE SECTION (Track Record & Background)
+          4. WORKING EXPERIENCE SECTION (Minimal Timeline)
           ======================================================== */}
       <section id="experience" className="section-tdk-experience reveal-section">
         <div className="tdk-container">
           <div className="experience-header reveal-item">
-            <span className="section-micro-tag">03 // BACKGROUND & TRACK RECORD</span>
-            <h2 className="heading-experience-title">Work Experience</h2>
+            <span className="section-micro-tag">03 // EXPERIENCE</span>
+            <h2 className="heading-experience-title">Track Record</h2>
           </div>
 
           <div className="experience-table reveal-stagger-group">
             {EXPERIENCE.map((item, idx) => (
-              <div key={idx} className="experience-row">
+              <div key={idx} className="experience-row experience-row-minimal">
                 <div className="exp-col-period">
                   <span className="exp-period-tag">{item.period}</span>
                   <span className="exp-status-chip">{item.type}</span>
@@ -1041,11 +1050,10 @@ export default function App() {
                 <div className="exp-col-role">
                   <h3 className="exp-role-title">{item.role}</h3>
                   <span className="exp-company-text">{item.company} • {item.location}</span>
-                  <p className="exp-desc-text">{item.desc}</p>
                 </div>
 
                 <div className="exp-col-metrics">
-                  <span className="exp-metric-label">Key Impact</span>
+                  <span className="exp-metric-label">Impact</span>
                   <span className="exp-metric-value">{item.impact}</span>
                 </div>
 

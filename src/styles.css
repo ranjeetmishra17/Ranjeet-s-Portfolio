@@ -2,28 +2,29 @@
    RANJEET MISHRA — BESPOKE MINIMAL EDITORIAL FILM PORTFOLIO
    Aesthetic: Radical Restraint, Monumental Typography, Cinematic Precision
    Palette: Noir & Quiet Luxury Olive
+   Typography: Playfair Display (Serif) & Inter (Sans-Serif)
    ========================================================================== */
 
-@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,400;1,600;1,700&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600;1,700&display=swap");
 
 :root {
   /* Quiet Luxury Palette (Olive & Noir) */
   --bg-noir: #070806;
-  --bg-surface: #0d100b;
+  --bg-surface: #0c0f0a;
   --bg-surface-hover: #12160f;
   --bg-card: #0f130c;
-  --bg-glass: rgba(13, 16, 11, 0.85);
+  --bg-glass: rgba(12, 16, 10, 0.88);
 
   /* Olive & Antique Champagne Accents */
   --olive-primary: #9bb857;
   --olive-champagne: #d2e49c;
   --olive-light: #eaf2cb;
-  --olive-halo: rgba(155, 184, 87, 0.14);
-  --olive-halo-strong: rgba(155, 184, 87, 0.28);
+  --olive-halo: rgba(155, 184, 87, 0.16);
+  --olive-halo-strong: rgba(155, 184, 87, 0.32);
 
   /* Hairlines & Dividers */
-  --border-subtle: rgba(210, 228, 156, 0.14);
-  --border-focus: rgba(210, 228, 156, 0.38);
+  --border-subtle: rgba(155, 184, 87, 0.14);
+  --border-focus: rgba(155, 184, 87, 0.4);
 
   /* High-Contrast Luxury Typography */
   --text-ivory: #fcfdf9;
@@ -31,10 +32,10 @@
   --text-sand: #9ea594;
   --text-dust: #636b5c;
 
-  /* Typography Stacks */
-  --font-display: "Cormorant Garamond", Georgia, serif;
-  --font-serif: "Instrument Serif", Georgia, serif;
-  --font-body: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
+  /* Typography Stacks (Playfair Display & Inter) */
+  --font-display: "Playfair Display", Georgia, serif;
+  --font-serif: "Playfair Display", Georgia, serif;
+  --font-body: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-mono: "JetBrains Mono", monospace;
 
   /* Smooth Easing */
@@ -1168,6 +1169,83 @@ img {
   align-items: flex-start;
 }
 
+.about-minimal-lead {
+  font-family: var(--font-body);
+  font-size: clamp(1rem, 1.35vw, 1.15rem);
+  line-height: 1.6;
+  color: var(--text-sand);
+  max-width: 680px;
+  margin-top: 14px;
+}
+
+.about-disciplines-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  padding: 36px 0 32px;
+}
+
+.discipline-card {
+  padding: 24px;
+  border-radius: 12px;
+  background: rgba(14, 18, 12, 0.4);
+  border: 1px solid var(--border-subtle);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: all 0.25s var(--ease-spring);
+}
+
+.discipline-card:hover {
+  border-color: var(--border-focus);
+  background: rgba(14, 18, 12, 0.7);
+  transform: translateY(-2px);
+}
+
+.discipline-num {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--olive-primary);
+  letter-spacing: 0.1em;
+}
+
+.discipline-title {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--text-ivory);
+}
+
+.discipline-desc {
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  line-height: 1.55;
+  color: var(--text-sand);
+}
+
+.about-tools-minimal {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding-top: 12px;
+  flex-wrap: wrap;
+}
+
+.tools-minimal-label {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--text-dust);
+}
+
+.tools-minimal-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
 .about-narrative-block {
   display: flex;
   flex-direction: column;
@@ -1745,6 +1823,15 @@ img {
   gap: 40px;
   align-items: flex-start;
   padding: 34px 0;
+}
+
+.experience-row-minimal {
+  padding: 24px 0;
+  align-items: center;
+}
+
+.experience-row-minimal .exp-company-text {
+  margin-bottom: 0;
 }
 
 .exp-row-line {
@@ -2615,6 +2702,37 @@ img {
     grid-template-columns: 1fr;
     gap: 24px;
     padding-top: 12px;
+  }
+
+  .about-minimal-lead {
+    font-size: 0.95rem;
+    line-height: 1.55;
+    margin-top: 10px;
+    color: var(--text-sand);
+  }
+
+  .about-disciplines-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    padding: 20px 0 16px;
+  }
+
+  .discipline-card {
+    padding: 18px 16px;
+    border-radius: 12px;
+  }
+
+  .discipline-title {
+    font-size: 1.15rem;
+  }
+
+  .discipline-desc {
+    font-size: 0.84rem;
+  }
+
+  .about-tools-minimal {
+    gap: 10px;
+    padding-top: 8px;
   }
 
   .about-lead-text {

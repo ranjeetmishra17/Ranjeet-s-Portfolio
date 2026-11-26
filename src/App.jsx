@@ -714,20 +714,20 @@ export default function App() {
         {/* Flowing Ambient Hairline Curve SVG (Mobile only) */}
         <svg
           className="hero-flowing-curve-svg show-mobile"
-          viewBox="0 0 1440 900"
+          viewBox="0 0 390 844"
           fill="none"
           preserveAspectRatio="none"
           aria-hidden="true"
         >
           <defs>
-            <linearGradient id="heroCurveGrad" x1="1240" y1="50" x2="50" y2="720" gradientUnits="userSpaceOnUse">
-              <stop offset="0%" stopColor="#9bb857" stopOpacity="0.75" />
-              <stop offset="35%" stopColor="#9bb857" stopOpacity="0.35" />
+            <linearGradient id="heroCurveGrad" x1="420" y1="120" x2="-10" y2="680" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stopColor="#9bb857" stopOpacity="0.85" />
+              <stop offset="35%" stopColor="#9bb857" stopOpacity="0.4" />
               <stop offset="70%" stopColor="#9bb857" stopOpacity="0.18" />
-              <stop offset="100%" stopColor="#9bb857" stopOpacity="0.04" />
+              <stop offset="100%" stopColor="#9bb857" stopOpacity="0.05" />
             </linearGradient>
             <filter id="heroCurveGlow" x="-20%" y="-20%" width="140%" height="140%">
-              <feGaussianBlur stdDeviation="2" result="blur" />
+              <feGaussianBlur stdDeviation="2.5" result="blur" />
               <feMerge>
                 <feMergeNode in="blur" />
                 <feMergeNode in="SourceGraphic" />
@@ -735,7 +735,7 @@ export default function App() {
             </filter>
           </defs>
           <path
-            d="M 1250 50 C 1420 160 1410 380 1150 510 C 860 630 450 660 40 700"
+            d="M -10 680 C 180 660, 310 520, 345 360 C 370 240, 375 160, 420 120"
             stroke="url(#heroCurveGrad)"
             strokeWidth="1.2"
             strokeLinecap="round"
@@ -866,7 +866,9 @@ export default function App() {
           <div className="hero-quote-block reveal-item">
             <StarIcon />
             <p className="hero-quote-text">
-              I craft film rhythm and visual retention that turn heads — stronger, sharper, unforgettable.
+              I craft film rhythm and visual retention<br />
+              that turn heads — stronger, sharper,<br />
+              unforgettable.
             </p>
           </div>
 

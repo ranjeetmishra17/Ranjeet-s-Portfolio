@@ -2236,18 +2236,20 @@ img {
      ======================================================== */
   .section-hero-stage {
     min-height: 100dvh;
-    padding-top: 84px;
-    padding-bottom: 16px;
+    max-height: 100dvh;
+    padding-top: 76px;
+    padding-bottom: 12px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     position: relative;
     overflow: hidden;
     box-sizing: border-box;
-    background: radial-gradient(circle at 5% 18%, rgba(155, 184, 87, 0.16) 0%, transparent 45%),
-                radial-gradient(circle at 95% 12%, rgba(155, 184, 87, 0.20) 0%, transparent 50%),
-                radial-gradient(circle at 50% 92%, rgba(155, 184, 87, 0.14) 0%, transparent 55%),
-                #060805;
+    background: radial-gradient(circle at -5% 5%, rgba(155, 184, 87, 0.32) 0%, transparent 45%),
+                radial-gradient(circle at 105% 5%, rgba(155, 184, 87, 0.36) 0%, transparent 48%),
+                radial-gradient(circle at -5% 95%, rgba(155, 184, 87, 0.28) 0%, transparent 48%),
+                radial-gradient(circle at 105% 95%, rgba(155, 184, 87, 0.28) 0%, transparent 48%),
+                #050804;
   }
 
   .hero-flowing-curve-svg {
@@ -2257,7 +2259,7 @@ img {
     height: 100%;
     pointer-events: none;
     z-index: 1;
-    opacity: 0.9;
+    opacity: 0.95;
     overflow: hidden;
   }
 
@@ -2268,8 +2270,8 @@ img {
     flex-direction: column;
     justify-content: space-between;
     height: 100%;
-    min-height: calc(100dvh - 100px);
-    gap: 8px;
+    min-height: calc(100dvh - 92px);
+    gap: 6px;
     width: 100%;
     box-sizing: border-box;
   }
@@ -2279,8 +2281,8 @@ img {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: 10px;
-    margin-top: 4px;
+    gap: 8px;
+    margin-top: 2px;
     width: 100%;
   }
 
@@ -2339,7 +2341,7 @@ img {
     align-items: center;
     gap: 12px;
     width: 100%;
-    margin: 4px 0 2px;
+    margin: 3px 0;
   }
 
   .hero-category-tag {
@@ -2363,28 +2365,30 @@ img {
     display: flex;
     flex-direction: column;
     width: 100%;
-    margin: 4px 0 2px;
+    margin: 2px 0;
   }
 
   .hero-title-line {
-    font-family: var(--font-display);
-    font-size: clamp(1.85rem, 8.4vw, 2.75rem);
+    font-family: 'Playfair Display', Georgia, serif;
     font-weight: 700;
-    line-height: 0.94;
-    letter-spacing: -0.03em;
+    letter-spacing: -0.04em;
     word-break: normal;
     white-space: nowrap;
   }
 
   .hero-title-line.title-first {
+    font-size: clamp(2.35rem, 10.2vw, 2.75rem);
+    line-height: 0.95;
     color: #ffffff;
     text-align: left;
   }
 
   .hero-title-line.title-second {
+    font-size: clamp(2.95rem, 13.2vw, 3.6rem);
+    line-height: 0.92;
     color: var(--olive-primary);
     text-align: right;
-    padding-right: 24px;
+    padding-right: 8px;
   }
 
   /* Director Quote with Diamond Star */
@@ -2394,30 +2398,30 @@ img {
     justify-content: flex-start;
     gap: 14px;
     width: 100%;
-    margin: 4px 0 8px;
+    margin: 3px 0 6px;
   }
 
   .hero-quote-block .star-icon {
-    width: 28px;
-    height: 28px;
+    width: 26px;
+    height: 26px;
     flex-shrink: 0;
     margin-top: 2px;
     color: var(--olive-champagne);
   }
 
   .hero-quote-block .star-icon svg {
-    width: 28px;
-    height: 28px;
+    width: 26px;
+    height: 26px;
   }
 
   .hero-quote-text {
     font-family: var(--font-body);
-    font-size: 0.84rem;
-    line-height: 1.5;
-    color: #cfd4c8;
+    font-size: 0.83rem;
+    line-height: 1.48;
+    color: #d2d8c9;
     font-weight: 500;
     text-align: left;
-    max-width: 290px;
+    max-width: 310px;
   }
 
   /* Stacked Compact Pill Buttons */
@@ -2428,42 +2432,42 @@ img {
     justify-content: flex-start;
     gap: 10px;
     width: 100%;
-    margin: 6px 0 8px;
+    margin: 4px 0 6px;
   }
 
   .hero-glow-pill-btn {
-    width: 195px;
+    width: 216px;
     box-sizing: border-box;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 20px;
+    padding: 11px 22px;
     border-radius: 9999px;
     background: #060905;
     border: 1.5px solid #9bb857;
     color: #ffffff;
     font-family: var(--font-body);
-    font-size: 0.82rem;
+    font-size: 0.84rem;
     font-weight: 600;
-    box-shadow: 0 0 18px rgba(155, 184, 87, 0.42), 0 0 34px rgba(155, 184, 87, 0.15);
+    box-shadow: 0 0 20px rgba(155, 184, 87, 0.42), 0 0 36px rgba(155, 184, 87, 0.16);
     text-decoration: none;
     cursor: pointer;
     transition: all 0.25s ease;
   }
 
   .hero-outline-pill-btn {
-    width: 195px;
+    width: 216px;
     box-sizing: border-box;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 20px;
+    padding: 11px 22px;
     border-radius: 9999px;
     background: #060905;
-    border: 1px solid rgba(155, 184, 87, 0.4);
+    border: 1px solid rgba(155, 184, 87, 0.45);
     color: #ffffff;
     font-family: var(--font-body);
-    font-size: 0.82rem;
+    font-size: 0.84rem;
     font-weight: 600;
     text-decoration: none;
     cursor: pointer;
@@ -2483,10 +2487,10 @@ img {
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    padding: 12px 0 10px;
-    margin: 6px 0 2px;
+    padding: 14px 4px 12px;
+    margin: 4px 0 2px;
     border-top: 1px solid rgba(155, 184, 87, 0.22);
-    border-bottom: none;
+    border-bottom: 1px solid rgba(155, 184, 87, 0.22);
     box-sizing: border-box;
   }
 
@@ -2499,10 +2503,14 @@ img {
     min-width: 0;
   }
 
+  .hero-metric-item:last-child {
+    text-align: right;
+  }
+
   .hero-metric-item .metric-num {
-    font-family: var(--font-display);
-    font-size: 1.35rem;
-    font-weight: 800;
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.85rem;
+    font-weight: 700;
     color: var(--olive-champagne);
     letter-spacing: -0.02em;
     line-height: 1;
@@ -2510,10 +2518,10 @@ img {
 
   .hero-metric-item .metric-lbl {
     font-family: var(--font-mono);
-    font-size: 0.50rem;
+    font-size: 0.48rem;
     font-weight: 700;
-    letter-spacing: 0.02em;
-    color: #727a69;
+    letter-spacing: 0.025em;
+    color: #76806e;
     text-transform: uppercase;
     line-height: 1.25;
     white-space: nowrap;
@@ -2521,7 +2529,7 @@ img {
 
   .metric-v-divider {
     width: 1px;
-    height: 30px;
+    height: 32px;
     background: rgba(155, 184, 87, 0.22);
     margin: 0 4px;
     flex-shrink: 0;
@@ -2533,29 +2541,26 @@ img {
     flex-direction: column;
     align-items: center;
     width: 100%;
-    padding-top: 2px;
+    padding-top: 4px;
     position: relative;
     box-sizing: border-box;
   }
 
   .hero-bottom-h-divider {
-    width: 100%;
-    height: 1px;
-    background: rgba(155, 184, 87, 0.2);
-    margin-bottom: 8px;
+    display: none;
   }
 
   .hero-capsule-scroll-cue {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 6px;
+    gap: 5px;
     text-decoration: none;
   }
 
   .capsule-mouse-icon {
-    width: 18px;
-    height: 28px;
+    width: 17px;
+    height: 26px;
     border-radius: 9px;
     border: 1.5px solid var(--olive-primary);
     display: flex;
@@ -2575,18 +2580,18 @@ img {
 
   .capsule-scroll-text {
     font-family: var(--font-mono);
-    font-size: 0.58rem;
+    font-size: 0.56rem;
     font-weight: 700;
     letter-spacing: 0.14em;
-    color: #727a69;
+    color: #68725d;
     text-transform: uppercase;
   }
 
   .hero-bottom-v-stem {
     width: 1px;
-    height: 26px;
-    background: linear-gradient(180deg, rgba(155, 184, 87, 0.45) 0%, transparent 100%);
-    margin-top: 6px;
+    height: 28px;
+    background: linear-gradient(180deg, rgba(155, 184, 87, 0.35) 0%, rgba(155, 184, 87, 0.02) 100%);
+    margin-top: 4px;
   }
 
   /* ========================================================
@@ -3042,10 +3047,6 @@ img {
 
   .nav-brand-text {
     font-size: 0.78rem;
-  }
-
-  .hero-title-line {
-    font-size: clamp(1.75rem, 8.2vw, 2.3rem);
   }
 
   .heading-extreme-work {

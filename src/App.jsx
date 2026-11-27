@@ -11,7 +11,7 @@ import {
 } from "./data.js";
 
 /* ---------- SVG Icons ---------- */
-const PlayIcon = ({ size = 20 }) => (
+const PlayIcon = ({ size = 18 }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
     <path d="M8 5.14v13.72a1 1 0 001.52.85l11-6.86a1 1 0 000-1.7l-11-6.86A1 1 0 008 5.14z" />
   </svg>
@@ -41,225 +41,224 @@ const ArrowUpRight = ({ size = 14 }) => (
 );
 
 const ArrowRight = ({ size = 15 }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
     <line x1="5" y1="12" x2="19" y2="12" />
     <polyline points="12 5 19 12 12 19" />
   </svg>
 );
 
 const ArrowLeft = ({ size = 15 }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
     <line x1="19" y1="12" x2="5" y2="12" />
     <polyline points="12 19 5 12 12 5" />
   </svg>
 );
 
-const CheckIcon = ({ size = 13 }) => (
+const CheckIcon = ({ size = 14 }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
     <polyline points="20 6 9 17 4 12" />
   </svg>
 );
 
-const CopyIcon = ({ size = 13 }) => (
+const CopyIcon = ({ size = 14 }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
     <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
     <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
   </svg>
 );
 
-/* ---------- Audio Equalizer Visualizer Component ---------- */
-function AudioWaveVisualizer({ active = true }) {
+/* ---------- Magnetic Studio Cursor ---------- */
+function MagneticStudioCursor() {
+  const cursorDotRef = useRef(null);
+  const cursorRingRef = useRef(null);
+  const [cursorText, setCursorText] = useState("");
+  const [isHovered, setIsHovered] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    let mouseX = window.innerWidth / 2;
+    let mouseY = window.innerHeight / 2;
+    let ringX = mouseX;
+    let ringY = mouseY;
+    let rafId;
+
+    const handleMouseMove = (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      setIsVisible(true);
+
+      if (cursorDotRef.current) {
+        cursorDotRef.current.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0)`;
+      }
+    };
+
+    const handleMouseLeave = () => setIsVisible(false);
+
+    const render = () => {
+      ringX += (mouseX - ringX) * 0.18;
+      ringY += (mouseY - ringY) * 0.18;
+
+      if (cursorRingRef.current) {
+        cursorRingRef.current.style.transform = `translate3d(${ringX}px, ${ringY}px, 0)`;
+      }
+      rafId = requestAnimationFrame(render);
+    };
+
+    window.addEventListener("mousemove", handleMouseMove, { passive: true });
+    document.addEventListener("mouseleave", handleMouseLeave);
+    rafId = requestAnimationFrame(render);
+
+    const handleMouseOver = (e) => {
+      const target = e.target.closest("[data-cursor]");
+      if (target) {
+        setCursorText(target.getAttribute("data-cursor") || "");
+        setIsHovered(true);
+      } else {
+        setCursorText("");
+        setIsHovered(false);
+      }
+    };
+
+    document.addEventListener("mouseover", handleMouseOver);
+
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      document.removeEventListener("mouseleave", handleMouseLeave);
+      document.removeEventListener("mouseover", handleMouseOver);
+      cancelAnimationFrame(rafId);
+    };
+  }, []);
+
   return (
-    <div className={`audio-wave-bars ${active ? "is-active" : ""}`} aria-hidden="true">
-      <span className="wave-bar bar-1" />
-      <span className="wave-bar bar-2" />
-      <span className="wave-bar bar-3" />
-      <span className="wave-bar bar-4" />
-      <span className="wave-bar bar-5" />
-      <span className="wave-bar bar-6" />
-      <span className="wave-bar bar-7" />
-      <span className="wave-bar bar-8" />
+    <div className={`magnetic-cursor ${isVisible ? "is-visible" : ""} ${isHovered ? "is-hovered" : ""}`} aria-hidden="true">
+      <div ref={cursorDotRef} className="cursor-dot" />
+      <div ref={cursorRingRef} className="cursor-ring">
+        {cursorText && <span className="cursor-text">{cursorText}</span>}
+      </div>
     </div>
   );
 }
 
 /* ---------- Live Timezone Clock (Mumbai IST) ---------- */
-function TimezoneClock() {
+function MumbaiClock() {
   const [timeStr, setTimeStr] = useState("");
 
   useEffect(() => {
     const updateTime = () => {
       const now = new Date();
-      const options = {
-        timeZone: "Asia/Kolkata",
-        hour: "2-digit",
-        minute: "2-digit",
-        second: "2-digit",
-        hour12: false,
-      };
-      setTimeStr(now.toLocaleTimeString("en-GB", options));
+      setTimeStr(
+        now.toLocaleTimeString("en-GB", {
+          timeZone: "Asia/Kolkata",
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+          hour12: false,
+        })
+      );
     };
-
     updateTime();
     const interval = setInterval(updateTime, 1000);
     return () => clearInterval(interval);
   }, []);
 
-  return <span className="timezone-live-clock">{timeStr || "17:00:00"}</span>;
+  return <span>{timeStr || "18:00:00"} IST</span>;
 }
 
-/* ---------- Velocity Infinite Marquee ---------- */
-function VelocityMarquee() {
-  return (
-    <div className="marquee-advanced" aria-hidden="true">
-      <div className="marquee-advanced__track">
-        <div className="marquee-advanced__item">
-          <span>DIRECTORIAL POST-PRODUCTION</span>
-          <span className="marquee-star">✦</span>
-          <span>15M+ VIEWS MASTERED</span>
-          <span className="marquee-star">✦</span>
-          <span>KINETIC MOTION DESIGN</span>
-          <span className="marquee-star">✦</span>
-          <span>PSYCHOACOUSTIC SOUND DESIGN</span>
-          <span className="marquee-star">✦</span>
-          <span>DAVINCI 35MM COLOR GRADE</span>
-          <span className="marquee-star">✦</span>
-          <span>MUMBAI [IST]</span>
-          <span className="marquee-star">✦</span>
-        </div>
-        <div className="marquee-advanced__item">
-          <span>DIRECTORIAL POST-PRODUCTION</span>
-          <span className="marquee-star">✦</span>
-          <span>15M+ VIEWS MASTERED</span>
-          <span className="marquee-star">✦</span>
-          <span>KINETIC MOTION DESIGN</span>
-          <span className="marquee-star">✦</span>
-          <span>PSYCHOACOUSTIC SOUND DESIGN</span>
-          <span className="marquee-star">✦</span>
-          <span>DAVINCI 35MM COLOR GRADE</span>
-          <span className="marquee-star">✦</span>
-          <span>MUMBAI [IST]</span>
-          <span className="marquee-star">✦</span>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-/* ---------- Project Card Component ---------- */
+/* ---------- Project Video Card ---------- */
 function ProjectCard({ project, index, onOpenTheater }) {
-  const [isPlaying, setIsPlaying] = useState(false);
+  const [isPlayingInline, setIsPlayingInline] = useState(false);
   const padNum = String(index + 1).padStart(2, "0");
 
-  const startPlayback = (e) => {
+  const handlePlayInline = (e) => {
     e.stopPropagation();
-    setIsPlaying(true);
+    setIsPlayingInline(true);
   };
 
-  const stopPlayback = (e) => {
+  const handleStopInline = (e) => {
     e.stopPropagation();
-    setIsPlaying(false);
+    setIsPlayingInline(false);
   };
 
   return (
-    <div className={`project-card-box shape-${project.shape} ${isPlaying ? "is-playing" : ""}`}>
-      <div className="card-stage-container">
-        {isPlaying ? (
-          <div className="card-iframe-wrapper">
+    <article
+      className={`work-card aspect-${project.shape} ${isPlayingInline ? "is-playing" : ""}`}
+      data-cursor={isPlayingInline ? "" : "PLAY"}
+    >
+      <div className="card-media-wrapper">
+        {isPlayingInline ? (
+          <div className="card-inline-player">
             <iframe
               src={`https://player.vimeo.com/video/${project.vimeoId}?autoplay=1&muted=0&loop=1&playsinline=1&title=0&byline=0&portrait=0`}
-              className="card-vimeo-embed"
+              className="vimeo-inline-iframe"
               allow="autoplay; fullscreen; picture-in-picture; encrypted-media"
               allowFullScreen
               referrerPolicy="strict-origin-when-cross-origin"
               title={project.title}
             />
-            <div className="card-hud-overlay">
-              <span className="hud-badge-tag">CUT #{padNum}</span>
-              <button
-                type="button"
-                className="hud-close-action"
-                onClick={stopPlayback}
-                title="Close video"
-                aria-label="Close video"
-              >
-                <CloseIcon size={14} />
-              </button>
-            </div>
+            <button
+              type="button"
+              className="card-stop-inline-btn"
+              onClick={handleStopInline}
+              aria-label="Stop video"
+              data-cursor="CLOSE"
+            >
+              <CloseIcon size={14} />
+              <span>Close</span>
+            </button>
           </div>
         ) : (
-          <div
-            className="card-poster-interactive"
-            onClick={startPlayback}
-            title="Click to play in-card"
-          >
+          <>
             <img
               src={project.image}
-              alt={`Poster for ${project.title}`}
-              className="card-poster-visual"
+              alt={project.title}
+              className="card-poster"
               loading="lazy"
+              decoding="async"
             />
-
-            {/* Viewfinder Target Brackets */}
-            <div className="card-viewfinder-grid" aria-hidden="true">
-              <span className="vf-corner vf-top-left" />
-              <span className="vf-corner vf-top-right" />
-              <span className="vf-corner vf-bottom-left" />
-              <span className="vf-corner vf-bottom-right" />
-            </div>
-
-            <div className="card-ambient-scrim" />
-
-            {/* Top Slates */}
-            <div className="card-header-slates">
-              <span className="card-slate-num">#{padNum}</span>
-              <span className="card-slate-cat">{project.category}</span>
-            </div>
-
-            {/* Center Play Disc */}
-            <div className="card-action-center">
-              <div className="play-disc-glyph">
-                <PlayIcon size={24} />
+            <div className="card-overlay" onClick={handlePlayInline}>
+              <div className="card-play-pill">
+                <PlayIcon size={16} />
+                <span>Play Cut</span>
               </div>
-              <span className="play-disc-caption">PLAY CUT</span>
             </div>
-
-            {/* Bottom Slates */}
-            <div className="card-footer-slates">
-              <span className="card-tag-pill">{project.aspect}</span>
-              <span className="card-tag-pill">{project.duration}</span>
-            </div>
-          </div>
+          </>
         )}
-      </div>
 
-      {/* Card Detail Bar */}
-      <div className="card-info-strip">
-        <div className="card-meta-text">
-          <h3 className="card-work-title">{project.title}</h3>
-          <p className="card-work-sub">
-            <span>{project.client}</span>
-            <span className="sub-separator">•</span>
-            <span className="grade-highlight">{project.grade}</span>
-          </p>
+        <div className="card-top-badges">
+          <span className="badge-shape">{project.aspect}</span>
+          {project.metrics && <span className="badge-metric">{project.metrics}</span>}
         </div>
 
         <button
           type="button"
-          className="card-expand-theater-btn"
-          onClick={() => onOpenTheater(project)}
-          title="Open in Cinema Theater"
-          aria-label={`Open ${project.title} in cinema theater`}
+          className="card-expand-btn"
+          onClick={(e) => {
+            e.stopPropagation();
+            onOpenTheater(project);
+          }}
+          aria-label={`Open ${project.title} in Cinema Theater`}
+          title="Fullscreen Theater"
+          data-cursor="EXPAND"
         >
-          <span>THEATER</span>
-          <ExpandIcon size={13} />
+          <ExpandIcon size={15} />
         </button>
       </div>
-    </div>
+
+      <div className="card-caption">
+        <div className="caption-meta">
+          <span className="caption-num">#{padNum}</span>
+          <span className="caption-category">{project.category}</span>
+        </div>
+        <h3 className="caption-title" onClick={() => onOpenTheater(project)}>
+          {project.title}
+        </h3>
+        <p className="caption-desc">{project.description}</p>
+      </div>
+    </article>
   );
 }
 
-/* ---------- Fullscreen Cinema Theater Modal ---------- */
+/* ---------- Cinema Theater Modal ---------- */
 function CinemaTheaterModal({ project, allProjects, onClose, onNavigate }) {
   const currentIndex = allProjects.findIndex((p) => p.id === project.id);
   const prevProject = allProjects[(currentIndex - 1 + allProjects.length) % allProjects.length];
@@ -272,10 +271,8 @@ function CinemaTheaterModal({ project, allProjects, onClose, onNavigate }) {
       if (e.key === "ArrowLeft") onNavigate(prevProject);
       if (e.key === "ArrowRight") onNavigate(nextProject);
     };
-
     window.addEventListener("keydown", handleKeyDown);
     document.body.style.overflow = "hidden";
-
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
       document.body.style.overflow = "";
@@ -284,36 +281,36 @@ function CinemaTheaterModal({ project, allProjects, onClose, onNavigate }) {
 
   return (
     <div
-      className="cinema-theater-backdrop"
+      className="theater-overlay"
       onClick={onClose}
       role="dialog"
       aria-modal="true"
       aria-label="Cinema Theater Player"
+      data-cursor="CLOSE"
     >
-      <div className="cinema-theater-frame" onClick={(e) => e.stopPropagation()}>
-        {/* Header HUD */}
-        <div className="theater-top-hud">
-          <div className="theater-info-group">
-            <span className="theater-cut-tag">CUT #{padNum}</span>
-            <h2 className="theater-cut-title">{project.title}</h2>
-            <span className="theater-genre-tag">{project.category} // {project.aspect}</span>
+      <div className="theater-dialog" onClick={(e) => e.stopPropagation()} data-cursor="">
+        <div className="theater-topbar">
+          <div className="theater-title-info">
+            <span className="theater-index">CUT #{padNum}</span>
+            <h2 className="theater-title">{project.title}</h2>
+            <span className="theater-aspect-tag">{project.aspect} • {project.category}</span>
           </div>
 
           <button
             type="button"
-            className="theater-exit-btn"
+            className="theater-close-btn"
             onClick={onClose}
             aria-label="Close Theater"
+            data-cursor="CLOSE"
           >
             <CloseIcon size={18} />
           </button>
         </div>
 
-        {/* Video Box */}
-        <div className={`theater-video-stage shape-${project.shape}`}>
+        <div className={`theater-screen aspect-${project.shape}`}>
           <iframe
             src={`https://player.vimeo.com/video/${project.vimeoId}?autoplay=1&muted=0&loop=1&playsinline=1&title=0&byline=0&portrait=0`}
-            className="theater-vimeo-frame"
+            className="theater-iframe"
             allow="autoplay; fullscreen; picture-in-picture; encrypted-media"
             allowFullScreen
             referrerPolicy="strict-origin-when-cross-origin"
@@ -321,29 +318,28 @@ function CinemaTheaterModal({ project, allProjects, onClose, onNavigate }) {
           />
         </div>
 
-        {/* Footer Navigation */}
-        <div className="theater-bottom-hud">
-          <div className="theater-controls-group">
+        <div className="theater-bottombar">
+          <div className="theater-nav-controls">
             <button
               type="button"
-              className="theater-nav-trigger"
+              className="theater-nav-btn"
               onClick={() => onNavigate(prevProject)}
-              aria-label="Previous Cut"
+              data-cursor="PREV"
             >
-              <ArrowLeft size={15} />
-              <span>PREV CUT</span>
+              <ArrowLeft size={14} />
+              <span>Prev Cut</span>
             </button>
-            <span className="theater-counter-pill">
+            <span className="theater-pagination">
               {currentIndex + 1} / {allProjects.length}
             </span>
             <button
               type="button"
-              className="theater-nav-trigger"
+              className="theater-nav-btn"
               onClick={() => onNavigate(nextProject)}
-              aria-label="Next Cut"
+              data-cursor="NEXT"
             >
-              <span>NEXT CUT</span>
-              <ArrowRight size={15} />
+              <span>Next Cut</span>
+              <ArrowRight size={14} />
             </button>
           </div>
 
@@ -351,10 +347,11 @@ function CinemaTheaterModal({ project, allProjects, onClose, onNavigate }) {
             href={`https://vimeo.com/${project.vimeoId}`}
             target="_blank"
             rel="noreferrer"
-            className="theater-external-vimeo"
+            className="theater-vimeo-link"
+            data-cursor="OPEN"
           >
-            <span>Open on Vimeo</span>
-            <ArrowUpRight size={13} />
+            <span>Open in Vimeo</span>
+            <ArrowUpRight size={12} />
           </a>
         </div>
       </div>
@@ -363,7 +360,7 @@ function CinemaTheaterModal({ project, allProjects, onClose, onNavigate }) {
 }
 
 /* ========================================================
-   MAIN CINEMATIC ENGINE APPLICATION
+   MAIN APPLICATION COMPONENT
    ======================================================== */
 export default function App() {
   const [selectedCategory, setSelectedCategory] = useState("All");
@@ -372,13 +369,12 @@ export default function App() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const lenisRef = useRef(null);
 
-  // Initialize Smooth Momentum Scrolling
+  // Initialize Lenis Smooth Scroll
   useEffect(() => {
     const lenis = new Lenis({
-      duration: 1.15,
+      duration: 1.1,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       orientation: "vertical",
-      gestureOrientation: "vertical",
       smoothWheel: true,
       wheelMultiplier: 1.0,
       touchMultiplier: 1.2,
@@ -403,327 +399,220 @@ export default function App() {
     e.preventDefault();
     setMobileMenuOpen(false);
     if (lenisRef.current) {
-      lenisRef.current.scrollTo(targetId, { offset: -80, duration: 1.1 });
+      lenisRef.current.scrollTo(targetId, { offset: -70, duration: 1.1 });
     } else {
       const el = document.querySelector(targetId);
-      if (el) {
-        el.scrollIntoView({ behavior: "smooth" });
-      }
+      if (el) el.scrollIntoView({ behavior: "smooth" });
     }
   };
 
-  // Filtered projects
   const filteredProjects = useMemo(() => {
     if (selectedCategory === "All" || selectedCategory === "All Work") return PROJECTS;
     return PROJECTS.filter((p) => p.category === selectedCategory);
   }, [selectedCategory]);
 
-  // Copy email
-  const copyEmailToClipboard = () => {
+  const copyEmail = () => {
     navigator.clipboard.writeText(PROFILE.email);
     setCopiedEmail(true);
     setTimeout(() => setCopiedEmail(false), 2400);
   };
 
-  const featuredCut = PROJECTS[0];
-
   return (
-    <div className="engine-root-canvas">
-      {/* Cinematic Ambient Atmosphere */}
-      <div className="engine-atmosphere-glow" aria-hidden="true" />
+    <div className="portfolio-app">
+      {/* Magnetic Cursor */}
+      <MagneticStudioCursor />
+
+      {/* Atmospheric Background Ray & Gradients (matches the user's reference image) */}
+      <div className="ambient-background" aria-hidden="true">
+        <div className="ambient-gradient-1" />
+        <div className="ambient-gradient-2" />
+        <div className="ambient-light-ray" />
+      </div>
 
       {/* ========================================================
-          FLOATING GLASS HUD NAVBAR
+          NAVIGATION BAR
           ======================================================== */}
-      <header className="engine-navbar-hud">
-        <div className="engine-navbar-inner">
-          {/* Avatar & Brand identity */}
+      <header className="navbar-wrapper">
+        <div className="navbar-container">
           <a
             href="#hero"
-            className="engine-brand-anchor"
+            className="navbar-brand"
             onClick={(e) => scrollToSection(e, "#hero")}
+            data-cursor="HOME"
           >
-            <div className="engine-avatar-lens">
-              <img
-                src={PROFILE.avatar || "/avatar.png"}
-                alt={PROFILE.name}
-                className="engine-avatar-photo"
-              />
-              <span className="engine-status-beacon" />
-            </div>
-            <div className="engine-brand-label">
-              <span className="brand-title-main">RANJEET MISHRA</span>
-              <span className="brand-title-sub">POST & MOTION</span>
-            </div>
+            <span className="brand-text">ranjeetmishra</span>
+            <span className="brand-dot-ext">.work</span>
           </a>
 
-          {/* Center Availability Capsule */}
-          <div className="engine-commissions-badge hide-mobile">
-            <span className="rec-live-dot" />
-            <span className="commissions-text">REC • LIVE // COMMISSIONS OPEN Q1/Q2</span>
+          <div className="navbar-status hide-mobile">
+            <span className="status-dot-pulse" />
+            <span className="status-label">Available for Commissions • Mumbai</span>
           </div>
 
-          {/* Desktop Links */}
-          <nav className="engine-desktop-nav hide-mobile" aria-label="Main Navigation">
-            <a href="#work" className="engine-nav-link" onClick={(e) => scrollToSection(e, "#work")}>
-              WORK
+          <nav className="navbar-links hide-mobile">
+            <a href="#work" onClick={(e) => scrollToSection(e, "#work")} data-cursor="WORK">
+              Work
             </a>
-            <a href="#craft" className="engine-nav-link" onClick={(e) => scrollToSection(e, "#craft")}>
-              CRAFT
+            <a href="#process" onClick={(e) => scrollToSection(e, "#process")} data-cursor="PROCESS">
+              Process
             </a>
-            <a href="#experience" className="engine-nav-link" onClick={(e) => scrollToSection(e, "#experience")}>
-              EXPERIENCE
+            <a href="#about" onClick={(e) => scrollToSection(e, "#about")} data-cursor="ABOUT">
+              About
             </a>
-            <a href="#contact" className="engine-nav-btn-highlight" onClick={(e) => scrollToSection(e, "#contact")}>
-              <span>INQUIRE</span>
+            <a
+              href="#contact"
+              className="navbar-cta-pill"
+              onClick={(e) => scrollToSection(e, "#contact")}
+              data-cursor="CONTACT"
+            >
+              <span>Get in Touch</span>
               <ArrowUpRight size={13} />
             </a>
           </nav>
 
-          {/* Mobile Hamburger Toggle */}
           <button
             type="button"
-            className="engine-hamburger-action show-mobile"
+            className="navbar-hamburger show-mobile"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            aria-label="Toggle navigation menu"
-            aria-expanded={mobileMenuOpen}
+            aria-label="Toggle menu"
           >
-            {mobileMenuOpen ? (
-              <CloseIcon size={18} />
-            ) : (
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round">
-                <line x1="3" y1="7" x2="21" y2="7" />
-                <line x1="3" y1="12" x2="21" y2="12" />
-                <line x1="3" y1="17" x2="21" y2="17" />
-              </svg>
-            )}
+            {mobileMenuOpen ? <CloseIcon size={18} /> : <span>Menu</span>}
           </button>
         </div>
 
-        {/* Mobile Drawer */}
+        {/* Mobile Navigation Drawer */}
         {mobileMenuOpen && (
-          <div className="engine-mobile-drawer show-mobile" role="dialog" aria-label="Mobile Navigation">
-            <a
-              href="#work"
-              className="drawer-item-link"
-              onClick={(e) => scrollToSection(e, "#work")}
-            >
-              <span className="drawer-num">01</span>
-              <span>WORK</span>
+          <div className="mobile-drawer show-mobile">
+            <a href="#work" onClick={(e) => scrollToSection(e, "#work")}>
+              01 // Work
             </a>
-            <a
-              href="#craft"
-              className="drawer-item-link"
-              onClick={(e) => scrollToSection(e, "#craft")}
-            >
-              <span className="drawer-num">02</span>
-              <span>CRAFT</span>
+            <a href="#process" onClick={(e) => scrollToSection(e, "#process")}>
+              02 // Process
             </a>
-            <a
-              href="#experience"
-              className="drawer-item-link"
-              onClick={(e) => scrollToSection(e, "#experience")}
-            >
-              <span className="drawer-num">03</span>
-              <span>EXPERIENCE</span>
+            <a href="#about" onClick={(e) => scrollToSection(e, "#about")}>
+              03 // About
             </a>
-            <a
-              href="#contact"
-              className="drawer-item-link contact-highlight"
-              onClick={(e) => scrollToSection(e, "#contact")}
-            >
-              <span className="drawer-num">04</span>
-              <span>INQUIRE / BOOK</span>
-              <ArrowUpRight size={14} />
+            <a href="#contact" className="mobile-drawer-cta" onClick={(e) => scrollToSection(e, "#contact")}>
+              04 // Get in Touch →
             </a>
           </div>
         )}
       </header>
 
       {/* ========================================================
-          HERO STAGE: THE CINEMATIC ENGINE
+          HERO STAGE (INSPIRED BY THE USER'S IMAGE)
           ======================================================== */}
-      <section id="hero" className="engine-hero-section">
-        <div className="engine-container">
-          {/* Top HUD Telemetry */}
-          <div className="hero-telemetry-hud">
-            <div className="telemetry-item">
-              <span className="telemetry-dot" />
-              <span>MUMBAI, INDIA [IST] // <TimezoneClock /></span>
+      <section id="hero" className="hero-stage">
+        <div className="hero-content-container">
+          {/* Top Metadata Strip */}
+          <div className="hero-meta-strip">
+            <div className="hero-meta-item">
+              <span className="meta-indicator" />
+              <span>MUMBAI, INDIA // <MumbaiClock /></span>
             </div>
-            <div className="telemetry-item hide-mobile">
-              <span className="telemetry-label">DISCIPLINE:</span>
-              <span className="telemetry-value">RETENTION EDITING & MOTION</span>
+            <div className="hero-meta-item hide-mobile">
+              <span className="meta-dim">SPECIALTY:</span>
+              <span>RETENTION RHYTHM & 35MM CINEMA COLOR</span>
             </div>
-            <div className="telemetry-item">
-              <span className="telemetry-accent">15M+ VIEWS MASTERED</span>
-            </div>
-          </div>
-
-          {/* Main Hero Split Grid */}
-          <div className="hero-dual-stage-grid">
-            {/* Left Column: Monumental Identity & Mission */}
-            <div className="hero-identity-column">
-              <div className="hero-kicker-badge">
-                <span className="kicker-glyph">✦</span>
-                <span className="kicker-text">POST-PRODUCTION DIRECTOR</span>
-              </div>
-
-              <h1 className="hero-monumental-headline">
-                RANJEET <br />
-                <span className="headline-highlight">MISHRA</span>
-              </h1>
-
-              <p className="hero-mission-statement">
-                I engineer film rhythm, surgical retention pacing, and psychoacoustic sound architectures that stop the scroll — stronger, sharper, unforgettable.
-              </p>
-
-              {/* Action Buttons Cluster */}
-              <div className="hero-actions-cluster">
-                <a
-                  href="#work"
-                  className="btn-primary-glow"
-                  onClick={(e) => scrollToSection(e, "#work")}
-                >
-                  <PlayIcon size={16} />
-                  <span>EXPLORE WORK</span>
-                </a>
-                <a
-                  href="#contact"
-                  className="btn-secondary-outline"
-                  onClick={(e) => scrollToSection(e, "#contact")}
-                >
-                  <span>START A PROJECT</span>
-                  <ArrowUpRight size={14} />
-                </a>
-              </div>
-
-              {/* Live Audio Spectrum Visualizer */}
-              <div className="hero-audio-spec-bar">
-                <div className="spec-info">
-                  <span className="spec-dot" />
-                  <span className="spec-title">PSYCHOACOUSTIC SOUND ENGINE</span>
-                </div>
-                <AudioWaveVisualizer active={true} />
-              </div>
-            </div>
-
-            {/* Right Column: Hero Featured Cut Spotlight Card */}
-            <div className="hero-spotlight-column">
-              <div className="spotlight-card-frame">
-                <div className="spotlight-header-meta">
-                  <div className="spotlight-badge-group">
-                    <span className="badge-live-tag">FEATURED CUT</span>
-                    <span className="badge-tech-tag">4K 60FPS</span>
-                  </div>
-                  <span className="spotlight-aspect-tag">{featuredCut.aspect}</span>
-                </div>
-
-                {/* Spotlight Interactive Surface */}
-                <div
-                  className="spotlight-media-surface"
-                  onClick={() => setActiveTheaterProject(featuredCut)}
-                  title="Click to play in Cinema Theater"
-                >
-                  <img
-                    src={featuredCut.image}
-                    alt={featuredCut.title}
-                    className="spotlight-poster-img"
-                    loading="eager"
-                    decoding="async"
-                  />
-
-                  {/* Corner Viewfinder Brackets */}
-                  <div className="viewfinder-lens-brackets" aria-hidden="true">
-                    <span className="vf-cross tl" />
-                    <span className="vf-cross tr" />
-                    <span className="vf-cross bl" />
-                    <span className="vf-cross br" />
-                  </div>
-
-                  <div className="spotlight-media-scrim" />
-
-                  {/* Center Play Beacon */}
-                  <div className="spotlight-play-beacon">
-                    <div className="beacon-disc">
-                      <PlayIcon size={28} />
-                    </div>
-                    <span className="beacon-text">LAUNCH THEATER</span>
-                  </div>
-
-                  {/* Bottom Slate */}
-                  <div className="spotlight-bottom-slate">
-                    <div className="slate-titles">
-                      <h4 className="slate-work-name">{featuredCut.title}</h4>
-                      <p className="slate-sub">{featuredCut.client} • {featuredCut.grade}</p>
-                    </div>
-                    <span className="slate-duration">{featuredCut.duration}</span>
-                  </div>
-                </div>
-              </div>
+            <div className="hero-meta-item">
+              <span className="meta-highlight">15M+ VIEWS GENERATED</span>
             </div>
           </div>
 
-          {/* Performance Metrics Quad Strip */}
-          <div className="hero-metrics-quad-strip">
-            {PROFILE.stats.map((st, i) => (
-              <div key={i} className="metric-cell-card">
-                <span className="metric-number">{st.value}</span>
-                <span className="metric-label">{st.label}</span>
-              </div>
-            ))}
+          {/* Monumental Brand Typography */}
+          <div className="hero-title-block">
+            <h1 className="hero-brand-display">
+              <span className="hero-name-part">ranjeetmishra</span>
+              <span className="hero-ext-part">.work</span>
+            </h1>
+          </div>
+
+          {/* Minimalist Subtitle */}
+          <p className="hero-subheadline">
+            Film Editor & Post-Production Director. Engineering surgical retention pacing,
+            psychoacoustic audio, and cinema-grade finishes that command attention.
+          </p>
+
+          {/* Minimalist Performance Metric Pills */}
+          <div className="hero-metrics-row">
+            <div className="metric-pill">
+              <span className="metric-num">15M+</span>
+              <span className="metric-tag">Views Mastered</span>
+            </div>
+            <div className="metric-pill">
+              <span className="metric-num">150+</span>
+              <span className="metric-tag">Film Cuts</span>
+            </div>
+            <div className="metric-pill">
+              <span className="metric-num">48h</span>
+              <span className="metric-tag">First-Cut Turnaround</span>
+            </div>
+            <div className="metric-pill">
+              <span className="metric-num">100%</span>
+              <span className="metric-tag">Retention Focus</span>
+            </div>
+          </div>
+
+          {/* Action Row */}
+          <div className="hero-cta-cluster">
+            <a
+              href="#work"
+              className="btn-primary-olive"
+              onClick={(e) => scrollToSection(e, "#work")}
+              data-cursor="EXPLORE"
+            >
+              <PlayIcon size={15} />
+              <span>Explore Selected Work</span>
+            </a>
+
+            <button
+              type="button"
+              className="btn-secondary-glass"
+              onClick={copyEmail}
+              data-cursor="COPY"
+            >
+              {copiedEmail ? <CheckIcon size={14} /> : <CopyIcon size={14} />}
+              <span>{copiedEmail ? "Email Copied!" : "Copy Email"}</span>
+            </button>
           </div>
         </div>
       </section>
 
       {/* ========================================================
-          VELOCITY INFINITE MARQUEE
+          SELECTED WORK SECTION
           ======================================================== */}
-      <VelocityMarquee />
-
-      {/* ========================================================
-          SECTION 01: THE CINEMA VAULT (Selected Work)
-          ======================================================== */}
-      <section id="work" className="engine-section-block">
-        <div className="engine-container">
-          {/* Section Header */}
-          <div className="section-director-head">
-            <div className="head-title-stack">
-              <span className="head-micro-kicker">01 // THE CINEMA VAULT</span>
-              <h2 className="head-monumental-title">Selected Works</h2>
+      <section id="work" className="work-section">
+        <div className="work-container">
+          <div className="section-header-row">
+            <div className="section-title-group">
+              <span className="section-eyebrow">PORTFOLIO</span>
+              <h2 className="section-title">Selected Work</h2>
             </div>
-            <p className="head-paragraph-desc">
-              High-retention vertical reels, cinematic commercial spots, and multi-cam founder podcast series masterfully edited for engagement.
-            </p>
+
+            {/* Filter Pills */}
+            <div className="category-pills-row" role="tablist">
+              {CATEGORIES.map((cat) => (
+                <button
+                  key={cat}
+                  type="button"
+                  className={`category-pill ${selectedCategory === cat ? "is-active" : ""}`}
+                  onClick={() => setSelectedCategory(cat)}
+                  data-cursor="FILTER"
+                >
+                  {cat === "All" ? `All Work (${PROJECTS.length})` : cat}
+                </button>
+              ))}
+            </div>
           </div>
 
-          {/* Category Filter Pills */}
-          <div className="cinema-category-strip">
-            {["All", "Reels & Shorts", "Brand Films"].map((cat) => (
-              <button
-                key={cat}
-                type="button"
-                className={`category-pill-trigger ${selectedCategory === cat ? "is-selected" : ""}`}
-                onClick={() => setSelectedCategory(cat)}
-              >
-                <span>{cat}</span>
-                <span className="category-pill-counter">
-                  {cat === "All"
-                    ? PROJECTS.length
-                    : PROJECTS.filter((p) => p.category === cat).length}
-                </span>
-              </button>
-            ))}
-          </div>
-
-          {/* Project Gallery Grid */}
-          <div className="cinema-works-masonry">
+          {/* Work Cards Grid */}
+          <div className="work-grid">
             {filteredProjects.map((project, idx) => (
               <ProjectCard
                 key={project.id}
                 project={project}
                 index={idx}
-                onOpenTheater={(p) => setActiveTheaterProject(p)}
+                onOpenTheater={setActiveTheaterProject}
               />
             ))}
           </div>
@@ -731,85 +620,27 @@ export default function App() {
       </section>
 
       {/* ========================================================
-          SECTION 02: THE CRAFT (Methodology)
+          PROCESS / ANATOMY OF A CUT
           ======================================================== */}
-      <section id="craft" className="engine-section-block">
-        <div className="engine-container">
-          <div className="section-director-head">
-            <div className="head-title-stack">
-              <span className="head-micro-kicker">02 // ARCHITECTURE OF RETENTION</span>
-              <h2 className="head-monumental-title">The Craft</h2>
-            </div>
-            <p className="head-paragraph-desc">
-              Modern video editing is behavioral psychology. Every cut, riser, and sound layer is calculated to eliminate drop-off.
+      <section id="process" className="process-section">
+        <div className="process-container">
+          <div className="section-header-centered">
+            <span className="section-eyebrow">METHODOLOGY</span>
+            <h2 className="section-title">Anatomy of a Cut</h2>
+            <p className="section-subtitle">
+              Four surgical pillars behind every high-retention post-production edit.
             </p>
           </div>
 
-          {/* 4 Pillars Grid */}
-          <div className="craft-quad-grid">
-            {DISCIPLINES.map((d) => (
-              <div key={d.num} className="craft-pillar-card">
-                <div className="pillar-header-slate">
-                  <span className="pillar-number">{d.num}</span>
-                  <span className="pillar-tagline">{d.tagline}</span>
+          <div className="process-grid">
+            {DISCIPLINES.map((item) => (
+              <div key={item.num} className="process-card" data-cursor="INSPECT">
+                <div className="process-card-top">
+                  <span className="process-num">{item.num}</span>
+                  <span className="process-tagline">{item.tagline}</span>
                 </div>
-                <h3 className="pillar-headline">{d.title}</h3>
-                <p className="pillar-description">{d.desc}</p>
-                <div className="pillar-decor-line" />
-              </div>
-            ))}
-          </div>
-
-          {/* Suite & Tools Strip */}
-          <div className="post-suite-bar">
-            <div className="suite-bar-label">
-              <span className="suite-glow-dot" />
-              <span>POST-PRODUCTION SUITE:</span>
-            </div>
-            <div className="suite-tools-chips">
-              {TOOLS.map((t) => (
-                <span key={t} className="suite-chip">
-                  {t}
-                </span>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ========================================================
-          SECTION 03: EXPERIENCE (Track Record)
-          ======================================================== */}
-      <section id="experience" className="engine-section-block">
-        <div className="engine-container">
-          <div className="section-director-head">
-            <div className="head-title-stack">
-              <span className="head-micro-kicker">03 // PROVEN TRACK RECORD</span>
-              <h2 className="head-monumental-title">Experience</h2>
-            </div>
-            <p className="head-paragraph-desc">
-              Delivering high-velocity post-production for high-growth creators, funded startups, and creative production studios.
-            </p>
-          </div>
-
-          {/* Editorial Timeline Table */}
-          <div className="editorial-timeline-board">
-            {EXPERIENCE.map((exp, idx) => (
-              <div key={idx} className="timeline-entry-row">
-                <div className="timeline-period-col">
-                  <span className="period-chip">{exp.period}</span>
-                  <span className="studio-type-badge">{exp.type}</span>
-                </div>
-
-                <div className="timeline-role-col">
-                  <h3 className="role-main-title">{exp.role}</h3>
-                  <span className="company-main-name">{exp.company} // {exp.location}</span>
-                  <p className="role-summary-note">{exp.highlight}</p>
-                </div>
-
-                <div className="timeline-impact-col">
-                  <span className="impact-glow-badge">{exp.impact}</span>
-                </div>
+                <h3 className="process-title">{item.title}</h3>
+                <p className="process-desc">{item.desc}</p>
               </div>
             ))}
           </div>
@@ -817,93 +648,121 @@ export default function App() {
       </section>
 
       {/* ========================================================
-          SECTION 04: THE PORTAL (Contact / Inquiries)
+          ABOUT & TRACK RECORD
           ======================================================== */}
-      <section id="contact" className="engine-section-block contact-block">
-        <div className="engine-container">
-          <div className="contact-portal-card">
-            <div className="portal-kicker-tag">
-              <span className="portal-status-dot" />
-              <span>04 // COMMISSIONS & RETAINERS</span>
+      <section id="about" className="about-section">
+        <div className="about-container">
+          <div className="about-split-grid">
+            {/* Left Column: Bio & Toolkit */}
+            <div className="about-bio-column">
+              <span className="section-eyebrow">BACKGROUND</span>
+              <h2 className="section-title">Director's Eye. Surgical Frame Economy.</h2>
+              <p className="about-paragraph">
+                Based in Mumbai, I collaborate with venture-backed creators, creative agencies,
+                and ambitious brands globally to turn raw footage into cinematic, high-velocity assets.
+              </p>
+              <p className="about-paragraph">
+                Every project is treated like a theatrical release — calibrated for hook retention,
+                visceral sound immersion, and precision color fidelity.
+              </p>
+
+              <div className="toolkit-box">
+                <span className="toolkit-label">CORE TOOLKIT & PIPELINE:</span>
+                <div className="toolkit-tags">
+                  {TOOLS.map((tool) => (
+                    <span key={tool} className="tool-tag">
+                      {tool}
+                    </span>
+                  ))}
+                </div>
+              </div>
             </div>
 
-            <h2 className="portal-giant-title">
-              READY TO COMMAND <br />
-              <span className="title-accent-lime">ATTENTION?</span>
-            </h2>
+            {/* Right Column: Experience Timeline */}
+            <div className="about-experience-column">
+              <span className="section-eyebrow">TRACK RECORD</span>
+              <div className="experience-list">
+                {EXPERIENCE.map((exp, idx) => (
+                  <div key={idx} className="experience-item">
+                    <div className="exp-period-row">
+                      <span className="exp-period">{exp.period}</span>
+                      <span className="exp-impact-badge">{exp.impact}</span>
+                    </div>
+                    <h3 className="exp-role">{exp.role}</h3>
+                    <div className="exp-company">{exp.company} • {exp.location}</div>
+                    <p className="exp-highlight">{exp.highlight}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
-            <p className="portal-subtext">
-              Accepting select commercial commissions, viral vertical series, and long-term YouTube / podcast post-production retainers.
+      {/* ========================================================
+          CONTACT / FOOTER SECTION
+          ======================================================== */}
+      <footer id="contact" className="contact-footer">
+        <div className="contact-container">
+          <div className="contact-card">
+            <span className="contact-eyebrow">LET'S BUILD SOMETHING UNFORGETTABLE</span>
+
+            <div className="footer-brand-title">
+              <span className="footer-name">ranjeetmishra</span>
+              <span className="footer-ext">.work</span>
+            </div>
+
+            <p className="contact-desc">
+              Currently accepting select projects, brand films, and retained post-production pipelines.
             </p>
 
-            {/* Email Copy Capsule */}
-            <div className="portal-email-capsule">
-              <span className="capsule-email-text">{PROFILE.email}</span>
+            <div className="contact-actions">
+              <a
+                href={`mailto:${PROFILE.email}`}
+                className="btn-primary-olive large"
+                data-cursor="EMAIL"
+              >
+                <span>{PROFILE.email}</span>
+                <ArrowUpRight size={16} />
+              </a>
+
               <button
                 type="button"
-                className={`capsule-copy-action ${copiedEmail ? "is-copied" : ""}`}
-                onClick={copyEmailToClipboard}
-                title="Copy email to clipboard"
+                className="btn-secondary-glass large"
+                onClick={copyEmail}
+                data-cursor="COPY"
               >
-                {copiedEmail ? (
-                  <>
-                    <CheckIcon size={14} />
-                    <span>COPIED TO CLIPBOARD!</span>
-                  </>
-                ) : (
-                  <>
-                    <CopyIcon size={14} />
-                    <span>COPY EMAIL</span>
-                  </>
-                )}
+                {copiedEmail ? <CheckIcon size={16} /> : <CopyIcon size={16} />}
+                <span>{copiedEmail ? "Copied to Clipboard!" : "Copy Address"}</span>
               </button>
             </div>
 
-            {/* Action Channels */}
-            <div className="portal-socials-row">
+            <div className="contact-socials-row">
               {PROFILE.socials.map((s) => (
                 <a
                   key={s.label}
                   href={s.url}
                   target="_blank"
                   rel="noreferrer"
-                  className="social-portal-link"
+                  className="social-link"
+                  data-cursor="VISIT"
                 >
                   <span>{s.label}</span>
-                  <ArrowUpRight size={13} />
+                  <ArrowUpRight size={12} />
                 </a>
               ))}
-              <a
-                href={`mailto:${PROFILE.email}`}
-                className="social-portal-link email-direct"
-              >
-                <span>Direct Mail ↗</span>
-              </a>
             </div>
           </div>
-        </div>
-      </section>
 
-      {/* ========================================================
-          ENGINE FOOTER
-          ======================================================== */}
-      <footer className="engine-footer">
-        <div className="engine-container footer-inner-grid">
-          <div className="footer-left-identity">
-            <span className="footer-title">RANJEET MISHRA</span>
-            <span className="footer-tag">POST-PRODUCTION DIRECTOR & MOTION DESIGNER</span>
-            <span className="footer-copy">© {new Date().getFullYear()} Ranjeet Mishra. All rights reserved.</span>
-          </div>
-
-          <div className="footer-right-telemetry">
-            <span className="footer-clock">MUMBAI, INDIA // <TimezoneClock /> [IST]</span>
-            <a
-              href="#hero"
-              className="footer-back-top"
-              onClick={(e) => scrollToSection(e, "#hero")}
-            >
-              <span>BACK TO TOP ↑</span>
-            </a>
+          <div className="footer-bottom-bar">
+            <span>© {new Date().getFullYear()} ranjeetmishra.work — All Rights Reserved</span>
+            <div className="footer-meta-right">
+              <span>Mumbai, India [IST]</span>
+              <span className="footer-sep">•</span>
+              <a href="#hero" onClick={(e) => scrollToSection(e, "#hero")} className="back-to-top">
+                Back to Top ↑
+              </a>
+            </div>
           </div>
         </div>
       </footer>
